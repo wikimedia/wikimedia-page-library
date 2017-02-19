@@ -1,0 +1,24 @@
+{
+  "name": "applib",
+  "version": "0.0.0",
+  "description": "Cross-platform JavaScript library for Wikimedia apps",
+  "keywords": [
+    "Wikimedia",
+    "MediaWiki",
+    "Content Service",
+    "RESTBase",
+    "WMF"
+  ],
+  "homepage": "https://github.com/wikimedia/applib",
+  "repository": "github:wikimedia/applib",
+  "bugs": "https://github.com/wikimedia/applib/issues",
+  "scripts": {
+    "preversion": "[ -z \"$(git status --porcelain)\" ] && npm -s test",
+    "postversion": "git push origin master --follow-tags && npm publish",
+    "clobber": "rm -rf node_modules"
+  },
+  "engines": {
+    "node": "7.5.0"
+  },
+  "license": "Apache-2.0"
+}
