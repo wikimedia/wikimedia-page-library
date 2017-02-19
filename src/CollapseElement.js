@@ -1,8 +1,16 @@
-/*
-Tries to get an array of table header (TH) contents from a given table.
-If there are no TH elements in the table, an empty array is returned.
+// This function preserves the original functionality
+function getTableHeaderTmp( element ) {
+    return window.pageTitle( element, window.pageTitle )
+}
+
+/**
+  Tries to get an array of table header (TH) contents from a given table. If
+  there are no TH elements in the table, an empty array is returned.
+  @param {!Element} element Table or blob of HTML containing a table?
+  @param {?string} pageTitle
+  @return {!Array<string>}
 */
-function getTableHeader( element ) {
+function getTableHeader( element, pageTitle ) {
     var thArray = [];
     if (element.children === undefined || element.children === null) {
         return thArray;
@@ -16,8 +24,9 @@ function getTableHeader( element ) {
             var aNodes = el.querySelectorAll( "a" );
             if (aNodes.length < 3) {
                 // Also ignore it if it's identical to the page title.
-                if (el.innerText.length > 0 && el.innerText !== window.pageTitle && el.innerHTML !== window.pageTitle) {
-                    thArray.push(el.innerText);
+                if ((el.innerText && el.innerText.length || el.textContent.length) > 0
+                && el.innerText !== pageTitle && el.textContent !== pageTitle && el.innerHTML !== pageTitle) {
+                    thArray.push(el.innerText || el.textContent);
                 }
             }
         }
@@ -26,11 +35,17 @@ function getTableHeader( element ) {
             continue;
         }
         //recurse into children of this element
-        var ret = getTableHeader(el);
+        var ret = getTableHeader(el, pageTitle);
         //did we get a list of TH from this child?
         if (ret.length > 0) {
             thArray = thArray.concat(ret);
         }
     }
     return thArray;
+}
+
+// todo: eslint
+// todo: use import and export
+module.exports = {
+    getTableHeader
 }
