@@ -16,6 +16,7 @@
     "test": "mocha",
     "preversion": "[ -z \"$(git status --porcelain)\" ] && npm -s test",
     "postversion": "git push origin master --follow-tags && npm publish",
+    "upgrade": "ncu -au",
     "clobber": "rm -rf node_modules"
   },
   "engines": {
@@ -24,6 +25,7 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "domino": "1.0.28",
-    "mocha": "3.2.0"
+    "mocha": "3.2.0",
+    "npm-check-updates": "2.10.3"
   }
 }
