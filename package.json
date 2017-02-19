@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Cross-platform JavaScript library for Wikimedia apps",
   "keywords": [
+    "Wikipedia",
     "Wikimedia",
     "MediaWiki",
     "Content Service",
