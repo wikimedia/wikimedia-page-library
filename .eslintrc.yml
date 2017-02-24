@@ -9,7 +9,8 @@ rules:
   strict: [1, never]
 
   # Stylistic Issues
-  eol-last: [1, 'never']
-  func-style: [2, 'expression']
+  eol-last: [1, never]
+  func-style: [2, expression]
   indent: [1, 2]
+  quotes: [1, single, {avoidEscape: true}]
   semi: [1, never]
