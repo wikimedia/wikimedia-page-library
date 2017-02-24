@@ -12,7 +12,7 @@ const getTableHeaderTmp = (element) => { // eslint-disable-line no-unused-vars
   @param {?string} pageTitle
   @return {!Array<string>}
 */
-const getTableHeader = (element, pageTitle) => {
+export const getTableHeader = (element, pageTitle) => {
   let thArray = []
   if (element.children === undefined || element.children === null) {
     return thArray
@@ -45,9 +45,4 @@ const getTableHeader = (element, pageTitle) => {
     }
   }
   return thArray
-}
-
-// todo: use import and export
-module.exports = {
-  getTableHeader
 }
