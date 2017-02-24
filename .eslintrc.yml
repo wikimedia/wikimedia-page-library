@@ -1,0 +1,10 @@
+extends: node-services
+rules:
+  # Strict Mode
+  strict: [1, never]
+
+  # Stylistic Issues
+  eol-last: [1, 'never']
+  func-style: [2, 'expression']
+  indent: [1, 2]
+  semi: [1, never]

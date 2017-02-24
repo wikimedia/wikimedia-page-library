@@ -15,7 +15,8 @@
   "repository": "github:wikimedia/applib",
   "bugs": "https://github.com/wikimedia/applib/issues",
   "scripts": {
-    "test": "mocha",
+    "test": "npm run -s lint && mocha",
+    "lint": "eslint --cache --max-warnings 0 --ext .js --ext .json .",
     "preversion": "[ -z \"$(git status --porcelain)\" ] && npm -s test",
     "postversion": "git push origin master --follow-tags && npm publish",
     "upgrade": "ncu -au",
@@ -27,6 +28,9 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "domino": "1.0.28",
+    "eslint": "3.16.1",
+    "eslint-config-node-services": "2.0.1",
+    "eslint-plugin-json": "1.2.0",
     "mocha": "3.2.0",
     "npm-check-updates": "2.10.3",
     "pre-commit": "1.2.2"
