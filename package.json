@@ -9,7 +9,9 @@
     "MediaWiki",
     "Content Service",
     "RESTBase",
-    "WMF"
+    "WMF",
+    "Android",
+    "iOS"
   ],
   "homepage": "https://github.com/wikimedia/applib",
   "repository": "github:wikimedia/applib",
