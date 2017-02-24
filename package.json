@@ -28,6 +28,7 @@
   "devDependencies": {
     "domino": "1.0.28",
     "mocha": "3.2.0",
-    "npm-check-updates": "2.10.3"
+    "npm-check-updates": "2.10.3",
+    "pre-commit": "1.2.2"
   }
 }
