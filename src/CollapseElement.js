@@ -1,10 +1,3 @@
-// This function preserves the original functionality
-// todo: move to client
-const getTableHeaderTmp = (element) => { // eslint-disable-line no-unused-vars
-  /* global window */
-  return window.pageTitle(element, window.pageTitle)
-}
-
 /**
   Tries to get an array of table header (TH) contents from a given table. If
   there are no TH elements in the table, an empty array is returned.
