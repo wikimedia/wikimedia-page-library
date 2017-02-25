@@ -1,6 +1,6 @@
 {
   "name": "applib",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Cross-platform JavaScript library for Wikimedia apps",
   "keywords": [
     "Wikipedia",
@@ -30,7 +30,9 @@
     "clobber": "rm -rf node_modules"
   },
   "browserify": {
-    "transform": ["babelify"]
+    "transform": [
+      "babelify"
+    ]
   },
   "engines": {
     "node": "7.5.0"
