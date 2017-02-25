@@ -1,9 +1,11 @@
+import applib from '../src'
 import assert from 'assert'
 import domino from 'domino'
-import { getTableHeader } from '../src/CollapseElement'
 
 describe('CollapseElement', () => {
   describe('getTableHeader()', () => {
+    const getTableHeader = applib.CollapseElement.getTableHeader
+
     it('no table', () => {
       const doc = domino.createDocument('<html></html>')
       const actual = getTableHeader(doc.documentElement, 'pageTitle')

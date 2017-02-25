@@ -5,7 +5,7 @@
   @param {?string} pageTitle
   @return {!Array<string>}
 */
-export const getTableHeader = (element, pageTitle) => {
+const getTableHeader = (element, pageTitle) => {
   let thArray = []
 
   if (element.children === undefined || element.children === null) {
@@ -21,6 +21,7 @@ export const getTableHeader = (element, pageTitle) => {
       // it will probably appear weird when rendered as plain text.
       const aNodes = el.querySelectorAll('a')
       if (aNodes.length < 3) {
+        // todo: remove nonstandard Element.innerText usage
         // Also ignore it if it's identical to the page title.
         if ((el.innerText && el.innerText.length || el.textContent.length) > 0
                 && el.innerText !== pageTitle && el.textContent !== pageTitle
@@ -45,4 +46,8 @@ export const getTableHeader = (element, pageTitle) => {
   }
 
   return thArray
+}
+
+export default {
+  getTableHeader
 }
