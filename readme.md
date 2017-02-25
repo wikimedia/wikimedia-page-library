@@ -1,6 +1,14 @@
 # applib
 Cross-platform JavaScript library for Wikimedia apps
 
+## Changelog
+
+### v0.1.0
+- New: add CollapseElement.getTableHeader() function
+
+### v0.0.1
+- New: library
+
 ## License
 ```
 Copyright 2017 Wikimedia Foundation
