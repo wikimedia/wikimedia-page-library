@@ -1,4 +1,4 @@
-import applib from '../src'
+import applib from '../build/applib'
 import assert from 'assert'
 import domino from 'domino'
 

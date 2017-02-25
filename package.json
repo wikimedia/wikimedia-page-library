@@ -18,36 +18,33 @@
   "bugs": "https://github.com/wikimedia/applib/issues",
   "main": "build/applib.js",
   "scripts": {
-    "test": "npm run -s lint && npm run -s unit-test",
-    "build": "mkdir -p build && browserify -o \"$npm_package_main\" src/index.js",
-    "clean": "rm -rf build/",
-    "rebuild": "npm run -s clean && npm run -s build",
     "lint": "eslint --cache --max-warnings 0 --ext .js --ext .json .",
-    "unit-test": "mocha -r babel-register",
-    "preversion": "[ -z \"$(git status --porcelain)\" ] && npm -s t && npm -s rebuild && git add build",
-    "postversion": "git push origin master --follow-tags && npm publish",
+    "prebuild": "npm run -s lint",
+    "build": "rollup -c",
+    "pretest": "npm run -s build",
+    "test": "mocha",
+    "clean": "rm -rf build/",
+    "preversion": "[ -z \"$(git status --porcelain)\" ] && npm run -s clean && npm -s t && git add build",
+    "postpublish": "git push origin master --follow-tags && npm publish",
     "upgrade": "ncu -au",
     "clobber": "rm -rf node_modules"
-  },
-  "browserify": {
-    "transform": [
-      "babelify"
-    ]
   },
   "engines": {
     "node": "7.5.0"
   },
   "license": "Apache-2.0",
   "devDependencies": {
+    "babel-plugin-external-helpers": "6.22.0",
     "babel-preset-env": "1.1.10",
     "babel-register": "6.23.0",
-    "babelify": "7.3.0",
     "domino": "1.0.28",
     "eslint": "3.16.1",
     "eslint-config-node-services": "2.0.1",
     "eslint-plugin-json": "1.2.0",
     "mocha": "3.2.0",
     "npm-check-updates": "2.10.3",
-    "pre-commit": "1.2.2"
+    "pre-commit": "1.2.2",
+    "rollup": "0.41.4",
+    "rollup-plugin-babel": "2.7.1"
   }
 }
