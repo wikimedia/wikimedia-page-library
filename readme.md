@@ -3,6 +3,9 @@ Cross-platform JavaScript library for Wikimedia apps
 
 ## Changelog
 
+### v0.1.2
+- Fix: postversion script
+
 ### v0.1.1
 - Fix: generate CommonJS output
 - Chore: add source map

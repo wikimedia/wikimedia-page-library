@@ -25,7 +25,7 @@
     "test": "mocha",
     "clean": "rm -rf build/",
     "preversion": "[ -z \"$(git status --porcelain)\" ] && npm run -s clean && npm -s t && git add build",
-    "postpublish": "git push origin master --follow-tags && npm publish",
+    "postversion": "git push origin master --follow-tags && npm publish",
     "upgrade": "ncu -au",
     "clobber": "rm -rf node_modules"
   },
