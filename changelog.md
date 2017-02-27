@@ -1,3 +1,6 @@
+### v1.0.0
+- Breaking: rename CollapseElement to CollapseTable
+
 ### v0.1.2
 - Fix: postversion script
 

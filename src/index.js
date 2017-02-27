@@ -1,5 +1,5 @@
-import CollapseElement from '../src/CollapseElement'
+import CollapseTable from './CollapseTable'
 
 export default {
-  CollapseElement
+  CollapseTable
 }
