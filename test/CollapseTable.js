@@ -2,9 +2,9 @@ import applib from '../build/applib'
 import assert from 'assert'
 import domino from 'domino'
 
-describe('CollapseElement', () => {
+describe('CollapseTable', () => {
   describe('getTableHeader()', () => {
-    const getTableHeader = applib.CollapseElement.getTableHeader
+    const getTableHeader = applib.CollapseTable.getTableHeader
 
     it('no table', () => {
       const doc = domino.createDocument('<html></html>')
