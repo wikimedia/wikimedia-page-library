@@ -1,3 +1,7 @@
+### v1.1.0
+- New: add CollapseElement.handleTableCollapseOrExpandClick()
+  iOS integration note: this method now also toggles the caption visibility
+
 ### v1.0.0
 - Breaking: rename CollapseElement to CollapseTable
 

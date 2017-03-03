@@ -48,6 +48,37 @@ const getTableHeader = (element, pageTitle) => {
   return thArray
 }
 
+function handleTableCollapseOrExpandClick() {
+    var container = this.parentNode;
+    var divCollapsed = container.children[0];
+    var tableFull = container.children[1];
+    var divBottom = container.children[2];
+    var caption = divCollapsed.querySelector('.app_table_collapsed_caption');
+    if (tableFull.style.display !== 'none') {
+        tableFull.style.display = 'none';
+        divCollapsed.classList.remove('app_table_collapse_close');
+        divCollapsed.classList.remove('app_table_collapse_icon');
+        divCollapsed.classList.add('app_table_collapsed_open');
+        if (caption !== null) {
+            caption.style.visibility = 'visible';
+        }
+        divBottom.style.display = 'none';
+        //if they clicked the bottom div, then scroll back up to the top of the table.
+        if (this === divBottom) {
+            window.scrollTo( 0, container.offsetTop - transformer.getDecorOffset() );
+        }
+    } else {
+        tableFull.style.display = 'block';
+        divCollapsed.classList.remove('app_table_collapsed_open');
+        divCollapsed.classList.add('app_table_collapse_close');
+        divCollapsed.classList.add('app_table_collapse_icon');
+        if (caption !== null) {
+            caption.style.visibility = 'hidden';
+        }
+        divBottom.style.display = 'block';
+    }
+}
+
 export default {
   getTableHeader
 }
