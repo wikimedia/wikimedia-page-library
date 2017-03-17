@@ -48,46 +48,41 @@ const getTableHeader = (element, pageTitle) => {
   return thArray
 }
 
-/** @this HTMLElement
+/** Ex: toggleCollapseClickCallback.bind(el, (container) => {
+          window.scrollTo(0, container.offsetTop - transformer.getDecorOffset())
+        })
+    @this HTMLElement
     @param bottomDivClickCallback {!(!HTMLElement) => void}
     @return {void} */
 const toggleCollapseClickCallback = function(bottomDivClickCallback) {
   const container = this.parentNode // eslint-disable-line no-invalid-this
-  const divCollapsed = container.children[0]
-  const tableFull = container.children[1]
-  const divBottom = container.children[2]
-  const caption = divCollapsed.querySelector('.app_table_collapsed_caption')
-  if (tableFull.style.display !== 'none') {
-    tableFull.style.display = 'none'
-    divCollapsed.classList.remove('app_table_collapse_close')
-    divCollapsed.classList.remove('app_table_collapse_icon')
-    divCollapsed.classList.add('app_table_collapsed_open')
+  const header = container.children[0]
+  const table = container.children[1]
+  const footer = container.children[2]
+  const caption = header.querySelector('.app_table_collapsed_caption')
+  if (table.style.display !== 'none') {
+    table.style.display = 'none'
+    header.classList.remove('app_table_collapse_close')
+    header.classList.remove('app_table_collapse_icon')
+    header.classList.add('app_table_collapsed_open')
     if (caption) {
       caption.style.visibility = 'visible'
     }
-    divBottom.style.display = 'none'
+    footer.style.display = 'none'
         // if they clicked the bottom div, then scroll back up to the top of the table.
-    if (this === divBottom) { // eslint-disable-line no-invalid-this
+    if (this === footer) { // eslint-disable-line no-invalid-this
       bottomDivClickCallback(container)
     }
   } else {
-    tableFull.style.display = 'block'
-    divCollapsed.classList.remove('app_table_collapsed_open')
-    divCollapsed.classList.add('app_table_collapse_close')
-    divCollapsed.classList.add('app_table_collapse_icon')
+    table.style.display = 'block'
+    header.classList.remove('app_table_collapsed_open')
+    header.classList.add('app_table_collapse_close')
+    header.classList.add('app_table_collapse_icon')
     if (caption) {
       caption.style.visibility = 'hidden'
     }
-    divBottom.style.display = 'block'
+    footer.style.display = 'block'
   }
-}
-
-// eslint-disable-next-line no-unused-vars
-const handleTableCollapseOrExpandClickTmp = () => {
-  handleTableCollapseOrExpandClick((container) => {
-    // eslint-disable-next-line no-undef
-    window.scrollTo(0, container.offsetTop - transformer.getDecorOffset())
-  })
 }
 
 export default {
