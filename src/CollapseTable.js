@@ -51,7 +51,7 @@ const getTableHeader = (element, pageTitle) => {
 /** @this HTMLElement
     @param bottomDivClickCallback {!(!HTMLElement) => void}
     @return {void} */
-const handleTableCollapseOrExpandClick = function(bottomDivClickCallback) {
+const toggleCollapseClickCallback = function(bottomDivClickCallback) {
   const container = this.parentNode // eslint-disable-line no-invalid-this
   const divCollapsed = container.children[0]
   const tableFull = container.children[1]
@@ -92,5 +92,5 @@ const handleTableCollapseOrExpandClickTmp = () => {
 
 export default {
   getTableHeader,
-  handleTableCollapseOrExpandClick
+  toggleCollapseClickCallback
 }
