@@ -1,3 +1,7 @@
+### v1.0.1
+- Fix: don't version build products
+- Chore: respect arguments passed to `npm run lint`
+
 ### v1.0.0
 - Breaking: rename CollapseElement to CollapseTable
 

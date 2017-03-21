@@ -18,8 +18,8 @@
   "bugs": "https://github.com/wikimedia/applib/issues",
   "main": "build/applib.js",
   "scripts": {
-    "lint": "eslint --cache --max-warnings 0 --ext .js --ext .json .",
-    "prebuild": "npm run -s lint",
+    "lint": "eslint --cache --max-warnings 0 --ext .js --ext .json",
+    "prebuild": "npm run -s lint .",
     "build": "rollup -c",
     "pretest": "npm run -s build",
     "test": "mocha",
