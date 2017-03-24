@@ -14,3 +14,4 @@ rules:
   indent: [1, 2]
   quotes: [1, single, {avoidEscape: true}]
   semi: [1, never]
+  # no-console: 0
