@@ -1,13 +1,14 @@
 import applib from '../build/applib'
 import assert from 'assert'
-import testUtilities from './TestUtilities'
+import fixtureIO from './Utilities/FixtureIO'
+import styleMocking from './Utilities/StyleMocking'
 
 const maybeWidenImage = applib.WidenImage.maybeWidenImage
 let document = null
 
 describe('WidenImage', () => {
   beforeEach(() => {
-    document = testUtilities.documentFromFixtureFile('WidenImage.html')
+    document = fixtureIO.documentFromFixtureFile('WidenImage.html')
   })
 
   describe('Images which should not widen', () => {
@@ -55,14 +56,11 @@ describe('WidenImage', () => {
       // We placed the image in question inside of 3 divs in the fixture html file.
       assert.ok(ancestors.length === 3)
 
-      // Domino doesn't seem to slurp up css class properties if we set them in our fixture html
-      // file so we manually set the css style properties we want to test here.
-      for (let i = 0; i < ancestors.length; i++) {
-        const ancestor = ancestors[i]
-        ancestor.style.width = '50%'
-        ancestor.style.maxWidth = '50%'
-        ancestor.style.float = 'left'
-      }
+      styleMocking.mockStylesInElements(ancestors, {
+        width: '50%',
+        maxWidth: '50%',
+        float: 'right'
+      })
 
       const image = document.getElementById('imageInWidthConstrainedAncestors')
       const result = maybeWidenImage(image)
@@ -70,12 +68,11 @@ describe('WidenImage', () => {
       assert.ok(image.classList.contains('wideImageOverride') === true)
 
       // maybeWidenImage should have changed the style properties we manually set above.
-      for (let i = 0; i < ancestors.length; i++) {
-        const ancestor = ancestors[i]
-        assert.ok(ancestor.style.width === '100%')
-        assert.ok(ancestor.style.maxWidth === '100%')
-        assert.ok(ancestor.style.float === 'none')
-      }
+      styleMocking.verifyStylesInElements(ancestors, {
+        width: '100%',
+        maxWidth: '100%',
+        float: 'none'
+      })
     })
   })
 })
