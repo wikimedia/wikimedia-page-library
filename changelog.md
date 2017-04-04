@@ -1,3 +1,6 @@
+### v1.1.0
+- New: CSS delivered via "applib.css" by way of "rollup-plugin-css-porter"
+
 ### v1.0.1
 - Fix: don't version build products
 - Chore: respect arguments passed to `npm run lint`

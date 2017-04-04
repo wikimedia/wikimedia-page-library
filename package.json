@@ -35,6 +35,7 @@
     "build"
   ],
   "devDependencies": {
+    "rollup-plugin-css-porter": "0.1.2",
     "babel-plugin-external-helpers": "6.22.0",
     "babel-preset-env": "1.1.10",
     "babel-register": "6.23.0",
