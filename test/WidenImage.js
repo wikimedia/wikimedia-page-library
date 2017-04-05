@@ -1,7 +1,7 @@
 import applib from '../build/applib'
 import assert from 'assert'
-import fixtureIO from './Utilities/FixtureIO'
-import styleMocking from './Utilities/StyleMocking'
+import fixtureIO from './utilities/FixtureIO'
+import styleMocking from './utilities/StyleMocking'
 
 const maybeWidenImage = applib.WidenImage.maybeWidenImage
 const shouldWidenImage = applib.WidenImage.test.shouldWidenImage
