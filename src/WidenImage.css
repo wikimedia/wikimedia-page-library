@@ -52,9 +52,3 @@ div.gallerytext > p {
 .thumbimage {
     height: auto !important;
 }
-
-.wideImageDebug {
-    border-style: dashed;
-    border-width: 10px;
-    border-color: #f00;
-}

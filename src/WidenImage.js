@@ -1,9 +1,6 @@
 import './WidenImage.css'
 import elementUtilities from './ElementUtilities'
 
-// If enabled, widened images will have thin red dashed border
-const enableDebugBorders = false
-
 const widenAncestors = (el) => {
   while ((el = el.parentElement) && !el.classList.contains('content_block')) {
     // Only widen if there was a width setting. Keeps changes minimal.
@@ -67,9 +64,6 @@ const makeRoomForImageWidening = (image) => {
 const widenImage = (image) => {
   makeRoomForImageWidening(image)
   image.classList.add('wideImageOverride')
-  if (enableDebugBorders) {
-    image.classList.add('wideImageDebug')
-  }
 }
 
 const maybeWidenImage = (image) => {
