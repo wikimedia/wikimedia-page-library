@@ -1,6 +1,6 @@
 import domino from 'domino'
-const fs = require('fs')
-const path = require('path')
+import fs from 'fs'
+import path from 'path'
 
 const stringFromFixtureFile = (fileName) => {
   return fs.readFileSync(path.resolve(__dirname, `../fixtures/${fileName}`), 'utf8')
