@@ -1,5 +1,5 @@
 import './WidenImage.css'
-import utilities from './Utilities'
+import elementUtilities from './ElementUtilities'
 
 // If enabled, widened images will have thin red dashed border
 const enableDebugBorders = false
@@ -24,7 +24,7 @@ const shouldWidenImage = (image) => {
   // they should not be widened. Example below has links overlaying such an image.
   // See:
   //   'enwiki > Counties of England > Scope and structure > Local government'
-  if (utilities.findClosest(image, "[class*='noresize']")) {
+  if (elementUtilities.findClosest(image, "[class*='noresize']")) {
     return false
   }
 
@@ -33,7 +33,7 @@ const shouldWidenImage = (image) => {
   // stack them vertically. See the 2 side by side images in
   // 'enwiki > Cold Comfort (Inside No. 9) > Casting' and
   // 'enwiki > Vincent van Gogh > Letters'
-  if (utilities.findClosest(image, "div[class*='tsingle']")) {
+  if (elementUtilities.findClosest(image, "div[class*='tsingle']")) {
     return false
   }
 
@@ -48,7 +48,7 @@ const shouldWidenImage = (image) => {
   }
 
   // Don't widen if the image is nested in a table or the table layout can be messed up.
-  if (utilities.isNestedInTable(image)) {
+  if (elementUtilities.isNestedInTable(image)) {
     return false
   }
 
