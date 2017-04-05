@@ -4,31 +4,27 @@ import assert from 'assert'
 // These methods let us manually set and verify css style properties of element(s) we want to test.
 
 const mockStylesInElement = (element, styles) => {
-  for (const style in styles) {
-    if ({}.hasOwnProperty.call(styles, style)) {
-      element.style[style] = styles[style]
-    }
+  for (const [key, value] of Object.entries(styles)) {
+    element.style[key] = value
   }
 }
 
 const verifyStylesInElement = (element, styles) => {
-  for (const style in styles) {
-    if ({}.hasOwnProperty.call(styles, style)) {
-      const msg = `'${style}' should be '${styles[style]}' but was '${element.style[style]}'`
-      assert.ok(element.style[style] === styles[style], msg)
-    }
+  for (const [key, value] of Object.entries(styles)) {
+    const msg = `'${key}' was expected to be '${value}' but was '${element.style[key]}'`
+    assert.ok(element.style[key] === value, msg)
   }
 }
 
 const mockStylesInElements = (elements, styles) => {
-  for (let i = 0; i < elements.length; i++) {
-    mockStylesInElement(elements[i], styles)
+  for (const element of elements) {
+    mockStylesInElement(element, styles)
   }
 }
 
 const verifyStylesInElements = (elements, styles) => {
-  for (let i = 0; i < elements.length; i++) {
-    verifyStylesInElement(elements[i], styles)
+  for (const element of elements) {
+    verifyStylesInElement(element, styles)
   }
 }
 

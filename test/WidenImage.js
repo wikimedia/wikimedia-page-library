@@ -72,7 +72,7 @@ describe('WidenImage', () => {
     })
 
     it('widened image ancestors make room for widened image', () => {
-      const ancestors = document.querySelectorAll('.widthConstrainedAncestor')
+      const ancestors = Array.from(document.querySelectorAll('.widthConstrainedAncestor'))
 
       styleMocking.mockStylesInElements(ancestors, {
         width: '50%',
