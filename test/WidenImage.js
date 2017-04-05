@@ -52,7 +52,7 @@ describe('WidenImage', () => {
     })
 
     it('widened image ancestors make room for widened image', () => {
-      const ancestors = document.querySelectorAll("[id*='widthConstrainedAncestor']")
+      const ancestors = document.querySelectorAll('.widthConstrainedAncestor')
       // We placed the image in question inside of 3 divs in the fixture html file.
       assert.ok(ancestors.length === 3)
 
