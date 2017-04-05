@@ -76,9 +76,8 @@ const maybeWidenImage = (image) => {
   if (shouldWidenImage(image)) {
     widenImage(image)
     return true
-  } else {
-    return false
   }
+  return false
 }
 
 export default {
