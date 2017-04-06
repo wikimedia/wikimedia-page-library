@@ -77,6 +77,7 @@ const maybeWidenImage = (image) => {
 export default {
   maybeWidenImage,
   test: {
-    shouldWidenImage
+    shouldWidenImage,
+    widenAncestors
   }
 }

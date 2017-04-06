@@ -5,6 +5,8 @@ import styleMocking from './utilities/StyleMocking'
 
 const maybeWidenImage = applib.WidenImage.maybeWidenImage
 const shouldWidenImage = applib.WidenImage.test.shouldWidenImage
+const widenAncestors = applib.WidenImage.test.widenAncestors
+
 let document = null
 
 describe('WidenImage', () => {
@@ -89,6 +91,16 @@ describe('WidenImage', () => {
         maxWidth: '100%',
         float: 'none'
       })
+    })
+
+    it('widening ancestors stops at content_block', () => {
+      const body = document.getElementsByTagName('body')[0]
+      styleMocking.mockStylesInElement(body, { width: '50%' })
+      const image = document.getElementById('imageInWidthConstrainedAncestors')
+      widenAncestors(image)
+      // widenAncestors should have bailed at the content_block div, thus never reaching
+      // the body element - so we can just check that the body element width has not changed.
+      styleMocking.verifyStylesInElement(body, { width: '50%' })
     })
 
     it('two images from the fixture are actually widened', () => {
