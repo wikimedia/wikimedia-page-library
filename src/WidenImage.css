@@ -3,6 +3,8 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
+    /* Ensure widening can take effect with proportional height change */
+    height: auto !important;
 }
 
 @media (orientation: portrait) {
@@ -46,9 +48,4 @@ li.gallerybox div.thumb > div {
 }
 div.gallerytext > p {
     margin-top: 0px !important;
-}
-
-/* Ensure widening can take effect with proportional height change */
-.thumbimage {
-    height: auto !important;
 }
