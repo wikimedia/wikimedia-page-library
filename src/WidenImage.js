@@ -3,6 +3,7 @@ import elementUtilities from './ElementUtilities'
 
 const widenAncestors = (el) => {
   while ((el = el.parentElement) && !el.classList.contains('content_block')) {
+    // Reminder: the parenthesis around 'el = el.parentElement' are intentional.
     // Only widen if there was a width setting. Keeps changes minimal.
     if (el.style.width) {
       el.style.width = '100%'

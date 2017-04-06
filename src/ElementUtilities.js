@@ -10,6 +10,7 @@
 const findClosest = (el, selector) => {
   while ((el = el.parentElement) && !el.matches(selector)) {
     // Intentionally empty.
+    // Reminder: the parenthesis around 'el = el.parentElement' are also intentional.
   }
   return el
 }
