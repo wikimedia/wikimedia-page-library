@@ -83,7 +83,7 @@ describe('WidenImage', () => {
       })
 
       const image = document.getElementById('imageInWidthConstrainedAncestors')
-      maybeWidenImage(image)
+      widenAncestors(image)
 
       // maybeWidenImage should have changed the style properties we manually set above.
       styleMocking.verifyStylesInElements(ancestors, {
