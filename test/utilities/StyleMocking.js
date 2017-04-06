@@ -34,7 +34,7 @@ const verifyStylesInElement = (element, styles) => {
 
 /**
  * Sets styles on each element in an array of elements.
- * @param  {!Array<HTMLElement>}  elements  Array of elements
+ * @param  {!HTMLElement[]}  elements  Array of elements
  * @param  {!StylesHash}          styles    Styles to apply to each element in 'elements'
  */
 const mockStylesInElements = (elements, styles) => {
@@ -45,7 +45,7 @@ const mockStylesInElements = (elements, styles) => {
 
 /**
  * Verifies styles on each element in an array of elements.
- * @param  {!Array<HTMLElement>}  elements  Array of elements
+ * @param  {!HTMLElement[]}  elements  Array of elements
  * @param  {!StylesHash}          styles    Styles to verify on each element in 'elements'
  */
 const verifyStylesInElements = (elements, styles) => {

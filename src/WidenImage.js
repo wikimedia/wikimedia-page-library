@@ -26,7 +26,7 @@ const widenAncestors = (el) => {
 /**
  * Some images should not be widended. This method makes that determination.
  * @param  {!HTMLElement} image   The image in question
- * @return {Boolean}              Whether 'image' should be widened
+ * @return {boolean}              Whether 'image' should be widened
  */
 const shouldWidenImage = (image) => {
   // Images within a "<div class='noresize'>...</div>" should not be widened.
@@ -85,7 +85,7 @@ const widenImage = (image) => {
 /**
  * Widens an image if the image is found to be fit for widening.
  * @param  {!HTMLElement} image   The image in question
- * @return {Boolean}              Whether or not 'image' was widened
+ * @return {boolean}              Whether or not 'image' was widened
  */
 const maybeWidenImage = (image) => {
   if (shouldWidenImage(image)) {

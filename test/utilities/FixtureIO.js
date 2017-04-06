@@ -14,7 +14,7 @@ const stringFromFixtureFile = (fileName) => {
 /**
  * Gets Domino document from file in 'test/fixtures/'
  * @param  {!string} fileName   Name of file in 'test/fixtures/'
- * @return {?document}          Domino document from `test/fixtures/${fileName}`
+ * @return {?Document}          Domino document from `test/fixtures/${fileName}`
  */
 const documentFromFixtureFile = (fileName) => {
   return domino.createDocument(stringFromFixtureFile(fileName))
