@@ -7,12 +7,7 @@ const findClosest = (el, selector) => {
 }
 
 const isNestedInTable = (el) => {
-  while ((el = el.parentElement)) {
-    if (el.tagName === 'TD') {
-      return true
-    }
-  }
-  return false
+  return (findClosest(el, 'td') !== null)
 }
 
 export default {
