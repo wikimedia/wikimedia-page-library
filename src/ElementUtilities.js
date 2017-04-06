@@ -7,7 +7,7 @@ const findClosest = (el, selector) => {
 }
 
 const isNestedInTable = (el) => {
-  return (findClosest(el, 'td') !== null)
+  return (findClosest(el, 'table') !== null)
 }
 
 export default {
