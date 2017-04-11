@@ -1,10 +1,10 @@
 /**
-  Tries to get an array of table header (TH) contents from a given table. If
-  there are no TH elements in the table, an empty array is returned.
-  @param {!Element} element Table or blob of HTML containing a table?
-  @param {?string} pageTitle
-  @return {!Array<string>}
-*/
+ * Find an array of table header (TH) contents. If there are no TH elements in
+ * the table or the header's link matches pageTitle, an empty array is returned.
+ * @param {!Element} element
+ * @param {?string} pageTitle
+ * @return {!Array<string>}
+ */
 const getTableHeader = (element, pageTitle) => {
   let thArray = []
 
