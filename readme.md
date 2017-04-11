@@ -23,14 +23,26 @@ Example file names and locations for an image widening transform:
 * **src/WidenImage.css** - CSS used by the transform. *optional*
 * **test/WidenImage.js** - tests of the transform. *required*
 
-### Changing styles
-- Prefer to modify classlist rather than style attributes. For example, **WidenImage.js** mentioned above could add/remove a class name from **WidenImage.css** to an element's classlist to help achieve image widening.
+Directory names should be lowercase.
 
-### Function naming
-*Coming soon.*
+### Functional
+- Prefer to read and modify the CSS class list rather than style attributes or
+  computed styles. This allows clients to customize appearance with CSS
+  overrides and no JavaScript changes or effects. For example, **WidenImage.js**
+  mentioned above could add/remove a class name from **WidenImage.css** to an
+  element's class list to help achieve image widening.
+- Prefer Minerva and Parsoid style defaults. Any deviations should be deliberate
+  and tightly scoped
+- Avoid usage of `!important` in stylesheets
+- Wide screen selectors should apply to devices in landscape orientation or
+  portrait orientation and >= 768px wide
 
-### Style naming
-*Coming soon.*
+### Naming
+- JS function names use camelCase
+- JS module names use PascalCase
+- CSS class names use camelCase
+
+*todo: evaluate common prefix like `applib` and BEM naming.*
 
 ## Development setup and workflow
 *Coming soon.*

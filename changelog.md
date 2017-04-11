@@ -1,3 +1,6 @@
+### v1.1.1
+- Doc: overhaul readme
+
 ### v1.1.0
 - New: CSS delivered via "applib.css" by way of "rollup-plugin-css-porter"
 
