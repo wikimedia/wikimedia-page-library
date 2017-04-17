@@ -60,20 +60,10 @@ describe('CollapseTable', () => {
 
     describe('and an expanded container', () => {
       beforeEach(function Test() {
-        const html = `<div>
-                        <div
-                          id=header
-                          class='app_table_collapse_close app_table_collapse_icon'
-                          style='visibility: visible'>
-                          <span
-                            id=caption
-                            class=app_table_collapsed_caption
-                            style='visibility: hidden'
-                          </span>
-                        </div>
-                        <table style='display: block'></table>
-                        <div id=footer style='display: block'></div>
-                      </div>`
+        const html = `
+          <div id=header><span class=app_table_collapsed_caption></span></div>
+          <table></table>
+          <div id=footer></div>`
         this.doc = domino.createDocument(html)
       })
 
@@ -115,14 +105,14 @@ describe('CollapseTable', () => {
 
         it('the caption is shown when clicked', function Test() {
           this.header.click()
-          const caption = this.doc.querySelector('#caption')
-          assert.deepEqual(caption.style.visibility, 'visible')
+          const caption = this.doc.querySelector('span')
+          assert.ok(caption.style.visibility !== 'hidden')
         })
 
         it('the caption is hidden when clicked twice', function Test() {
           this.header.click()
           this.header.click()
-          const caption = this.doc.querySelector('#caption')
+          const caption = this.doc.querySelector('span')
           assert.deepEqual(caption.style.visibility, 'hidden')
         })
 
