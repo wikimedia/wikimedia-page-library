@@ -213,7 +213,7 @@ const hideTables = (document, content, pageTitle, isMainPage, infoboxTitle, othe
 
     // assign click handler to the collapsed divs
     collapsedHeaderDiv.onclick = toggleCollapseClickCallback.bind(collapsedHeaderDiv)
-    collapsedFooterDiv.onclick = toggleCollapseClickCallback.bind(collapsedHeaderDiv)
+    collapsedFooterDiv.onclick = toggleCollapseClickCallback.bind(collapsedFooterDiv)
   }
 }
 
