@@ -57,7 +57,7 @@ const getTableHeader = (element, pageTitle) => {
     @param bottomDivClickCallback {!(!HTMLElement) => void}
     @return {void} */
 const toggleCollapseClickCallback = function(bottomDivClickCallback) {
-  const container = this.parentNode // eslint-disable-line no-invalid-this
+  const container = this.parentNode
   const header = container.children[0]
   const table = container.children[1]
   const footer = container.children[2]
@@ -72,7 +72,7 @@ const toggleCollapseClickCallback = function(bottomDivClickCallback) {
     }
     footer.style.display = 'none'
         // if they clicked the bottom div, then scroll back up to the top of the table.
-    if (this === footer) { // eslint-disable-line no-invalid-this
+    if (this === footer) {
       bottomDivClickCallback(container)
     }
   } else {
