@@ -10,7 +10,7 @@ import elementUtilities from './ElementUtilities'
 const getTableHeader = (element, pageTitle) => {
   let thArray = []
 
-  if (element.children === undefined || element.children === null) {
+  if (!element.children) {
     return thArray
   }
 
