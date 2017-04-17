@@ -4,6 +4,7 @@
 - New: shouldTableBeCollapsed(); Android integration note: no longer affects
   elements with `mbox-small` class
 - Breaking: hide getTableHeader()
+- Chore: update CollapseTable tests to be more consistent
 
 ### v1.2.0
 - New: JS and CSS for image widening transform
