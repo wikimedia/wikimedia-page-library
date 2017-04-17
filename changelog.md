@@ -1,5 +1,10 @@
-### v1.1.1
+### v1.2.1
 - Doc: overhaul readme
+- Chore: update CollapseTable tests to be more consistent
+
+### v1.2.0
+- New: JS and CSS for image widening transform
+  ([example integration](https://github.com/wikimedia/wikipedia-ios/pull/1313/))
 
 ### v1.1.0
 - New: CSS delivered via "applib.css" by way of "rollup-plugin-css-porter"

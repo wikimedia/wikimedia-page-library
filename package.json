@@ -1,7 +1,7 @@
 {
   "name": "applib",
-  "version": "1.0.1",
-  "description": "Cross-platform JavaScript library for Wikimedia apps",
+  "version": "1.2.0",
+  "description": "Cross-platform JavaScript and CSS library for Wikimedia apps",
   "keywords": [
     "Wikipedia",
     "Wikimedia",
@@ -11,7 +11,9 @@
     "RESTBase",
     "WMF",
     "Android",
-    "iOS"
+    "iOS",
+    "JavaScript",
+    "CSS"
   ],
   "homepage": "https://github.com/wikimedia/applib",
   "repository": "github:wikimedia/applib",
@@ -19,15 +21,20 @@
   "main": "build/applib.js",
   "scripts": {
     "lint": "eslint --cache --max-warnings 0 --ext .js --ext .json",
-    "prebuild": "npm run -s lint .",
+    "lint:all": "npm run -s lint .",
     "build": "rollup -c",
     "pretest": "npm run -s build",
     "test": "mocha",
     "clean": "rm -rf build/",
     "preversion": "[ -z \"$(git status -z)\" ]",
-    "postversion": "git push origin master --follow-tags && npm publish",
+    "postversion": "git push --follow-tags origin HEAD && npm publish",
+    "prepublish": "npm run -s lint:all && npm run -s clean && npm -s t",
     "upgrade": "ncu -au"
   },
+  "pre-commit": [
+    "lint:all",
+    "test"
+  ],
   "engines": {
     "node": "7.5.0"
   },

@@ -1,14 +1,15 @@
-# Library for common Javascript transforms used by both the Android and iOS Wikipedia apps
+# applib
+Library for common JavaScript transforms and CSS used by both the Android and iOS Wikipedia apps
 
 ## Background
-Presently we are consolidating duplicate Android and iOS Wikipedia app implementations of certain Javascript transformations, such as image widening. **Applib** is where we are placing these consolidated Javascript transform implementations. 
+Presently we are consolidating duplicate Android and iOS Wikipedia app implementations of certain JavaScript transformations, such as image widening. **Applib** is where we are placing these consolidated JavaScript transform implementations. 
 
 ## What Applib is for
-* Javascript transforms common to **both** the Android and iOS Wikipedia apps.
+* JavaScript transforms common to **both** the Android and iOS Wikipedia apps.
 
 ## What Applib is not for
 * Android or iOS **specific** JS or CSS.
-* CSS unrelated to a particular Javascript transform. *In the future we may re-evaluate this for CSS common between the Android and iOS apps, but for right now the only CSS in Applib should be CSS directly needed by a particular Javascript transform.*
+* CSS unrelated to a particular JavaScript transform. *In the future we may re-evaluate this for CSS common between the Android and iOS apps, but for right now the only CSS in Applib should be CSS directly needed by a particular JavaScript transform.*
 
 ## What Applib delivers
 * **applib.js** bundle of all transform JS
@@ -22,6 +23,7 @@ Example file names and locations for an image widening transform:
 * **src/WidenImage.js** - the transform. *required*
 * **src/WidenImage.css** - CSS used by the transform. *optional*
 * **test/WidenImage.js** - tests of the transform. *required*
+* **test/fixtures/WidenImage.html** - fixtures used by transform tests. *optional*
 
 Directory names should be lowercase.
 
