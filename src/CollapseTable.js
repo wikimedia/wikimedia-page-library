@@ -54,9 +54,9 @@ const getTableHeader = (element, pageTitle) => {
           window.scrollTo(0, container.offsetTop - transformer.getDecorOffset())
         })
     @this HTMLElement
-    @param bottomDivClickCallback {!(!HTMLElement) => void}
+    @param footerDivClickCallback {!(!HTMLElement) => void}
     @return {void} */
-const toggleCollapseClickCallback = function(bottomDivClickCallback) {
+const toggleCollapseClickCallback = function(footerDivClickCallback) {
   const container = this.parentNode
   const header = container.children[0]
   const table = container.children[1]
@@ -73,7 +73,7 @@ const toggleCollapseClickCallback = function(bottomDivClickCallback) {
     footer.style.display = 'none'
         // if they clicked the bottom div, then scroll back up to the top of the table.
     if (this === footer) {
-      bottomDivClickCallback(container)
+      footerDivClickCallback(container)
     }
   } else {
     table.style.display = 'block'

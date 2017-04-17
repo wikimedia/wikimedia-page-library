@@ -225,7 +225,7 @@ describe('CollapseTable', () => {
       assert.ok(div instanceof domino.impl.HTMLDivElement)
     })
 
-    it('the div is a bottom div', () => {
+    it('the div is a footer div', () => {
       const div = newCollapsedFooterDiv(domino.createDocument())
       assert.ok(div.classList.contains('app_table_collapsed_bottom'))
     })
