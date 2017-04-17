@@ -154,7 +154,6 @@ const newCaption = (title, headerText) => {
   return caption
 }
 
-// todo: use consistent terminology -- collapsed and expanded; not hidden, visible, open, and closed
 /**
  * @param {!Document} document
  * @param {!Element} content
@@ -165,7 +164,7 @@ const newCaption = (title, headerText) => {
  * @param {?string} footerTitle
  * @return {void}
  */
-const hideTables = (document, content, pageTitle, isMainPage, infoboxTitle, otherTitle,
+const collapseTables = (document, content, pageTitle, isMainPage, infoboxTitle, otherTitle,
   footerTitle) => {
   if (isMainPage) { return }
 
@@ -219,7 +218,7 @@ const hideTables = (document, content, pageTitle, isMainPage, infoboxTitle, othe
 
 export default {
   toggleCollapseClickCallback,
-  hideTables,
+  collapseTables,
   test: {
     getTableHeader,
     shouldTableBeCollapsed,

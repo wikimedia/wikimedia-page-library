@@ -116,13 +116,13 @@ describe('CollapseTable', () => {
           assert.deepEqual(caption.style.visibility, 'hidden')
         })
 
-        it('the table is hidden when clicked', function Test() {
+        it('the table is collapsed when clicked', function Test() {
           this.header.click()
           const table = this.doc.querySelector('table')
           assert.deepEqual(table.style.display, 'none')
         })
 
-        it('the table is shown when clicked twice', function Test() {
+        it('the table is expanded when clicked twice', function Test() {
           this.header.click()
           this.header.click()
           const table = this.doc.querySelector('table')
@@ -153,7 +153,7 @@ describe('CollapseTable', () => {
       assert.ok(shouldTableBeCollapsed(doc.querySelector('table')))
     })
 
-    it('the table is hidden and shouldn\'t be collapsed', () => {
+    it('the table is already collapsed and shouldn\'t be collapsed again', () => {
       const doc = domino.createDocument('<table style="display: none"></table>')
       assert.ok(!shouldTableBeCollapsed(doc.querySelector('table')))
     })
@@ -298,12 +298,12 @@ describe('CollapseTable', () => {
     })
   })
 
-  describe('hideTables()', () => {
-    const hideTables = applib.CollapseTable.hideTables
+  describe('collapseTables()', () => {
+    const collapseTables = applib.CollapseTable.collapseTables
 
     it('when no tables exist, nothing is done', () => {
       const doc = domino.createDocument('<html></html>')
-      hideTables(doc, doc.documentElement, 'pageTitle')
+      collapseTables(doc, doc.documentElement, 'pageTitle')
       assert.ok(doc.querySelector('html'))
     })
 
@@ -320,19 +320,19 @@ describe('CollapseTable', () => {
       })
 
       it('and it\'s a main page, nothing is done', function Test() {
-        hideTables(this.doc, this.doc.documentElement, 'pageTitle', true)
+        collapseTables(this.doc, this.doc.documentElement, 'pageTitle', true)
         this.assertTableIsExpanded()
       })
 
       it('and it\'s already inside of a container, nothing is done', function Test() {
         this.doc.querySelector('table').parentNode.classList.add('app_table_container')
-        hideTables(this.doc, this.doc.documentElement, 'pageTitle')
+        collapseTables(this.doc, this.doc.documentElement, 'pageTitle')
         this.assertTableIsExpanded()
       })
 
       it('and it shouldn\'t be collapsed, nothing is done', function Test() {
         this.doc.querySelector('table').classList.add('navbox')
-        hideTables(this.doc, this.doc.documentElement, 'pageTitle')
+        collapseTables(this.doc, this.doc.documentElement, 'pageTitle')
         this.assertTableIsExpanded()
       })
 
@@ -343,66 +343,66 @@ describe('CollapseTable', () => {
         })
 
         it('and table is not an infobox, nothing is done', function Test() {
-          hideTables(this.doc, this.doc.documentElement)
+          collapseTables(this.doc, this.doc.documentElement)
           this.assertTableIsExpanded()
         })
 
         it('and table is an infobox, table is collapsed', function Test() {
           this.doc.querySelector('table').classList.add('infobox')
-          hideTables(this.doc, this.doc.documentElement)
+          collapseTables(this.doc, this.doc.documentElement)
           this.assertTableIsCollapsed()
         })
       })
 
       describe('and table is eligible,', () => {
         it('table is collapsed', function Test() {
-          hideTables(this.doc, this.doc.documentElement, 'pageTitle')
+          collapseTables(this.doc, this.doc.documentElement, 'pageTitle')
           this.assertTableIsCollapsed()
         })
 
         it('table is replaced with a new container in the parent', function Test() {
           const table = this.doc.querySelector('table')
           table.parentNode.id = 'container'
-          hideTables(this.doc, this.doc.documentElement, 'pageTitle')
+          collapseTables(this.doc, this.doc.documentElement, 'pageTitle')
           assert.ok(table.parentNode.id !== 'container')
         })
 
         it('table is wrapped in a container', function Test() {
-          hideTables(this.doc, this.doc.documentElement, 'pageTitle')
+          collapseTables(this.doc, this.doc.documentElement, 'pageTitle')
           const table = this.doc.querySelector('table')
           assert.ok(table.parentNode.classList.contains('app_table_container'))
         })
 
         it('table has a header', function Test() {
-          hideTables(this.doc, this.doc.documentElement, 'pageTitle')
+          collapseTables(this.doc, this.doc.documentElement, 'pageTitle')
           assert.ok(this.doc.querySelector('.app_table_collapsed_open'))
         })
 
         it('table has a footer', function Test() {
-          hideTables(this.doc, this.doc.documentElement, 'pageTitle')
+          collapseTables(this.doc, this.doc.documentElement, 'pageTitle')
           assert.ok(this.doc.querySelector('.app_table_collapsed_bottom'))
         })
 
         it('table expands when header is clicked', function Test() {
-          hideTables(this.doc, this.doc.documentElement, 'pageTitle')
+          collapseTables(this.doc, this.doc.documentElement, 'pageTitle')
           this.doc.querySelector('table').parentNode.children[0].click()
           this.assertTableIsExpanded()
         })
 
         it('table expands when footer is clicked', function Test() {
-          hideTables(this.doc, this.doc.documentElement, 'pageTitle')
+          collapseTables(this.doc, this.doc.documentElement, 'pageTitle')
           this.doc.querySelector('table').parentNode.children[2].click()
           this.assertTableIsExpanded()
         })
 
         it('table header is unused', function Test() {
-          hideTables(this.doc, this.doc.documentElement)
+          collapseTables(this.doc, this.doc.documentElement)
           const header = this.doc.querySelector('.app_table_collapsed_open')
           assert.ok(!header)
         })
 
         it('and page title is specified, table header is used', function Test() {
-          hideTables(this.doc, this.doc.documentElement, 'pageTitle')
+          collapseTables(this.doc, this.doc.documentElement, 'pageTitle')
           const header = this.doc.querySelector('.app_table_collapsed_open')
           assert.ok(header.innerHTML.includes('text'))
         })
@@ -413,32 +413,32 @@ describe('CollapseTable', () => {
           })
 
           it('and page title is specified, header is used', function Test() {
-            hideTables(this.doc, this.doc.documentElement, 'pageTitle')
+            collapseTables(this.doc, this.doc.documentElement, 'pageTitle')
             const header = this.doc.querySelector('.app_table_collapsed_open')
             assert.ok(header.innerHTML.includes('text'))
           })
 
           it('and infobox title is specified, infobox title is used', function Test() {
-            hideTables(this.doc, this.doc.documentElement, 'pageTitle', null, 'infoboxTitle')
+            collapseTables(this.doc, this.doc.documentElement, 'pageTitle', null, 'infoboxTitle')
             const header = this.doc.querySelector('.app_table_collapsed_open')
             assert.ok(header.innerHTML.includes('infoboxTitle'))
           })
         })
 
         it('and non-infobox title is specified, non-infobox title is used', function Test() {
-          hideTables(this.doc, this.doc.documentElement, 'pageTitle', null, null, 'otherTitle')
+          collapseTables(this.doc, this.doc.documentElement, 'pageTitle', null, null, 'otherTitle')
           const header = this.doc.querySelector('.app_table_collapsed_open')
           assert.ok(header.innerHTML.includes('otherTitle'))
         })
 
         it('footer title is unused', function Test() {
-          hideTables(this.doc, this.doc.documentElement, 'pageTitle')
+          collapseTables(this.doc, this.doc.documentElement, 'pageTitle')
           const footer = this.doc.querySelector('.app_table_collapsed_bottom')
           assert.ok(!footer.innerHTML)
         })
 
         it('and footer title is specified, footer title is used', function Test() {
-          hideTables(this.doc, this.doc.documentElement, 'pageTitle', null, null, null,
+          collapseTables(this.doc, this.doc.documentElement, 'pageTitle', null, null, null,
             'footerTitle')
           const footer = this.doc.querySelector('.app_table_collapsed_bottom')
           assert.deepEqual(footer.innerHTML, 'footerTitle')
@@ -446,14 +446,14 @@ describe('CollapseTable', () => {
       })
     })
 
-    it('when more than one eligible table exists, each is hidden', () => {
+    it('when more than one eligible table exists, each is collapsed', () => {
       const html = `
         <table id=a class=infobox></table>
         <table id=b></table>
         <table id=c class=infobox></table>
         <table id=d class=infobox></table>`
       const doc = domino.createDocument(html)
-      hideTables(doc, doc.documentElement)
+      collapseTables(doc, doc.documentElement)
       assert.deepEqual(doc.getElementById('a').style.display, 'none')
       assert.ok(!doc.getElementById('b').style.display)
       assert.deepEqual(doc.getElementById('c').style.display, 'none')
