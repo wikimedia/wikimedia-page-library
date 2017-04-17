@@ -1,3 +1,6 @@
+### v1.2.1
+- Chore: update CollapseTable tests to be more consistent
+
 ### v1.2.0
 - New: JS and CSS for image widening transform
   ([example integration](https://github.com/wikimedia/wikipedia-ios/pull/1313/))
