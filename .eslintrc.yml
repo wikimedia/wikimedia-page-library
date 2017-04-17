@@ -14,3 +14,9 @@ rules:
   indent: [1, 2]
   quotes: [1, single, {avoidEscape: true}]
   semi: [1, never]
+  require-jsdoc: [1, {require: {
+    FunctionDeclaration: true,
+    MethodDefinition: true,
+    ClassDeclaration: true,
+    ArrowFunctionExpression: true
+  }}]
