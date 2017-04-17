@@ -1,6 +1,9 @@
-### v1.3.0
-- New: add CollapseElement.toggleCollapseClickCallback()
+### v2.0.0
+- New: add CollapseElement.toggleCollapseClickCallback();
   iOS integration note: this method now also toggles the caption visibility
+- New: shouldTableBeCollapsed(); Android integration note: no longer affects
+  elements with `mbox-small` class
+- Breaking: hide getTableHeader()
 
 ### v1.2.0
 - New: JS and CSS for image widening transform
