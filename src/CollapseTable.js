@@ -105,13 +105,12 @@ const isInfobox = (element) => {
   return element.classList.contains('infobox')
 }
 
-// todo: actually should be called header
 /**
  * @param {!Document} document
  * @param {?string} content HTML string.
  * @return {!HTMLDivElement}
  */
-const newCollapsedDiv = (document, content) => {
+const newCollapsedHeaderDiv = (document, content) => {
   const div = document.createElement('div')
   div.classList.add('app_table_collapsed_container')
   div.classList.add('app_table_collapsed_open')
@@ -124,7 +123,7 @@ const newCollapsedDiv = (document, content) => {
  * @param {?string} content HTML string.
  * @return {!HTMLDivElement}
  */
-const newCollapsedBottomDiv = (document, content) => {
+const newCollapsedFooterDiv = (document, content) => {
   const div = document.createElement('div')
   div.classList.add('app_table_collapsed_bottom')
   div.classList.add('app_table_collapse_icon') // todo: use collapsed everywhere
@@ -198,23 +197,23 @@ const hideTables = (document, content, pageTitle, isMainPage, infoboxTitle, othe
     table.style.marginTop = '0px'
     table.style.marginBottom = '0px'
 
-    const collapsedDiv = newCollapsedDiv(document, caption)
-    collapsedDiv.style.display = 'block'
+    const collapsedHeaderDiv = newCollapsedHeaderDiv(document, caption)
+    collapsedHeaderDiv.style.display = 'block'
 
-    const bottomDiv = newCollapsedBottomDiv(document, footerTitle)
-    bottomDiv.style.display = 'none'
+    const collapsedFooterDiv = newCollapsedFooterDiv(document, footerTitle)
+    collapsedFooterDiv.style.display = 'none'
 
     // add our stuff to the container
-    containerDiv.appendChild(collapsedDiv)
+    containerDiv.appendChild(collapsedHeaderDiv)
     containerDiv.appendChild(table)
-    containerDiv.appendChild(bottomDiv)
+    containerDiv.appendChild(collapsedFooterDiv)
 
     // set initial visibility
     table.style.display = 'none'
 
     // assign click handler to the collapsed divs
-    collapsedDiv.onclick = toggleCollapseClickCallback.bind(collapsedDiv)
-    bottomDiv.onclick = toggleCollapseClickCallback.bind(collapsedDiv)
+    collapsedHeaderDiv.onclick = toggleCollapseClickCallback.bind(collapsedHeaderDiv)
+    collapsedFooterDiv.onclick = toggleCollapseClickCallback.bind(collapsedHeaderDiv)
   }
 }
 
@@ -225,8 +224,8 @@ export default {
     getTableHeader,
     shouldTableBeCollapsed,
     isInfobox,
-    newCollapsedDiv,
-    newCollapsedBottomDiv,
+    newCollapsedHeaderDiv,
+    newCollapsedFooterDiv,
     newCaption
   }
 }

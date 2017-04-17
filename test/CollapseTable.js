@@ -55,7 +55,7 @@ describe('CollapseTable', () => {
     })
   })
 
-  describe('.toggleCollapseClickCallback()', () => {
+  describe('toggleCollapseClickCallback()', () => {
     const toggleCollapseClickCallback = applib.CollapseTable.toggleCollapseClickCallback
 
     describe('and an expanded container', () => {
@@ -188,60 +188,60 @@ describe('CollapseTable', () => {
     })
   })
 
-  describe('newCollapsedDiv()', () => {
-    const newCollapsedDiv = applib.CollapseTable.test.newCollapsedDiv
+  describe('newCollapsedHeaderDiv()', () => {
+    const newCollapsedHeaderDiv = applib.CollapseTable.test.newCollapsedHeaderDiv
 
     it('the div is created', () => {
-      const div = newCollapsedDiv(domino.createDocument())
+      const div = newCollapsedHeaderDiv(domino.createDocument())
       assert.ok(div instanceof domino.impl.HTMLDivElement)
     })
 
     it('the div is a container', () => {
-      const div = newCollapsedDiv(domino.createDocument())
+      const div = newCollapsedHeaderDiv(domino.createDocument())
       assert.ok(div.classList.contains('app_table_collapsed_container'))
     })
 
     it('the div is expanded', () => {
-      const div = newCollapsedDiv(domino.createDocument())
+      const div = newCollapsedHeaderDiv(domino.createDocument())
       assert.ok(div.classList.contains('app_table_collapsed_open'))
     })
 
     it('when contents is undefined, the div has no contents', () => {
-      const div = newCollapsedDiv(domino.createDocument())
+      const div = newCollapsedHeaderDiv(domino.createDocument())
       assert.ok(!div.innerHTML)
     })
 
     it('when contents are defined, the div has contents', () => {
-      const div = newCollapsedDiv(domino.createDocument(), 'contents')
+      const div = newCollapsedHeaderDiv(domino.createDocument(), 'contents')
       assert.deepEqual(div.innerHTML, 'contents')
     })
   })
 
-  describe('newCollapsedBottomDiv()', () => {
-    const newCollapsedBottomDiv = applib.CollapseTable.test.newCollapsedBottomDiv
+  describe('newCollapsedFooterDiv()', () => {
+    const newCollapsedFooterDiv = applib.CollapseTable.test.newCollapsedFooterDiv
 
     it('the div is created', () => {
-      const div = newCollapsedBottomDiv(domino.createDocument())
+      const div = newCollapsedFooterDiv(domino.createDocument())
       assert.ok(div instanceof domino.impl.HTMLDivElement)
     })
 
     it('the div is a bottom div', () => {
-      const div = newCollapsedBottomDiv(domino.createDocument())
+      const div = newCollapsedFooterDiv(domino.createDocument())
       assert.ok(div.classList.contains('app_table_collapsed_bottom'))
     })
 
     it('the div has an icon', () => {
-      const div = newCollapsedBottomDiv(domino.createDocument())
+      const div = newCollapsedFooterDiv(domino.createDocument())
       assert.ok(div.classList.contains('app_table_collapse_icon'))
     })
 
     it('when contents is undefined, the div has no contents', () => {
-      const div = newCollapsedBottomDiv(domino.createDocument())
+      const div = newCollapsedFooterDiv(domino.createDocument())
       assert.ok(!div.innerHTML)
     })
 
     it('when contents are defined, the div has contents', () => {
-      const div = newCollapsedBottomDiv(domino.createDocument(), 'contents')
+      const div = newCollapsedFooterDiv(domino.createDocument(), 'contents')
       assert.deepEqual(div.innerHTML, 'contents')
     })
   })
