@@ -395,6 +395,20 @@ describe('CollapseTable', () => {
           this.assertTableIsExpanded()
         })
 
+        it('footer click callback is not called when header is expanded', function Test() {
+          collapseTables(this.doc, this.doc.documentElement, 'pageTitle', null, null, null, null,
+            () => { assert.fail() })
+          this.doc.querySelector('table').parentNode.children[0].click()
+          this.doc.querySelector('table').parentNode.children[0].click()
+        })
+
+        it('footer click callback is called when footer is expanded', function Test(done) {
+          collapseTables(this.doc, this.doc.documentElement, 'pageTitle', null, null, null, null,
+            () => { done() })
+          this.doc.querySelector('table').parentNode.children[2].click()
+          this.doc.querySelector('table').parentNode.children[2].click()
+        })
+
         it('table header is unused', function Test() {
           collapseTables(this.doc, this.doc.documentElement)
           const header = this.doc.querySelector('.app_table_collapsed_open')

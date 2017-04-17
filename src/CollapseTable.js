@@ -54,7 +54,7 @@ const getTableHeader = (element, pageTitle) => {
           window.scrollTo(0, container.offsetTop - transformer.getDecorOffset())
         })
     @this HTMLElement
-    @param footerDivClickCallback {!(!HTMLElement) => void}
+    @param footerDivClickCallback {?(!HTMLElement) => void}
     @return {void} */
 const toggleCollapseClickCallback = function(footerDivClickCallback) {
   const container = this.parentNode
@@ -72,7 +72,7 @@ const toggleCollapseClickCallback = function(footerDivClickCallback) {
     }
     footer.style.display = 'none'
         // if they clicked the bottom div, then scroll back up to the top of the table.
-    if (this === footer) {
+    if (this === footer && toggleCollapseClickCallback) {
       footerDivClickCallback(container)
     }
   } else {
@@ -165,7 +165,7 @@ const newCaption = (title, headerText) => {
  * @return {void}
  */
 const collapseTables = (document, content, pageTitle, isMainPage, infoboxTitle, otherTitle,
-  footerTitle) => {
+  footerTitle, footerDivClickCallback) => {
   if (isMainPage) { return }
 
   const tables = content.querySelectorAll('table')
@@ -212,7 +212,8 @@ const collapseTables = (document, content, pageTitle, isMainPage, infoboxTitle, 
 
     // assign click handler to the collapsed divs
     collapsedHeaderDiv.onclick = toggleCollapseClickCallback.bind(collapsedHeaderDiv)
-    collapsedFooterDiv.onclick = toggleCollapseClickCallback.bind(collapsedFooterDiv)
+    collapsedFooterDiv.onclick = toggleCollapseClickCallback.bind(collapsedFooterDiv,
+      footerDivClickCallback)
   }
 }
 
