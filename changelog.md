@@ -1,4 +1,5 @@
 ### v1.2.1
+- Fix: center widened image captions from Parsoid
 - Chore: update CollapseTable tests to be more consistent
 
 ### v1.2.0
