@@ -1,11 +1,11 @@
-import applib from '../build/applib'
 import assert from 'assert'
 import fixtureIO from './utilities/FixtureIO'
+import pagelib from '../build/wikimedia-page-library'
 import styleMocking from './utilities/StyleMocking'
 
-const maybeWidenImage = applib.WidenImage.maybeWidenImage
-const shouldWidenImage = applib.WidenImage.test.shouldWidenImage
-const widenAncestors = applib.WidenImage.test.widenAncestors
+const maybeWidenImage = pagelib.WidenImage.maybeWidenImage
+const shouldWidenImage = pagelib.WidenImage.test.shouldWidenImage
+const widenAncestors = pagelib.WidenImage.test.widenAncestors
 
 let document = null
 
