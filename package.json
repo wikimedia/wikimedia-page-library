@@ -1,6 +1,6 @@
 {
   "name": "applib",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Cross-platform JavaScript and CSS library for Wikimedia apps",
   "keywords": [
     "Wikipedia",
