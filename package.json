@@ -18,7 +18,7 @@
   "homepage": "https://github.com/wikimedia/wikimedia-page-library",
   "repository": "github:wikimedia/wikimedia-page-library",
   "bugs": "https://github.com/wikimedia/wikimedia-page-library/issues",
-  "main": "build/wikimedia-page-library.js",
+  "main": "build/wikimedia-page-library-transform.js",
   "scripts": {
     "lint": "eslint --cache --max-warnings 0 --ext .js --ext .json",
     "lint:all": "npm run -s lint .",
