@@ -3,7 +3,7 @@ import assert from 'assert'
 import fixtureIO from './utilities/FixtureIO'
 
 const elementUtilities = applib.test.ElementUtilities
-let document = null
+let document
 
 describe('ElementUtilities', () => {
   beforeEach(() => {
@@ -26,7 +26,7 @@ describe('ElementUtilities', () => {
     it('try to find an ancestor which does not exist', () => {
       const element = document.getElementById('someImage')
       const ancestor = elementUtilities.findClosest(element, 'table')
-      assert.ok(ancestor === null)
+      assert.ok(!ancestor)
     })
   })
 
