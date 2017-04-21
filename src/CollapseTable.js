@@ -1,3 +1,4 @@
+import './CollapseTable.css'
 import elementUtilities from './ElementUtilities'
 
 /**
