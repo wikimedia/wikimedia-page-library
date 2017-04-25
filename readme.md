@@ -41,6 +41,16 @@ Example file names and locations for an image widening transform:
 ## Development setup and workflow
 *Coming soon.*
 
+### Lint
+ESLint is executed prior to commits and publishing to identify cataloged style
+and functionality concerns. Linting may also be performed by running
+`npm run -s lint:all`. When a violation is detected, it may be fixed manually or
+suppressed by [selectively disabling the rule] (e.g,
+`// eslint-disable-line no-magic-number`). Some rules support automated fixes
+via `npm run -s lint -- --fix .`.
+
+[selectively disabling the rule]: http://eslint.org/docs/user-guide/configuring#disabling-rules-with-inline-comments
+
 ## [Changelog](changelog.md)
 
 ## License
