@@ -1,6 +1,6 @@
 import assert from 'assert'
 import domino from 'domino'
-import pagelib from '../build/wikimedia-page-library'
+import pagelib from '../build/wikimedia-page-library-transform'
 
 describe('CollapseTable', () => {
   describe('getTableHeader()', () => {
