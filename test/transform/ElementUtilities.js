@@ -1,6 +1,6 @@
-import applib from '../build/applib'
+import applib from '../../build/applib'
 import assert from 'assert'
-import fixtureIO from './utilities/FixtureIO'
+import fixtureIO from '../utilities/FixtureIO'
 
 const elementUtilities = applib.test.ElementUtilities
 let document = null
