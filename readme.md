@@ -33,13 +33,14 @@ Directory names should be lowercase.
 
 ### Functional
 - Prefer to read and modify the CSS class list rather than style attributes or
-  computed styles. This allows clients to customize appearance with CSS
-  overrides and no JavaScript changes or effects. For example, **WidenImage.js**
-  mentioned above could add/remove a class name from **WidenImage.css** to an
-  element's class list to help achieve image widening.
+  computed styles and prefer to avoid usage of `!important` unless it's
+  necessary for the class styles to be effective. This allows clients to
+  customize appearance with CSS overrides and no JavaScript changes or effects.
+  For example, **WidenImage.js** mentioned above could add/remove a class name
+  from **WidenImage.css** to an element's class list to help achieve image
+  widening.
 - Prefer Minerva and Parsoid style defaults. Any deviations should be deliberate
   and tightly scoped
-- Avoid usage of `!important` in stylesheets
 - Wide screen selectors should apply to devices in landscape orientation or
   portrait orientation and >= 768px wide
 
