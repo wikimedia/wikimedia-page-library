@@ -1,11 +1,14 @@
 ### v2.0.0
 - Breaking: rename applib to wikimedia-page-library including build products
 - Breaking: divide build products into transform and override files
-- New: add CollapseElement.toggleCollapseClickCallback();
-  iOS integration note: this method now also toggles the caption visibility
-- New: shouldTableBeCollapsed(); Android integration note: no longer affects
-  elements with `mbox-small` class
-- Breaking: hide getTableHeader()
+- Breaking: hide CollapseTable.getTableHeader()
+- New: add CollapseElement.collapseTables() and toggleCollapseClickCallback();
+  integration notes:
+  - Android and iOS: "..." replaced with ellipsis character, "…"
+  - Android:
+    - Don't collapse main pages
+    - Don't collapse `.mbox-small` elements
+  - iOS: toggleCollapseClickCallback() now toggles caption visibility
 - Doc: overhaul readme
 
 ### v1.2.2
