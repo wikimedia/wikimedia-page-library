@@ -1,3 +1,7 @@
+### v2.0.0
+- Breaking: rename applib to wikimedia-page-library including build products
+- Breaking: divide build products into transform and override files
+
 ### v1.2.1
 - Fix: center widened image captions from Parsoid
 - Chore: update CollapseTable tests to be more consistent

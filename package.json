@@ -1,6 +1,6 @@
 {
-  "name": "applib",
-  "version": "1.2.0",
+  "name": "wikimedia-page-library",
+  "version": "1.2.2",
   "description": "Cross-platform JavaScript and CSS library for Wikimedia apps",
   "keywords": [
     "Wikipedia",
@@ -15,10 +15,10 @@
     "JavaScript",
     "CSS"
   ],
-  "homepage": "https://github.com/wikimedia/applib",
-  "repository": "github:wikimedia/applib",
-  "bugs": "https://github.com/wikimedia/applib/issues",
-  "main": "build/applib.js",
+  "homepage": "https://github.com/wikimedia/wikimedia-page-library",
+  "repository": "github:wikimedia/wikimedia-page-library",
+  "bugs": "https://github.com/wikimedia/wikimedia-page-library/issues",
+  "main": "build/wikimedia-page-library-transform.js",
   "scripts": {
     "lint": "eslint --cache --max-warnings 0 --ext .js --ext .json",
     "lint:all": "npm run -s lint .",
