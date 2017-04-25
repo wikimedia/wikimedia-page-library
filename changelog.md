@@ -6,6 +6,7 @@
 - New: shouldTableBeCollapsed(); Android integration note: no longer affects
   elements with `mbox-small` class
 - Breaking: hide getTableHeader()
+- Doc: overhaul readme
 
 ### v1.2.2
 - Fix: center widened image captions from Parsoid
