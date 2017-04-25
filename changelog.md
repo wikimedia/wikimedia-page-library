@@ -1,10 +1,18 @@
 ### v2.0.0
+- Breaking: rename applib to wikimedia-page-library including build products
+- Breaking: divide build products into transform and override files
 - New: add CollapseElement.toggleCollapseClickCallback();
   iOS integration note: this method now also toggles the caption visibility
 - New: shouldTableBeCollapsed(); Android integration note: no longer affects
   elements with `mbox-small` class
 - Breaking: hide getTableHeader()
+
+### v1.2.2
+- Fix: center widened image captions from Parsoid
 - Chore: update CollapseTable tests to be more consistent
+
+### v1.2.1
+- Broken package. Do not use.
 
 ### v1.2.0
 - New: JS and CSS for image widening transform

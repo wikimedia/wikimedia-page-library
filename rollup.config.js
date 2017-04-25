@@ -7,5 +7,16 @@ export default {
   dest: pkg.main,
   format: 'cjs',
   sourceMap: true,
-  plugins: [ css({ minified: false }), babel() ]
+  plugins: [
+    css({
+      minified: false,
+      include: 'src/transform/**.css'
+    }),
+    css({
+      minified: false,
+      include: 'src/override/**.css',
+      dest: 'build/wikimedia-page-library-override.css'
+    }),
+    babel()
+  ]
 }

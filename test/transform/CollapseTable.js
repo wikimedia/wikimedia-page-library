@@ -1,10 +1,10 @@
-import applib from '../../build/applib'
 import assert from 'assert'
 import domino from 'domino'
+import pagelib from '../../build/wikimedia-page-library-transform'
 
 describe('CollapseTable', () => {
   describe('getTableHeader()', () => {
-    const getTableHeader = applib.CollapseTable.test.getTableHeader
+    const getTableHeader = pagelib.CollapseTable.test.getTableHeader
 
     it('when no table, shouldn\'t find headers', () => {
       const doc = domino.createDocument('<html></html>')
@@ -56,7 +56,7 @@ describe('CollapseTable', () => {
   })
 
   describe('toggleCollapseClickCallback()', () => {
-    const toggleCollapseClickCallback = applib.CollapseTable.toggleCollapseClickCallback
+    const toggleCollapseClickCallback = pagelib.CollapseTable.toggleCollapseClickCallback
 
     describe('and an expanded container', () => {
       beforeEach(function Test() {
@@ -146,7 +146,7 @@ describe('CollapseTable', () => {
   })
 
   describe('shouldTableBeCollapsed()', () => {
-    const shouldTableBeCollapsed = applib.CollapseTable.test.shouldTableBeCollapsed
+    const shouldTableBeCollapsed = pagelib.CollapseTable.test.shouldTableBeCollapsed
 
     it('the table is generic and should be collapsed', () => {
       const doc = domino.createDocument('<table></table>')
@@ -175,7 +175,7 @@ describe('CollapseTable', () => {
   })
 
   describe('isInfobox()', () => {
-    const isInfobox = applib.CollapseTable.test.isInfobox
+    const isInfobox = pagelib.CollapseTable.test.isInfobox
 
     it('the element is not an infobox', () => {
       const doc = domino.createDocument('<div></div>')
@@ -189,7 +189,7 @@ describe('CollapseTable', () => {
   })
 
   describe('newCollapsedHeaderDiv()', () => {
-    const newCollapsedHeaderDiv = applib.CollapseTable.test.newCollapsedHeaderDiv
+    const newCollapsedHeaderDiv = pagelib.CollapseTable.test.newCollapsedHeaderDiv
 
     it('the div is created', () => {
       const div = newCollapsedHeaderDiv(domino.createDocument())
@@ -218,7 +218,7 @@ describe('CollapseTable', () => {
   })
 
   describe('newCollapsedFooterDiv()', () => {
-    const newCollapsedFooterDiv = applib.CollapseTable.test.newCollapsedFooterDiv
+    const newCollapsedFooterDiv = pagelib.CollapseTable.test.newCollapsedFooterDiv
 
     it('the div is created', () => {
       const div = newCollapsedFooterDiv(domino.createDocument())
@@ -247,7 +247,7 @@ describe('CollapseTable', () => {
   })
 
   describe('newCaption()', () => {
-    const newCaption = applib.CollapseTable.test.newCaption
+    const newCaption = pagelib.CollapseTable.test.newCaption
 
     describe('when no header text', () => {
       const caption = newCaption('title', [])
@@ -299,7 +299,7 @@ describe('CollapseTable', () => {
   })
 
   describe('collapseTables()', () => {
-    const collapseTables = applib.CollapseTable.collapseTables
+    const collapseTables = pagelib.CollapseTable.collapseTables
 
     it('when no tables exist, nothing is done', () => {
       const doc = domino.createDocument('<html></html>')

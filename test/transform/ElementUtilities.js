@@ -1,8 +1,8 @@
-import applib from '../../build/applib'
 import assert from 'assert'
 import fixtureIO from '../utilities/FixtureIO'
+import pagelib from '../../build/wikimedia-page-library-transform'
 
-const elementUtilities = applib.test.ElementUtilities
+const elementUtilities = pagelib.test.ElementUtilities
 let document = null
 
 describe('ElementUtilities', () => {
