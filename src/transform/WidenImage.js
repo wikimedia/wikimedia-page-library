@@ -33,7 +33,7 @@ const shouldWidenImage = (image) => {
   // Images within a "<div class='noresize'>...</div>" should not be widened.
   // Example exhibiting links overlaying such an image:
   //   'enwiki > Counties of England > Scope and structure > Local government'
-  if (elementUtilities.findClosest(image, "[class*='noresize']")) {
+  if (elementUtilities.findClosestAncestor(image, "[class*='noresize']")) {
     return false
   }
 
@@ -42,7 +42,7 @@ const shouldWidenImage = (image) => {
   // Examples exhibiting side-by-side images:
   //    'enwiki > Cold Comfort (Inside No. 9) > Casting'
   //    'enwiki > Vincent van Gogh > Letters'
-  if (elementUtilities.findClosest(image, "div[class*='tsingle']")) {
+  if (elementUtilities.findClosestAncestor(image, "div[class*='tsingle']")) {
     return false
   }
 

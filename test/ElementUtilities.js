@@ -10,22 +10,28 @@ describe('ElementUtilities', () => {
     document = fixtureIO.documentFromFixtureFile('ElementUtilities.html')
   })
 
-  describe('findClosest()', () => {
+  describe('findClosestAncestor()', () => {
+    it('doesn\'t consider self', () => {
+      const element = document.querySelector('.matching')
+      const ancestor = elementUtilities.findClosestAncestor(element, '.matching')
+      assert.ok(!ancestor)
+    })
+
     it('find first div ancestor which has a certain class', () => {
       const element = document.getElementById('someImage')
-      const ancestor = elementUtilities.findClosest(element, "div[class='tsingle']")
+      const ancestor = elementUtilities.findClosestAncestor(element, "div[class='tsingle']")
       assert.ok(ancestor.id === 'imageGreatGrandParentDiv')
     })
 
     it('find first div ancestor which has a certain class among many classes', () => {
       const element = document.getElementById('someImage')
-      const ancestor = elementUtilities.findClosest(element, "div[class*='someClassOne']")
+      const ancestor = elementUtilities.findClosestAncestor(element, "div[class*='someClassOne']")
       assert.ok(ancestor.id === 'imageGrandParentDiv')
     })
 
     it('try to find an ancestor which does not exist', () => {
       const element = document.getElementById('someImage')
-      const ancestor = elementUtilities.findClosest(element, 'table')
+      const ancestor = elementUtilities.findClosestAncestor(element, 'table')
       assert.ok(!ancestor)
     })
   })
