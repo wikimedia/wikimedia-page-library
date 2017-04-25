@@ -8,11 +8,13 @@
  * @return {?HTMLElement}       Closest ancestor of 'el' matching 'selector'
  */
 const findClosest = (el, selector) => {
-  while ((el = el.parentElement) && !el.matches(selector)) {
+  let parentElement
+  for (parentElement = el.parentElement;
+    parentElement && !parentElement.matches(selector);
+    parentElement = parentElement.parentElement) {
     // Intentionally empty.
-    // Reminder: the parenthesis around 'el = el.parentElement' are also intentional.
   }
-  return el
+  return parentElement
 }
 
 /**

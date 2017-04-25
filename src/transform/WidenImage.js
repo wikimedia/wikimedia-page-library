@@ -9,16 +9,17 @@ import elementUtilities from './ElementUtilities'
  * @param  {!HTMLElement} el Element whose ancestors will be widened
  */
 const widenAncestors = (el) => {
-  while ((el = el.parentElement) && !el.classList.contains('content_block')) {
-    // Reminder: the parenthesis around 'el = el.parentElement' are intentional.
-    if (el.style.width) {
-      el.style.width = '100%'
+  for (let parentElement = el.parentElement;
+    parentElement && !parentElement.classList.contains('content_block');
+    parentElement = parentElement.parentElement) {
+    if (parentElement.style.width) {
+      parentElement.style.width = '100%'
     }
-    if (el.style.maxWidth) {
-      el.style.maxWidth = '100%'
+    if (parentElement.style.maxWidth) {
+      parentElement.style.maxWidth = '100%'
     }
-    if (el.style.float) {
-      el.style.float = 'none'
+    if (parentElement.style.float) {
+      parentElement.style.float = 'none'
     }
   }
 }
