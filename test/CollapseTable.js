@@ -1,10 +1,10 @@
-import applib from '../build/applib'
 import assert from 'assert'
 import domino from 'domino'
+import pagelib from '../build/wikimedia-page-library'
 
 describe('CollapseTable', () => {
   describe('getTableHeader()', () => {
-    const getTableHeader = applib.CollapseTable.getTableHeader
+    const getTableHeader = pagelib.CollapseTable.getTableHeader
 
     it('when no table, shouldn\'t find headers', () => {
       const doc = domino.createDocument('<html></html>')
