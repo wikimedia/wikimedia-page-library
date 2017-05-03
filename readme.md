@@ -1,5 +1,7 @@
 # wikimedia-page-library
-Library for common JavaScript transforms and CSS used by both the Android and iOS Wikipedia apps
+Library for common JavaScript transforms and CSS used by both the Android and iOS Wikipedia apps. Please report issues on [Phabricator].
+
+[Phabricator]: https://phabricator.wikimedia.org/tag/wikimedia-page-library/
 
 ## Background
 Presently we are consolidating duplicate Android and iOS Wikipedia app implementations of certain JavaScript transformations, such as image widening. **wikimedia-page-library** is where we are placing these consolidated JavaScript transform implementations. 
