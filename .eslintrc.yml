@@ -21,3 +21,6 @@ rules:
     ArrowFunctionExpression: true
   }}]
   no-extra-parens: 1
+  no-cond-assign: [2, always]
+  no-implicit-coercion: [1, {allow: ['!!']}]
+  no-param-reassign: 1
