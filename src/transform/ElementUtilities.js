@@ -7,12 +7,14 @@
  * @param  {!string} selector   Selector to look for in ancestors of 'el'
  * @return {?HTMLElement}       Closest ancestor of 'el' matching 'selector'
  */
-const findClosest = (el, selector) => {
-  while ((el = el.parentElement) && !el.matches(selector)) {
+const findClosestAncestor = (el, selector) => {
+  let parentElement
+  for (parentElement = el.parentElement;
+    parentElement && !parentElement.matches(selector);
+    parentElement = parentElement.parentElement) {
     // Intentionally empty.
-    // Reminder: the parenthesis around 'el = el.parentElement' are also intentional.
   }
-  return el
+  return parentElement
 }
 
 /**
@@ -21,10 +23,10 @@ const findClosest = (el, selector) => {
  * @return {boolean}        Whether table ancestor of 'el' is found
  */
 const isNestedInTable = (el) => {
-  return findClosest(el, 'table') !== null
+  return !!findClosestAncestor(el, 'table')
 }
 
 export default {
-  findClosest,
+  findClosestAncestor,
   isNestedInTable
 }

@@ -173,7 +173,7 @@ const collapseTables = (document, content, pageTitle, isMainPage, infoboxTitle, 
   for (let i = 0; i < tables.length; ++i) {
     const table = tables[i]
 
-    if (elementUtilities.findClosest(table, '.app_table_container')
+    if (elementUtilities.findClosestAncestor(table, '.app_table_container')
       || !shouldTableBeCollapsed(table)) {
       continue
     }

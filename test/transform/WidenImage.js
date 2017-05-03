@@ -7,7 +7,7 @@ const maybeWidenImage = pagelib.WidenImage.maybeWidenImage
 const shouldWidenImage = pagelib.WidenImage.test.shouldWidenImage
 const widenAncestors = pagelib.WidenImage.test.widenAncestors
 
-let document = null
+let document
 
 describe('WidenImage', () => {
   beforeEach(() => {
