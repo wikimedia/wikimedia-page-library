@@ -1,6 +1,4 @@
-### v2.0.0
-- Breaking: rename applib to wikimedia-page-library including build products
-- Breaking: divide build products into transform and override files
+### v3.0.0
 - Breaking: hide CollapseTable.getTableHeader()
 - New: add CollapseElement.collapseTables() and toggleCollapseClickCallback();
   integration notes:
@@ -10,6 +8,13 @@
     - Don't collapse `.mbox-small` elements
   - iOS: toggleCollapseClickCallback() now toggles caption visibility
 - Doc: overhaul readme
+
+### v2.0.0
+- Breaking: rename applib to wikimedia-page-library including build products
+- Breaking: divide build products into transform and override files
+
+### v1.2.3
+- Mislabeled package. Do not use.
 
 ### v1.2.2
 - Fix: center widened image captions from Parsoid
