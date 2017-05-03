@@ -1,6 +1,6 @@
 {
   "name": "wikimedia-page-library",
-  "version": "1.2.3",
+  "version": "2.0.0",
   "description": "Cross-platform JavaScript and CSS library for Wikimedia apps",
   "keywords": [
     "Wikipedia",
