@@ -29,7 +29,7 @@ Example file names and locations for an image widening transform:
 
 *todo: rename Empty.css to a real override.*
 
-Directory names should be lowercase.
+Directory names should be lowercase. Filenames should be singular.
 
 ### Functional
 - Prefer to read and modify the CSS class list rather than style attributes or
@@ -40,9 +40,10 @@ Directory names should be lowercase.
   from **WidenImage.css** to an element's class list to help achieve image
   widening.
 - Prefer Minerva and Parsoid style defaults. Any deviations should be deliberate
-  and tightly scoped
+  and tightly scoped.
 - Wide screen selectors should apply to devices in landscape orientation or
-  portrait orientation and >= 768px wide
+  portrait orientation and >= 768px wide.
+- Prefer `undefined` to `null`.
 
 ### Naming
 - JS function names use camelCase
