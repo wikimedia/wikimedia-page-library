@@ -7,7 +7,9 @@
     - Don't collapse main pages
     - Don't collapse `.mbox-small` elements
   - iOS: toggleCollapseClickCallback() now toggles caption visibility
-- Doc: overhaul readme
+
+### v2.0.1
+- Fix: use polyfill for Element.matches()
 
 ### v2.0.0
 - Breaking: rename applib to wikimedia-page-library including build products
