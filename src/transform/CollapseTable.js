@@ -218,9 +218,27 @@ const collapseTables = (document, content, pageTitle, isMainPage, infoboxTitle, 
   }
 }
 
+/**
+ * @param  {?Element} element
+ * @return {void}
+*/
+const expandCollapsedTableIfItContainsElement = (element) => {
+  if (element) {
+    const containerSelector = '[class*="app_table_container"]'
+    const container = elementUtilities.findClosestAncestor(element, containerSelector)
+    if (container) {
+      const collapsedDiv = container.firstElementChild
+      if (collapsedDiv && collapsedDiv.classList.contains('app_table_collapsed_open')) {
+        collapsedDiv.click()
+      }
+    }
+  }
+}
+
 export default {
   toggleCollapseClickCallback,
   collapseTables,
+  expandCollapsedTableIfItContainsElement,
   test: {
     getTableHeader,
     shouldTableBeCollapsed,

@@ -72,7 +72,7 @@ describe('CollapseTable', () => {
           function Test(done) {
             const footer = this.doc.querySelector('#footer')
             footer.addEventListener('click',
-              toggleCollapseClickCallback.bind(footer, () => { done() }))
+              toggleCollapseClickCallback.bind(footer, () => done()))
             footer.click()
           })
 
@@ -414,7 +414,7 @@ describe('CollapseTable', () => {
 
         it('footer click callback is called when footer is expanded', function Test(done) {
           collapseTables(this.doc, this.doc.documentElement, 'pageTitle', null, null, null, null,
-            () => { done() })
+            () => done())
           this.doc.querySelector('table').parentNode.children[2].click()
           this.doc.querySelector('table').parentNode.children[2].click()
         })
@@ -482,6 +482,46 @@ describe('CollapseTable', () => {
       assert.ok(!doc.getElementById('b').style.display)
       assert.deepEqual(doc.getElementById('c').style.display, 'none')
       assert.deepEqual(doc.getElementById('d').style.display, 'none')
+    })
+  })
+
+  describe('expandCollapsedTableIfItContainsElement()', () => {
+    // eslint-disable-next-line max-len
+    const expandCollapsedTableIfItContainsElement = pagelib.CollapseTable.expandCollapsedTableIfItContainsElement
+
+    it('when element is undefined, nothing is done', () => {
+      const element = undefined
+      expandCollapsedTableIfItContainsElement(element)
+    })
+
+    describe('when element is defined', () => {
+      it('and element is not within a collapse table container, nothing is done', () => {
+        const element = domino.createDocument('<a></a>').documentElement
+        element.addEventListener('click', assert.fail)
+        expandCollapsedTableIfItContainsElement(element)
+      })
+
+      describe('and element is within a collapse table container that has children', () => {
+        it('and table is already expanded, nothing is done', () => {
+          const html = `
+            <div class=app_table_container>
+              <div class=app_table_collapse_close></div>
+            </div>`
+          const element = domino.createDocument(html).querySelector('div div')
+          element.addEventListener('click', assert.fail)
+          expandCollapsedTableIfItContainsElement(element)
+        })
+
+        it('and table is collapsed, the table is expanded', (done) => {
+          const html = `
+            <div class=app_table_container>
+              <div class=app_table_collapsed_open></div>
+            </div>`
+          const element = domino.createDocument(html).querySelector('div div')
+          element.addEventListener('click', () => done())
+          expandCollapsedTableIfItContainsElement(element)
+        })
+      })
     })
   })
 })
