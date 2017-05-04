@@ -2,7 +2,7 @@
  * Polyfill function that tells whether a given element matches a selector.
  * @param {!Element} el Element
  * @param {!string} selector Selector to look for
- * @returns {boolean} Whether the element matches the selector
+ * @returns {!boolean} Whether the element matches the selector
  */
 const matchesSelectorCompat = (el, selector) => {
   if (el.matches) {
