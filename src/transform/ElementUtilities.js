@@ -7,9 +7,11 @@
 const matchesSelectorCompat = (el, selector) => {
   if (el.matches) {
     return el.matches(selector)
-  } else if (el.matchesSelector) {
+  }
+  if (el.matchesSelector) {
     return el.matchesSelector(selector)
-  } else if (el.webkitMatchesSelector) {
+  }
+  if (el.webkitMatchesSelector) {
     return el.webkitMatchesSelector(selector)
   }
   return false
