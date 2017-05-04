@@ -40,7 +40,7 @@ const findClosestAncestor = (el, selector) => {
  * @return {boolean}        Whether table ancestor of 'el' is found
  */
 const isNestedInTable = (el) => {
-  return !!findClosestAncestor(el, 'table')
+  return Boolean(findClosestAncestor(el, 'table'))
 }
 
 export default {
