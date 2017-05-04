@@ -44,6 +44,7 @@ const isNestedInTable = (el) => {
 }
 
 export default {
+  matchesSelectorCompat,
   findClosestAncestor,
   isNestedInTable
 }
