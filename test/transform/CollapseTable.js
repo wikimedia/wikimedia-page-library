@@ -67,13 +67,23 @@ describe('CollapseTable', () => {
         this.doc = domino.createDocument(html)
       })
 
-      it('where the footer is observed, the callback is invoked when the footer is clicked',
-        function Test(done) {
-          const footer = this.doc.querySelector('#footer')
-          footer.addEventListener('click',
-            toggleCollapseClickCallback.bind(footer, () => { done() }))
-          footer.click()
-        })
+      describe('where the footer is observed', () => {
+        it('the callback is invoked when the footer is clicked',
+          function Test(done) {
+            const footer = this.doc.querySelector('#footer')
+            footer.addEventListener('click',
+              toggleCollapseClickCallback.bind(footer, () => { done() }))
+            footer.click()
+          })
+
+        it('nothing breaks when the callback is not set and the footer is clicked',
+          function Test() {
+            const footer = this.doc.querySelector('#footer')
+            footer.addEventListener('click',
+              toggleCollapseClickCallback.bind(footer, undefined))
+            footer.click()
+          })
+      })
 
       describe('where the header is observed,', () => {
         beforeEach(function Test() {
