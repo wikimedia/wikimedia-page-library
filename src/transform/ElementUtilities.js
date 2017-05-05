@@ -2,14 +2,16 @@
  * Polyfill function that tells whether a given element matches a selector.
  * @param {!Element} el Element
  * @param {!string} selector Selector to look for
- * @returns {!boolean} Whether the element matches the selector
+ * @return {!boolean} Whether the element matches the selector
  */
 const matchesSelectorCompat = (el, selector) => {
   if (el.matches) {
     return el.matches(selector)
-  } else if (el.matchesSelector) {
+  }
+  if (el.matchesSelector) {
     return el.matchesSelector(selector)
-  } else if (el.webkitMatchesSelector) {
+  }
+  if (el.webkitMatchesSelector) {
     return el.webkitMatchesSelector(selector)
   }
   return false
@@ -40,10 +42,11 @@ const findClosestAncestor = (el, selector) => {
  * @return {boolean}        Whether table ancestor of 'el' is found
  */
 const isNestedInTable = (el) => {
-  return !!findClosestAncestor(el, 'table')
+  return Boolean(findClosestAncestor(el, 'table'))
 }
 
 export default {
+  matchesSelectorCompat,
   findClosestAncestor,
   isNestedInTable
 }

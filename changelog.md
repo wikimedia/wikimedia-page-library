@@ -7,6 +7,7 @@
     - Don't collapse main pages
     - Don't collapse `.mbox-small` elements
   - iOS: toggleCollapseClickCallback() now toggles caption visibility
+- Chore: upgrade dependencies
 
 ### v2.0.1
 - Fix: use polyfill for Element.matches()

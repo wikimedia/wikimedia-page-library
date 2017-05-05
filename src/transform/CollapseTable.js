@@ -94,7 +94,9 @@ const toggleCollapseClickCallback = function(footerDivClickCallback) {
  */
 const shouldTableBeCollapsed = (table) => {
   const classBlacklist = ['navbox', 'vertical-navbox', 'navbox-inner', 'metadata', 'mbox-small']
-  const blacklistIntersects = classBlacklist.some((clazz) => table.classList.contains(clazz))
+  const blacklistIntersects = classBlacklist.some((clazz) => {
+    return table.classList.contains(clazz)
+  })
   return table.style.display !== 'none' && !blacklistIntersects
 }
 
