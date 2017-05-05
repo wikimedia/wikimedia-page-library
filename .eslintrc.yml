@@ -5,6 +5,9 @@ parserOptions:
   sourceType: module
 
 rules:
+  # Best Practices
+  no-else-return: 1
+
   # Strict Mode
   strict: [1, never]
 
