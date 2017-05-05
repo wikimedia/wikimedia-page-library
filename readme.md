@@ -1,35 +1,35 @@
 # wikimedia-page-library
-Library for common JavaScript transforms and CSS used by both the Android and iOS Wikipedia apps
+Library for common JavaScript transforms and CSS used by both the Android and iOS Wikipedia apps. Please report issues on [Phabricator].
+
+[Phabricator]: https://phabricator.wikimedia.org/tag/wikimedia-page-library/
 
 ## Background
 Presently we are consolidating duplicate Android and iOS Wikipedia app implementations of certain JavaScript transformations, such as image widening. **wikimedia-page-library** is where we are placing these consolidated JavaScript transform implementations. 
 
-## What wikimedia-page-library is for
-* JavaScript transforms common to **both** the Android and iOS Wikipedia apps.
+### What wikimedia-page-library is for
+- JavaScript transforms common to **both** the Android and iOS Wikipedia apps.
 
-## What wikimedia-page-library is not for
-* Android or iOS **specific** JS or CSS.
-* CSS unrelated to a particular JavaScript transform. *In the future we may re-evaluate this for CSS common between the Android and iOS apps, but for right now the only CSS in wikimedia-page-library should be CSS directly needed by a particular JavaScript transform.*
+### What wikimedia-page-library is not for
 
-## What wikimedia-page-library delivers
-* **wikimedia-page-library-transform.js** bundle of all transform JS
-* **wikimedia-page-library-transform.css** bundle of all CSS required by the bundled transform JS
-* **wikimedia-page-library-override.css** optional CSS overrides for improved appearance that are independent of transforms
+### What wikimedia-page-library delivers
+- **wikimedia-page-library-transform.js** bundle of all transform JS
+- **wikimedia-page-library-transform.css** bundle of all CSS required by the bundled transform JS
+- **wikimedia-page-library-override.css** optional CSS overrides for improved appearance that are independent of transforms
 
 ## Conventions
 
 ### File locations and naming
 
 Example file names and locations for an image widening transform:
-* **src/transform/WidenImage.js** - the transform. *required*
-* **src/transform/WidenImage.css** - CSS used by the transform. *optional*
-* **src/override/Empty.css** - CSS overrides that are independent of transforms and that couldn't be upstreamed
-* **test/WidenImage.js** - tests of the transform. *required*
-* **test/fixtures/WidenImage.html** - fixtures used by transform tests. *optional*
+- **src/transform/WidenImage.js** - the transform. *required*
+- **src/transform/WidenImage.css** - CSS used by the transform. *optional*
+- **src/override/Empty.css** - CSS overrides that are independent of transforms and that couldn't be upstreamed
+- **test/WidenImage.js** - tests of the transform. *required*
+- **test/fixtures/WidenImage.html** - fixtures used by transform tests. *optional*
 
 *todo: rename Empty.css to a real override.*
 
-Directory names should be lowercase.
+Directory names should be lowercase. Filenames should be singular.
 
 ### Functional
 - Prefer to read and modify the CSS class list rather than style attributes or
@@ -40,9 +40,10 @@ Directory names should be lowercase.
   from **WidenImage.css** to an element's class list to help achieve image
   widening.
 - Prefer Minerva and Parsoid style defaults. Any deviations should be deliberate
-  and tightly scoped
+  and tightly scoped.
 - Wide screen selectors should apply to devices in landscape orientation or
-  portrait orientation and >= 768px wide
+  portrait orientation and >= 768px wide.
+- Prefer `undefined` to `null`.
 
 ### Naming
 - JS function names use camelCase
