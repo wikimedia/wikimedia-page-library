@@ -1,3 +1,6 @@
+### v2.0.2
+- Chore: upgrade dependencies
+
 ### v2.0.1
 - Fix: use polyfill for Element.matches()
 
