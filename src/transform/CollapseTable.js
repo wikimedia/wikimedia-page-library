@@ -5,7 +5,8 @@ import elementUtilities from './ElementUtilities'
  * Find an array of table header (TH) contents. If there are no TH elements in
  * the table or the header's link matches pageTitle, an empty array is returned.
  * @param {!Element} element
- * @param {?string} pageTitle
+ * @param {?string} pageTitle Unencoded page title; if this title matches the
+ *                            contents of the header exactly, it will be omitted.
  * @return {!Array<string>}
  */
 const getTableHeader = (element, pageTitle) => {
@@ -23,6 +24,8 @@ const getTableHeader = (element, pageTitle) => {
       // However, if it contains more than two links, then ignore it, because
       // it will probably appear weird when rendered as plain text.
       const aNodes = el.querySelectorAll('a')
+      // todo: these conditionals are very confusing. Rewrite by extracting a
+      //       method or simplify.
       if (aNodes.length < 3) {
         // todo: remove nonstandard Element.innerText usage
         // Also ignore it if it's identical to the page title.
@@ -39,6 +42,7 @@ const getTableHeader = (element, pageTitle) => {
       continue
     }
 
+    // todo: why do we need to recurse?
     // recurse into children of this element
     const ret = getTableHeader(el, pageTitle)
 
@@ -221,6 +225,13 @@ const collapseTables = (document, content, pageTitle, isMainPage, infoboxTitle, 
 }
 
 /**
+ * If you tap a reference targeting an anchor within a collapsed table, this
+ * method will expand the references section. The client can then scroll to the
+ * references section.
+ *
+ * The first reference (an "[A]") in the "enwiki > Airplane" article from ~June
+ * 2016 exhibits this issue. (You can copy wikitext from this revision into a
+ * test wiki page for testing.)
  * @param  {?Element} element
  * @return {void}
 */
