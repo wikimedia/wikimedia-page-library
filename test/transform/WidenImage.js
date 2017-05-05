@@ -1,7 +1,7 @@
 import assert from 'assert'
-import fixtureIO from './utilities/FixtureIO'
-import pagelib from '../build/wikimedia-page-library-transform'
-import styleMocking from './utilities/StyleMocking'
+import fixtureIO from '../utilities/FixtureIO'
+import pagelib from '../../build/wikimedia-page-library-transform'
+import styleMocking from '../utilities/StyleMocking'
 
 const maybeWidenImage = pagelib.WidenImage.maybeWidenImage
 const shouldWidenImage = pagelib.WidenImage.test.shouldWidenImage

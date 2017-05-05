@@ -1,4 +1,12 @@
-### v2.0.2
+### v3.0.0
+- Breaking: hide CollapseTable.getTableHeader()
+- New: add CollapseElement.collapseTables() and toggleCollapseClickCallback();
+  integration notes:
+  - Android and iOS: "..." replaced with ellipsis character, "…"
+  - Android:
+    - Don't collapse main pages
+    - Don't collapse `.mbox-small` elements
+  - iOS: toggleCollapseClickCallback() now toggles caption visibility
 - Chore: upgrade dependencies
 
 ### v2.0.1
