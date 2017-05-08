@@ -41,9 +41,7 @@ const findClosestAncestor = (el, selector) => {
  * @param  {!Element}  el   Element
  * @return {boolean}        Whether table ancestor of 'el' is found
  */
-const isNestedInTable = (el) => {
-  return Boolean(findClosestAncestor(el, 'table'))
-}
+const isNestedInTable = el => Boolean(findClosestAncestor(el, 'table'))
 
 export default {
   matchesSelectorCompat,

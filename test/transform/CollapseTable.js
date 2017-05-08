@@ -512,7 +512,7 @@ describe('CollapseTable', () => {
           expandCollapsedTableIfItContainsElement(element)
         })
 
-        it('and table is collapsed, the table is expanded', (done) => {
+        it('and table is collapsed, the table is expanded', done => {
           const html = `
             <div class=app_table_container>
               <div class=app_table_collapsed_open></div>
