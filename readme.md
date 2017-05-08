@@ -70,7 +70,7 @@ git clone https://github.com/wikimedia/wikimedia-page-library.git
 
 Checkout the branch to be tested:
 ```
-cd ~/wikimedia-page-library/
+cd wikimedia-page-library
 git checkout somebranch
 ```
 
@@ -82,7 +82,7 @@ We can use the `npm link` command to do this.
 
 Create a `wikimedia-page-library` symlink:
 ```
-cd ~/wikimedia-page-library/
+cd wikimedia-page-library
 npm link
 ```
 
@@ -106,7 +106,7 @@ Now NPM is "pointing" to our local copy of `wikimedia-page-library` and when the
 
 Don't forget to rebuild the local copy of `wikimedia-page-library` any time you make a change to it (before you run the app's build process), otherwise the app's build process won't "see" the change!
 ```
-cd ~/wikimedia-page-library/
+cd wikimedia-page-library
 npm run-script build
 ```
 
