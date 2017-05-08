@@ -62,14 +62,17 @@ To do this:
 **Step 1** (only need to do this once)
 
 Create a local clone of `wikimedia-page-library`:
-> `git clone https://github.com/wikimedia/wikimedia-page-library.git`
+```
+git clone https://github.com/wikimedia/wikimedia-page-library.git
+```
 
 **Step 2** (do this as needed)
 
 Checkout the branch to be tested:
-> `cd ~/wikimedia-page-library/`
-
-> `git checkout somebranch`
+```
+cd ~/wikimedia-page-library/
+git checkout somebranch
+```
 
 **Step 3** (only need to do this once)
 
@@ -78,18 +81,20 @@ Now we need to temporarily tell NPM to use our local copy of `wikimedia-page-lib
 We can use the `npm link` command to do this.
 
 Create a `wikimedia-page-library` symlink:
-> `cd ~/wikimedia-page-library/`
-
-> `npm link`
+```
+cd ~/wikimedia-page-library/
+npm link
+```
 
 The `npm link` command above configures NPM with a global `wikimedia-page-library` symlink. Note that it infers the name of the package from the package folder we `cd`'ed into. We will use this symlink in the next step. You only have to create this symlink once as long as you don't change the file system location of your local clone of `wikimedia-page-library`.
 
 **Step 4** (do this when you begin testing against a local copy)
 
 Now we have to configure the app's `www/node_modules/` folder to point to the symlink we just created.
-> `cd` to the app's `www/node_modules/` folder
-
-> `npm link wikimedia-page-library`
+```
+`cd` to the app's `www/node_modules/` folder
+npm link wikimedia-page-library
+```
 
 After running the `link` command above, your file system browser should show a symlink folder for `www/node_modules/wikimedia-page-library` instead of a normal folder. 
 
@@ -100,20 +105,20 @@ Now NPM is "pointing" to our local copy of `wikimedia-page-library` and when the
 *Important!* 
 
 Don't forget to rebuild the local copy of `wikimedia-page-library` any time you make a change to it (before you run the app's build process), otherwise the app's build process won't "see" the change!
-
-> `cd ~/wikimedia-page-library/`
-
-> `npm run-script build`
+```
+cd ~/wikimedia-page-library/
+npm run-script build
+```
 
 You may find it helpful to combine this step's command with a command kicking of the respective app's build process into a shortcut of some kind. Most of the development workflow involves make a change to your local copy of `wikimedia-page-library`, telling that local copy to re-build, then telling the app to rebuild.
 
 **Step 6** (do this when you are done testing against the local copy)
 
 When you have finished testing against your local copy of `wikimedia-page-library`, you can simply `unlink` so the app's build process will again pull from the *published* version of `wikimedia-page-library`.
-
-> `cd` to the app's `www/node_modules/` folder
-
-> `npm unlink wikimedia-page-library`
+```
+`cd` to the app's `www/node_modules/` folder
+npm unlink wikimedia-page-library
+```
 
 Note the `un` in the command above.
 
