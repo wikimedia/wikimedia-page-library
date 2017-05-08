@@ -33,25 +33,22 @@ describe('WidenImage', () => {
     })
 
     it('should indicate two images from the fixture be widened', () => {
-      const images = Array.from(document.getElementsByTagName('img')).filter((image) => {
-        return shouldWidenImage(image) && image.classList.contains('imageWhichShouldWiden')
-      })
+      const images = Array.from(document.getElementsByTagName('img')).filter(image =>
+        shouldWidenImage(image) && image.classList.contains('imageWhichShouldWiden'))
       assert.ok(images.length === 2)
     })
 
     it('should indicate four images from the fixture not be widened', () => {
-      const images = Array.from(document.getElementsByTagName('img')).filter((image) => {
-        return !shouldWidenImage(image) && image.classList.contains('imageWhichShouldNotWiden')
-      })
+      const images = Array.from(document.getElementsByTagName('img')).filter(image =>
+        !shouldWidenImage(image) && image.classList.contains('imageWhichShouldNotWiden'))
       assert.ok(images.length === 4)
     })
   })
 
   describe('maybeWidenImage()', () => {
     it('maybeWidenImage always has same return value as shouldWidenImage', () => {
-      const images = Array.from(document.getElementsByTagName('img')).filter((image) => {
-        return shouldWidenImage(image) === maybeWidenImage(image)
-      })
+      const images = Array.from(document.getElementsByTagName('img')).filter(image =>
+        shouldWidenImage(image) === maybeWidenImage(image))
       assert.ok(images.length === 6)
     })
 
@@ -104,9 +101,8 @@ describe('WidenImage', () => {
     })
 
     it('two images from the fixture are actually widened', () => {
-      const images = Array.from(document.getElementsByTagName('img')).filter((image) => {
-        return maybeWidenImage(image) && image.classList.contains('wideImageOverride')
-      })
+      const images = Array.from(document.getElementsByTagName('img')).filter(image =>
+        maybeWidenImage(image) && image.classList.contains('wideImageOverride'))
       assert.ok(images.length === 2)
     })
   })

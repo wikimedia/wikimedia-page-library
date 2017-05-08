@@ -96,11 +96,9 @@ const toggleCollapseClickCallback = function(footerDivClickCallback) {
  * @param {!HTMLElement} table
  * @return {!boolean} true if table should be collapsed, false otherwise.
  */
-const shouldTableBeCollapsed = (table) => {
+const shouldTableBeCollapsed = table => {
   const classBlacklist = ['navbox', 'vertical-navbox', 'navbox-inner', 'metadata', 'mbox-small']
-  const blacklistIntersects = classBlacklist.some((clazz) => {
-    return table.classList.contains(clazz)
-  })
+  const blacklistIntersects = classBlacklist.some(clazz => table.classList.contains(clazz))
   return table.style.display !== 'none' && !blacklistIntersects
 }
 
@@ -108,9 +106,7 @@ const shouldTableBeCollapsed = (table) => {
  * @param {!Element} element
  * @return {!boolean} true if element is an infobox, false otherwise.
  */
-const isInfobox = (element) => {
-  return element.classList.contains('infobox')
-}
+const isInfobox = element => element.classList.contains('infobox')
 
 /**
  * @param {!Document} document
@@ -235,7 +231,7 @@ const collapseTables = (document, content, pageTitle, isMainPage, infoboxTitle, 
  * @param  {?Element} element
  * @return {void}
 */
-const expandCollapsedTableIfItContainsElement = (element) => {
+const expandCollapsedTableIfItContainsElement = element => {
   if (element) {
     const containerSelector = '[class*="app_table_container"]'
     const container = elementUtilities.findClosestAncestor(element, containerSelector)

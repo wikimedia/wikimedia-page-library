@@ -27,3 +27,7 @@ rules:
   no-cond-assign: [2, always]
   no-implicit-coercion: [1, {allow: ['!!']}]
   no-param-reassign: 1
+
+  # ECMAScript 6
+  arrow-body-style: 1
+  arrow-parens: [1, as-needed]

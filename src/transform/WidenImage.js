@@ -8,7 +8,7 @@ import elementUtilities from './ElementUtilities'
  * can take effect.
  * @param  {!HTMLElement} el Element whose ancestors will be widened
  */
-const widenAncestors = (el) => {
+const widenAncestors = el => {
   for (let parentElement = el.parentElement;
     parentElement && !parentElement.classList.contains('content_block');
     parentElement = parentElement.parentElement) {
@@ -29,7 +29,7 @@ const widenAncestors = (el) => {
  * @param  {!HTMLElement} image   The image in question
  * @return {boolean}              Whether 'image' should be widened
  */
-const shouldWidenImage = (image) => {
+const shouldWidenImage = image => {
   // Images within a "<div class='noresize'>...</div>" should not be widened.
   // Example exhibiting links overlaying such an image:
   //   'enwiki > Counties of England > Scope and structure > Local government'
@@ -66,7 +66,7 @@ const shouldWidenImage = (image) => {
  * Removes barriers to images widening taking effect.
  * @param  {!HTMLElement} image   The image in question
  */
-const makeRoomForImageWidening = (image) => {
+const makeRoomForImageWidening = image => {
   widenAncestors(image)
 
   // Remove width and height attributes so wideImageOverride width percentages can take effect.
@@ -78,7 +78,7 @@ const makeRoomForImageWidening = (image) => {
  * Widens the image.
  * @param  {!HTMLElement} image   The image in question
  */
-const widenImage = (image) => {
+const widenImage = image => {
   makeRoomForImageWidening(image)
   image.classList.add('wideImageOverride')
 }
@@ -88,7 +88,7 @@ const widenImage = (image) => {
  * @param  {!HTMLElement} image   The image in question
  * @return {boolean}              Whether or not 'image' was widened
  */
-const maybeWidenImage = (image) => {
+const maybeWidenImage = image => {
   if (shouldWidenImage(image)) {
     widenImage(image)
     return true
