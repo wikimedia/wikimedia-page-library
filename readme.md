@@ -94,7 +94,6 @@ Now we have to configure the app to point to the symlink we just created.
 ```
 cd $NATIVE_APP_REPO/www # Replace $NATIVE_APP_REPO with the path to the Android or iOS repo.
 npm link wikimedia-page-library
-
 ```
 
 After running the `link` command above, your file system browser should show a symlink folder for `www/node_modules/wikimedia-page-library` instead of a normal folder. 
