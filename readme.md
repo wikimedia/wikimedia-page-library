@@ -92,7 +92,7 @@ The `npm link` command above configures NPM with a global `wikimedia-page-librar
 
 Now we have to configure the app to point to the symlink we just created.
 ```
-cd $NATIVE_APP_REPO/www # Replace NATIVE_APP_REPO with the path to the Android or iOS repo.
+cd $NATIVE_APP_REPO/www # Replace $NATIVE_APP_REPO with the path to the Android or iOS repo.
 npm link wikimedia-page-library
 
 ```
@@ -117,7 +117,7 @@ You may find it helpful to combine this step's command with a command kicking of
 
 When you have finished testing against your local copy of `wikimedia-page-library`, you can simply `unlink` so the app's build process will again pull from the *published* version of `wikimedia-page-library`.
 ```
-cd $NATIVE_APP_REPO/www # Replace NATIVE_APP_REPO with the path to the Android or iOS repo.
+cd $NATIVE_APP_REPO/www # Replace $NATIVE_APP_REPO with the path to the Android or iOS repo.
 npm unlink wikimedia-page-library
 ```
 
