@@ -32,17 +32,9 @@ Example file names and locations for an image widening transform:
 Directory names should be lowercase. Filenames should be singular.
 
 ### Functional
-- Prefer to read and modify the CSS class list rather than style attributes or
-  computed styles and prefer to avoid usage of `!important` unless it's
-  necessary for the class styles to be effective. This allows clients to
-  customize appearance with CSS overrides and no JavaScript changes or effects.
-  For example, **WidenImage.js** mentioned above could add/remove a class name
-  from **WidenImage.css** to an element's class list to help achieve image
-  widening.
-- Prefer Minerva and Parsoid style defaults. Any deviations should be deliberate
-  and tightly scoped.
-- Wide screen selectors should apply to devices in landscape orientation or
-  portrait orientation and >= 768px wide.
+- Prefer to read and modify the CSS class list rather than style attributes or computed styles and prefer to avoid usage of `!important` unless it's necessary for the class styles to be effective. This allows clients to customize appearance with CSS overrides and no JavaScript changes or effects. For example, **WidenImage.js** mentioned above could add/remove a class name from **WidenImage.css** to an element's class list to help achieve image widening.
+- Prefer Minerva and Parsoid style defaults. Any deviations should be deliberate and tightly scoped.
+- Wide screen selectors should apply to devices in landscape orientation or portrait orientation and >= 768px wide.
 - Prefer `undefined` to `null`.
 
 ### Naming
@@ -76,7 +68,7 @@ git checkout somebranch
 
 **Step 3** (only need to do this once)
 
-Now we need to temporarily tell NPM to use our local copy of `wikimedia-page-library` so when we run the app's build process and it runs `npm install`, our local copy of  `wikimedia-page-library` will be used instead of the published one.
+Now we need to temporarily tell NPM to use our local copy of `wikimedia-page-library` so when we run the app's build process and it runs `npm install`, our local copy of `wikimedia-page-library` will be used instead of the published one.
 
 We can use the `npm link` command to do this.
 
@@ -125,12 +117,7 @@ Note the `un` in the command above.
 After running the `unlink` command above, your file system browser should again show a normal folder for `www/node_modules/wikimedia-page-library` instead of a symlink folder.
 
 ### Lint
-ESLint is executed prior to commits and publishing to identify cataloged style
-and functionality concerns. Linting may also be performed by running
-`npm run -s lint:all`. When a violation is detected, it may be fixed manually or
-suppressed by [selectively disabling the rule] (e.g,
-`// eslint-disable-line no-magic-number`). Some rules support automated fixes
-via `npm run -s lint -- --fix .`.
+ESLint is executed prior to commits and publishing to identify cataloged style and functionality concerns. Linting may also be performed by running `npm run -s lint:all`. When a violation is detected, it may be fixed manually or suppressed by [selectively disabling the rule] (e.g, `// eslint-disable-line no-magic-number`). Some rules support automated fixes via `npm run -s lint -- --fix .`.
 
 [selectively disabling the rule]: http://eslint.org/docs/user-guide/configuring#disabling-rules-with-inline-comments
 
@@ -139,13 +126,8 @@ via `npm run -s lint -- --fix .`.
 ## License
 Copyright 2017 Wikimedia Foundation
 
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 
   http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software distributed
-under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-CONDITIONS OF ANY KIND, either express or implied. See the License for the
-specific language governing permissions and limitations under the License.
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
