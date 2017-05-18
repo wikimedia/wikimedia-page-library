@@ -1,10 +1,14 @@
+// Classes used to identify image and video placeholders yet to be loaded. These classes should
+// match those in LazyLoadTransformer.css.
+const PLACEHOLDER_IMAGE_CLASS = 'pagelib-lazy-load-image-placeholder'
+const PLACEHOLDER_VIDEO_CLASS = 'pagelib-lazy-load-video-placeholder'
+
 // Selector used to identify transformable elements.
 const TRANSFORM_SELECTOR
-  = 'img:not(.pagelib-lazy-load-image-placeholder), video:not(.pagelib-lazy-load-video-placeholder)'
+  = `img:not(.${PLACEHOLDER_IMAGE_CLASS}), video:not(.${PLACEHOLDER_VIDEO_CLASS})`
 
 // Selector used to identify elements previously transformed.
-const INVERT_SELECTOR
-  = 'img.pagelib-lazy-load-image-placeholder, video.pagelib-lazy-load-video-placeholder'
+const INVERT_SELECTOR = `img.${PLACEHOLDER_IMAGE_CLASS}, video.${PLACEHOLDER_VIDEO_CLASS}`
 
 /**
  * A mapping of attribute names to placeholder values for an HTML tag. For transformations, an
@@ -20,14 +24,14 @@ const PLACEHOLDER_IMAGE_URI
 
 /** @type {PlaceholderTagAttributes} */
 const PLACEHOLDER_IMAGE_ATTRIBUTES = {
-  class: 'pagelib-lazy-load-image-placeholder',
+  class: PLACEHOLDER_IMAGE_CLASS,
   src: PLACEHOLDER_IMAGE_URI,
   srcset: PLACEHOLDER_IMAGE_URI
 }
 
 /** @type {PlaceholderTagAttributes} */
 const PLACEHOLDER_VIDEO_ATTRIBUTES = {
-  class: 'pagelib-lazy-load-video-placeholder', poster: PLACEHOLDER_IMAGE_URI
+  class: PLACEHOLDER_VIDEO_CLASS, poster: PLACEHOLDER_IMAGE_URI
 }
 
 /**
