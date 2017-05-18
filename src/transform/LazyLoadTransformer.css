@@ -1,0 +1,7 @@
+/* Lazily loaded images that have not yet been loaded are marked with this class. */
+.pagelib-lazy-load-image-placeholder {
+}
+
+/* Lazily loaded videos that have not yet been loaded are marked with this class. */
+.pagelib-lazy-load-video-placeholder {
+}

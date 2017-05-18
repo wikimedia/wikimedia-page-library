@@ -4,6 +4,9 @@ parserOptions:
   ecmaVersion: 6
   sourceType: module
 
+env:
+  browser: true
+
 rules:
   # Best Practices
   no-else-return: 1

@@ -40,9 +40,7 @@ Directory names should be lowercase. Filenames should be singular.
 ### Naming
 - JS function names use camelCase
 - JS module names use PascalCase
-- CSS class names use camelCase
-
-*todo: evaluate common prefix like `pagelib` and BEM naming.*
+- CSS class names use shish-kebab-case; `pagelib-class-name-element-state` (note: class name omits the word "Transformer").
 
 ## Development setup and workflow
 The Android and iOS Wikipedia apps make use of the `wikimedia-page-library`. At some point their respective build phases invoke `npm install` which causes a *published* version of this library to be retrieved and used in their respective builds. 
