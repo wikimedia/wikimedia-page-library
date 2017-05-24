@@ -1,16 +1,16 @@
 import assert from 'assert'
 import domino from 'domino'
-import transform from '../../build/wikimedia-page-library-transform'
+import transforms from '../../build/wikimedia-page-library-transform'
 
-describe('LazyLoadTransformer', () => {
-  const transformer = transform.LazyLoadTransformer
+describe('LazyLoadTransform', () => {
+  const transform = transforms.test.LazyLoadTransform
 
   // Add expected browser Element types to environment.
   global.HTMLImageElement = domino.impl.HTMLImageElement
   global.HTMLVideoElement = domino.impl.HTMLVideoElement
 
   describe('transformAttributes()', () => {
-    const transformAttributes = transformer.test.transformAttributes
+    const transformAttributes = transform.test.transformAttributes
 
     describe('when the attribute to transform is not present', () => {
       const element = domino.createDocument('<a href=/>link</a>').querySelector('a')
@@ -81,7 +81,7 @@ describe('LazyLoadTransformer', () => {
   })
 
   describe('invertAttributes()', () => {
-    const invertAttributes = transformer.test.invertAttributes
+    const invertAttributes = transform.test.invertAttributes
 
     describe('when the data-* attribute to restore is not present', () => {
       const element = domino.createDocument('<a id=a href=/>link</a>').querySelector('a')
@@ -118,7 +118,7 @@ describe('LazyLoadTransformer', () => {
       /** @type {PlaceholderTagAttributes} */
       const attributes = { className: 'class', href: '/b' }
 
-      transformer.test.transformAttributes(element, attributes)
+      transform.test.transformAttributes(element, attributes)
       invertAttributes(element, attributes)
 
       it('the result is lossless', () => assert.ok(element.outerHTML === html))
@@ -126,7 +126,7 @@ describe('LazyLoadTransformer', () => {
   })
 
   describe('transformElement()', () => {
-    const transformElement = transformer.test.transformElement
+    const transformElement = transform.test.transformElement
 
     describe('when an image is transformed', () => {
       const element = domino.createDocument('<img class=a src=/>').querySelector('img')
@@ -167,7 +167,7 @@ describe('LazyLoadTransformer', () => {
   })
 
   describe('invertElement()', () => {
-    const invertElement = transformer.test.invertElement
+    const invertElement = transform.test.invertElement
 
     describe('when an image placeholder is inverted', () => {
       const html = `<img class=pagelib-lazy-load-image-placeholder data-class='a b' src=data:
@@ -213,7 +213,7 @@ describe('LazyLoadTransformer', () => {
       const element = domino.createDocument('<img class=a src=/>').querySelector('img')
       const html = element.outerHTML
 
-      transformer.test.transformElement(element)
+      transform.test.transformElement(element)
       invertElement(element)
 
       it('the result is lossless', () => assert.ok(element.outerHTML === html))
@@ -225,7 +225,7 @@ describe('LazyLoadTransformer', () => {
       const html = '<a href=/><video src=/></video></a><img src=/><a href=/></a>'
       const element = domino.createDocument(html).documentElement
 
-      transformer.transform(element)
+      transform.transform(element)
 
       it('the unsupported elements are unmodified', () => {
         const elements = Array.from(element.querySelectorAll('a'))
@@ -244,7 +244,7 @@ describe('LazyLoadTransformer', () => {
       const element = domino.createDocument(html).documentElement
       html = element.outerHTML
 
-      transformer.transform(element)
+      transform.transform(element)
 
       it('the tree is unmodified', () => assert.ok(element.outerHTML === html))
     })
@@ -253,7 +253,7 @@ describe('LazyLoadTransformer', () => {
       const element = domino.createDocument('<html></html>').documentElement
       const html = element.outerHTML
 
-      transformer.transform(element)
+      transform.transform(element)
 
       it('the tree is unmodified', () => assert.ok(element.outerHTML === html))
     })
@@ -267,7 +267,7 @@ describe('LazyLoadTransformer', () => {
         <a href=/></a>`
       const element = domino.createDocument(html).documentElement
 
-      transformer.invert(element)
+      transform.invert(element)
 
       it('all transforms are undone', () => {
         const elements = Array.from(element.querySelectorAll('[class^=pagelib-]'))
@@ -279,7 +279,7 @@ describe('LazyLoadTransformer', () => {
       const element = domino.createDocument('<img src=/>').documentElement
       const html = element.outerHTML
 
-      transformer.invert(element)
+      transform.invert(element)
 
       it('the tree is unmodified', () => assert.ok(element.outerHTML === html))
     })
@@ -288,7 +288,7 @@ describe('LazyLoadTransformer', () => {
       const element = domino.createDocument('<html></html>').documentElement
       const html = element.outerHTML
 
-      transformer.invert(element)
+      transform.invert(element)
 
       it('the tree is unmodified', () => assert.ok(element.outerHTML === html))
     })
@@ -297,8 +297,8 @@ describe('LazyLoadTransformer', () => {
       const element = domino.createDocument('<img class=a src=/>').documentElement
       const html = element.outerHTML
 
-      transformer.transform(element)
-      transformer.invert(element)
+      transform.transform(element)
+      transform.invert(element)
 
       it('the result is lossless', () => assert.ok(element.outerHTML === html))
     })

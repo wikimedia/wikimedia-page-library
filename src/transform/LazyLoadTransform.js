@@ -1,5 +1,5 @@
 // Classes used to identify image and video placeholders yet to be loaded. These classes should
-// match those in LazyLoadTransformer.css.
+// match those in LazyLoadTransform.css.
 const PLACEHOLDER_IMAGE_CLASS = 'pagelib-lazy-load-image-placeholder'
 const PLACEHOLDER_VIDEO_CLASS = 'pagelib-lazy-load-video-placeholder'
 

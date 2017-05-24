@@ -1,9 +1,7 @@
 /* Lazily loaded images that have not yet been loaded are marked with this class. This class must
-   match LazyLoadTransformer.PLACEHOLDER_IMAGE_CLASS. */
-.pagelib-lazy-load-image-placeholder {
-}
+   match LazyLoadTransform.PLACEHOLDER_IMAGE_CLASS. */
+.pagelib-lazy-load-image-placeholder {}
 
 /* Lazily loaded videos that have not yet been loaded are marked with this class. This class must
-   match LazyLoadTransformer.PLACEHOLDER_VIDEO_CLASS. */
-.pagelib-lazy-load-video-placeholder {
-}
+   match LazyLoadTransform.PLACEHOLDER_VIDEO_CLASS. */
+.pagelib-lazy-load-video-placeholder {}
