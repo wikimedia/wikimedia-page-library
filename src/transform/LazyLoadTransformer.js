@@ -24,9 +24,7 @@ const PLACEHOLDER_IMAGE_URI
 
 /** @type {PlaceholderTagAttributes} */
 const PLACEHOLDER_IMAGE_ATTRIBUTES = {
-  class: PLACEHOLDER_IMAGE_CLASS,
-  src: PLACEHOLDER_IMAGE_URI,
-  srcset: PLACEHOLDER_IMAGE_URI
+  class: PLACEHOLDER_IMAGE_CLASS, src: PLACEHOLDER_IMAGE_URI, srcset: PLACEHOLDER_IMAGE_URI
 }
 
 /** @type {PlaceholderTagAttributes} */
