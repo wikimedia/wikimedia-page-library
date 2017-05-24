@@ -67,4 +67,16 @@ describe('ElementUtilities', () => {
       assert.ok(elementUtilities.isNestedInTable(document.getElementById('divInTable')))
     })
   })
+
+  describe('querySelectorAllInclusive()', () => {
+    it('selects child', () => {
+      const element = document.querySelector('table')
+      assert.ok(elementUtilities.querySelectAllInclusive(element, 'tr')[0].tagName === 'TR')
+    })
+
+    it('selects self', () => {
+      const element = document.querySelector('table')
+      assert.ok(elementUtilities.querySelectAllInclusive(element, 'table')[0].tagName === 'TABLE')
+    })
+  })
 })

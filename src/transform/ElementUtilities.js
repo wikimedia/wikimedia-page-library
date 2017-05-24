@@ -43,8 +43,20 @@ const findClosestAncestor = (el, selector) => {
  */
 const isNestedInTable = el => Boolean(findClosestAncestor(el, 'table'))
 
+/**
+ * Like Element.querySelectorAll() but considers the root element too.
+ * @param {!Element} element
+ * @return {!Element[]}
+ */
+const querySelectAllInclusive = (element, selector) => {
+  const matches = Array.from(element.querySelectorAll(selector))
+  if (matchesSelectorCompat(element, selector)) { matches.unshift(element) }
+  return matches
+}
+
 export default {
   matchesSelectorCompat,
   findClosestAncestor,
-  isNestedInTable
+  isNestedInTable,
+  querySelectAllInclusive
 }

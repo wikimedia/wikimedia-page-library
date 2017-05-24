@@ -1,3 +1,5 @@
+import ElementUtilities from './ElementUtilities'
+
 // Classes used to identify image and video placeholders yet to be loaded. These classes should
 // match those in LazyLoadTransform.css.
 const PLACEHOLDER_IMAGE_CLASS = 'pagelib-lazy-load-image-placeholder'
@@ -98,6 +100,21 @@ const invertElement = element => {
 }
 
 /**
+ * @param {!Element} element
+ * @return {!Element[]} Transformable elements descendent from and including element.
+ */
+const queryTransformElements = element =>
+  ElementUtilities.querySelectAllInclusive(element, TRANSFORM_SELECTOR)
+
+
+/**
+ * @param {!Element} element
+ * @return {!Element[]} Invertible elements descendent from and including element.
+ */
+const queryInvertElements = element =>
+  ElementUtilities.querySelectAllInclusive(element, INVERT_SELECTOR)
+
+/**
  * Replaces all images and videos with placeholders descendent from and including element:
  * - Image class, src, and srcset, and video class and poster attributes are moved to data-*
  *   attributes if set.
@@ -107,11 +124,7 @@ const invertElement = element => {
  * @param {!Element} element
  * @return {void}
  */
-const transform = element => {
-  const matches = element.querySelectorAll(TRANSFORM_SELECTOR)
-  if (element.matches(TRANSFORM_SELECTOR)) { matches.unshift(element) }
-  matches.forEach(transformElement)
-}
+const transform = element => queryTransformElements(element).forEach(transformElement)
 
 /**
  * Undoes transform() and replaces all placeholder with their original contents. This method is safe
@@ -120,14 +133,12 @@ const transform = element => {
  * @param {!Element} element
  * @return {void}
  */
-const invert = element => {
-  const matches = element.querySelectorAll(INVERT_SELECTOR)
-  if (element.matches(INVERT_SELECTOR)) { matches.unshift(element) }
-  matches.forEach(invertElement)
-}
+const invert = element => queryInvertElements(element).forEach(invertElement)
 
 export default {
   test: { transformAttributes, invertAttributes, transformElement, invertElement },
+  queryTransformElements,
+  queryInvertElements,
   transform,
   invert
 }
