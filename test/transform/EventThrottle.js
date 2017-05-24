@@ -1,4 +1,4 @@
-import Timer from '../utilities/Timer'
+import WindowTimer from '../utilities/WindowTimer'
 import assert from 'assert'
 import domino from 'domino'
 import pagelib from '../../build/wikimedia-page-library-transform'
@@ -9,7 +9,7 @@ describe('EventThrottle', function Test() {
   const THROTTLED_EVENT = new domino.impl.CustomEvent('scroll:throttled')
 
   beforeEach(() => {
-    this.window = new Timer()
+    this.window = new WindowTimer()
     this.window.scroll = undefined
     this.window.addEventListener = (eventType, scroll) => { this.window.scroll = scroll }
     this.window.removeEventListener = () => { this.window.scroll = undefined }

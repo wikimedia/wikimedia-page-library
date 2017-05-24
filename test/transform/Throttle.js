@@ -1,4 +1,4 @@
-import Timer from '../utilities/Timer'
+import WindowTimer from '../utilities/WindowTimer'
 import assert from 'assert'
 import pagelib from '../../build/wikimedia-page-library-transform'
 
@@ -6,7 +6,7 @@ describe('Throttle', function Test() {
   const Throttle = pagelib.test.Throttle
 
   beforeEach(() => {
-    this.window = new Timer()
+    this.window = new WindowTimer()
     this.sample = 0
     this.throttled = Throttle.wrap(this.window, Number.POSITIVE_INFINITY, value => {
       this.sample += value
