@@ -1,51 +1,51 @@
-const SCROLL_EVENT_TYPE = 'scroll'
+import Throttle from './Throttle'
 
-/**
- * This class provides a mechanism to subscribe to rate limited scroll events. The events emitted
- * occur at a maximum frequency of the display refresh rate.
- */
-export default class ThrottledScrollEventEmitter {
-  /** @return {!string} */
-  static get DEFAULT_EVENT_TYPE() { return 'scroll:throttled' }
+// todo: rename EventThrottler
 
+/** This class provides a mechanism to subscribe to rate limited events. */
+export default class {
   /**
    * @param {!Window} window A dependency of the throttle mechanism.
-   * @param {?EventTarget} eventTarget The target to subscribe to scroll events and post throttled
-   *                                   scroll events to, window if unspecified.
-   * @param {?Event} throttledScrollEvent Event to be emitted. If unspecified, a "scroll:throttled"
-   *                                      CustomEvent if unspecified.   */
-  constructor(window, eventTarget, throttledScrollEvent) {
-    this._frameRequestId = 0
-    this._throttled = false
-    this._window = window
-    this._eventTarget = eventTarget || window
-    this._throttledScrollEvent = throttledScrollEvent
-      || new CustomEvent(ThrottledScrollEventEmitter.DEFAULT_EVENT_TYPE)
-    this._onScrollCallback = () => this._onScroll()
+   * @param {!number} period The nonnegative minimum number of milliseconds between posting events.
+   */
+  constructor(window, period) {
+    this._throttle = Throttle.wrap(window, period, () =>
+      this._eventTarget.dispatchEvent(this._postEvent))
+
+    this._eventTarget = undefined
+    this._subscribeEventType = undefined
+    this._postEvent = undefined
   }
 
-  /** @return {void} */
-  register() { this._eventTarget.addEventListener(SCROLL_EVENT_TYPE, this._onScrollCallback) }
+  /**
+   * @param {!EventTarget} eventTarget The target to subscribe to events from and post throttled
+   *                                   events to.
+   * @param {!string} subscribeEventType The input event type to subscribe to.
+   * @param {!Event} postEvent The output event to post.
+   * @return {void}
+   */
+  register(eventTarget, subscribeEventType, postEvent) {
+    this._eventTarget = eventTarget
+    this._subscribeEventType = subscribeEventType
+    this._postEvent = postEvent
+    this._eventTarget.addEventListener(subscribeEventType, this._throttle)
+  }
 
-  /** @return {void} */
+  /** @return {!boolean} */
+  registered() { return Boolean(this._eventTarget) }
+
+  /**
+   * This method may safely be called even when unregistered.
+   * @return {void}
+   */
   deregister() {
-    if (this._frameRequestId) {
-      this._window.cancelAnimationFrame(this._frameRequestId)
-      this._frameRequestId = 0
-      this._throttled = false
-    }
+    if (!this.registered()) { return }
 
-    this._eventTarget.removeEventListener(SCROLL_EVENT_TYPE, this._onScrollCallback)
-  }
+    this._eventTarget.removeEventListener(this._subscribeEventType, this._throttle)
+    this._postEvent = undefined
+    this._subscribeEventType = undefined
+    this._eventTarget = undefined
 
-  /** @return {void} */
-  _onScroll() {
-    if (!this._throttled) {
-      this._frameRequestId = this._window.requestAnimationFrame(() => {
-        this._eventTarget.dispatchEvent(this._throttledScrollEvent)
-        this._throttled = false
-      })
-    }
-    this._throttled = true
+    this._throttle.reset()
   }
 }

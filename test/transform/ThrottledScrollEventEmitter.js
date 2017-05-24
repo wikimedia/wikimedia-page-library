@@ -1,109 +1,97 @@
+import Timer from '../utilities/Timer'
 import assert from 'assert'
 import domino from 'domino'
 import pagelib from '../../build/wikimedia-page-library-transform'
 
-describe('ThrottledScrollEventEmitter', () => {
+describe('ThrottledScrollEventEmitter', function Test() {
   const ThrottledScrollEventEmitter = pagelib.test.ThrottledScrollEventEmitter
+  const SCROLL_EVENT_TYPE = 'scroll'
+  const THROTTLED_EVENT = new domino.impl.CustomEvent('scroll:throttled')
 
-  // Add expected browser CustomEvent type to environment.
-  global.CustomEvent = domino.impl.CustomEvent
+  beforeEach(() => {
+    this.window = new Timer()
+    this.window.scroll = undefined
+    this.window.addEventListener = (eventType, scroll) => { this.window.scroll = scroll }
+    this.window.removeEventListener = () => { this.window.scroll = undefined }
 
-  beforeEach(function Test() {
-    const window = domino.createWindow()
-
-    // Domino doesn't implement Window.scroll*(), requestAnimationFrame(), or cancelAnimationFrame()
-    // methods.
-    this.scroll = () => window.dispatchEvent(new domino.impl.Event('scroll'))
-
-    this.callbacks = []
-    window.requestAnimationFrame = callback => { this.callbacks.push(callback); return 1 }
-    window.cancelAnimationFrame = () => this.callbacks.pop()
-    this.issueAnimationFrame = () => {
-      this.callbacks.forEach(callback => {
-        callback()
-      })
-      this.callbacks = []
-    }
-
-    this.registerEventCallback = callback =>
-      window.addEventListener(ThrottledScrollEventEmitter.DEFAULT_EVENT_TYPE, callback)
-    this.deregisterEventCallback = callback =>
-      window.removeEventListener(ThrottledScrollEventEmitter.DEFAULT_EVENT_TYPE, callback)
-
-    this.subject = new ThrottledScrollEventEmitter(window)
+    this.subject = new ThrottledScrollEventEmitter(this.window, 0)
   })
 
   describe('register()', () => {
-    it('when unregistered, no event is emitted', function Test() {
-      this.registerEventCallback(assert.fail)
-      this.scroll()
-      this.issueAnimationFrame()
-      this.deregisterEventCallback(assert.fail)
+    describe('when unregistered', () => {
+      it('no event is posted', () => assert.ok(!this.window.timeout))
+      it('no event is subscribed', () => assert.ok(!this.window.scroll))
     })
 
     describe('when registered', () => {
-      beforeEach(function Test() { this.subject.register() })
-      afterEach(function Test() { this.subject.deregister() })
+      beforeEach(() => this.subject.register(this.window, SCROLL_EVENT_TYPE, THROTTLED_EVENT.type))
+      afterEach(() => { this.subject.deregister() })
 
-      it('and scrolled, no event is emitted', function Test() {
-        this.registerEventCallback(assert.fail)
-        this.scroll()
-        this.deregisterEventCallback(assert.fail)
+      it('no event is posted', () => assert.ok(!this.window.timeout))
+
+      it('events are subscribed', () => assert.ok(this.window.scroll))
+
+      it('and not scrolled, no event is posted', () => assert.ok(!this.window.timeout))
+
+      it('and scrolled, no event is posted', () => {
+        this.window.dispatchEvent = assert.fail
+        this.window.scroll()
       })
 
-      it('and a new frame, no event is emitted', function Test() {
-        this.registerEventCallback(assert.fail)
-        this.issueAnimationFrame()
-        this.deregisterEventCallback(assert.fail)
-      })
+      describe('and scrolled', () => {
+        beforeEach(() => this.window.scroll())
 
-      // eslint-disable-next-line max-len
-      it('and deregistered after a scroll and reregistered with a scroll and new frame, an event is emitted', function Test(done) {
-        this.scroll()
-        this.subject.deregister()
-        this.subject.register()
-        this.scroll()
-
-        const callback = () => done() // eslint-disable-line require-jsdoc
-        this.registerEventCallback(callback)
-        this.issueAnimationFrame()
-        this.deregisterEventCallback(callback)
-      })
-
-      it('and scrolled and a new frame, an event is emitted', function Test(done) {
-        this.scroll()
-
-        const callback = () => done() // eslint-disable-line require-jsdoc
-        this.registerEventCallback(callback)
-        this.issueAnimationFrame()
-        this.deregisterEventCallback(callback)
-      })
-
-      describe('and an event is emitted', () => {
-        beforeEach(function Test() {
-          this.scroll()
-          this.issueAnimationFrame()
+        it('and a timeout, an event is posted', done => {
+          this.window.dispatchEvent = () => done()
+          this.window.timeout()
         })
 
-        it('and scrolled, no event is emitted', function Test() {
-          this.registerEventCallback(assert.fail)
-          this.scroll()
-          this.deregisterEventCallback(assert.fail)
+        it('and a timeout, one event is posted', () => {
+          this.window.dispatchEvent = () => {}
+          this.window.timeout()
+          assert.ok(this.window.sets === 1)
         })
 
-        it('and a new frame, no event is emitted', function Test() {
-          this.registerEventCallback(assert.fail)
-          this.issueAnimationFrame()
-          this.deregisterEventCallback(assert.fail)
+        describe('and scrolled again', () => {
+          beforeEach(() => this.window.scroll())
+
+          it('and a timeout, an event is posted', done => {
+            this.window.dispatchEvent = () => done()
+            this.window.timeout()
+          })
+
+          it('and a timeout, one event is posted', () => {
+            this.window.dispatchEvent = () => {}
+            this.window.timeout()
+            assert.ok(this.window.sets === 1)
+          })
         })
 
-        it('and scrolled and a new frame, an event is emitted', function Test(done) {
-          this.scroll()
+        describe('and deregistered and registered', () => {
+          beforeEach(() => {
+            this.subject.deregister()
+            this.subject.register(this.window, SCROLL_EVENT_TYPE, THROTTLED_EVENT.type)
+          })
 
-          const callback = () => done() // eslint-disable-line require-jsdoc
-          this.registerEventCallback(callback)
-          this.issueAnimationFrame()
-          this.deregisterEventCallback(callback)
+          it('no event is posted', () => assert.ok(this.window.sets === 1))
+
+          it('events are subscribed', () => assert.ok(this.window.scroll))
+
+          it('and scrolled, no event is posted', () => {
+            this.window.dispatchEvent = assert.fail
+            this.window.scroll()
+          })
+
+          it('and a timeout, an event is posted', done => {
+            this.window.dispatchEvent = () => done()
+            this.window.timeout()
+          })
+
+          it('and a timeout, one event is posted', () => {
+            this.window.dispatchEvent = () => {}
+            this.window.timeout()
+            assert.ok(this.window.sets === 1)
+          })
         })
       })
     })
@@ -111,26 +99,23 @@ describe('ThrottledScrollEventEmitter', () => {
 
   describe('deregister()', () => {
     describe('when registered', () => {
-      beforeEach(function Test() {
-        this.subject.register()
+      beforeEach(() => this.subject.register(this.window, SCROLL_EVENT_TYPE, THROTTLED_EVENT.type))
+
+      describe('and deregistered', () => {
+        beforeEach(() => this.subject.deregister())
+
+        it('no event is posted', () => assert.ok(!this.window.timeout))
+        it('no event is subscribed', () => assert.ok(!this.window.scroll))
       })
 
-      it('and deregistered, no event is emitted', function Test() {
-        this.subject.deregister()
+      describe('and scrolled and deregistered', () => {
+        beforeEach(() => {
+          this.window.scroll()
+          this.subject.deregister()
+        })
 
-        this.registerEventCallback(assert.fail)
-        this.scroll()
-        this.issueAnimationFrame()
-        this.deregisterEventCallback(assert.fail)
-      })
-
-      it('and scrolled then deregistered, no event is emitted', function Test() {
-        this.scroll()
-        this.subject.deregister()
-
-        this.registerEventCallback(assert.fail)
-        this.issueAnimationFrame()
-        this.deregisterEventCallback(assert.fail)
+        it('no event is posted', () => assert.ok(this.window.sets === this.window.clears))
+        it('no event is subscribed', () => assert.ok(!this.window.scroll))
       })
     })
   })
