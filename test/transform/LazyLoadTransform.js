@@ -221,6 +221,15 @@ describe('LazyLoadTransform', () => {
   })
 
   describe('transform()', () => {
+    describe('when an element is transformed', () => {
+      const element = domino.createDocument('<img src=/>').querySelector('img')
+
+      transform.transform(element)
+
+      it('the element is transformed', () =>
+        assert.ok(element.classList.contains('pagelib-lazy-load-image-placeholder')))
+    })
+
     describe('when a tree is transformed', () => {
       const html = '<a href=/><video src=/></video></a><img src=/><a href=/></a>'
       const element = domino.createDocument(html).documentElement
@@ -260,6 +269,16 @@ describe('LazyLoadTransform', () => {
   })
 
   describe('invert()', () => {
+    describe('when an element is inverted', () => {
+      const html = `
+        <img class=pagelib-lazy-load-image-placeholder src=data: data-src=/ srcset=data:>`
+      const element = domino.createDocument(html).querySelector('img')
+
+      transform.invert(element)
+
+      it('the transform is undone', () => assert.ok(!element.classList.length))
+    })
+
     describe('when a tree is inverted', () => {
       const html = `
         <a href=/><video class=pagelib-lazy-load-video-placeholder src=/ poster=data:></video></a>

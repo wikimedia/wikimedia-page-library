@@ -98,7 +98,7 @@ const invertElement = element => {
 }
 
 /**
- * Replaces all images and videos with placeholders:
+ * Replaces all images and videos with placeholders descendent from and including element:
  * - Image class, src, and srcset, and video class and poster attributes are moved to data-*
  *   attributes if set.
  * - Image and video class' are set to pagelib-lazy-load-*-placeholder.
@@ -107,15 +107,24 @@ const invertElement = element => {
  * @param {!Element} element
  * @return {void}
  */
-const transform = element => element.querySelectorAll(TRANSFORM_SELECTOR).forEach(transformElement)
+const transform = element => {
+  const matches = element.querySelectorAll(TRANSFORM_SELECTOR)
+  if (element.matches(TRANSFORM_SELECTOR)) { matches.unshift(element) }
+  matches.forEach(transformElement)
+}
 
 /**
  * Undoes transform() and replaces all placeholder with their original contents. This method is safe
- * to call multiple times.
+ * to call multiple times. This transform affects all elements descendent from and including
+ * element.
  * @param {!Element} element
  * @return {void}
  */
-const invert = element => element.querySelectorAll(INVERT_SELECTOR).forEach(invertElement)
+const invert = element => {
+  const matches = element.querySelectorAll(INVERT_SELECTOR)
+  if (element.matches(INVERT_SELECTOR)) { matches.unshift(element) }
+  matches.forEach(invertElement)
+}
 
 export default {
   test: { transformAttributes, invertAttributes, transformElement, invertElement },
