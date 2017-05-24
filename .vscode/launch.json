@@ -7,14 +7,12 @@
       "request": "launch",
       "name": "Mocha Tests",
       "cwd": "${workspaceRoot}",
-      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/mocha",
+      "runtimeExecutable": "mocha",
       "runtimeArgs": [
-        "-u",
-        "tdd",
-        "--timeout",
-        "999999",
-        "--colors",
-        "${workspaceRoot}/test"
+        "-u", "tdd",
+        "-t", "999999",
+        "-c",
+        "test/**/*.js"
       ],
       "internalConsoleOptions": "openOnSessionStart"
     }
