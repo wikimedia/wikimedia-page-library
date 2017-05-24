@@ -1,7 +1,5 @@
 import Throttle from './Throttle'
 
-// todo: rename EventThrottler
-
 /** This class provides a mechanism to subscribe to rate limited events. */
 export default class {
   /**

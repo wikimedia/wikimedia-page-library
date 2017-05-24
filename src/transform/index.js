@@ -1,8 +1,8 @@
 import CollapseTable from './CollapseTable'
 import ElementUtilities from './ElementUtilities'
+import EventThrottle from './EventThrottle'
 import LazyLoadTransformer from './LazyLoadTransformer'
 import Throttle from './Throttle'
-import ThrottledScrollEventEmitter from './ThrottledScrollEventEmitter'
 import WidenImage from './WidenImage'
 
 export default {
@@ -10,6 +10,6 @@ export default {
   LazyLoadTransformer,
   WidenImage,
   test: {
-    ElementUtilities, Throttle, ThrottledScrollEventEmitter
+    ElementUtilities, EventThrottle, Throttle
   }
 }

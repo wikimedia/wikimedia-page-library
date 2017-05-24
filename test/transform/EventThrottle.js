@@ -3,8 +3,8 @@ import assert from 'assert'
 import domino from 'domino'
 import pagelib from '../../build/wikimedia-page-library-transform'
 
-describe('ThrottledScrollEventEmitter', function Test() {
-  const ThrottledScrollEventEmitter = pagelib.test.ThrottledScrollEventEmitter
+describe('EventThrottle', function Test() {
+  const EventThrottle = pagelib.test.EventThrottle
   const SCROLL_EVENT_TYPE = 'scroll'
   const THROTTLED_EVENT = new domino.impl.CustomEvent('scroll:throttled')
 
@@ -14,7 +14,7 @@ describe('ThrottledScrollEventEmitter', function Test() {
     this.window.addEventListener = (eventType, scroll) => { this.window.scroll = scroll }
     this.window.removeEventListener = () => { this.window.scroll = undefined }
 
-    this.subject = new ThrottledScrollEventEmitter(this.window, 0)
+    this.eventThrottle = new EventThrottle(this.window, 0)
   })
 
   describe('register()', () => {
@@ -24,8 +24,9 @@ describe('ThrottledScrollEventEmitter', function Test() {
     })
 
     describe('when registered', () => {
-      beforeEach(() => this.subject.register(this.window, SCROLL_EVENT_TYPE, THROTTLED_EVENT.type))
-      afterEach(() => { this.subject.deregister() })
+      beforeEach(() =>
+        this.eventThrottle.register(this.window, SCROLL_EVENT_TYPE, THROTTLED_EVENT.type))
+      afterEach(() => { this.eventThrottle.deregister() })
 
       it('no event is posted', () => assert.ok(!this.window.timeout))
 
@@ -69,8 +70,8 @@ describe('ThrottledScrollEventEmitter', function Test() {
 
         describe('and deregistered and registered', () => {
           beforeEach(() => {
-            this.subject.deregister()
-            this.subject.register(this.window, SCROLL_EVENT_TYPE, THROTTLED_EVENT.type)
+            this.eventThrottle.deregister()
+            this.eventThrottle.register(this.window, SCROLL_EVENT_TYPE, THROTTLED_EVENT.type)
           })
 
           it('no event is posted', () => assert.ok(this.window.sets === 1))
@@ -99,10 +100,11 @@ describe('ThrottledScrollEventEmitter', function Test() {
 
   describe('deregister()', () => {
     describe('when registered', () => {
-      beforeEach(() => this.subject.register(this.window, SCROLL_EVENT_TYPE, THROTTLED_EVENT.type))
+      beforeEach(() =>
+        this.eventThrottle.register(this.window, SCROLL_EVENT_TYPE, THROTTLED_EVENT.type))
 
       describe('and deregistered', () => {
-        beforeEach(() => this.subject.deregister())
+        beforeEach(() => this.eventThrottle.deregister())
 
         it('no event is posted', () => assert.ok(!this.window.timeout))
         it('no event is subscribed', () => assert.ok(!this.window.scroll))
@@ -111,7 +113,7 @@ describe('ThrottledScrollEventEmitter', function Test() {
       describe('and scrolled and deregistered', () => {
         beforeEach(() => {
           this.window.scroll()
-          this.subject.deregister()
+          this.eventThrottle.deregister()
         })
 
         it('no event is posted', () => assert.ok(this.window.sets === this.window.clears))
