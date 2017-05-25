@@ -13,6 +13,7 @@ import assert from 'assert'
  * Sets styles on an element.
  * @param  {!HTMLElement} element   Element
  * @param  {!StylesHash}  styles    Styles to apply to 'element'
+ * @return {void}
  */
 const mockStylesInElement = (element, styles) => {
   for (const [key, value] of Object.entries(styles)) {
@@ -24,6 +25,7 @@ const mockStylesInElement = (element, styles) => {
  * Verifies styles on an element.
  * @param  {!HTMLElement} element   Element
  * @param  {!StylesHash}  styles    Styles to verify on 'element'
+ * @return {void}
  */
 const verifyStylesInElement = (element, styles) => {
   for (const [key, value] of Object.entries(styles)) {
@@ -36,6 +38,7 @@ const verifyStylesInElement = (element, styles) => {
  * Sets styles on each element in an array of elements.
  * @param  {!HTMLElement[]}  elements  Array of elements
  * @param  {!StylesHash}          styles    Styles to apply to each element in 'elements'
+ * @return {void}
  */
 const mockStylesInElements = (elements, styles) => {
   for (const element of elements) {
@@ -47,6 +50,7 @@ const mockStylesInElements = (elements, styles) => {
  * Verifies styles on each element in an array of elements.
  * @param  {!HTMLElement[]}  elements  Array of elements
  * @param  {!StylesHash}          styles    Styles to verify on each element in 'elements'
+ * @return {void}
  */
 const verifyStylesInElements = (elements, styles) => {
   for (const element of elements) {
