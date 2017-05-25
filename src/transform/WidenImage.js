@@ -7,6 +7,7 @@ import elementUtilities from './ElementUtilities'
  * makes minimal adjustments to ancestors of the image element being widened so the image widening
  * can take effect.
  * @param  {!HTMLElement} el Element whose ancestors will be widened
+ * @return {void}
  */
 const widenAncestors = el => {
   for (let parentElement = el.parentElement;
@@ -25,7 +26,7 @@ const widenAncestors = el => {
 }
 
 /**
- * Some images should not be widended. This method makes that determination.
+ * Some images should not be widened. This method makes that determination.
  * @param  {!HTMLElement} image   The image in question
  * @return {boolean}              Whether 'image' should be widened
  */
@@ -65,6 +66,7 @@ const shouldWidenImage = image => {
 /**
  * Removes barriers to images widening taking effect.
  * @param  {!HTMLElement} image   The image in question
+ * @return {void}
  */
 const makeRoomForImageWidening = image => {
   widenAncestors(image)
@@ -77,6 +79,7 @@ const makeRoomForImageWidening = image => {
 /**
  * Widens the image.
  * @param  {!HTMLElement} image   The image in question
+ * @return {void}
  */
 const widenImage = image => {
   makeRoomForImageWidening(image)
