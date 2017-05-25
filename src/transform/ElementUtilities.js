@@ -49,7 +49,7 @@ const isNestedInTable = el => Boolean(findClosestAncestor(el, 'table'))
  * @return {!Element[]}
  */
 const querySelectAllInclusive = (element, selector) => {
-  const matches = Array.from(element.querySelectorAll(selector))
+  const matches = [...element.querySelectorAll(selector)]
   if (matchesSelectorCompat(element, selector)) { matches.unshift(element) }
   return matches
 }
