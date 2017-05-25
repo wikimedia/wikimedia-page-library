@@ -106,7 +106,6 @@ const invertElement = element => {
 const queryTransformElements = element =>
   ElementUtilities.querySelectAllInclusive(element, TRANSFORM_SELECTOR)
 
-
 /**
  * @param {!Element} element
  * @return {!Element[]} Invertible elements descendent from and including element.
@@ -121,19 +120,19 @@ const queryInvertElements = element =>
  * - Image and video class' are set to pagelib-lazy-load-*-placeholder.
  * - Image src and srcset and video poster are each set to an empty data source if present.
  * The transformation is reversed by calling invert(). This method is safe to call multiple times.
- * @param {!Element} element
+ * @param {!Element[]} elements
  * @return {void}
  */
-const transform = element => queryTransformElements(element).forEach(transformElement)
+const transform = elements => elements.forEach(transformElement)
 
 /**
  * Undoes transform() and replaces all placeholder with their original contents. This method is safe
  * to call multiple times. This transform affects all elements descendent from and including
  * element.
- * @param {!Element} element
+ * @param {!Element[]} elements
  * @return {void}
  */
-const invert = element => queryInvertElements(element).forEach(invertElement)
+const invert = elements => elements.forEach(invertElement)
 
 export default {
   test: { transformAttributes, invertAttributes, transformElement, invertElement },

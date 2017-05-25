@@ -224,7 +224,7 @@ describe('LazyLoadTransform', () => {
     describe('when an element is transformed', () => {
       const element = domino.createDocument('<img src=/>').querySelector('img')
 
-      transform.transform(element)
+      transform.transform(transform.queryTransformElements(element))
 
       it('the element is transformed', () =>
         assert.ok(element.classList.contains('pagelib-lazy-load-image-placeholder')))
@@ -234,7 +234,7 @@ describe('LazyLoadTransform', () => {
       const html = '<a href=/><video src=/></video></a><img src=/><a href=/></a>'
       const element = domino.createDocument(html).documentElement
 
-      transform.transform(element)
+      transform.transform(transform.queryTransformElements(element))
 
       it('the unsupported elements are unmodified', () => {
         const elements = Array.from(element.querySelectorAll('a'))
@@ -253,7 +253,7 @@ describe('LazyLoadTransform', () => {
       const element = domino.createDocument(html).documentElement
       html = element.outerHTML
 
-      transform.transform(element)
+      transform.transform(transform.queryTransformElements(element))
 
       it('the tree is unmodified', () => assert.ok(element.outerHTML === html))
     })
@@ -262,7 +262,7 @@ describe('LazyLoadTransform', () => {
       const element = domino.createDocument('<html></html>').documentElement
       const html = element.outerHTML
 
-      transform.transform(element)
+      transform.transform(transform.queryTransformElements(element))
 
       it('the tree is unmodified', () => assert.ok(element.outerHTML === html))
     })
@@ -274,7 +274,7 @@ describe('LazyLoadTransform', () => {
         <img class=pagelib-lazy-load-image-placeholder src=data: data-src=/ srcset=data:>`
       const element = domino.createDocument(html).querySelector('img')
 
-      transform.invert(element)
+      transform.invert(transform.queryInvertElements(element))
 
       it('the transform is undone', () => assert.ok(!element.classList.length))
     })
@@ -286,7 +286,7 @@ describe('LazyLoadTransform', () => {
         <a href=/></a>`
       const element = domino.createDocument(html).documentElement
 
-      transform.invert(element)
+      transform.invert(transform.queryInvertElements(element))
 
       it('all transforms are undone', () => {
         const elements = Array.from(element.querySelectorAll('[class^=pagelib-]'))
@@ -298,7 +298,7 @@ describe('LazyLoadTransform', () => {
       const element = domino.createDocument('<img src=/>').documentElement
       const html = element.outerHTML
 
-      transform.invert(element)
+      transform.invert(transform.queryInvertElements(element))
 
       it('the tree is unmodified', () => assert.ok(element.outerHTML === html))
     })
@@ -307,7 +307,7 @@ describe('LazyLoadTransform', () => {
       const element = domino.createDocument('<html></html>').documentElement
       const html = element.outerHTML
 
-      transform.invert(element)
+      transform.invert(transform.queryInvertElements(element))
 
       it('the tree is unmodified', () => assert.ok(element.outerHTML === html))
     })
@@ -316,8 +316,8 @@ describe('LazyLoadTransform', () => {
       const element = domino.createDocument('<img class=a src=/>').documentElement
       const html = element.outerHTML
 
-      transform.transform(element)
-      transform.invert(element)
+      transform.transform(transform.queryTransformElements(element))
+      transform.invert(transform.queryInvertElements(element))
 
       it('the result is lossless', () => assert.ok(element.outerHTML === html))
     })
