@@ -20,7 +20,7 @@ describe('EventThrottle', function Test() {
   describe('register()', () => {
     describe('when unregistered', () => {
       it('unregistered is reported', () => assert.ok(!this.eventThrottle.registered()))
-      it('no event is posted', () => assert.ok(!this.window.timeout))
+      it('no event is published', () => assert.ok(!this.window.timeout))
       it('no event is subscribed', () => assert.ok(!this.window.scroll))
     })
 
@@ -31,13 +31,13 @@ describe('EventThrottle', function Test() {
 
       it('registered is reported', () => assert.ok(this.eventThrottle.registered()))
 
-      it('no event is posted', () => assert.ok(!this.window.timeout))
+      it('no event is published', () => assert.ok(!this.window.timeout))
 
       it('events are subscribed', () => assert.ok(this.window.scroll))
 
-      it('and not scrolled, no event is posted', () => assert.ok(!this.window.timeout))
+      it('and not scrolled, no event is published', () => assert.ok(!this.window.timeout))
 
-      it('and scrolled, no event is posted', () => {
+      it('and scrolled, no event is published', () => {
         this.window.dispatchEvent = assert.fail
         this.window.scroll()
       })
@@ -45,12 +45,12 @@ describe('EventThrottle', function Test() {
       describe('and scrolled', () => {
         beforeEach(() => this.window.scroll())
 
-        it('and a timeout, an event is posted', done => {
+        it('and a timeout, an event is published', done => {
           this.window.dispatchEvent = () => done()
           this.window.timeout()
         })
 
-        it('and a timeout, one event is posted', () => {
+        it('and a timeout, one event is published', () => {
           this.window.dispatchEvent = () => {}
           this.window.timeout()
           assert.ok(this.window.sets === 1)
@@ -59,12 +59,12 @@ describe('EventThrottle', function Test() {
         describe('and scrolled again', () => {
           beforeEach(() => this.window.scroll())
 
-          it('and a timeout, an event is posted', done => {
+          it('and a timeout, an event is published', done => {
             this.window.dispatchEvent = () => done()
             this.window.timeout()
           })
 
-          it('and a timeout, one event is posted', () => {
+          it('and a timeout, one event is published', () => {
             this.window.dispatchEvent = () => {}
             this.window.timeout()
             assert.ok(this.window.sets === 1)
@@ -79,21 +79,21 @@ describe('EventThrottle', function Test() {
 
           it('registered is reported', () => assert.ok(this.eventThrottle.registered()))
 
-          it('no event is posted', () => assert.ok(this.window.sets === 1))
+          it('no event is published', () => assert.ok(this.window.sets === 1))
 
           it('events are subscribed', () => assert.ok(this.window.scroll))
 
-          it('and scrolled, no event is posted', () => {
+          it('and scrolled, no event is published', () => {
             this.window.dispatchEvent = assert.fail
             this.window.scroll()
           })
 
-          it('and a timeout, an event is posted', done => {
+          it('and a timeout, an event is published', done => {
             this.window.dispatchEvent = () => done()
             this.window.timeout()
           })
 
-          it('and a timeout, one event is posted', () => {
+          it('and a timeout, one event is published', () => {
             this.window.dispatchEvent = () => {}
             this.window.timeout()
             assert.ok(this.window.sets === 1)
@@ -112,7 +112,7 @@ describe('EventThrottle', function Test() {
         beforeEach(() => this.eventThrottle.deregister())
 
         it('unregistered is reported', () => assert.ok(!this.eventThrottle.registered()))
-        it('no event is posted', () => assert.ok(!this.window.timeout))
+        it('no event is published', () => assert.ok(!this.window.timeout))
         it('no event is subscribed', () => assert.ok(!this.window.scroll))
       })
 
@@ -123,7 +123,7 @@ describe('EventThrottle', function Test() {
         })
 
         it('unregistered is reported', () => assert.ok(!this.eventThrottle.registered()))
-        it('no event is posted', () => assert.ok(this.window.sets === this.window.clears))
+        it('no event is published', () => assert.ok(this.window.sets === this.window.clears))
         it('no event is subscribed', () => assert.ok(!this.window.scroll))
       })
     })
