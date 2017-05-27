@@ -99,7 +99,7 @@ Now NPM is "pointing" to our local copy of `wikimedia-page-library` and when the
 Don't forget to rebuild the local copy of `wikimedia-page-library` any time you make a change to it (before you run the app's build process), otherwise the app's build process won't "see" the change!
 ```
 cd wikimedia-page-library
-npm run -s build
+npm run-script build
 ```
 
 You may find it helpful to combine this step's command with a command kicking of the respective app's build process into a shortcut of some kind. Most of the development workflow involves make a change to your local copy of `wikimedia-page-library`, telling that local copy to re-build, then telling the app to rebuild.
