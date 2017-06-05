@@ -24,7 +24,7 @@
     "lint:all": "npm run -s lint .",
     "build": "rollup -c",
     "pretest": "npm run -s build",
-    "test": "mocha test/**/*.js",
+    "test": "mocha test/**/*.test.js",
     "clean": "rm -rf build/",
     "preversion": "[ -z \"$(git status -z)\" ]",
     "postversion": "git push --follow-tags origin HEAD && npm publish",
