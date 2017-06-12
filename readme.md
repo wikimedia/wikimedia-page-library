@@ -24,7 +24,7 @@ Example file names and locations for an image widening transform:
 - **src/transform/WidenImage.js** - the transform. *required*
 - **src/transform/WidenImage.css** - CSS used by the transform. *optional*
 - **src/override/Empty.css** - CSS overrides that are independent of transforms and that couldn't be upstreamed
-- **test/WidenImage.js** - tests of the transform. *required*
+- **test/WidenImage.test.js** - tests of the transform. *required*
 - **test/fixtures/WidenImage.html** - fixtures used by transform tests. *optional*
 
 *todo: rename Empty.css to a real override.*

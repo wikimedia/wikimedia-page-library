@@ -55,12 +55,20 @@ const getTableHeader = (element, pageTitle) => {
   return thArray
 }
 
-/** Ex: toggleCollapseClickCallback.bind(el, (container) => {
-          window.scrollTo(0, container.offsetTop - transformer.getDecorOffset())
-        })
-    @this HTMLElement
-    @param footerDivClickCallback {?(!HTMLElement) => void}
-    @return {void} */
+/**
+ * @typedef {function} FooterDivClickCallback
+ * @param {!HTMLElement}
+ * @return {void}
+ */
+
+/**
+ * Ex: toggleCollapseClickCallback.bind(el, (container) => {
+ *       window.scrollTo(0, container.offsetTop - transformer.getDecorOffset())
+ *     })
+ * @this HTMLElement
+ * @param {?FooterDivClickCallback} footerDivClickCallback
+ * @return {void}
+ */
 const toggleCollapseClickCallback = function(footerDivClickCallback) {
   const container = this.parentNode
   const header = container.children[0]
