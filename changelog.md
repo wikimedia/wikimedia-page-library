@@ -1,3 +1,6 @@
+### v3.1.0
+- New: add RedLinks.hideRedLinks()
+
 ### v3.0.0
 - Breaking: hide CollapseTable.getTableHeader()
 - New: add CollapseElement.collapseTables() and toggleCollapseClickCallback();
