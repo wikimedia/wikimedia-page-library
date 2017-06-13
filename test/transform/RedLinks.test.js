@@ -34,6 +34,7 @@ describe('RedLinks', () => {
       assert.ok(redLinkAnchors.length === 1)
       assert.ok(redLinkAnchors[0].id === 'link2')
     })
+
     it('should find one redLink in a document fragment', () => {
       const frag =
         documentFragmentFromHTMLString('<a id="link1">1</a><a id="link2" class="new">2</a>')
@@ -67,6 +68,7 @@ describe('RedLinks', () => {
       // Ensure the swap happened - element '#two' should now be a SPAN
       assert.ok(elementTwoTagName(doc) === 'SPAN')
     })
+
     it('should replace a document fragment anchor with a span', () => {
       // We'll swap the 'A#two' with 'SPAN#two'
       const frag =
@@ -96,6 +98,7 @@ describe('RedLinks', () => {
       assert.ok(item2.tagName === 'SPAN')
       assert.ok(item2.innerHTML === '<b>2</b>')
     })
+
     it('should hide the expected redLinks in a document fragment', () => {
       const doc = domino.createDocument()
       const frag =
