@@ -21,7 +21,7 @@ describe('DominoDocumentFragment', () => {
     it('Domino DocumentFragments should not implement Document.createElement', () => {
       const frag =
         documentFragmentFromHTMLString('<div>text</div><a id="link1"></a>')
-      assert.ok(frag.createElement === undefined)
+      assert.ok(!frag.createElement)
     })
   })
 })
