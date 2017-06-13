@@ -4,14 +4,14 @@ import dominoDocumentFragment from '../utilities/DominoDocumentFragment'
 import pagelib from '../../build/wikimedia-page-library-transform'
 
 const documentFragmentFromHTMLString = dominoDocumentFragment.documentFragmentFromHTMLString
-const configureSpanAsAnchorReplacement = pagelib.RedLinks.test.configureSpanAsAnchorReplacement
+const configureRedLinkTemplate = pagelib.RedLinks.test.configureRedLinkTemplate
 const redLinkAnchorsInContent = pagelib.RedLinks.test.redLinkAnchorsInContent
 const newRedLinkTemplate = pagelib.RedLinks.test.newRedLinkTemplate
 const replaceAnchorWithSpan = pagelib.RedLinks.test.replaceAnchorWithSpan
 const hideRedLinks = pagelib.RedLinks.hideRedLinks
 
 describe('RedLinks', () => {
-  describe('configureSpanAsAnchorReplacement()', () => {
+  describe('configureRedLinkTemplate()', () => {
     it('should prepare a span to correctly represent a anchor', () => {
       const doc = domino.createDocument()
       const span = newRedLinkTemplate(doc)
@@ -21,7 +21,7 @@ describe('RedLinks', () => {
       anchor.classList.add('someOtherClass')
       anchor.innerHTML = '<b>someText</b>'
 
-      configureSpanAsAnchorReplacement(span, anchor)
+      configureRedLinkTemplate(span, anchor)
       assert.ok(span.classList.contains('someClass'))
       assert.ok(span.classList.contains('someOtherClass'))
       assert.ok(span.innerHTML === anchor.innerHTML)

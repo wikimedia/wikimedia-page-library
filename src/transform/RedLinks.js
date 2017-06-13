@@ -4,7 +4,7 @@
  * @param {!HTMLAnchorElement} anchor The anchor element being replaced.
  * @return {void}
  */
-const configureSpanAsAnchorReplacement = (span, anchor) => {
+const configureRedLinkTemplate = (span, anchor) => {
   span.innerHTML = anchor.innerHTML
   span.setAttribute('class', anchor.getAttribute('class'))
 }
@@ -47,7 +47,7 @@ const hideRedLinks = (document, fragment) => {
   redLinkAnchorsInContent(content)
     .forEach(redLink => {
       const span = spanTemplate.cloneNode(false)
-      configureSpanAsAnchorReplacement(span, redLink)
+      configureRedLinkTemplate(span, redLink)
       replaceAnchorWithSpan(redLink, span)
     })
 }
@@ -55,7 +55,7 @@ const hideRedLinks = (document, fragment) => {
 export default {
   hideRedLinks,
   test: {
-    configureSpanAsAnchorReplacement,
+    configureRedLinkTemplate,
     redLinkAnchorsInContent,
     newRedLinkTemplate,
     replaceAnchorWithSpan
