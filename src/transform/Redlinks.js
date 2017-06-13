@@ -1,5 +1,5 @@
 /**
- * Configures span to be suitable replacement for redlink anchor
+ * Configures span to be suitable replacement for redLink anchor
  * @param {!HTMLSpanElement} span The span element to configure as anchor replacement
  * @param {!HTMLAnchorElement} anchor The anchor element being replaced
  * @return {void}
@@ -10,17 +10,17 @@ const configureSpanAsAnchorReplacement = (span, anchor) => {
 }
 
 /**
- * Finds redlinks in a document or document fragment
- * @param {!(Document|DocumentFragment)} content Document or fragment in which to seek redlinks
- * @return {!NodeList} Nodelist of zero or more redlink anchors
+ * Finds redLinks in a document or document fragment
+ * @param {!(Document|DocumentFragment)} content Document or fragment in which to seek redLinks
+ * @return {!NodeList} Nodelist of zero or more redLink anchors
  */
 const redLinkAnchorsInContent = content => content.querySelectorAll('a.new')
 
 /**
- * Makes span to be used as cloning template for redlink anchor replacements
+ * Makes span to be used as cloning template for redLink anchor replacements
  * @param  {!Document} document Document to use to create span element. Reminder: this can't be a
  * document fragment because fragments don't implement 'createElement'
- * @return {!HTMLSpanElement} Span element suitable for use as template for redlink anchor
+ * @return {!HTMLSpanElement} Span element suitable for use as template for redLink anchor
  * replacements
  */
 const spanToClone = document => document.createElement('span')
@@ -34,14 +34,14 @@ const spanToClone = document => document.createElement('span')
 const replaceAnchorWithSpan = (anchor, span) => anchor.parentNode.replaceChild(span, anchor)
 
 /**
- * Hides redlink anchors in either a document or a document fragment so they are unclickable and
+ * Hides redLink anchors in either a document or a document fragment so they are unclickable and
  * unfocusable
- * @param {!Document} document Document in which to hide red links
- * @param {?DocumentFragment} fragment If specified, redlinks are hidden in the fragment and the
+ * @param {!Document} document Document in which to hide redLinks
+ * @param {?DocumentFragment} fragment If specified, redLinks are hidden in the fragment and the
  * document is used only for span cloning
  * @return {void}
  */
-const hideRedlinks = (document, fragment) => {
+const hideRedLinks = (document, fragment) => {
   const spanTemplate = spanToClone(document)
   const content = fragment !== undefined ? fragment : document
   redLinkAnchorsInContent(content)
@@ -53,7 +53,7 @@ const hideRedlinks = (document, fragment) => {
 }
 
 export default {
-  hideRedlinks,
+  hideRedLinks,
   test: {
     configureSpanAsAnchorReplacement,
     redLinkAnchorsInContent,

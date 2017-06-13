@@ -4,13 +4,13 @@ import dominoDocumentFragment from '../utilities/DominoDocumentFragment'
 import pagelib from '../../build/wikimedia-page-library-transform'
 
 const documentFragmentFromHTMLString = dominoDocumentFragment.documentFragmentFromHTMLString
-const configureSpanAsAnchorReplacement = pagelib.Redlinks.test.configureSpanAsAnchorReplacement
-const redLinkAnchorsInContent = pagelib.Redlinks.test.redLinkAnchorsInContent
-const spanToClone = pagelib.Redlinks.test.spanToClone
-const replaceAnchorWithSpan = pagelib.Redlinks.test.replaceAnchorWithSpan
-const hideRedlinks = pagelib.Redlinks.hideRedlinks
+const configureSpanAsAnchorReplacement = pagelib.RedLinks.test.configureSpanAsAnchorReplacement
+const redLinkAnchorsInContent = pagelib.RedLinks.test.redLinkAnchorsInContent
+const spanToClone = pagelib.RedLinks.test.spanToClone
+const replaceAnchorWithSpan = pagelib.RedLinks.test.replaceAnchorWithSpan
+const hideRedLinks = pagelib.RedLinks.hideRedLinks
 
-describe('Redlinks', () => {
+describe('RedLinks', () => {
   describe('configureSpanAsAnchorReplacement()', () => {
     it('should prepare a span to correctly represent a anchor', () => {
       const doc = domino.createDocument()
@@ -28,18 +28,18 @@ describe('Redlinks', () => {
     })
   })
   describe('redLinkAnchorsInContent()', () => {
-    it('should find one redlink in a document', () => {
+    it('should find one redLink in a document', () => {
       const doc = domino.createDocument('<a id="link1">1</a><a id="link2" class="new">2</a>')
-      const redlinkAnchors = redLinkAnchorsInContent(doc)
-      assert.ok(redlinkAnchors.length === 1)
-      assert.ok(redlinkAnchors[0].id === 'link2')
+      const redLinkAnchors = redLinkAnchorsInContent(doc)
+      assert.ok(redLinkAnchors.length === 1)
+      assert.ok(redLinkAnchors[0].id === 'link2')
     })
-    it('should find one redlink in a document fragment', () => {
+    it('should find one redLink in a document fragment', () => {
       const frag =
         documentFragmentFromHTMLString('<a id="link1">1</a><a id="link2" class="new">2</a>')
-      const redlinkAnchors = redLinkAnchorsInContent(frag)
-      assert.ok(redlinkAnchors.length === 1)
-      assert.ok(redlinkAnchors[0].id === 'link2')
+      const redLinkAnchors = redLinkAnchorsInContent(frag)
+      assert.ok(redLinkAnchors.length === 1)
+      assert.ok(redLinkAnchors[0].id === 'link2')
     })
   })
   describe('spanToClone()', () => {
@@ -86,21 +86,21 @@ describe('Redlinks', () => {
       assert.ok(elementTwoTagName(frag) === 'SPAN')
     })
   })
-  describe('hideRedlinks()', () => {
-    it('should hide the expected redlinks in a document', () => {
+  describe('hideRedLinks()', () => {
+    it('should hide the expected redLinks in a document', () => {
       const doc = domino.createDocument('<a id="item1">1</a><a id="item2" class="new"><b>2</b></a>')
-      hideRedlinks(doc)
+      hideRedLinks(doc)
       const item1 = doc.getElementById('item1')
       const item2 = doc.querySelector('.new')
       assert.ok(item1.tagName === 'A')
       assert.ok(item2.tagName === 'SPAN')
       assert.ok(item2.innerHTML === '<b>2</b>')
     })
-    it('should hide the expected redlinks in a document fragment', () => {
+    it('should hide the expected redLinks in a document fragment', () => {
       const doc = domino.createDocument()
       const frag =
         documentFragmentFromHTMLString('<a id="item1">1</a><a id="item2" class="new"><b>2</b></a>')
-      hideRedlinks(doc, frag)
+      hideRedLinks(doc, frag)
       const item1 = frag.querySelector('#item1')
       const item2 = frag.querySelector('.new')
       assert.ok(item1.tagName === 'A')

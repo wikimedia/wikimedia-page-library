@@ -1,11 +1,11 @@
 import CollapseTable from './CollapseTable'
 import ElementUtilities from './ElementUtilities'
-import Redlinks from './Redlinks'
+import RedLinks from './RedLinks'
 import WidenImage from './WidenImage'
 
 export default {
   CollapseTable,
-  Redlinks,
+  RedLinks,
   WidenImage,
   test: {
     ElementUtilities
