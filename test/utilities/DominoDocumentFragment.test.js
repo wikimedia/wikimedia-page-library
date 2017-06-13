@@ -15,10 +15,8 @@ describe('DominoDocumentFragment', () => {
       const frag =
         documentFragmentFromHTMLString('<div>text</div><a id="link1"></a>')
       assert.ok(frag.childNodes.length === 2)
-      const firstChild = frag.childNodes[0]
-      const secondChild = frag.childNodes[1]
-      assert.ok(firstChild.tagName === 'DIV')
-      assert.ok(secondChild.tagName === 'A')
+      assert.ok(frag.childNodes[0].tagName === 'DIV')
+      assert.ok(frag.childNodes[1].tagName === 'A')
     })
     it('should not see unexpected method in Domino DocumentFragment', () => {
       const frag =
