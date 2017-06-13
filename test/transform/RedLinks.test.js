@@ -28,14 +28,14 @@ describe('RedLinks', () => {
     })
   })
   describe('redLinkAnchorsInContent()', () => {
-    it('should find one redLink in a document', () => {
+    it('should find one red link in a document', () => {
       const doc = domino.createDocument('<a id="link1">1</a><a id="link2" class="new">2</a>')
       const redLinkAnchors = redLinkAnchorsInContent(doc)
       assert.ok(redLinkAnchors.length === 1)
       assert.ok(redLinkAnchors[0].id === 'link2')
     })
 
-    it('should find one redLink in a document fragment', () => {
+    it('should find one red link in a document fragment', () => {
       const frag =
         documentFragmentFromHTMLString('<a id="link1">1</a><a id="link2" class="new">2</a>')
       const redLinkAnchors = redLinkAnchorsInContent(frag)
@@ -89,7 +89,7 @@ describe('RedLinks', () => {
     })
   })
   describe('hideRedLinks()', () => {
-    it('should hide the expected redLinks in a document', () => {
+    it('should hide the expected red links in a document', () => {
       const doc = domino.createDocument('<a id="item1">1</a><a id="item2" class="new"><b>2</b></a>')
       hideRedLinks(doc)
       const item1 = doc.getElementById('item1')
@@ -99,7 +99,7 @@ describe('RedLinks', () => {
       assert.ok(item2.innerHTML === '<b>2</b>')
     })
 
-    it('should hide the expected redLinks in a document fragment', () => {
+    it('should hide the expected red links in a document fragment', () => {
       const doc = domino.createDocument()
       const frag =
         documentFragmentFromHTMLString('<a id="item1">1</a><a id="item2" class="new"><b>2</b></a>')
