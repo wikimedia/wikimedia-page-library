@@ -18,7 +18,7 @@ describe('DominoDocumentFragment', () => {
       assert.ok(frag.childNodes[0].tagName === 'DIV')
       assert.ok(frag.childNodes[1].tagName === 'A')
     })
-    it('should not see unexpected method in Domino DocumentFragment', () => {
+    it('Domino DocumentFragments should not implement Document.createElement', () => {
       const frag =
         documentFragmentFromHTMLString('<div>text</div><a id="link1"></a>')
       assert.ok(frag.createElement === undefined)
