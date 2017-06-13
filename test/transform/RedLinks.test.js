@@ -6,7 +6,7 @@ import pagelib from '../../build/wikimedia-page-library-transform'
 const documentFragmentFromHTMLString = dominoDocumentFragment.documentFragmentFromHTMLString
 const configureSpanAsAnchorReplacement = pagelib.RedLinks.test.configureSpanAsAnchorReplacement
 const redLinkAnchorsInContent = pagelib.RedLinks.test.redLinkAnchorsInContent
-const spanToClone = pagelib.RedLinks.test.spanToClone
+const newRedLinkTemplate = pagelib.RedLinks.test.newRedLinkTemplate
 const replaceAnchorWithSpan = pagelib.RedLinks.test.replaceAnchorWithSpan
 const hideRedLinks = pagelib.RedLinks.hideRedLinks
 
@@ -14,7 +14,7 @@ describe('RedLinks', () => {
   describe('configureSpanAsAnchorReplacement()', () => {
     it('should prepare a span to correctly represent a anchor', () => {
       const doc = domino.createDocument()
-      const span = spanToClone(doc)
+      const span = newRedLinkTemplate(doc)
 
       const anchor = doc.createElement('A')
       anchor.classList.add('someClass')
@@ -42,10 +42,10 @@ describe('RedLinks', () => {
       assert.ok(redLinkAnchors[0].id === 'link2')
     })
   })
-  describe('spanToClone()', () => {
+  describe('newRedLinkTemplate()', () => {
     it('should simply return a span element', () => {
       const doc = domino.createDocument()
-      const span = spanToClone(doc)
+      const span = newRedLinkTemplate(doc)
       assert.ok(span.tagName === 'SPAN')
     })
   })

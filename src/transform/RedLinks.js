@@ -23,7 +23,7 @@ const redLinkAnchorsInContent = content => content.querySelectorAll('a.new')
  * @return {!HTMLSpanElement} Span element suitable for use as template for redLink anchor
  * replacements.
  */
-const spanToClone = document => document.createElement('span')
+const newRedLinkTemplate = document => document.createElement('span')
 
 /**
  * Replaces anchor with span.
@@ -42,7 +42,7 @@ const replaceAnchorWithSpan = (anchor, span) => anchor.parentNode.replaceChild(s
  * @return {void}
  */
 const hideRedLinks = (document, fragment) => {
-  const spanTemplate = spanToClone(document)
+  const spanTemplate = newRedLinkTemplate(document)
   const content = fragment !== undefined ? fragment : document
   redLinkAnchorsInContent(content)
     .forEach(redLink => {
@@ -57,7 +57,7 @@ export default {
   test: {
     configureSpanAsAnchorReplacement,
     redLinkAnchorsInContent,
-    spanToClone,
+    newRedLinkTemplate,
     replaceAnchorWithSpan
   }
 }
