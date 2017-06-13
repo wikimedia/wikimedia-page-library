@@ -1,5 +1,8 @@
-### v3.1.0
+### v3.2.0
 - New: add lazily loaded image and video transform
+
+### v3.1.0
+- New: add RedLinks.hideRedLinks()
 
 ### v3.0.0
 - Breaking: hide CollapseTable.getTableHeader()
