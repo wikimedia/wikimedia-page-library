@@ -11,6 +11,7 @@ const replaceAnchorWithSpan = pagelib.RedLinks.test.replaceAnchorWithSpan
 const hideRedLinks = pagelib.RedLinks.hideRedLinks
 
 describe('RedLinks', () => {
+
   describe('configureRedLinkTemplate()', () => {
     it('should prepare a span to correctly represent a anchor', () => {
       const doc = domino.createDocument()
@@ -27,6 +28,7 @@ describe('RedLinks', () => {
       assert.ok(span.innerHTML === anchor.innerHTML)
     })
   })
+
   describe('redLinkAnchorsInContent()', () => {
     it('should find one red link in a document', () => {
       const doc = domino.createDocument('<a id="link1">1</a><a id="link2" class="new">2</a>')
@@ -43,6 +45,7 @@ describe('RedLinks', () => {
       assert.ok(redLinkAnchors[0].id === 'link2')
     })
   })
+
   describe('newRedLinkTemplate()', () => {
     it('should simply return a span element', () => {
       const doc = domino.createDocument()
@@ -50,6 +53,7 @@ describe('RedLinks', () => {
       assert.ok(span.tagName === 'SPAN')
     })
   })
+
   describe('replaceAnchorWithSpan()', () => {
     it('should replace a document anchor with a span', () => {
       // We'll swap the 'A#two' with 'SPAN#two'
@@ -88,6 +92,7 @@ describe('RedLinks', () => {
       assert.ok(elementTwoTagName(frag) === 'SPAN')
     })
   })
+
   describe('hideRedLinks()', () => {
     it('should hide the expected red links in a document', () => {
       const doc = domino.createDocument('<a id="item1">1</a><a id="item2" class="new"><b>2</b></a>')
