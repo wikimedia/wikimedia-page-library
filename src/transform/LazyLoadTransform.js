@@ -45,7 +45,10 @@ const PLACEHOLDER_VIDEO_ATTRIBUTES = {
  * @return {void}
  */
 const transformAttributes = (element, attributes) => {
-  for (const [attribute, placeholder] of Object.entries(attributes)) {
+  for (const attribute in attributes) {
+    if (!Object.prototype.hasOwnProperty.call(attributes, attribute)) { continue }
+
+    const placeholder = attributes[attribute]
     const dataAttribute = `data-${attribute}`
     if (element.hasAttribute(attribute)) {
       element.setAttribute(dataAttribute, element.getAttribute(attribute))
@@ -62,7 +65,9 @@ const transformAttributes = (element, attributes) => {
  * @return {void}
  */
 const invertAttributes = (element, attributes) => {
-  for (const [attribute] of Object.entries(attributes)) {
+  for (const attribute in attributes) {
+    if (!Object.prototype.hasOwnProperty.call(attributes, attribute)) { continue }
+
     const dataAttribute = `data-${attribute}`
     if (element.hasAttribute(dataAttribute)) {
       element.setAttribute(attribute, element.getAttribute(dataAttribute))
