@@ -1,3 +1,4 @@
+import './LazyLoadTransform.css'
 import ElementUtilities from './ElementUtilities'
 
 // Classes used to identify image and video placeholders yet to be loaded. These classes should
