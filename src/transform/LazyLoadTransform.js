@@ -3,15 +3,13 @@ import ElementUtilities from './ElementUtilities'
 
 // Classes used to identify image and video placeholders yet to be loaded. These classes should
 // match those in LazyLoadTransform.css.
-const PLACEHOLDER_IMAGE_CLASS = 'pagelib-lazy-load-image-placeholder'
-const PLACEHOLDER_VIDEO_CLASS = 'pagelib-lazy-load-video-placeholder'
+const PLACEHOLDER_CLASS = 'pagelib-lazy-load-placeholder'
 
 // Selector used to identify transformable elements.
-const TRANSFORM_SELECTOR
-  = `img:not(.${PLACEHOLDER_IMAGE_CLASS}), video:not(.${PLACEHOLDER_VIDEO_CLASS})`
+const TRANSFORM_SELECTOR = `img:not(.${PLACEHOLDER_CLASS}), video:not(.${PLACEHOLDER_CLASS})`
 
 // Selector used to identify elements previously transformed.
-const INVERT_SELECTOR = `img.${PLACEHOLDER_IMAGE_CLASS}, video.${PLACEHOLDER_VIDEO_CLASS}`
+const INVERT_SELECTOR = `img.${PLACEHOLDER_CLASS}, video.${PLACEHOLDER_CLASS}`
 
 /**
  * A mapping of attribute names to placeholder values for an HTML tag. For transformations, an
@@ -27,13 +25,11 @@ const PLACEHOLDER_IMAGE_URI
 
 /** @type {PlaceholderTagAttributes} */
 const PLACEHOLDER_IMAGE_ATTRIBUTES = {
-  class: PLACEHOLDER_IMAGE_CLASS, src: PLACEHOLDER_IMAGE_URI, srcset: PLACEHOLDER_IMAGE_URI
+  class: PLACEHOLDER_CLASS, src: PLACEHOLDER_IMAGE_URI, srcset: PLACEHOLDER_IMAGE_URI
 }
 
 /** @type {PlaceholderTagAttributes} */
-const PLACEHOLDER_VIDEO_ATTRIBUTES = {
-  class: PLACEHOLDER_VIDEO_CLASS, poster: PLACEHOLDER_IMAGE_URI
-}
+const PLACEHOLDER_VIDEO_ATTRIBUTES = { class: PLACEHOLDER_CLASS, poster: PLACEHOLDER_IMAGE_URI }
 
 /**
  * Transforms an element's attributes. The affected attributes are moved to data-* attributes and

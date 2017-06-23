@@ -1,7 +1,4 @@
-/* Lazily loaded images that have not yet been loaded are marked with this class. This class must
-   match LazyLoadTransform.PLACEHOLDER_IMAGE_CLASS. */
-.pagelib-lazy-load-image-placeholder {}
-
-/* Lazily loaded videos that have not yet been loaded are marked with this class. This class must
-   match LazyLoadTransform.PLACEHOLDER_VIDEO_CLASS. */
-.pagelib-lazy-load-video-placeholder {}
+/* Lazily loaded resources that have not yet been requested to load are marked with this class. This
+   class must match LazyLoadTransform.PLACEHOLDER_CLASS. */
+img.pagelib-lazy-load-placeholder, video.pagelib-lazy-load-placeholder {
+}

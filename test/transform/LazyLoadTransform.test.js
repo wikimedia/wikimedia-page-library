@@ -135,7 +135,7 @@ describe('LazyLoadTransform', () => {
 
       it('the classList is replaced', () => {
         assert.ok(element.classList.length === 1)
-        assert.ok(element.classList.contains('pagelib-lazy-load-image-placeholder'))
+        assert.ok(element.classList.contains('pagelib-lazy-load-placeholder'))
       })
 
       it('the src is replaced', () => assert.ok(element.src.startsWith('data:')))
@@ -150,7 +150,7 @@ describe('LazyLoadTransform', () => {
 
       it('the classList is replaced', () => {
         assert.ok(element.classList.length === 1)
-        assert.ok(element.classList.contains('pagelib-lazy-load-video-placeholder'))
+        assert.ok(element.classList.contains('pagelib-lazy-load-placeholder'))
       })
       it('the poster is replaced', () =>
         assert.ok(element.getAttribute('poster').startsWith('data:')))
@@ -170,7 +170,7 @@ describe('LazyLoadTransform', () => {
     const invertElement = transform.test.invertElement
 
     describe('when an image placeholder is inverted', () => {
-      const html = `<img class=pagelib-lazy-load-image-placeholder data-class='a b' src=data:
+      const html = `<img class=pagelib-lazy-load-placeholder data-class='a b' src=data:
         data-src=/ srcset=data:>`
       const element = domino.createDocument(html).querySelector('img')
 
@@ -190,7 +190,7 @@ describe('LazyLoadTransform', () => {
     })
 
     describe('when a video placeholder is inverted', () => {
-      const html = `<video class=pagelib-lazy-load-video-placeholder poster=data:
+      const html = `<video class=pagelib-lazy-load-placeholder poster=data:
         data-poster=/ src=/></video>`
       const element = domino.createDocument(html).querySelector('video')
 
@@ -227,7 +227,7 @@ describe('LazyLoadTransform', () => {
       transform.transform(transform.queryTransformElements(element))
 
       it('the element is transformed', () =>
-        assert.ok(element.classList.contains('pagelib-lazy-load-image-placeholder')))
+        assert.ok(element.classList.contains('pagelib-lazy-load-placeholder')))
     })
 
     describe('when a tree is transformed', () => {
@@ -248,7 +248,7 @@ describe('LazyLoadTransform', () => {
     })
 
     describe('when a transformed tree is transformed', () => {
-      let html = `<img class=pagelib-lazy-load-image-placeholder src=data: data-src=/ srcset=data:
+      let html = `<img class=pagelib-lazy-load-placeholder src=data: data-src=/ srcset=data:
         data-srcset=/>`
       const element = domino.createDocument(html).documentElement
       html = element.outerHTML
@@ -271,7 +271,7 @@ describe('LazyLoadTransform', () => {
   describe('invert()', () => {
     describe('when an element is inverted', () => {
       const html = `
-        <img class=pagelib-lazy-load-image-placeholder src=data: data-src=/ srcset=data:>`
+        <img class=pagelib-lazy-load-placeholder src=data: data-src=/ srcset=data:>`
       const element = domino.createDocument(html).querySelector('img')
 
       transform.invert(transform.queryInvertElements(element))
@@ -281,8 +281,8 @@ describe('LazyLoadTransform', () => {
 
     describe('when a tree is inverted', () => {
       const html = `
-        <a href=/><video class=pagelib-lazy-load-video-placeholder src=/ poster=data:></video></a>
-        <img class=pagelib-lazy-load-image-placeholder src=data: data-src=/ srcset=data:>
+        <a href=/><video class=pagelib-lazy-load-placeholder src=/ poster=data:></video></a>
+        <img class=pagelib-lazy-load-placeholder src=data: data-src=/ srcset=data:>
         <a href=/></a>`
       const element = domino.createDocument(html).documentElement
 
