@@ -34,7 +34,7 @@ export default class {
   registered() { return Boolean(this._eventTarget) }
 
   /**
-   * This method may safely be called even when unregistered.
+   * This method may be safely called even when unregistered.
    * @return {void}
    */
   deregister() {
