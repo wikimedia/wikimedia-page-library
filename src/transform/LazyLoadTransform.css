@@ -12,11 +12,11 @@
 
   - Transformed (replace image with span and preserve image attributes as data-* attributes):
     <span class='pagelib-lazy-load-placeholder pagelib-lazy-load-placeholder-pending'
-      style='width: 1px; height: 2px;' data-src=/ data-width=1 data-height=2>&nbsp;</span>
+      style='width: 1px; height: 2px;' data-src=/ data-width=1 data-height=2></span>
 
   - Loading (replace pending class with loading):
     <span class='pagelib-lazy-load-placeholder pagelib-lazy-load-placeholder-loading'
-      style='width: 1px; height: 2px;' data-src=/ data-width=1 data-height=2>&nbsp;</span>
+      style='width: 1px; height: 2px;' data-src=/ data-width=1 data-height=2></span>
 
   - Loaded (append image and replace loading class with loaded):
     <span class='pagelib-lazy-load-placeholder pagelib-lazy-load-placeholder-loaded'

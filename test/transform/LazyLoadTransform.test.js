@@ -56,7 +56,7 @@ describe('LazyLoadTransform', () => {
         const html = `<span
           class='pagelib-lazy-load-placeholder pagelib-lazy-load-placeholder-pending'
           style='width: 1px; height: 2px;' data-class=classes data-style=styles data-src=/src
-          data-srcset=/srcset data-width=1 data-height=2 data-alt=text>&nbsp;</span>`
+          data-srcset=/srcset data-width=1 data-height=2 data-alt=text></span>`
         this.document = domino.createDocument(html)
         this.placeholder = this.document.querySelector('.pagelib-lazy-load-placeholder')
 
@@ -115,9 +115,9 @@ describe('LazyLoadTransform', () => {
         const html = `
           <div>
             <span class='pagelib-lazy-load-placeholder pagelib-lazy-load-placeholder-pending'
-              data-src=/src>&nbsp;</span>
+              data-src=/src></span>
             <span class='pagelib-lazy-load-placeholder pagelib-lazy-load-placeholder-pending'
-              data-src=/src>&nbsp;</span>
+              data-src=/src></span>
           </div>`
         this.document = domino.createDocument(html)
         const placeholders = LazyLoadTransform.queryPlaceholders(this.document.documentElement)

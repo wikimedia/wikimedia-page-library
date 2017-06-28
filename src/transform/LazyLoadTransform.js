@@ -32,10 +32,6 @@ const newPlaceholder = (document, image) => {
   placeholder.classList.add(PLACEHOLDER_CLASS)
   placeholder.classList.add(PLACEHOLDER_PENDING_CLASS)
 
-  // This is from MobileFrontend to force a minimum size? todo: can we use min-width / height
-  // instead? If so, remove the clearing of `placeholder.innerHTML` in loadImage().
-  placeholder.innerHTML = '&nbsp;'
-
   const width = image.hasAttribute('width') ? `width: ${image.width}px;` : ''
   const height = image.hasAttribute('height') ? `height: ${image.height}px;` : ''
   placeholder.setAttribute('style', width + height)
@@ -90,8 +86,6 @@ const loadImage = (document, placeholder) => {
   placeholder.classList.add(PLACEHOLDER_LOADING_CLASS)
 
   const image = newImageSubstitute(document, placeholder, () => {
-    placeholder.innerHTML = '' // Clear the &nbsp;.
-
     placeholder.appendChild(image)
 
     placeholder.classList.remove(PLACEHOLDER_LOADING_CLASS)
