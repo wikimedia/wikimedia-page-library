@@ -72,7 +72,7 @@ const transformImage = (document, image) => {
   image.parentNode.replaceChild(newPlaceholder(document, image), image)
 
   // The image still exists in the DOM. Ensure no unused resources are loaded.
-  for (const attribute of ['class', 'style', 'src', 'srcset']) { image.removeAttribute(attribute) }
+  for (const attribute of ['src', 'srcset']) { image.removeAttribute(attribute) }
 }
 
 /**
