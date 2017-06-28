@@ -32,8 +32,8 @@ const newPlaceholder = (document, image) => {
   placeholder.classList.add(PLACEHOLDER_CLASS)
   placeholder.classList.add(PLACEHOLDER_PENDING_CLASS)
 
-  const width = image.hasAttribute('width') ? `width: ${image.width}px;` : ''
-  const height = image.hasAttribute('height') ? `height: ${image.height}px;` : ''
+  const width = image.hasAttribute('width') ? `width: ${image.getAttribute('width')}px;` : ''
+  const height = image.hasAttribute('height') ? `height: ${image.getAttribute('height')}px;` : ''
   placeholder.setAttribute('style', width + height)
 
   return placeholder
