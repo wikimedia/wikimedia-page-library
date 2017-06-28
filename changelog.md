@@ -1,3 +1,6 @@
+### v3.2.0
+- New: update bundle to support AMD, ES, and IIFE / script usage, in addition to CJS
+
 ### v3.1.0
 - New: add RedLinks.hideRedLinks()
 
