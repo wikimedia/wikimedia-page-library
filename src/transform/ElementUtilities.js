@@ -44,19 +44,40 @@ const findClosestAncestor = (el, selector) => {
 const isNestedInTable = el => Boolean(findClosestAncestor(el, 'table'))
 
 /**
- * Like Element.querySelectorAll() but considers the root element too.
- * @param {!Element} element
- * @return {!Element[]}
+ * Copy attributes from source to destination as data-* attributes.
+ * @param {!HTMLElement} source
+ * @param {!HTMLElement} destination
+ * @param {!string[]} attributes
+ * @return {void}
  */
-const querySelectAllInclusive = (element, selector) => {
-  const matches = [...element.querySelectorAll(selector)]
-  if (matchesSelectorCompat(element, selector)) { matches.unshift(element) }
-  return matches
+const copyAttributesToDataAttributes = (source, destination, attributes) => {
+  for (const attribute of attributes) {
+    if (source.hasAttribute(attribute)) {
+      destination.setAttribute(`data-${attribute}`, source.getAttribute(attribute))
+    }
+  }
+}
+
+/**
+ * Copy data-* attributes from source to destination as attributes.
+ * @param {!HTMLElement} source
+ * @param {!HTMLElement} destination
+ * @param {!string[]} attributes
+ * @return {void}
+ */
+const copyDataAttributesToAttributes = (source, destination, attributes) => {
+  for (const attribute of attributes) {
+    const dataAttribute = `data-${attribute}`
+    if (source.hasAttribute(dataAttribute)) {
+      destination.setAttribute(attribute, source.getAttribute(dataAttribute))
+    }
+  }
 }
 
 export default {
   matchesSelectorCompat,
   findClosestAncestor,
   isNestedInTable,
-  querySelectAllInclusive
+  copyAttributesToDataAttributes,
+  copyDataAttributesToAttributes
 }

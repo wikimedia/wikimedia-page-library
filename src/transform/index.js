@@ -8,9 +8,10 @@ import WidenImage from './WidenImage'
 
 export default {
   CollapseTable,
+  LazyLoadTransform,
   RedLinks,
   WidenImage,
   test: {
-    ElementUtilities, EventThrottle, LazyLoadTransform, Throttle
+    ElementUtilities, EventThrottle, Throttle
   }
 }

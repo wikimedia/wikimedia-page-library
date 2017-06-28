@@ -1,325 +1,134 @@
+import { LazyLoadTransform } from '../../build/wikimedia-page-library-transform'
 import assert from 'assert'
 import domino from 'domino'
-import transforms from '../../build/wikimedia-page-library-transform'
 
 describe('LazyLoadTransform', () => {
-  const transform = transforms.test.LazyLoadTransform
+  describe('.transformImage()', () => {
+    const transformImage = LazyLoadTransform.test.transformImage
 
-  // Add expected browser Element types to environment.
-  global.HTMLImageElement = domino.impl.HTMLImageElement
-  global.HTMLVideoElement = domino.impl.HTMLVideoElement
+    describe('when an image is transformed', function Test() {
+      beforeEach(() => {
+        const html = `<img class=classes style=styles width=1 height=2 src=/src srcset=/srcset
+          alt=text>`
+        this.document = domino.createDocument(html)
+        this.image = this.document.querySelector('img')
 
-  describe('transformAttributes()', () => {
-    const transformAttributes = transform.test.transformAttributes
+        transformImage(this.document, this.image)
 
-    describe('when the attribute to transform is not present', () => {
-      const element = domino.createDocument('<a href=/>link</a>').querySelector('a')
-
-      /** @type {PlaceholderTagAttributes} */
-      const attributes = { id: 'a' }
-
-      transformAttributes(element, attributes)
-
-      it('the placeholder attribute is set', () => assert.ok(element.id === 'a'))
-      it('the data-* attribute is not set', () => assert.ok(!element.hasAttribute('data-id')))
-      it('the other attributes are unmodified', () => assert.ok(element.href === '/'))
-      it('the contents are unmodified', () => assert.ok(element.innerHTML === 'link'))
-    })
-
-    describe('when the attribute to transform is present', () => {
-      const element = domino.createDocument('<a id=a href=/a>link</a>').querySelector('a')
-
-      /** @type {PlaceholderTagAttributes} */
-      const attributes = { href: '/b' }
-
-      transformAttributes(element, attributes)
-
-      it('the placeholder attribute is set', () => assert.ok(element.href === '/b'))
-      it('the data-* attribute is set', () => assert.ok(element.getAttribute('data-href') === '/a'))
-      it('the other attributes are unmodified', () => assert.ok(element.id === 'a'))
-      it('the contents are unmodified', () => assert.ok(element.innerHTML === 'link'))
-    })
-
-    describe('when multiple attributes are specified', () => {
-      const element = domino.createDocument('<a id=a href=/a>link</a>').querySelector('a')
-
-      /** @type {PlaceholderTagAttributes} */
-      const attributes = { className: 'class', href: '/b' }
-
-      transformAttributes(element, attributes)
-
-      it('the placeholder attributes are set', () => {
-        assert.ok(element.getAttribute('className') === 'class')
-        assert.ok(element.href === '/b')
+        this.placeholder = this.document.querySelector('.pagelib-lazy-load-placeholder')
       })
-      it('the data-* attributes are set only for replaced attributes', () => {
-        assert.ok(!element.hasAttribute('data-className'))
-        assert.ok(element.getAttribute('data-href') === '/a')
-        assert.ok(!element.hasAttribute('data-id'))
+
+      it('the image is removed from the DOM', () => assert.ok(!this.document.querySelector('img')))
+      it('the image is an orphan', () => assert.ok(!this.image.parentNode))
+      describe('the image resource attributes have been removed:', () => {
+        it('class', () => assert.ok(!this.image.hasAttribute('class')))
+        it('style', () => assert.ok(!this.image.hasAttribute('style')))
+        it('src', () => assert.ok(!this.image.hasAttribute('src')))
+        it('srcset', () => assert.ok(!this.image.hasAttribute('srcset')))
       })
-      it('the other attributes are unmodified', () => assert.ok(element.id === 'a'))
-      it('the contents are unmodified', () => assert.ok(element.innerHTML === 'link'))
-    })
 
-    // This is a corner case that is never expected to be encountered. In this scenario, the
-    // attribute to be replaced overwrites a preexisting data-* attribute making the inversion
-    // unfortunately lossy.
-    describe('when the attribute and data-attribute to transform are present', () => {
-      const element = domino.createDocument('<a id=a data-id=b href=/>link</a>').querySelector('a')
+      it('the placeholder is added to the DOM', () => assert.ok(this.placeholder))
 
-      /** @type {PlaceholderTagAttributes} */
-      const attributes = { id: 'c' }
+      it('the placeholder is a pending class member', () =>
+        assert.ok(this.placeholder.classList.contains('pagelib-lazy-load-placeholder-pending')))
+      it('the placeholder style width is set', () =>
+        assert.ok(this.placeholder.getAttribute('style').includes('width: 1px;')))
+      it('the placeholder style height is set', () =>
+        assert.ok(this.placeholder.getAttribute('style').includes('height: 2px;')))
 
-      transformAttributes(element, attributes)
-
-      it('the placeholder attribute is set', () => assert.ok(element.id === 'c'))
-      it('the data-* attribute is set and the previous value is irreversibly lost', () =>
-        assert.ok(element.getAttribute('data-id') === 'a'))
-      it('the other attributes are unmodified', () => assert.ok(element.href === '/'))
-      it('the contents are unmodified', () => assert.ok(element.innerHTML === 'link'))
+      describe('the other image attributes are preserved as data-* attributes:', () => {
+        it('class', () => assert.ok(this.placeholder.getAttribute('data-class') === 'classes'))
+        it('style', () => assert.ok(this.placeholder.getAttribute('data-style') === 'styles'))
+        it('src', () => assert.ok(this.placeholder.getAttribute('data-src') === '/src'))
+        it('srcset', () => assert.ok(this.placeholder.getAttribute('data-srcset') === '/srcset'))
+        it('width', () => assert.ok(this.placeholder.getAttribute('data-width') === '1'))
+        it('height', () => assert.ok(this.placeholder.getAttribute('data-height') === '2'))
+        it('alt', () => assert.ok(this.placeholder.getAttribute('data-alt') === 'text'))
+      })
     })
   })
 
-  describe('invertAttributes()', () => {
-    const invertAttributes = transform.test.invertAttributes
+  describe('.loadImage()', () => {
+    const loadImage = LazyLoadTransform.test.loadImage
 
-    describe('when the data-* attribute to restore is not present', () => {
-      const element = domino.createDocument('<a id=a href=/>link</a>').querySelector('a')
+    describe('when a placeholder is loading', function Test() {
+      beforeEach(() => {
+        const html = `<span
+          class='pagelib-lazy-load-placeholder pagelib-lazy-load-placeholder-pending'
+          style='width: 1px; height: 2px;' data-class=classes data-style=styles data-src=/src
+          data-srcset=/srcset data-width=1 data-height=2 data-alt=text>&nbsp;</span>`
+        this.document = domino.createDocument(html)
+        this.placeholder = this.document.querySelector('.pagelib-lazy-load-placeholder')
 
-      /** @type {PlaceholderTagAttributes} */
-      const attributes = { id: '' }
+        this.image = loadImage(this.document, this.placeholder)
+      })
 
-      invertAttributes(element, attributes)
+      it('the placeholder is not a pending class member', () =>
+        assert.ok(!this.placeholder.classList.contains('pagelib-lazy-load-placeholder-pending')))
+      it('the placeholder is a loading class member', () =>
+        assert.ok(this.placeholder.classList.contains('pagelib-lazy-load-placeholder-loading')))
 
-      it('the placeholder attribute is removed', () => assert.ok(!element.hasAttribute('id')))
-      it('the data-* attribute is removed', () => assert.ok(!element.hasAttribute('data-id')))
-      it('the other attributes are unmodified', () => assert.ok(element.href === '/'))
-      it('the contents are unmodified', () => assert.ok(element.innerHTML === 'link'))
-    })
+      it('the image is an orphan', () => assert.ok(!this.image.parentNode))
 
-    describe('when the data-* attribute to restore is present', () => {
-      const element = domino.createDocument('<a id=a data-id=b href=/>link</a>').querySelector('a')
+      describe('the image attributes are restored:', () => {
+        it('class', () => assert.ok(this.image.getAttribute('class') === 'classes'))
+        it('style', () => assert.ok(this.image.getAttribute('style') === 'styles'))
+        it('src', () => assert.ok(this.image.getAttribute('src') === '/src'))
+        it('srcset', () => assert.ok(this.image.getAttribute('srcset') === '/srcset'))
+        it('width', () => assert.ok(this.image.getAttribute('width') === '1'))
+        it('height', () => assert.ok(this.image.getAttribute('height') === '2'))
+        it('alt', () => assert.ok(this.image.getAttribute('alt') === 'text'))
+      })
 
-      /** @type {PlaceholderTagAttributes} */
-      const attributes = { id: '' }
+      describe('and the placeholder is loaded', () => {
+        beforeEach(() => this.image.dispatchEvent(new domino.impl.Event('load')))
 
-      invertAttributes(element, attributes)
+        it('the placeholder is not a loading class member', () =>
+          assert.ok(!this.placeholder.classList.contains('pagelib-lazy-load-placeholder-loading')))
+        it('the placeholder is a loaded class member', () =>
+          assert.ok(this.placeholder.classList.contains('pagelib-lazy-load-placeholder-loaded')))
 
-      it('the attribute is restored', () => assert.ok(element.id === 'b'))
-      it('the data-* attribute is removed', () => assert.ok(!element.hasAttribute('data-id')))
-      it('the other attributes are unmodified', () => assert.ok(element.href === '/'))
-      it('the contents are unmodified', () => assert.ok(element.innerHTML === 'link'))
-    })
-
-    describe('when the attributes are transformed and inverted', () => {
-      const element = domino.createDocument('<a id=a href=/a>link</a>').querySelector('a')
-      const html = element.outerHTML
-
-      /** @type {PlaceholderTagAttributes} */
-      const attributes = { className: 'class', href: '/b' }
-
-      transform.test.transformAttributes(element, attributes)
-      invertAttributes(element, attributes)
-
-      it('the result is lossless', () => assert.ok(element.outerHTML === html))
+        it('the image is a child of the placeholder', () =>
+          assert.ok(this.image.parentNode === this.placeholder))
+      })
     })
   })
 
-  describe('transformElement()', () => {
-    const transformElement = transform.test.transformElement
-
-    describe('when an image is transformed', () => {
-      const element = domino.createDocument('<img class=a src=/>').querySelector('img')
-
-      transformElement(element)
-
-      it('the classList is replaced', () => {
-        assert.ok(element.classList.length === 1)
-        assert.ok(element.classList.contains('pagelib-lazy-load-placeholder'))
+  describe('.transform()', () => {
+    describe('when images are transformed', function Test() {
+      beforeEach(() => {
+        this.document = domino.createDocument('<div><img src=/><img src=/></div>')
+        const images = LazyLoadTransform.queryTransformImages(this.document.documentElement)
+        LazyLoadTransform.transform(this.document, images)
       })
 
-      it('the src is replaced', () => assert.ok(element.src.startsWith('data:')))
-      it('the srcset is replaced', () =>
-        assert.ok(element.getAttribute('srcset').startsWith('data:')))
-    })
-
-    describe('when a video is transformed', () => {
-      const element = domino.createDocument('<video class=a src=/></video>').querySelector('video')
-
-      transformElement(element)
-
-      it('the classList is replaced', () => {
-        assert.ok(element.classList.length === 1)
-        assert.ok(element.classList.contains('pagelib-lazy-load-placeholder'))
-      })
-      it('the poster is replaced', () =>
-        assert.ok(element.getAttribute('poster').startsWith('data:')))
-    })
-
-    describe('when an unsupported element is transformed', () => {
-      const element = domino.createDocument('<a class=a href=/></a>').querySelector('a')
-      const html = element.outerHTML
-
-      transformElement(element)
-
-      it('the element is unmodified', () => assert.ok(element.outerHTML === html))
+      it('the images are removed from the DOM', () =>
+        assert.ok(!this.document.querySelector('img')))
+      it('placeholders are added to the DOM', () =>
+        assert.ok(this.document.querySelectorAll('.pagelib-lazy-load-placeholder').length === 2))
     })
   })
 
-  describe('invertElement()', () => {
-    const invertElement = transform.test.invertElement
-
-    describe('when an image placeholder is inverted', () => {
-      const html = `<img class=pagelib-lazy-load-placeholder data-class='a b' src=data:
-        data-src=/ srcset=data:>`
-      const element = domino.createDocument(html).querySelector('img')
-
-      invertElement(element)
-
-      it('the classList is restored', () => {
-        assert.ok(element.classList.length === 2)
-        assert.ok(element.classList.contains('a'))
-        assert.ok(element.classList.contains('b'))
+  describe('.loadImages()', () => {
+    describe('when images are loaded', function Test() {
+      beforeEach(() => {
+        const html = `
+          <div>
+            <span class='pagelib-lazy-load-placeholder pagelib-lazy-load-placeholder-pending'
+              data-src=/src>&nbsp;</span>
+            <span class='pagelib-lazy-load-placeholder pagelib-lazy-load-placeholder-pending'
+              data-src=/src>&nbsp;</span>
+          </div>`
+        this.document = domino.createDocument(html)
+        const placeholders = LazyLoadTransform.queryPlaceholders(this.document.documentElement)
+        LazyLoadTransform.loadImages(this.document, placeholders)
       })
-      it('the src is restored', () => assert.ok(element.src === '/'))
-      it('the srcset is restored', () => assert.ok(!element.hasAttribute('srcset')))
-      it('the data-* attributes are removed', () => {
-        assert.ok(!element.hasAttribute('data-class'))
-        assert.ok(!element.hasAttribute('data-src'))
+
+      it('the placeholder loading class is set', () => {
+        // eslint-disable-next-line max-len
+        const placeholders = this.document.querySelectorAll('.pagelib-lazy-load-placeholder-loading')
+        assert.ok(placeholders.length === 2)
       })
-    })
-
-    describe('when a video placeholder is inverted', () => {
-      const html = `<video class=pagelib-lazy-load-placeholder poster=data:
-        data-poster=/ src=/></video>`
-      const element = domino.createDocument(html).querySelector('video')
-
-      invertElement(element)
-
-      it('the classList is restored', () => assert.ok(element.classList.length === 0))
-      it('the poster is restored', () => assert.ok(element.getAttribute('poster') === '/'))
-    })
-
-    describe('when an unsupported element is inverted', () => {
-      const element = domino.createDocument('<a class=a href=/></a>').querySelector('a')
-      const html = element.outerHTML
-
-      invertElement(element)
-
-      it('the element is unmodified', () => assert.ok(element.outerHTML === html))
-    })
-
-    describe('when an element is transformed and inverted', () => {
-      const element = domino.createDocument('<img class=a src=/>').querySelector('img')
-      const html = element.outerHTML
-
-      transform.test.transformElement(element)
-      invertElement(element)
-
-      it('the result is lossless', () => assert.ok(element.outerHTML === html))
-    })
-  })
-
-  describe('transform()', () => {
-    describe('when an element is transformed', () => {
-      const element = domino.createDocument('<img src=/>').querySelector('img')
-
-      transform.transform(transform.queryTransformElements(element))
-
-      it('the element is transformed', () =>
-        assert.ok(element.classList.contains('pagelib-lazy-load-placeholder')))
-    })
-
-    describe('when a tree is transformed', () => {
-      const html = '<a href=/><video src=/></video></a><img src=/><a href=/></a>'
-      const element = domino.createDocument(html).documentElement
-
-      transform.transform(transform.queryTransformElements(element))
-
-      it('the unsupported elements are unmodified', () => {
-        const elements = Array.from(element.querySelectorAll('a'))
-        assert.ok(elements.every(element => element.classList.length === 0))
-      })
-      it('the supported elements are transformed', () => {
-        const elements = Array.from(element.querySelectorAll('[class^=pagelib-]'))
-        assert.ok(elements.length === 2)
-        assert.ok(elements.every(element => element.classList.length === 1))
-      })
-    })
-
-    describe('when a transformed tree is transformed', () => {
-      let html = `<img class=pagelib-lazy-load-placeholder src=data: data-src=/ srcset=data:
-        data-srcset=/>`
-      const element = domino.createDocument(html).documentElement
-      html = element.outerHTML
-
-      transform.transform(transform.queryTransformElements(element))
-
-      it('the tree is unmodified', () => assert.ok(element.outerHTML === html))
-    })
-
-    describe('when a tree with no supported elements is transformed', () => {
-      const element = domino.createDocument('<html></html>').documentElement
-      const html = element.outerHTML
-
-      transform.transform(transform.queryTransformElements(element))
-
-      it('the tree is unmodified', () => assert.ok(element.outerHTML === html))
-    })
-  })
-
-  describe('invert()', () => {
-    describe('when an element is inverted', () => {
-      const html = `
-        <img class=pagelib-lazy-load-placeholder src=data: data-src=/ srcset=data:>`
-      const element = domino.createDocument(html).querySelector('img')
-
-      transform.invert(transform.queryInvertElements(element))
-
-      it('the transform is undone', () => assert.ok(!element.classList.length))
-    })
-
-    describe('when a tree is inverted', () => {
-      const html = `
-        <a href=/><video class=pagelib-lazy-load-placeholder src=/ poster=data:></video></a>
-        <img class=pagelib-lazy-load-placeholder src=data: data-src=/ srcset=data:>
-        <a href=/></a>`
-      const element = domino.createDocument(html).documentElement
-
-      transform.invert(transform.queryInvertElements(element))
-
-      it('all transforms are undone', () => {
-        const elements = Array.from(element.querySelectorAll('[class^=pagelib-]'))
-        assert.ok(elements.length === 0)
-      })
-    })
-
-    describe('when an inverted tree is inverted', () => {
-      const element = domino.createDocument('<img src=/>').documentElement
-      const html = element.outerHTML
-
-      transform.invert(transform.queryInvertElements(element))
-
-      it('the tree is unmodified', () => assert.ok(element.outerHTML === html))
-    })
-
-    describe('when a tree with no supported elements is inverted', () => {
-      const element = domino.createDocument('<html></html>').documentElement
-      const html = element.outerHTML
-
-      transform.invert(transform.queryInvertElements(element))
-
-      it('the tree is unmodified', () => assert.ok(element.outerHTML === html))
-    })
-
-    describe('when a tree is transformed and inverted', () => {
-      const element = domino.createDocument('<img class=a src=/>').documentElement
-      const html = element.outerHTML
-
-      transform.transform(transform.queryTransformElements(element))
-      transform.invert(transform.queryInvertElements(element))
-
-      it('the result is lossless', () => assert.ok(element.outerHTML === html))
     })
   })
 })

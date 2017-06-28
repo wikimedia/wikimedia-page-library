@@ -1,4 +1,77 @@
-/* Lazily loaded resources that have not yet been requested to load are marked with this class. This
-   class must match LazyLoadTransform.PLACEHOLDER_CLASS. */
-img.pagelib-lazy-load-placeholder, video.pagelib-lazy-load-placeholder {
+:root {
+  /* https://phabricator.wikimedia.org/source/wikimedia-ui-base/browse/master/wikimedia-ui-base.css */
+  --wmui-color-base80: #eaecf0;
+
+  --pagelib-lazy-load-placeholder-background-color: var(--wmui-color-base80);
+  --pagelib-lazy-load-placeholder-animation-duration: .3s;
+}
+
+/* Transform lifecycle:
+  - Original:
+    <img src=/ width=1 height=2>
+
+  - Transformed (replace image with span and preserve image attributes as data-* attributes):
+    <span class='pagelib-lazy-load-placeholder pagelib-lazy-load-placeholder-pending'
+      style='width: 1px; height: 2px;' data-src=/ data-width=1 data-height=2>&nbsp;</span>
+
+  - Loading (replace pending class with loading):
+    <span class='pagelib-lazy-load-placeholder pagelib-lazy-load-placeholder-loading'
+      style='width: 1px; height: 2px;' data-src=/ data-width=1 data-height=2>&nbsp;</span>
+
+  - Loaded (append image and replace loading class with loaded):
+    <span class='pagelib-lazy-load-placeholder pagelib-lazy-load-placeholder-loaded'
+      style='width: 1px; height: 2px;' data-src=/ data-width=1 data-height=2>
+      <img src=/ width=1 height=2>
+    </span>
+*/
+
+/* Placeholders are persistent members of this class. This class must match
+   LazyLoadTransform.PLACEHOLDER_CLASS. Additionally, width and height attributes as specified by a
+   replaced image are set as inline styles on the placeholder. */
+.pagelib-lazy-load-placeholder {
+  /* In order to avoid reflows placeholder needs to be block, or inline-block+overflow:hidden given
+     it is nested inside an inline <a>.*/
+  display: block;
+
+  /* Placeholders are just blank boxes. */
+  background-color: var(--pagelib-lazy-load-placeholder-background-color);
+}
+
+/* Placeholders that have not started downloading are temporary members of this class. This class
+   must match LazyLoadTransform.PLACHOLDER_PENDING_CLASS. */
+.pagelib-lazy-load-placeholder-pending {}
+
+/* Placeholders that have started downloading are temporary members of this class. This class must
+   match LazyLoadTransform.PLACHOLDER_LOADING_CLASS. */
+.pagelib-lazy-load-placeholder-loading {}
+
+/* Placeholders that have finished downloading are permanent members of this class. This class must
+   match LazyLoadTransform.PLACHOLDER_LOADED_CLASS. */
+.pagelib-lazy-load-placeholder-loaded {
+  /* When the image has loaded, transition the background color for a fade-out effect, allowing the
+     page background to show for a translucent image. */
+  animation: pagelib-lazy-load-placeholder-fade-out var(--pagelib-lazy-load-placeholder-animation-duration) ease-in;
+
+  /* Animation fallback. */
+  background-color: transparent;
+}
+
+.pagelib-lazy-load-placeholder-loaded img {
+  /* When the image has loaded, transition the image in for a fade-in effect. */
+  animation: pagelib-lazy-load-image-fade-in var(--pagelib-lazy-load-placeholder-animation-duration) ease-in;
+
+  /* Animation fallback. */
+  opacity: 1;
+}
+
+@keyframes pagelib-lazy-load-image-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* The lazily loaded image is a child. Animate the background color to transparency instead of the
+   opacity which would affect the child. */
+@keyframes pagelib-lazy-load-placeholder-fade-out {
+  from { background-color: var(--pagelib-lazy-load-placeholder-background-color); }
+  to { background-color: transparent; }
 }

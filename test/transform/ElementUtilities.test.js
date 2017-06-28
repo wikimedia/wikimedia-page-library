@@ -1,4 +1,5 @@
 import assert from 'assert'
+import domino from 'domino'
 import fixtureIO from '../utilities/FixtureIO'
 import pagelib from '../../build/wikimedia-page-library-transform'
 
@@ -68,15 +69,31 @@ describe('ElementUtilities', () => {
     })
   })
 
-  describe('querySelectorAllInclusive()', () => {
-    it('selects child', () => {
-      const element = document.querySelector('table')
-      assert.ok(elementUtilities.querySelectAllInclusive(element, 'tr')[0].tagName === 'TR')
+  describe('copyAttributesToDataAttributes()', function Test() {
+    beforeEach(() => {
+      const html = '<img id=source src=/a width=1> <img id=destination src=/b>'
+      const document = domino.createDocument(html)
+      const source = document.querySelector('#source')
+      this.destination = document.querySelector('#destination')
+      const attributes = ['width', 'height']
+      elementUtilities.copyAttributesToDataAttributes(source, this.destination, attributes)
     })
 
-    it('selects self', () => {
-      const element = document.querySelector('table')
-      assert.ok(elementUtilities.querySelectAllInclusive(element, 'table')[0].tagName === 'TABLE')
+    it('present', () => assert.ok(this.destination.getAttribute('data-width') === '1'))
+    it('missing', () => assert.ok(!this.destination.hasAttribute('data-height')))
+  })
+
+  describe('copyDataAttributesToAttributes()', function Test() {
+    beforeEach(() => {
+      const html = '<img id=source src=/a data-width=1> <img id=destination src=/b>'
+      const document = domino.createDocument(html)
+      const source = document.querySelector('#source')
+      this.destination = document.querySelector('#destination')
+      const attributes = ['width', 'height']
+      elementUtilities.copyDataAttributesToAttributes(source, this.destination, attributes)
     })
+
+    it('present', () => assert.ok(this.destination.getAttribute('width') === '1'))
+    it('missing', () => assert.ok(!this.destination.hasAttribute('height')))
   })
 })
