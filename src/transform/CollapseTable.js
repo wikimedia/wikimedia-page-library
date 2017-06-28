@@ -1,6 +1,8 @@
 import './CollapseTable.css'
 import elementUtilities from './ElementUtilities'
 
+const SECTION_TOGGLED_EVENT_TYPE = 'section-toggled'
+
 /**
  * Find an array of table header (TH) contents. If there are no TH elements in
  * the table or the header's link matches pageTitle, an empty array is returned.
@@ -67,7 +69,7 @@ const getTableHeader = (element, pageTitle) => {
  *     })
  * @this HTMLElement
  * @param {?FooterDivClickCallback} footerDivClickCallback
- * @return {void}
+ * @return {boolean} true if collapsed, false if expanded.
  */
 const toggleCollapseClickCallback = function(footerDivClickCallback) {
   const container = this.parentNode
@@ -75,7 +77,8 @@ const toggleCollapseClickCallback = function(footerDivClickCallback) {
   const table = container.children[1]
   const footer = container.children[2]
   const caption = header.querySelector('.app_table_collapsed_caption')
-  if (table.style.display !== 'none') {
+  const collapsed = table.style.display !== 'none'
+  if (collapsed) {
     table.style.display = 'none'
     header.classList.remove('app_table_collapse_close') // todo: use app_table_collapsed_collapsed
     header.classList.remove('app_table_collapse_icon') // todo: use app_table_collapsed_icon
@@ -98,6 +101,7 @@ const toggleCollapseClickCallback = function(footerDivClickCallback) {
     }
     footer.style.display = 'block'
   }
+  return collapsed
 }
 
 /**
@@ -166,16 +170,17 @@ const newCaption = (title, headerText) => {
 }
 
 /**
- * @param {!Document} document
+ * @param {!Window} window
  * @param {!Element} content
  * @param {?string} pageTitle
  * @param {?boolean} isMainPage
  * @param {?string} infoboxTitle
  * @param {?string} otherTitle
  * @param {?string} footerTitle
+ * @param {?FooterDivClickCallback} footerDivClickCallback
  * @return {void}
  */
-const collapseTables = (document, content, pageTitle, isMainPage, infoboxTitle, otherTitle,
+const collapseTables = (window, content, pageTitle, isMainPage, infoboxTitle, otherTitle,
   footerTitle, footerDivClickCallback) => {
   if (isMainPage) { return }
 
@@ -197,7 +202,7 @@ const collapseTables = (document, content, pageTitle, isMainPage, infoboxTitle, 
 
     // create the container div that will contain both the original table
     // and the collapsed version.
-    const containerDiv = document.createElement('div')
+    const containerDiv = window.document.createElement('div')
     containerDiv.className = 'app_table_container'
     table.parentNode.insertBefore(containerDiv, table)
     table.parentNode.removeChild(table)
@@ -207,10 +212,10 @@ const collapseTables = (document, content, pageTitle, isMainPage, infoboxTitle, 
     table.style.marginTop = '0px'
     table.style.marginBottom = '0px'
 
-    const collapsedHeaderDiv = newCollapsedHeaderDiv(document, caption)
+    const collapsedHeaderDiv = newCollapsedHeaderDiv(window.document, caption)
     collapsedHeaderDiv.style.display = 'block'
 
-    const collapsedFooterDiv = newCollapsedFooterDiv(document, footerTitle)
+    const collapsedFooterDiv = newCollapsedFooterDiv(window.document, footerTitle)
     collapsedFooterDiv.style.display = 'none'
 
     // add our stuff to the container
@@ -221,10 +226,21 @@ const collapseTables = (document, content, pageTitle, isMainPage, infoboxTitle, 
     // set initial visibility
     table.style.display = 'none'
 
+    // eslint-disable-next-line require-jsdoc, no-loop-func
+    const dispatchSectionToggledEvent = collapsed =>
+      // eslint-disable-next-line no-undef
+      window.dispatchEvent(new CustomEvent(SECTION_TOGGLED_EVENT_TYPE, { collapsed }))
+
     // assign click handler to the collapsed divs
-    collapsedHeaderDiv.onclick = toggleCollapseClickCallback.bind(collapsedHeaderDiv)
-    collapsedFooterDiv.onclick = toggleCollapseClickCallback.bind(collapsedFooterDiv,
-      footerDivClickCallback)
+    collapsedHeaderDiv.onclick = () => {
+      const collapsed = toggleCollapseClickCallback.bind(collapsedHeaderDiv)()
+      dispatchSectionToggledEvent(collapsed)
+    }
+    collapsedFooterDiv.onclick = () => {
+      const collapsed = toggleCollapseClickCallback.bind(collapsedFooterDiv,
+        footerDivClickCallback)()
+      dispatchSectionToggledEvent(collapsed)
+    }
   }
 }
 
@@ -253,6 +269,7 @@ const expandCollapsedTableIfItContainsElement = element => {
 }
 
 export default {
+  SECTION_TOGGLED_EVENT_TYPE,
   toggleCollapseClickCallback,
   collapseTables,
   expandCollapsedTableIfItContainsElement,
