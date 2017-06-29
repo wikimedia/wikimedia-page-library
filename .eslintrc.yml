@@ -10,6 +10,7 @@ env:
 rules:
   # Best Practices
   no-else-return: 1
+  no-floating-decimal: 0
 
   # Strict Mode
   strict: [1, never]
