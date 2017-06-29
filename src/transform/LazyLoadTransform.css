@@ -1,16 +1,3 @@
-:root {
-  /* https://phabricator.wikimedia.org/source/wikimedia-ui-base/browse/master/wikimedia-ui-base.css */
-  --wmui-color-base80: #eaecf0;
-  --wmui-color-base30: #72777d;
-
-  --pagelib-lazy-load-placeholder-background-color: var(--wmui-color-base80);
-  --pagelib-lazy-load-placeholder-animation-duration: .3s;
-}
-
-.dark {
-  --pagelib-lazy-load-placeholder-background-color: var(--wmui-color-base30);
-}
-
 /* Transform lifecycle:
   - Original:
     <img src=/ width=1 height=2>
@@ -28,6 +15,8 @@
       style='width: 1px; height: 2px;' data-src=/ data-width=1 data-height=2>
       <img src=/ width=1 height=2>
     </span>
+
+  Colors from: https://phabricator.wikimedia.org/source/wikimedia-ui-base/browse/master/wikimedia-ui-base.css.
 */
 
 /* Placeholders are persistent members of this class. This class must match
@@ -39,7 +28,11 @@
   display: block;
 
   /* Placeholders are just blank boxes. */
-  background-color: var(--pagelib-lazy-load-placeholder-background-color);
+  background-color: #eaecf0;
+}
+
+.dark .pagelib-lazy-load-placeholder {
+  background-color: #72777d;
 }
 
 /* Placeholders that have not started downloading are temporary members of this class. This class
@@ -55,13 +48,17 @@
 .pagelib-lazy-load-placeholder-loaded {
   /* When the image has loaded, transition the background color for a fade-out effect, allowing the
      page background to show for a translucent image. */
-  animation: pagelib-lazy-load-placeholder-fade-out var(--pagelib-lazy-load-placeholder-animation-duration) ease-in;
+  animation: pagelib-lazy-load-placeholder-fade-out .3s ease-in;
   background-color: transparent;
+}
+
+.dark .pagelib-lazy-load-placeholder-loaded {
+  animation-name: pagelib-lazy-load-placeholder-dark-fade-out;
 }
 
 .pagelib-lazy-load-placeholder-loaded img {
   /* When the image has loaded, transition the image in for a fade-in effect. */
-  animation: pagelib-lazy-load-image-fade-in var(--pagelib-lazy-load-placeholder-animation-duration) ease-in;
+  animation: pagelib-lazy-load-image-fade-in .3s ease-in;
   opacity: 1;
 }
 
@@ -73,6 +70,11 @@
 /* The lazily loaded image is a child. Animate the background color to transparency instead of the
    opacity which would affect the child. */
 @keyframes pagelib-lazy-load-placeholder-fade-out {
-  from { background-color: var(--pagelib-lazy-load-placeholder-background-color); }
+  from { background-color: #eaecf0; }
+  to { background-color: transparent; }
+}
+
+@keyframes pagelib-lazy-load-placeholder-dark-fade-out {
+  from { background-color: #72777d; }
   to { background-color: transparent; }
 }
