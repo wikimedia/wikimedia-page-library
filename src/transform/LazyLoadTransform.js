@@ -12,9 +12,6 @@ const PLACEHOLDER_LOADED_CLASS = 'pagelib-lazy-load-placeholder-loaded' // Downl
 // Selector used to identify transformable images. Images must be parented.
 const TRANSFORM_IMAGE_SELECTOR = `:not(.${PLACEHOLDER_CLASS}) img`
 
-// Selector used to identify images previously transformed but not yet loading or loaded.
-const PENDING_PLACEHOLDER_SELECTOR = `.${PLACEHOLDER_PENDING_CLASS}`
-
 // Attributes copied from images to placeholders via data-* attributes for later restoration.
 const COPY_ATTRIBUTES = ['class', 'style', 'src', 'srcset', 'width', 'height', 'alt']
 
@@ -62,24 +59,29 @@ const newImageSubstitute = (document, placeholder, loadEventListener) => {
  * Replace image with placeholder.
  * @param {!Document} document
  * @param {!HTMLImageElement} image The image to be replaced. Must be parented.
- * @return {void}
+ * @return {!HTMLSpanElement} The placeholder that replaced the image.
  */
 const transformImage = (document, image) => {
   // Replace the image and its attributes with a span to prevent the image from downloading. A
   // replacement span is used instead of the image itself for consistency with MobileFrontend /
   // Minerva and because image src is not an animatable property which prevents cross-fading with
   // the background.
-  image.parentNode.replaceChild(newPlaceholder(document, image), image)
+  const placeholder = newPlaceholder(document, image)
+  image.parentNode.replaceChild(placeholder, image)
 
   // The image still exists in the DOM. Ensure no unused resources are loaded.
   for (const attribute of ['src', 'srcset']) { image.removeAttribute(attribute) }
+
+  return placeholder
 }
 
 /**
- * Load and append a substitute image to placeholder once loaded.
+ * Visually* replace placeholder with a substitute image. The image only appears once loaded.
+ *
+ * *The substitute image is actually appended to the placeholder.
  * @param {!Document} document
- * @param {!HTMLSpanElement} placeholder
- * @return {!HTMLImageElement} The substitute image (for testing use only).
+ * @param {!HTMLSpanElement} placeholder The placeholder to replace.
+ * @return {!HTMLImageElement} The substitute image.
  */
 const loadImage = (document, placeholder) => {
   placeholder.classList.remove(PLACEHOLDER_PENDING_CLASS)
@@ -99,38 +101,21 @@ const loadImage = (document, placeholder) => {
  * @param {!Element} element
  * @return {!HTMLImageElement[]} Transformable images descendent from but not including element.
  */
-const queryTransformImages = element => element.querySelectorAll(TRANSFORM_IMAGE_SELECTOR)
-
-/**
- * @param {!Element} element
- * @return {!HTMLSpanElement[]} Loadable placeholders descendent from but not including element.
- */
-const queryPlaceholders = element => element.querySelectorAll(PENDING_PLACEHOLDER_SELECTOR)
+const queryTransformImages = element =>
+  Array.prototype.slice.call(element.querySelectorAll(TRANSFORM_IMAGE_SELECTOR))
 
 /**
  * Replace images with placeholders. Only image class, style, src, srcset, width, height, and alt
  * attributes are preserved. The transformation is inverted by calling loadImages().
  * @param {!Document} document
  * @param {!HTMLImageElement[]} images The images to replace.
- * @return {void}
+ * @return {!HTMLSpanElement[]} Placeholders that replaced images.
  */
-const transform = (document, images) => images.forEach(image => transformImage(document, image))
-
-/**
- * Visually* replace placeholders with images. Images only appear once loaded.
- *
- * *Substitute images are actually appended to the placeholders.
- * @param {!Document} document
- * @param {!HTMLSpanElement[]} placeholders The placeholders to replace.
- * @return {void}
- */
-const loadImages = (document, placeholders) =>
-  placeholders.forEach(placeholder => loadImage(document, placeholder))
+const transform = (document, images) => images.map(image => transformImage(document, image))
 
 export default {
-  test: { transformImage, loadImage },
+  test: { transformImage },
+  loadImage,
   queryTransformImages,
-  queryPlaceholders,
-  transform,
-  loadImages
+  transform
 }

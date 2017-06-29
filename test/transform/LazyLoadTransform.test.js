@@ -47,7 +47,7 @@ describe('LazyLoadTransform', () => {
   })
 
   describe('.loadImage()', () => {
-    const loadImage = LazyLoadTransform.test.loadImage
+    const loadImage = LazyLoadTransform.loadImage
 
     describe('when a placeholder is loading', function Test() {
       beforeEach(() => {
@@ -96,37 +96,16 @@ describe('LazyLoadTransform', () => {
     describe('when images are transformed', function Test() {
       beforeEach(() => {
         this.document = domino.createDocument('<div><img src=/><img src=/></div>')
-        const images = LazyLoadTransform.queryTransformImages(this.document.documentElement)
-        LazyLoadTransform.transform(this.document, images)
+        this.images = LazyLoadTransform.queryTransformImages(this.document.documentElement)
+        this.placeholders = LazyLoadTransform.transform(this.document, this.images)
       })
 
       it('the images are removed from the DOM', () =>
         assert.ok(!this.document.querySelector('img')))
       it('placeholders are added to the DOM', () =>
         assert.ok(this.document.querySelectorAll('.pagelib-lazy-load-placeholder').length === 2))
-    })
-  })
-
-  describe('.loadImages()', () => {
-    describe('when images are loaded', function Test() {
-      beforeEach(() => {
-        const html = `
-          <div>
-            <span class='pagelib-lazy-load-placeholder pagelib-lazy-load-placeholder-pending'
-              data-src=/src></span>
-            <span class='pagelib-lazy-load-placeholder pagelib-lazy-load-placeholder-pending'
-              data-src=/src></span>
-          </div>`
-        this.document = domino.createDocument(html)
-        const placeholders = LazyLoadTransform.queryPlaceholders(this.document.documentElement)
-        LazyLoadTransform.loadImages(this.document, placeholders)
-      })
-
-      it('the placeholder loading class is set', () => {
-        // eslint-disable-next-line max-len
-        const placeholders = this.document.querySelectorAll('.pagelib-lazy-load-placeholder-loading')
-        assert.ok(placeholders.length === 2)
-      })
+      it('the number of placeholders returned matches the numbers of images', () =>
+        assert.ok(this.placeholders.length === this.images.length))
     })
   })
 })
