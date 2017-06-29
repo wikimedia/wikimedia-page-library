@@ -48,18 +48,26 @@
 .pagelib-lazy-load-placeholder-loaded {
   /* When the image has loaded, transition the background color for a fade-out effect, allowing the
      page background to show for a translucent image. */
+  -webkit-animation: pagelib-lazy-load-placeholder-fade-out .3s ease-in;
   animation: pagelib-lazy-load-placeholder-fade-out .3s ease-in;
   background-color: transparent;
 }
 
 .dark .pagelib-lazy-load-placeholder-loaded {
+  -webkit-animation-name: pagelib-lazy-load-placeholder-dark-fade-out;
   animation-name: pagelib-lazy-load-placeholder-dark-fade-out;
 }
 
 .pagelib-lazy-load-placeholder-loaded img {
   /* When the image has loaded, transition the image in for a fade-in effect. */
+  -webkit-animation: pagelib-lazy-load-image-fade-in .3s ease-in;
   animation: pagelib-lazy-load-image-fade-in .3s ease-in;
   opacity: 1;
+}
+
+@-webkit-keyframes pagelib-lazy-load-image-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes pagelib-lazy-load-image-fade-in {
@@ -69,8 +77,18 @@
 
 /* The lazily loaded image is a child. Animate the background color to transparency instead of the
    opacity which would affect the child. */
+@-webkit-keyframes pagelib-lazy-load-placeholder-fade-out {
+  from { background-color: #eaecf0; }
+  to { background-color: transparent; }
+}
+
 @keyframes pagelib-lazy-load-placeholder-fade-out {
   from { background-color: #eaecf0; }
+  to { background-color: transparent; }
+}
+
+@-webkit-keyframes pagelib-lazy-load-placeholder-dark-fade-out {
+  from { background-color: #72777d; }
   to { background-color: transparent; }
 }
 
