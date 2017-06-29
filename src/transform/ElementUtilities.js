@@ -44,6 +44,25 @@ const findClosestAncestor = (el, selector) => {
 const isNestedInTable = el => Boolean(findClosestAncestor(el, 'table'))
 
 /**
+ * @param {!HTMLElement} element
+ * @return {!boolean} true if element affects layout, false otherwise.
+ */
+const isVisible = element =>
+  // https://github.com/jquery/jquery/blob/305f193/src/css/hiddenVisibleSelectors.js#L12
+  Boolean(element.offsetWidth || element.offsetHeight || element.getClientRects().length)
+
+/**
+ * @param {!Element} element
+ * @param {!Rectangle} rectangle A rectangle relative the viewport.
+ * @return {!boolean} true if element and rectangle overlap, false otherwise.
+ */
+const intersectsViewportRectangle = (element, rectangle) => {
+  const bounds = element.getBoundingClientRect()
+  return !(bounds.top > rectangle.bottom || bounds.right < rectangle.left
+    || bounds.bottom < rectangle.top || bounds.left > rectangle.right)
+}
+
+/**
  * Copy attributes from source to destination as data-* attributes.
  * @param {!HTMLElement} source
  * @param {!HTMLElement} destination
@@ -78,6 +97,8 @@ export default {
   matchesSelectorCompat,
   findClosestAncestor,
   isNestedInTable,
+  isVisible,
+  intersectsViewportRectangle,
   copyAttributesToDataAttributes,
   copyDataAttributesToAttributes
 }

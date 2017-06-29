@@ -51,16 +51,12 @@
   /* When the image has loaded, transition the background color for a fade-out effect, allowing the
      page background to show for a translucent image. */
   animation: pagelib-lazy-load-placeholder-fade-out var(--pagelib-lazy-load-placeholder-animation-duration) ease-in;
-
-  /* Animation fallback. */
   background-color: transparent;
 }
 
 .pagelib-lazy-load-placeholder-loaded img {
   /* When the image has loaded, transition the image in for a fade-in effect. */
   animation: pagelib-lazy-load-image-fade-in var(--pagelib-lazy-load-placeholder-animation-duration) ease-in;
-
-  /* Animation fallback. */
   opacity: 1;
 }
 
