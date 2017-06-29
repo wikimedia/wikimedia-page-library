@@ -70,11 +70,11 @@ const intersectsViewportRectangle = (element, rectangle) => {
  * @return {void}
  */
 const copyAttributesToDataAttributes = (source, destination, attributes) => {
-  for (const attribute of attributes) {
+  attributes.forEach(attribute => {
     if (source.hasAttribute(attribute)) {
       destination.setAttribute(`data-${attribute}`, source.getAttribute(attribute))
     }
-  }
+  })
 }
 
 /**
@@ -85,12 +85,12 @@ const copyAttributesToDataAttributes = (source, destination, attributes) => {
  * @return {void}
  */
 const copyDataAttributesToAttributes = (source, destination, attributes) => {
-  for (const attribute of attributes) {
+  attributes.forEach(attribute => {
     const dataAttribute = `data-${attribute}`
     if (source.hasAttribute(dataAttribute)) {
       destination.setAttribute(attribute, source.getAttribute(dataAttribute))
     }
-  }
+  })
 }
 
 export default {
