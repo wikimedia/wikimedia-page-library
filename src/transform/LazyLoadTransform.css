@@ -1,9 +1,14 @@
 :root {
   /* https://phabricator.wikimedia.org/source/wikimedia-ui-base/browse/master/wikimedia-ui-base.css */
   --wmui-color-base80: #eaecf0;
+  --wmui-color-base30: #72777d;
 
   --pagelib-lazy-load-placeholder-background-color: var(--wmui-color-base80);
   --pagelib-lazy-load-placeholder-animation-duration: .3s;
+}
+
+.dark {
+  --pagelib-lazy-load-placeholder-background-color: var(--wmui-color-base30);
 }
 
 /* Transform lifecycle:
