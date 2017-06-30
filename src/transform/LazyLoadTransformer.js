@@ -32,7 +32,8 @@ export default class {
   }
 
   /**
-   * This function may register.
+   * Replace images with placeholders. Calling this function may register this instance to listen to
+   * page events.
    * @param {!Element} element
    * @return {void}
    */
@@ -42,6 +43,13 @@ export default class {
     this._placeholders = this._placeholders.concat(placeholders)
     this._register()
   }
+
+  /**
+   * Manually trigger a load images check. Calling this function may unregister this instance from
+   * listening to page events.
+   * @return {void}
+   */
+  loadImages() { this._loadImagesCallback() }
 
   /**
    * This method may be safely called even when already unregistered.
