@@ -45,14 +45,15 @@ export default class {
   }
 
   /**
-   * Manually trigger a load images check. Calling this function may unregister this instance from
+   * Manually trigger a load images check. Calling this function may deregister this instance from
    * listening to page events.
    * @return {void}
    */
   loadImages() { this._loadImagesCallback() }
 
   /**
-   * This method may be safely called even when already unregistered.
+   * This method may be safely called even when already unregistered. This function clears the
+   * record of placeholders.
    * @return {void}
    */
   deregister() {
@@ -65,6 +66,7 @@ export default class {
 
     this._scrollEventThrottle.deregister()
     this._resizeEventThrottle.deregister()
+    this._placeholders = []
   }
 
   /**
@@ -96,6 +98,9 @@ export default class {
     this._placeholders = this._placeholders.filter(placeholder =>
       !(this._isImageEligibleToLoad(placeholder, viewport)
         && LazyLoadTransform.loadImage(this._window.document, placeholder)))
+    if (this._placeholders.length === 0) {
+      this.deregister()
+    }
   }
 
   /**
