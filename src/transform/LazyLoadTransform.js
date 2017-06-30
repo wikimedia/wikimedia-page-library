@@ -12,7 +12,8 @@ const PLACEHOLDER_LOADED_CLASS = 'pagelib-lazy-load-placeholder-loaded' // Downl
 // Selector used to identify transformable images. Images must be parented.
 const TRANSFORM_IMAGE_SELECTOR = `:not(.${PLACEHOLDER_CLASS}) img`
 
-// Attributes copied from images to placeholders via data-* attributes for later restoration.
+// Attributes copied from images to placeholders via data-* attributes for later restoration. If
+// additional data savings are wanted, don't restore srcset.
 const COPY_ATTRIBUTES = ['class', 'style', 'src', 'srcset', 'width', 'height', 'alt']
 
 /**
