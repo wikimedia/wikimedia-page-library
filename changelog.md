@@ -1,3 +1,7 @@
+### v4.0.0
+- Breaking: require a Window instead of a Document in the first parameter of CollapseTable.collapseTables()
+- New: emit a `section-toggled` CustomEvent when a table is expanded or collapsed
+
 ### v3.1.0
 - New: add RedLinks.hideRedLinks()
 
