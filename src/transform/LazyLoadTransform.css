@@ -16,7 +16,7 @@
       <img src=/ width=1 height=2>
     </span>
 
-  Colors from: https://phabricator.wikimedia.org/source/wikimedia-ui-base/browse/master/wikimedia-ui-base.css.
+  Colors from: https://phabricator.wikimedia.org/source/wikimedia-ui-base/browse/master/wikimedia-ui-base.css;d19168ec6d4995561c0a1d2dd59eb8b3f1577a5a.
 */
 
 /* Placeholders are persistent members of this class. This class must match
@@ -95,4 +95,18 @@
 @keyframes pagelib-lazy-load-placeholder-dark-fade-out {
   from { background-color: #72777d; }
   to { background-color: transparent; }
+}
+
+/* Prevent the inline style from exceeding the width of the screen.
+   https://phabricator.wikimedia.org/diffusion/EMFR/browse/59a252f7a9ae/resources/skins.minerva.content.styles/images.less;e15c49de788cd451abe648497123480da1c9c9d4$49 */
+.content a > .pagelib-lazy-load-placeholder-loaded img,
+.content a > .pagelib-lazy-load-placeholder {
+  max-width: 100%;
+}
+
+/* https://phabricator.wikimedia.org/diffusion/EMOB/browse/master/styles/android/parsoid.less;4964fcc32aa9d68238dbc8ef59ebadb03d276e62$10 */
+.content figure .pagelib-lazy-load-placeholder {
+  margin: 0.6em auto;
+  display: block;
+  clear: both;
 }
