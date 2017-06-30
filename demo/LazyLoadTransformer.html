@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang=en>
+  <head>
+    <meta charset=utf-8>
+    <title>LazyLoadTransformer</title>
+
+    <script src=../build/wikimedia-page-library-transform.js></script>
+    <script src=./LazyLoadImageData.js></script>
+    <script>
+      /* global pagelib, LazyLoadImageData */
+      const div = document.createElement('div')
+      for (const data of LazyLoadImageData) {
+        const img = document.createElement('img')
+        img.setAttribute('src', `https:${data.src}`)
+        img.setAttribute('width', data.width)
+        img.setAttribute('height', data.height)
+        div.appendChild(img)
+      }
+
+      const transformer = new pagelib.LazyLoadTransformer(window, 1)
+      transformer.transform(div)
+
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelector('body').appendChild(div)
+        transformer.loadImages()
+      })</script>
+
+    <link href=../build/wikimedia-page-library-transform.css rel=stylesheet>
+    <style>
+      body { margin: 4px 4px; }
+      .pagelib-lazy-load-placeholder { margin: 4px 4px; float: left; }
+    </style>
+  </head>
+
+  <body>
+  </body>
+
+</html>

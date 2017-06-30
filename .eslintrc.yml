@@ -1,4 +1,5 @@
 extends: node-services
+plugins: [html]
 
 parserOptions:
   ecmaVersion: 6

@@ -20,7 +20,7 @@
   "bugs": "https://github.com/wikimedia/wikimedia-page-library/issues",
   "main": "build/wikimedia-page-library-transform.js",
   "scripts": {
-    "lint": "eslint --cache --max-warnings 0 --ext .js --ext .json",
+    "lint": "eslint --cache --max-warnings 0 --ext .js --ext .json --ext .html",
     "lint:all": "npm run -s lint .",
     "build": "rollup -c",
     "pretest": "npm run -s build",
@@ -49,6 +49,7 @@
     "eslint": "3.19.0",
     "eslint-config-node-services": "2.2.1",
     "eslint-config-wikimedia": "0.3.0",
+    "eslint-plugin-html": "3.0.0",
     "eslint-plugin-jsdoc": "3.0.2",
     "eslint-plugin-json": "1.2.0",
     "mocha": "3.3.0",
