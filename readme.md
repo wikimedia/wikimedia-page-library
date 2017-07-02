@@ -43,6 +43,8 @@ Directory names should be lowercase. Filenames should be singular.
 - CSS class names use shish-kebab-case; `pagelib-class-name-element-state` (note: class name omits the word "Transform").
 
 ## Development setup and workflow
+
+### NPM
 The Android and iOS Wikipedia apps make use of the `wikimedia-page-library`. At some point their respective build phases invoke `npm install` which causes a *published* version of this library to be retrieved and used in their respective builds. 
 
 But sometimes we want to test *unpublished* `wikimedia-page-library` branches. This could be to review bug fixes or new feature branches or to develop fixes and features ourselves. We'd like to be able to checkout a local branch of `wikimedia-page-library` and run the app's build process and have the app use whatever we had checked out of our local copy of `wikimedia-page-library`.
@@ -113,6 +115,13 @@ npm unlink wikimedia-page-library
 Note the `un` in the command above.
 
 After running the `unlink` command above, your file system browser should again show a normal folder for `www/node_modules/wikimedia-page-library` instead of a symlink folder.
+
+### Testing
+Tests are executed prior to commits but may also be executed manually:
+
+- Run all tests: `npm -s t`
+- Run all tests for a module: `npm run -s test -- -g ElementUtilities`
+- Run all tests for a method: `npm run -s test -- -g 'copyDataAttributesToAttributes()'`
 
 ### Lint
 ESLint is executed prior to commits and publishing to identify cataloged style and functionality concerns. Linting may also be performed by running `npm run -s lint:all`. When a violation is detected, it may be fixed manually or suppressed by [selectively disabling the rule] (e.g, `// eslint-disable-line no-magic-number`). Some rules support automated fixes via `npm run -s lint -- --fix .`.
