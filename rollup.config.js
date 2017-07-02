@@ -5,7 +5,8 @@ import css from 'rollup-plugin-css-porter'
 export default {
   entry: 'src/index.js',
   dest: pkg.main,
-  format: 'cjs',
+  format: 'umd',
+  moduleName: 'pagelib',
   sourceMap: true,
   plugins: [
     css({

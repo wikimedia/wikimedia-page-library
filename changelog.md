@@ -1,5 +1,6 @@
 ### v4.0.0
 - Breaking: require a Window instead of a Document in the first parameter of CollapseTable.collapseTables()
+- New: update bundle to support AMD, ES, and IIFE / script usage, in addition to CJS
 - New: emit a `section-toggled` CustomEvent when a table is expanded or collapsed
 
 ### v3.1.0
