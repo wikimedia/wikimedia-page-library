@@ -21,18 +21,18 @@ Presently we are consolidating duplicate Android and iOS Wikipedia app implement
 ### File locations and naming
 
 Example file names and locations for an image widening transform:
-- **src/transform/WidenImage.js** - the transform. *required*
-- **src/transform/WidenImage.css** - CSS used by the transform. *optional*
+- **src/transform/WidenImageTransform.js** - the transform. *required*
+- **src/transform/WidenImageTransform.css** - CSS used by the transform. *optional*
 - **src/override/Empty.css** - CSS overrides that are independent of transforms and that couldn't be upstreamed
-- **test/WidenImage.test.js** - tests of the transform. *required*
-- **test/fixtures/WidenImage.html** - fixtures used by transform tests. *optional*
+- **test/WidenImageTransform.test.js** - tests of the transform. *required*
+- **test/fixtures/WidenImageTransform.html** - fixtures used by transform tests. *optional*
 
 *todo: rename Empty.css to a real override.*
 
 Directory names should be lowercase. Filenames should be singular.
 
 ### Functional
-- Prefer to read and modify the CSS class list rather than style attributes or computed styles and prefer to avoid usage of `!important` unless it's necessary for the class styles to be effective. This allows clients to customize appearance with CSS overrides and no JavaScript changes or effects. For example, **WidenImage.js** mentioned above could add/remove a class name from **WidenImage.css** to an element's class list to help achieve image widening.
+- Prefer to read and modify the CSS class list rather than style attributes or computed styles and prefer to avoid usage of `!important` unless it's necessary for the class styles to be effective. This allows clients to customize appearance with CSS overrides and no JavaScript changes or effects. For example, **WidenImageTransform.js** mentioned above could add/remove a class name from **WidenImageTransform.css** to an element's class list to help achieve image widening.
 - Prefer Minerva and Parsoid style defaults. Any deviations should be deliberate and tightly scoped.
 - Wide screen selectors should apply to devices in landscape orientation or portrait orientation and >= 768px wide.
 - Prefer `undefined` to `null`.

@@ -4,32 +4,32 @@ import dominoDocumentFragment from '../utilities/DominoDocumentFragment'
 import pagelib from '../../build/wikimedia-page-library-transform'
 
 const documentFragmentFromHTMLString = dominoDocumentFragment.documentFragmentFromHTMLString
-const configureRedLinkTemplate = pagelib.RedLinks.test.configureRedLinkTemplate
-const redLinkAnchorsInContent = pagelib.RedLinks.test.redLinkAnchorsInContent
-const newRedLinkTemplate = pagelib.RedLinks.test.newRedLinkTemplate
-const replaceAnchorWithSpan = pagelib.RedLinks.test.replaceAnchorWithSpan
-const hideRedLinks = pagelib.RedLinks.hideRedLinks
+const configureTemplate = pagelib.RedLinkTransform.test.configureTemplate
+const redLinkAnchorsInContent = pagelib.RedLinkTransform.test.redLinkAnchorsInContent
+const newTemplate = pagelib.RedLinkTransform.test.newTemplate
+const replaceAnchorWithSpan = pagelib.RedLinkTransform.test.replaceAnchorWithSpan
+const hide = pagelib.RedLinkTransform.hide
 
-describe('RedLinks', () => {
+describe('RedLinkTransform', () => {
 
-  describe('configureRedLinkTemplate()', () => {
+  describe('.configureTemplate()', () => {
     it('should prepare a span to correctly represent a anchor', () => {
       const doc = domino.createDocument()
-      const span = newRedLinkTemplate(doc)
+      const span = newTemplate(doc)
 
       const anchor = doc.createElement('A')
       anchor.classList.add('someClass')
       anchor.classList.add('someOtherClass')
       anchor.innerHTML = '<b>someText</b>'
 
-      configureRedLinkTemplate(span, anchor)
+      configureTemplate(span, anchor)
       assert.ok(span.classList.contains('someClass'))
       assert.ok(span.classList.contains('someOtherClass'))
       assert.ok(span.innerHTML === anchor.innerHTML)
     })
   })
 
-  describe('redLinkAnchorsInContent()', () => {
+  describe('.redLinkAnchorsInContent()', () => {
     it('should find one red link in a document', () => {
       const doc = domino.createDocument('<a id="link1">1</a><a id="link2" class="new">2</a>')
       const redLinkAnchors = redLinkAnchorsInContent(doc)
@@ -46,15 +46,15 @@ describe('RedLinks', () => {
     })
   })
 
-  describe('newRedLinkTemplate()', () => {
+  describe('.newTemplate()', () => {
     it('should simply return a span element', () => {
       const doc = domino.createDocument()
-      const span = newRedLinkTemplate(doc)
+      const span = newTemplate(doc)
       assert.ok(span.tagName === 'SPAN')
     })
   })
 
-  describe('replaceAnchorWithSpan()', () => {
+  describe('.replaceAnchorWithSpan()', () => {
     it('should replace a document anchor with a span', () => {
       // We'll swap the 'A#two' with 'SPAN#two'
       const doc = domino.createDocument('<a id="one">1</a><a id="two" class="new">2</a>')
@@ -93,10 +93,10 @@ describe('RedLinks', () => {
     })
   })
 
-  describe('hideRedLinks()', () => {
+  describe('.hide()', () => {
     it('should hide the expected red links in a document', () => {
       const doc = domino.createDocument('<a id="item1">1</a><a id="item2" class="new"><b>2</b></a>')
-      hideRedLinks(doc)
+      hide(doc)
       const item1 = doc.getElementById('item1')
       const item2 = doc.querySelector('.new')
       assert.ok(item1.tagName === 'A')
@@ -108,7 +108,7 @@ describe('RedLinks', () => {
       const doc = domino.createDocument()
       const frag =
         documentFragmentFromHTMLString('<a id="item1">1</a><a id="item2" class="new"><b>2</b></a>')
-      hideRedLinks(doc, frag)
+      hide(doc, frag)
       const item1 = frag.querySelector('#item1')
       const item2 = frag.querySelector('.new')
       assert.ok(item1.tagName === 'A')

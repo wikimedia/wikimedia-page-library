@@ -5,52 +5,52 @@ import pagelib from '../../build/wikimedia-page-library-transform'
 // Add expected browser CustomEvent type to environment.
 global.CustomEvent = domino.impl.CustomEvent
 
-describe('CollapseTable', () => {
-  describe('getTableHeader()', () => {
-    const getTableHeader = pagelib.CollapseTable.test.getTableHeader
+describe('CollapseTableTransform', () => {
+  describe('.getHeader()', () => {
+    const getHeader = pagelib.CollapseTableTransform.test.getHeader
 
     it('when no table, shouldn\'t find headers', () => {
       const doc = domino.createDocument('<html></html>')
-      const actual = getTableHeader(doc.documentElement, 'pageTitle')
+      const actual = getHeader(doc.documentElement, 'pageTitle')
       assert.deepEqual(actual, [])
     })
 
     describe('when table', () => {
       it('and no header, shouldn\'t find headers', () => {
         const doc = domino.createDocument('<table></table>')
-        const actual = getTableHeader(doc.querySelector('table'), 'pageTitle')
+        const actual = getHeader(doc.querySelector('table'), 'pageTitle')
         assert.deepEqual(actual, [])
       })
 
       it('and header is empty, shouldn\'t find headers', () => {
         const doc = domino.createDocument('<table><tr><th></th></tr></table>')
-        const actual = getTableHeader(doc.querySelector('table'), 'pageTitle')
+        const actual = getHeader(doc.querySelector('table'), 'pageTitle')
         assert.deepEqual(actual, [])
       })
 
       describe('and header is nonempty', () => {
         it('and link is empty, shouldn\'t find header', () => {
           const doc = domino.createDocument('<table><tr><th><a></a></th></tr></table>')
-          const actual = getTableHeader(doc.querySelector('table'), 'pageTitle')
+          const actual = getHeader(doc.querySelector('table'), 'pageTitle')
           assert.deepEqual(actual, [])
         })
 
         describe('and link is nonempty', () => {
           it('and doesn\'t match page title, should find header', () => {
             const doc = domino.createDocument('<table><tr><th><a>text</a></th></tr></table>')
-            const actual = getTableHeader(doc.querySelector('table'), 'pageTitle')
+            const actual = getHeader(doc.querySelector('table'), 'pageTitle')
             assert.deepEqual(actual, ['text'])
           })
 
           it('and matches page title, shouldn\'t find header', () => {
             const doc = domino.createDocument('<table><tr><th><a>pageTitle</a></th></tr></table>')
-            const actual = getTableHeader(doc.querySelector('table'), 'pageTitle')
+            const actual = getHeader(doc.querySelector('table'), 'pageTitle')
             assert.deepEqual(actual, [])
           })
 
           it('and no page title, shouldn\'t find header', () => {
             const doc = domino.createDocument('<table><tr><th><a>text</a></th></tr></table>')
-            const actual = getTableHeader(doc.querySelector('table'))
+            const actual = getHeader(doc.querySelector('table'))
             assert.deepEqual(actual, [])
           })
         })
@@ -58,8 +58,8 @@ describe('CollapseTable', () => {
     })
   })
 
-  describe('toggleCollapseClickCallback()', () => {
-    const toggleCollapseClickCallback = pagelib.CollapseTable.toggleCollapseClickCallback
+  describe('.toggleCallback()', () => {
+    const toggleCallback = pagelib.CollapseTableTransform.toggleCallback
 
     describe('and an expanded container', () => {
       beforeEach(function Test() {
@@ -75,7 +75,7 @@ describe('CollapseTable', () => {
           function Test(done) {
             const footer = this.doc.querySelector('#footer')
             footer.addEventListener('click',
-              toggleCollapseClickCallback.bind(footer, () => done()))
+              toggleCallback.bind(footer, () => done()))
             footer.click()
           })
 
@@ -83,7 +83,7 @@ describe('CollapseTable', () => {
           function Test() {
             const footer = this.doc.querySelector('#footer')
             footer.addEventListener('click',
-              toggleCollapseClickCallback.bind(footer, undefined))
+              toggleCallback.bind(footer, undefined))
             footer.click()
           })
       })
@@ -92,12 +92,12 @@ describe('CollapseTable', () => {
         beforeEach(function Test() {
           this.header = this.doc.querySelector('#header')
           this.header.addEventListener('click',
-            toggleCollapseClickCallback.bind(this.header, () => {}))
+            toggleCallback.bind(this.header, () => {}))
         })
 
         it('the callback is not invoked when the header clicked', function Test() {
           this.header.addEventListener('click',
-            toggleCollapseClickCallback.bind(this.header, () => { assert.fail() }))
+            toggleCallback.bind(this.header, () => { assert.fail() }))
           this.header.click()
         })
 
@@ -158,24 +158,24 @@ describe('CollapseTable', () => {
     })
   })
 
-  describe('shouldTableBeCollapsed()', () => {
-    const shouldTableBeCollapsed = pagelib.CollapseTable.test.shouldTableBeCollapsed
+  describe('.collapsible()', () => {
+    const collapsible = pagelib.CollapseTableTransform.test.collapsible
 
     it('the table is generic and should be collapsed', () => {
       const doc = domino.createDocument('<table></table>')
-      assert.ok(shouldTableBeCollapsed(doc.querySelector('table')))
+      assert.ok(collapsible(doc.querySelector('table')))
     })
 
     it('the table is already collapsed and shouldn\'t be collapsed again', () => {
       const doc = domino.createDocument('<table style="display: none"></table>')
-      assert.ok(!shouldTableBeCollapsed(doc.querySelector('table')))
+      assert.ok(!collapsible(doc.querySelector('table')))
     })
 
     describe('the table is a navbox and shouldn\'t be collapsed', () => {
       for (const clazz of ['navbox', 'vertical-navbox', 'navbox-inner']) {
         it(`as identified by the class "${clazz}"`, () => {
           const doc = domino.createDocument(`<table class=${clazz}></table>`)
-          assert.ok(!shouldTableBeCollapsed(doc.querySelector('table')))
+          assert.ok(!collapsible(doc.querySelector('table')))
         })
       }
     })
@@ -183,12 +183,12 @@ describe('CollapseTable', () => {
     // https://www.mediawiki.org/wiki/Template:Mbox
     it('the table is a multi namespace message box and shouldn\'t be collapsed', () => {
       const doc = domino.createDocument('<table class=mbox-small></table>')
-      assert.ok(!shouldTableBeCollapsed(doc.querySelector('table')))
+      assert.ok(!collapsible(doc.querySelector('table')))
     })
   })
 
-  describe('isInfobox()', () => {
-    const isInfobox = pagelib.CollapseTable.test.isInfobox
+  describe('.isInfobox()', () => {
+    const isInfobox = pagelib.CollapseTableTransform.test.isInfobox
 
     it('the element is not an infobox', () => {
       const doc = domino.createDocument('<div></div>')
@@ -201,8 +201,8 @@ describe('CollapseTable', () => {
     })
   })
 
-  describe('newCollapsedHeaderDiv()', () => {
-    const newCollapsedHeaderDiv = pagelib.CollapseTable.test.newCollapsedHeaderDiv
+  describe('.newCollapsedHeaderDiv()', () => {
+    const newCollapsedHeaderDiv = pagelib.CollapseTableTransform.test.newCollapsedHeaderDiv
 
     it('the div is created', () => {
       const div = newCollapsedHeaderDiv(domino.createDocument())
@@ -230,8 +230,8 @@ describe('CollapseTable', () => {
     })
   })
 
-  describe('newCollapsedFooterDiv()', () => {
-    const newCollapsedFooterDiv = pagelib.CollapseTable.test.newCollapsedFooterDiv
+  describe('.newCollapsedFooterDiv()', () => {
+    const newCollapsedFooterDiv = pagelib.CollapseTableTransform.test.newCollapsedFooterDiv
 
     it('the div is created', () => {
       const div = newCollapsedFooterDiv(domino.createDocument())
@@ -259,8 +259,8 @@ describe('CollapseTable', () => {
     })
   })
 
-  describe('newCaption()', () => {
-    const newCaption = pagelib.CollapseTable.test.newCaption
+  describe('.newCaption()', () => {
+    const newCaption = pagelib.CollapseTableTransform.test.newCaption
 
     describe('when no header text', () => {
       const caption = newCaption('title', [])
@@ -311,12 +311,12 @@ describe('CollapseTable', () => {
     })
   })
 
-  describe('collapseTables()', () => {
-    const collapseTables = pagelib.CollapseTable.collapseTables
+  describe('.transform()', () => {
+    const transform = pagelib.CollapseTableTransform.transform
 
     it('when no tables exist, nothing is done', () => {
       const window = domino.createWindow('<html></html>')
-      collapseTables(window, window.document, 'pageTitle')
+      transform(window, window.document, 'pageTitle')
       assert.ok(window.document.querySelector('html'))
     })
 
@@ -333,19 +333,19 @@ describe('CollapseTable', () => {
       })
 
       it('and it\'s a main page, nothing is done', function Test() {
-        collapseTables(this.window, this.window.document, 'pageTitle', true)
+        transform(this.window, this.window.document, 'pageTitle', true)
         this.assertTableIsExpanded()
       })
 
       it('and it\'s already inside of a container, nothing is done', function Test() {
         this.window.document.querySelector('table').parentNode.classList.add('app_table_container')
-        collapseTables(this.window, this.window.document, 'pageTitle')
+        transform(this.window, this.window.document, 'pageTitle')
         this.assertTableIsExpanded()
       })
 
       it('and it shouldn\'t be collapsed, nothing is done', function Test() {
         this.window.document.querySelector('table').classList.add('navbox')
-        collapseTables(this.window, this.window.document, 'pageTitle')
+        transform(this.window, this.window.document, 'pageTitle')
         this.assertTableIsExpanded()
       })
 
@@ -356,99 +356,101 @@ describe('CollapseTable', () => {
         })
 
         it('and table is not an infobox, nothing is done', function Test() {
-          collapseTables(this.window, this.window.document)
+          transform(this.window, this.window.document)
           this.assertTableIsExpanded()
         })
 
         it('and table is an infobox, table is collapsed', function Test() {
           this.window.document.querySelector('table').classList.add('infobox')
-          collapseTables(this.window, this.window.document)
+          transform(this.window, this.window.document)
           this.assertTableIsCollapsed()
         })
       })
 
       describe('and table is eligible,', () => {
         it('table is collapsed', function Test() {
-          collapseTables(this.window, this.window.document, 'pageTitle')
+          transform(this.window, this.window.document, 'pageTitle')
           this.assertTableIsCollapsed()
         })
 
         it('table is replaced with a new container in the parent', function Test() {
           const table = this.window.document.querySelector('table')
           table.parentNode.id = 'container'
-          collapseTables(this.window, this.window.document, 'pageTitle')
+          transform(this.window, this.window.document, 'pageTitle')
           assert.ok(table.parentNode.id !== 'container')
         })
 
         it('table is wrapped in a container', function Test() {
-          collapseTables(this.window, this.window.document, 'pageTitle')
+          transform(this.window, this.window.document, 'pageTitle')
           const table = this.window.document.querySelector('table')
           assert.ok(table.parentNode.classList.contains('app_table_container'))
         })
 
         it('table has a header', function Test() {
-          collapseTables(this.window, this.window.document, 'pageTitle')
+          transform(this.window, this.window.document, 'pageTitle')
           assert.ok(this.window.document.querySelector('.app_table_collapsed_open'))
         })
 
         it('table has a footer', function Test() {
-          collapseTables(this.window, this.window.document, 'pageTitle')
+          transform(this.window, this.window.document, 'pageTitle')
           assert.ok(this.window.document.querySelector('.app_table_collapsed_bottom'))
         })
 
         it('table expands when header is clicked', function Test() {
-          collapseTables(this.window, this.window.document, 'pageTitle')
+          transform(this.window, this.window.document, 'pageTitle')
           this.window.document.querySelector('table').parentNode.children[0].click()
           this.assertTableIsExpanded()
         })
 
         it('event is emitted when header is clicked', function Test(done) {
-          collapseTables(this.window, this.window.document, 'pageTitle')
-          this.window.addEventListener(pagelib.CollapseTable.SECTION_TOGGLED_EVENT_TYPE, event => {
-            assert.ok(!event.collapsed)
-            done()
-          })
+          transform(this.window, this.window.document, 'pageTitle')
+          this.window.addEventListener(pagelib.CollapseTableTransform.SECTION_TOGGLED_EVENT_TYPE,
+            event => {
+              assert.ok(!event.collapsed)
+              done()
+            })
           this.window.document.querySelector('table').parentNode.children[2].click()
         })
 
         it('table expands when footer is clicked', function Test() {
-          collapseTables(this.window, this.window.document, 'pageTitle')
+          transform(this.window, this.window.document, 'pageTitle')
           this.window.document.querySelector('table').parentNode.children[2].click()
           this.assertTableIsExpanded()
         })
 
         it('footer click callback is not called when header is expanded', function Test() {
-          collapseTables(this.window, this.window.document, 'pageTitle', null, null, null, null,
+          transform(this.window, this.window.document, 'pageTitle', null, null, null, null,
             () => { assert.fail() })
           this.window.document.querySelector('table').parentNode.children[0].click()
           this.window.document.querySelector('table').parentNode.children[0].click()
         })
 
         it('footer click callback is called when footer is expanded', function Test(done) {
-          collapseTables(this.window, this.window.document, 'pageTitle', null, null, null, null,
+          transform(this.window, this.window.document, 'pageTitle', null, null, null, null,
             () => done())
           this.window.document.querySelector('table').parentNode.children[2].click()
           this.window.document.querySelector('table').parentNode.children[2].click()
         })
 
         it('event is emitted when footer is clicked', function Test(done) {
-          collapseTables(this.window, this.window.document, 'pageTitle')
+          transform(this.window, this.window.document, 'pageTitle')
           this.window.document.querySelector('table').parentNode.children[2].click()
-          this.window.addEventListener(pagelib.CollapseTable.SECTION_TOGGLED_EVENT_TYPE, event => {
-            assert.ok(event.collapsed)
-            done()
-          })
+          this.window.addEventListener(pagelib.CollapseTableTransform.SECTION_TOGGLED_EVENT_TYPE,
+            event => {
+              assert.ok(event.collapsed)
+              done()
+            })
           this.window.document.querySelector('table').parentNode.children[2].click()
         })
 
         it('table header is unused', function Test() {
-          collapseTables(this.window, this.window.document)
+          transform(this.window, this.window.document)
           const header = this.window.document.querySelector('.app_table_collapsed_open')
           assert.ok(!header)
         })
 
         it('and page title is specified, table header is used', function Test() {
-          collapseTables(this.window, this.window.document, 'pageTitle')
+          transform(this.window, this.window.document, 'pageTitle')
           const header = this.window.document.querySelector('.app_table_collapsed_open')
           assert.ok(header.innerHTML.includes('text'))
         })
@@ -459,32 +461,32 @@ describe('CollapseTable', () => {
           })
 
           it('and page title is specified, header is used', function Test() {
-            collapseTables(this.window, this.window.document, 'pageTitle')
+            transform(this.window, this.window.document, 'pageTitle')
             const header = this.window.document.querySelector('.app_table_collapsed_open')
             assert.ok(header.innerHTML.includes('text'))
           })
 
           it('and infobox title is specified, infobox title is used', function Test() {
-            collapseTables(this.window, this.window.document, 'pageTitle', null, 'infoboxTitle')
+            transform(this.window, this.window.document, 'pageTitle', null, 'infoboxTitle')
             const header = this.window.document.querySelector('.app_table_collapsed_open')
             assert.ok(header.innerHTML.includes('infoboxTitle'))
           })
         })
 
         it('and non-infobox title is specified, non-infobox title is used', function Test() {
-          collapseTables(this.window, this.window.document, 'pageTitle', null, null, 'otherTitle')
+          transform(this.window, this.window.document, 'pageTitle', null, null, 'otherTitle')
           const header = this.window.document.querySelector('.app_table_collapsed_open')
           assert.ok(header.innerHTML.includes('otherTitle'))
         })
 
         it('footer title is unused', function Test() {
-          collapseTables(this.window, this.window.document, 'pageTitle')
+          transform(this.window, this.window.document, 'pageTitle')
           const footer = this.window.document.querySelector('.app_table_collapsed_bottom')
           assert.ok(!footer.innerHTML)
         })
 
         it('and footer title is specified, footer title is used', function Test() {
-          collapseTables(this.window, this.window.document, 'pageTitle', null, null, null,
+          transform(this.window, this.window.document, 'pageTitle', null, null, null,
             'footerTitle')
           const footer = this.window.document.querySelector('.app_table_collapsed_bottom')
           assert.deepEqual(footer.innerHTML, 'footerTitle')
@@ -499,7 +501,7 @@ describe('CollapseTable', () => {
         <table id=c class=infobox></table>
         <table id=d class=infobox></table>`
       const window = domino.createWindow(html)
-      collapseTables(window, window.document)
+      transform(window, window.document)
       assert.deepEqual(window.document.getElementById('a').style.display, 'none')
       assert.ok(!window.document.getElementById('b').style.display)
       assert.deepEqual(window.document.getElementById('c').style.display, 'none')
@@ -507,20 +509,20 @@ describe('CollapseTable', () => {
     })
   })
 
-  describe('expandCollapsedTableIfItContainsElement()', () => {
+  describe('.expandIfTableContainsElement()', () => {
     // eslint-disable-next-line max-len
-    const expandCollapsedTableIfItContainsElement = pagelib.CollapseTable.expandCollapsedTableIfItContainsElement
+    const expandIfTableContainsElement = pagelib.CollapseTableTransform.expandIfTableContainsElement
 
     it('when element is undefined, nothing is done', () => {
       const element = undefined
-      expandCollapsedTableIfItContainsElement(element)
+      expandIfTableContainsElement(element)
     })
 
     describe('when element is defined', () => {
       it('and element is not within a collapse table container, nothing is done', () => {
         const element = domino.createDocument('<a></a>').documentElement
         element.addEventListener('click', assert.fail)
-        expandCollapsedTableIfItContainsElement(element)
+        expandIfTableContainsElement(element)
       })
 
       describe('and element is within a collapse table container that has children', () => {
@@ -531,7 +533,7 @@ describe('CollapseTable', () => {
             </div>`
           const element = domino.createDocument(html).querySelector('div div')
           element.addEventListener('click', assert.fail)
-          expandCollapsedTableIfItContainsElement(element)
+          expandIfTableContainsElement(element)
         })
 
         it('and table is collapsed, the table is expanded', done => {
@@ -541,7 +543,7 @@ describe('CollapseTable', () => {
             </div>`
           const element = domino.createDocument(html).querySelector('div div')
           element.addEventListener('click', () => done())
-          expandCollapsedTableIfItContainsElement(element)
+          expandIfTableContainsElement(element)
         })
       })
     })

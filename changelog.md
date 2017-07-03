@@ -1,4 +1,6 @@
 ### v4.0.0
+- Breaking: rename transform modules to end in "Transform"
+- Breaking: rename module methods to be more terse
 - Breaking: require a Window instead of a Document in the first parameter of CollapseTable.collapseTables()
 - New: update bundle to support AMD, ES, and IIFE / script usage, in addition to CJS
 - New: emit a `section-toggled` CustomEvent when a table is expanded or collapsed

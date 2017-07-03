@@ -1,5 +1,5 @@
-import './CollapseTable.css'
-import elementUtilities from './ElementUtilities'
+import './CollapseTableTransform.css'
+import ElementUtilities from './ElementUtilities'
 
 const SECTION_TOGGLED_EVENT_TYPE = 'section-toggled'
 
@@ -11,7 +11,7 @@ const SECTION_TOGGLED_EVENT_TYPE = 'section-toggled'
  *                            contents of the header exactly, it will be omitted.
  * @return {!Array<string>}
  */
-const getTableHeader = (element, pageTitle) => {
+const getHeader = (element, pageTitle) => {
   let thArray = []
 
   if (!element.children) {
@@ -46,7 +46,7 @@ const getTableHeader = (element, pageTitle) => {
 
     // todo: why do we need to recurse?
     // recurse into children of this element
-    const ret = getTableHeader(el, pageTitle)
+    const ret = getHeader(el, pageTitle)
 
     // did we get a list of TH from this child?
     if (ret.length > 0) {
@@ -58,7 +58,7 @@ const getTableHeader = (element, pageTitle) => {
 }
 
 /**
- * @typedef {function} FooterDivClickCallback
+ * @typedef {function} FooterCallback
  * @param {!HTMLElement}
  * @return {void}
  */
@@ -68,10 +68,10 @@ const getTableHeader = (element, pageTitle) => {
  *       window.scrollTo(0, container.offsetTop - transformer.getDecorOffset())
  *     })
  * @this HTMLElement
- * @param {?FooterDivClickCallback} footerDivClickCallback
+ * @param {?FooterCallback} footerCallback
  * @return {boolean} true if collapsed, false if expanded.
  */
-const toggleCollapseClickCallback = function(footerDivClickCallback) {
+const toggleCallback = function(footerCallback) {
   const container = this.parentNode
   const header = container.children[0]
   const table = container.children[1]
@@ -88,8 +88,8 @@ const toggleCollapseClickCallback = function(footerDivClickCallback) {
     }
     footer.style.display = 'none'
         // if they clicked the bottom div, then scroll back up to the top of the table.
-    if (this === footer && footerDivClickCallback) {
-      footerDivClickCallback(container)
+    if (this === footer && footerCallback) {
+      footerCallback(container)
     }
   } else {
     table.style.display = 'block'
@@ -108,7 +108,7 @@ const toggleCollapseClickCallback = function(footerDivClickCallback) {
  * @param {!HTMLElement} table
  * @return {!boolean} true if table should be collapsed, false otherwise.
  */
-const shouldTableBeCollapsed = table => {
+const collapsible = table => {
   const classBlacklist = ['navbox', 'vertical-navbox', 'navbox-inner', 'metadata', 'mbox-small']
   const blacklistIntersects = classBlacklist.some(clazz => table.classList.contains(clazz))
   return table.style.display !== 'none' && !blacklistIntersects
@@ -177,24 +177,24 @@ const newCaption = (title, headerText) => {
  * @param {?string} infoboxTitle
  * @param {?string} otherTitle
  * @param {?string} footerTitle
- * @param {?FooterDivClickCallback} footerDivClickCallback
+ * @param {?FooterCallback} FooterCallback
  * @return {void}
  */
-const collapseTables = (window, content, pageTitle, isMainPage, infoboxTitle, otherTitle,
-  footerTitle, footerDivClickCallback) => {
+const transform = (window, content, pageTitle, isMainPage, infoboxTitle, otherTitle,
+  footerTitle, FooterCallback) => {
   if (isMainPage) { return }
 
   const tables = content.querySelectorAll('table')
   for (let i = 0; i < tables.length; ++i) {
     const table = tables[i]
 
-    if (elementUtilities.findClosestAncestor(table, '.app_table_container')
-      || !shouldTableBeCollapsed(table)) {
+    if (ElementUtilities.findClosestAncestor(table, '.app_table_container')
+      || !collapsible(table)) {
       continue
     }
 
     // todo: this is actually an array
-    const headerText = getTableHeader(table, pageTitle)
+    const headerText = getHeader(table, pageTitle)
     if (!headerText.length && !isInfobox(table)) {
       continue
     }
@@ -233,12 +233,12 @@ const collapseTables = (window, content, pageTitle, isMainPage, infoboxTitle, ot
 
     // assign click handler to the collapsed divs
     collapsedHeaderDiv.onclick = () => {
-      const collapsed = toggleCollapseClickCallback.bind(collapsedHeaderDiv)()
+      const collapsed = toggleCallback.bind(collapsedHeaderDiv)()
       dispatchSectionToggledEvent(collapsed)
     }
     collapsedFooterDiv.onclick = () => {
-      const collapsed = toggleCollapseClickCallback.bind(collapsedFooterDiv,
-        footerDivClickCallback)()
+      const collapsed = toggleCallback.bind(collapsedFooterDiv,
+        FooterCallback)()
       dispatchSectionToggledEvent(collapsed)
     }
   }
@@ -255,10 +255,10 @@ const collapseTables = (window, content, pageTitle, isMainPage, infoboxTitle, ot
  * @param  {?Element} element
  * @return {void}
 */
-const expandCollapsedTableIfItContainsElement = element => {
+const expandIfTableContainsElement = element => {
   if (element) {
     const containerSelector = '[class*="app_table_container"]'
-    const container = elementUtilities.findClosestAncestor(element, containerSelector)
+    const container = ElementUtilities.findClosestAncestor(element, containerSelector)
     if (container) {
       const collapsedDiv = container.firstElementChild
       if (collapsedDiv && collapsedDiv.classList.contains('app_table_collapsed_open')) {
@@ -270,12 +270,12 @@ const expandCollapsedTableIfItContainsElement = element => {
 
 export default {
   SECTION_TOGGLED_EVENT_TYPE,
-  toggleCollapseClickCallback,
-  collapseTables,
-  expandCollapsedTableIfItContainsElement,
+  toggleCallback,
+  transform,
+  expandIfTableContainsElement,
   test: {
-    getTableHeader,
-    shouldTableBeCollapsed,
+    getHeader,
+    collapsible,
     isInfobox,
     newCollapsedHeaderDiv,
     newCollapsedFooterDiv,

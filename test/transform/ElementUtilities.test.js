@@ -2,7 +2,7 @@ import assert from 'assert'
 import fixtureIO from '../utilities/FixtureIO'
 import pagelib from '../../build/wikimedia-page-library-transform'
 
-const elementUtilities = pagelib.test.ElementUtilities
+const ElementUtilities = pagelib.test.ElementUtilities
 let document
 
 describe('ElementUtilities', () => {
@@ -10,61 +10,61 @@ describe('ElementUtilities', () => {
     document = fixtureIO.documentFromFixtureFile('ElementUtilities.html')
   })
 
-  describe('matchesSelectorCompat()', () => {
+  describe('.matchesSelectorCompat()', () => {
     it('matches()', () => {
       const element = { matches: () => true }
-      assert.ok(elementUtilities.matchesSelectorCompat(element, 'html'))
+      assert.ok(ElementUtilities.matchesSelectorCompat(element, 'html'))
     })
 
     it('matchesSelector()', () => {
       const element = { matchesSelector: () => true }
-      assert.ok(elementUtilities.matchesSelectorCompat(element, 'html'))
+      assert.ok(ElementUtilities.matchesSelectorCompat(element, 'html'))
     })
 
     it('webkitMatchesSelector()', () => {
       const element = { webkitMatchesSelector: () => true }
-      assert.ok(elementUtilities.matchesSelectorCompat(element, 'html'))
+      assert.ok(ElementUtilities.matchesSelectorCompat(element, 'html'))
     })
 
     it('unsupported', () => {
       const element = {}
-      assert.ok(!elementUtilities.matchesSelectorCompat(element, 'html'))
+      assert.ok(!ElementUtilities.matchesSelectorCompat(element, 'html'))
     })
   })
 
-  describe('findClosestAncestor()', () => {
+  describe('.findClosestAncestor()', () => {
     it('doesn\'t consider self', () => {
       const element = document.querySelector('.matching')
-      const ancestor = elementUtilities.findClosestAncestor(element, '.matching')
+      const ancestor = ElementUtilities.findClosestAncestor(element, '.matching')
       assert.ok(!ancestor)
     })
 
     it('find first div ancestor which has a certain class', () => {
       const element = document.getElementById('someImage')
-      const ancestor = elementUtilities.findClosestAncestor(element, "div[class='tsingle']")
+      const ancestor = ElementUtilities.findClosestAncestor(element, "div[class='tsingle']")
       assert.ok(ancestor.id === 'imageGreatGrandParentDiv')
     })
 
     it('find first div ancestor which has a certain class among many classes', () => {
       const element = document.getElementById('someImage')
-      const ancestor = elementUtilities.findClosestAncestor(element, "div[class*='someClassOne']")
+      const ancestor = ElementUtilities.findClosestAncestor(element, "div[class*='someClassOne']")
       assert.ok(ancestor.id === 'imageGrandParentDiv')
     })
 
     it('try to find an ancestor which does not exist', () => {
       const element = document.getElementById('someImage')
-      const ancestor = elementUtilities.findClosestAncestor(element, 'table')
+      const ancestor = ElementUtilities.findClosestAncestor(element, 'table')
       assert.ok(!ancestor)
     })
   })
 
-  describe('isNestedInTable()', () => {
+  describe('.isNestedInTable()', () => {
     it('confirm negative result', () => {
-      assert.ok(!elementUtilities.isNestedInTable(document.getElementById('someImage')))
+      assert.ok(!ElementUtilities.isNestedInTable(document.getElementById('someImage')))
     })
 
     it('confirm positive result', () => {
-      assert.ok(elementUtilities.isNestedInTable(document.getElementById('divInTable')))
+      assert.ok(ElementUtilities.isNestedInTable(document.getElementById('divInTable')))
     })
   })
 })

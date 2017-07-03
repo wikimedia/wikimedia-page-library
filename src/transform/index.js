@@ -1,12 +1,12 @@
-import CollapseTable from './CollapseTable'
+import CollapseTableTransform from './CollapseTableTransform'
 import ElementUtilities from './ElementUtilities'
-import RedLinks from './RedLinks'
-import WidenImage from './WidenImage'
+import RedLinkTransform from './RedLinkTransform'
+import WidenImageTransform from './WidenImageTransform'
 
 export default {
-  CollapseTable,
-  RedLinks,
-  WidenImage,
+  CollapseTableTransform,
+  RedLinkTransform,
+  WidenImageTransform,
   test: {
     ElementUtilities
   }

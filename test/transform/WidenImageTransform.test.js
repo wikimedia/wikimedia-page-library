@@ -3,70 +3,70 @@ import fixtureIO from '../utilities/FixtureIO'
 import pagelib from '../../build/wikimedia-page-library-transform'
 import styleMocking from '../utilities/StyleMocking'
 
-const maybeWidenImage = pagelib.WidenImage.maybeWidenImage
-const shouldWidenImage = pagelib.WidenImage.test.shouldWidenImage
-const widenAncestors = pagelib.WidenImage.test.widenAncestors
+const maybeWiden = pagelib.WidenImageTransform.maybeWiden
+const shouldWiden = pagelib.WidenImageTransform.test.shouldWiden
+const widenAncestors = pagelib.WidenImageTransform.test.widenAncestors
 
 let document
 
-describe('WidenImage', () => {
+describe('WidenImageTransform', () => {
   beforeEach(() => {
-    document = fixtureIO.documentFromFixtureFile('WidenImage.html')
+    document = fixtureIO.documentFromFixtureFile('WidenImageTransform.html')
   })
 
-  describe('shouldWidenImage()', () => {
+  describe('.shouldWiden()', () => {
     it('should indicate image with usemap attribute not be widened', () => {
-      assert.ok(!shouldWidenImage(document.getElementById('imageWithUsemap')))
+      assert.ok(!shouldWiden(document.getElementById('imageWithUsemap')))
     })
 
     it('should indicate image in div w/noresize class not be widened', () => {
-      assert.ok(!shouldWidenImage(document.getElementById('imageInNoResizeDiv')))
+      assert.ok(!shouldWiden(document.getElementById('imageInNoResizeDiv')))
     })
 
     it('should indicate image in div w/tsingle class not be widened', () => {
       // tsingle is often used for side-by-side images
-      assert.ok(!shouldWidenImage(document.getElementById('imageInTSingleDiv')))
+      assert.ok(!shouldWiden(document.getElementById('imageInTSingleDiv')))
     })
 
     it('should indicate image in table not be widened', () => {
-      assert.ok(!shouldWidenImage(document.getElementById('imageInTable')))
+      assert.ok(!shouldWiden(document.getElementById('imageInTable')))
     })
 
     it('should indicate two images from the fixture be widened', () => {
       const images = Array.from(document.getElementsByTagName('img')).filter(image =>
-        shouldWidenImage(image) && image.classList.contains('imageWhichShouldWiden'))
+        shouldWiden(image) && image.classList.contains('imageWhichShouldWiden'))
       assert.ok(images.length === 2)
     })
 
     it('should indicate four images from the fixture not be widened', () => {
       const images = Array.from(document.getElementsByTagName('img')).filter(image =>
-        !shouldWidenImage(image) && image.classList.contains('imageWhichShouldNotWiden'))
+        !shouldWiden(image) && image.classList.contains('imageWhichShouldNotWiden'))
       assert.ok(images.length === 4)
     })
   })
 
-  describe('maybeWidenImage()', () => {
-    it('maybeWidenImage always has same return value as shouldWidenImage', () => {
+  describe('.maybeWiden()', () => {
+    it('maybeWiden always has same return value as shouldWiden', () => {
       const images = Array.from(document.getElementsByTagName('img')).filter(image =>
-        shouldWidenImage(image) === maybeWidenImage(image))
+        shouldWiden(image) === maybeWiden(image))
       assert.ok(images.length === 6)
     })
 
     it('widened image has wideImageOverride class added to its classList', () => {
       const image = document.querySelector('.imageWhichShouldWiden')
-      maybeWidenImage(image)
+      maybeWiden(image)
       assert.ok(image.classList.contains('wideImageOverride'))
     })
 
     it('widened image has its width attribute removed', () => {
       const image = document.getElementById('imageWithWidthAndHeight')
-      maybeWidenImage(image)
+      maybeWiden(image)
       assert.ok(!image.hasAttribute('width'))
     })
 
     it('widened image has its height attribute removed', () => {
       const image = document.getElementById('imageWithWidthAndHeight')
-      maybeWidenImage(image)
+      maybeWiden(image)
       assert.ok(!image.hasAttribute('height'))
     })
 
@@ -82,7 +82,7 @@ describe('WidenImage', () => {
       const image = document.getElementById('imageInWidthConstrainedAncestors')
       widenAncestors(image)
 
-      // maybeWidenImage should have changed the style properties we manually set above.
+      // maybeWiden should have changed the style properties we manually set above.
       styleMocking.verifyStylesInElements(ancestors, {
         width: '100%',
         maxWidth: '100%',
@@ -102,7 +102,7 @@ describe('WidenImage', () => {
 
     it('two images from the fixture are actually widened', () => {
       const images = Array.from(document.getElementsByTagName('img')).filter(image =>
-        maybeWidenImage(image) && image.classList.contains('wideImageOverride'))
+        maybeWiden(image) && image.classList.contains('wideImageOverride'))
       assert.ok(images.length === 2)
     })
   })

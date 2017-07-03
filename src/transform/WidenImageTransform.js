@@ -1,5 +1,5 @@
-import './WidenImage.css'
-import elementUtilities from './ElementUtilities'
+import './WidenImageTransform.css'
+import ElementUtilities from './ElementUtilities'
 
 /**
  * To widen an image element a css class called 'wideImageOverride' is applied to the image element,
@@ -30,11 +30,11 @@ const widenAncestors = el => {
  * @param  {!HTMLElement} image   The image in question
  * @return {boolean}              Whether 'image' should be widened
  */
-const shouldWidenImage = image => {
+const shouldWiden = image => {
   // Images within a "<div class='noresize'>...</div>" should not be widened.
   // Example exhibiting links overlaying such an image:
   //   'enwiki > Counties of England > Scope and structure > Local government'
-  if (elementUtilities.findClosestAncestor(image, "[class*='noresize']")) {
+  if (ElementUtilities.findClosestAncestor(image, "[class*='noresize']")) {
     return false
   }
 
@@ -43,7 +43,7 @@ const shouldWidenImage = image => {
   // Examples exhibiting side-by-side images:
   //    'enwiki > Cold Comfort (Inside No. 9) > Casting'
   //    'enwiki > Vincent van Gogh > Letters'
-  if (elementUtilities.findClosestAncestor(image, "div[class*='tsingle']")) {
+  if (ElementUtilities.findClosestAncestor(image, "div[class*='tsingle']")) {
     return false
   }
 
@@ -56,7 +56,7 @@ const shouldWidenImage = image => {
   }
 
   // Images in tables should not be widened - doing so can horribly mess up table layout.
-  if (elementUtilities.isNestedInTable(image)) {
+  if (ElementUtilities.isNestedInTable(image)) {
     return false
   }
 
@@ -68,7 +68,7 @@ const shouldWidenImage = image => {
  * @param  {!HTMLElement} image   The image in question
  * @return {void}
  */
-const makeRoomForImageWidening = image => {
+const makeRoomForWidening = image => {
   widenAncestors(image)
 
   // Remove width and height attributes so wideImageOverride width percentages can take effect.
@@ -81,8 +81,8 @@ const makeRoomForImageWidening = image => {
  * @param  {!HTMLElement} image   The image in question
  * @return {void}
  */
-const widenImage = image => {
-  makeRoomForImageWidening(image)
+const widen = image => {
+  makeRoomForWidening(image)
   image.classList.add('wideImageOverride')
 }
 
@@ -91,18 +91,18 @@ const widenImage = image => {
  * @param  {!HTMLElement} image   The image in question
  * @return {boolean}              Whether or not 'image' was widened
  */
-const maybeWidenImage = image => {
-  if (shouldWidenImage(image)) {
-    widenImage(image)
+const maybeWiden = image => {
+  if (shouldWiden(image)) {
+    widen(image)
     return true
   }
   return false
 }
 
 export default {
-  maybeWidenImage,
+  maybeWiden,
   test: {
-    shouldWidenImage,
+    shouldWiden,
     widenAncestors
   }
 }
