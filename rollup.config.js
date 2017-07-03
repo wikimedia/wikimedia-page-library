@@ -1,6 +1,6 @@
 import babel from 'rollup-plugin-babel'
-const pkg = require('./package.json')
 import css from 'rollup-plugin-css-porter'
+import pkg from './package.json'
 
 export default {
   entry: 'src/index.js',
