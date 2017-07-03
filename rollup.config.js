@@ -18,6 +18,8 @@ export default {
       include: 'src/override/**.css',
       dest: 'build/wikimedia-page-library-override.css'
     }),
-    babel()
+    babel({
+      plugins: ['external-helpers']
+    })
   ]
 }
