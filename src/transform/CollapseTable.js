@@ -1,4 +1,5 @@
 import './CollapseTable.css'
+import Polyfill from './Polyfill'
 import elementUtilities from './ElementUtilities'
 
 const SECTION_TOGGLED_EVENT_TYPE = 'section-toggled'
@@ -229,7 +230,7 @@ const collapseTables = (window, content, pageTitle, isMainPage, infoboxTitle, ot
     // eslint-disable-next-line require-jsdoc, no-loop-func
     const dispatchSectionToggledEvent = collapsed =>
       // eslint-disable-next-line no-undef
-      window.dispatchEvent(new CustomEvent(SECTION_TOGGLED_EVENT_TYPE, { collapsed }))
+      window.dispatchEvent(new Polyfill.CustomEvent(SECTION_TOGGLED_EVENT_TYPE, { collapsed }))
 
     // assign click handler to the collapsed divs
     collapsedHeaderDiv.onclick = () => {

@@ -2,9 +2,6 @@ import assert from 'assert'
 import domino from 'domino'
 import pagelib from '../../build/wikimedia-page-library-transform'
 
-// Add expected browser CustomEvent type to environment.
-global.CustomEvent = domino.impl.CustomEvent
-
 describe('CollapseTable', () => {
   describe('getTableHeader()', () => {
     const getTableHeader = pagelib.CollapseTable.test.getTableHeader
