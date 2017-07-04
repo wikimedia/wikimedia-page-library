@@ -69,10 +69,6 @@ const transformImage = (document, image) => {
   // the background.
   const placeholder = newPlaceholder(document, image)
   image.parentNode.replaceChild(placeholder, image)
-
-  // The image still exists in the DOM. Ensure no unused resources are loaded.
-  for (const attribute of ['src', 'srcset']) { image.removeAttribute(attribute) }
-
   return placeholder
 }
 

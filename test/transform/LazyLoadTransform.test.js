@@ -20,10 +20,6 @@ describe('LazyLoadTransform', () => {
 
       it('the image is removed from the DOM', () => assert.ok(!this.document.querySelector('img')))
       it('the image is an orphan', () => assert.ok(!this.image.parentNode))
-      describe('the image resource attributes have been removed:', () => {
-        it('src', () => assert.ok(!this.image.hasAttribute('src')))
-        it('srcset', () => assert.ok(!this.image.hasAttribute('srcset')))
-      })
 
       it('the placeholder is added to the DOM', () => assert.ok(this.placeholder))
 
