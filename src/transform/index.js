@@ -3,6 +3,7 @@ import ElementUtilities from './ElementUtilities'
 import EventThrottle from './EventThrottle'
 import LazyLoadTransform from './LazyLoadTransform'
 import LazyLoadTransformer from './LazyLoadTransformer'
+import Polyfill from './Polyfill'
 import Rectangle from './Rectangle'
 import RedLinks from './RedLinks'
 import Throttle from './Throttle'
@@ -15,6 +16,6 @@ export default {
   RedLinks,
   WidenImage,
   test: {
-    ElementUtilities, EventThrottle, Rectangle, Throttle
+    ElementUtilities, EventThrottle, Polyfill, Rectangle, Throttle
   }
 }

@@ -2,6 +2,7 @@ import CollapseTable from './CollapseTable'
 import ElementUtilities from './ElementUtilities'
 import EventThrottle from './EventThrottle'
 import LazyLoadTransform from './LazyLoadTransform'
+import Polyfill from './Polyfill'
 import Rectangle from './Rectangle'
 
 const UNTHROTTLED_RESIZE_EVENT_TYPE = 'resize'
@@ -77,9 +78,9 @@ export default class {
     if (this._registered() || !this._placeholders.length) { return }
 
     this._resizeEventThrottle.register(this._window, UNTHROTTLED_RESIZE_EVENT_TYPE,
-      new CustomEvent(THROTTLED_RESIZE_EVENT_TYPE))
+      new Polyfill.CustomEvent(THROTTLED_RESIZE_EVENT_TYPE))
     this._scrollEventThrottle.register(this._window, UNTHROTTLED_SCROLL_EVENT_TYPE,
-      new CustomEvent(THROTTLED_SCROLL_EVENT_TYPE))
+      new Polyfill.CustomEvent(THROTTLED_SCROLL_EVENT_TYPE))
 
     this._window.addEventListener(CollapseTable.SECTION_TOGGLED_EVENT_TYPE,
       this._loadImagesCallback)

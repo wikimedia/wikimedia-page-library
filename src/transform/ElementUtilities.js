@@ -1,21 +1,4 @@
-/**
- * Polyfill function that tells whether a given element matches a selector.
- * @param {!Element} el Element
- * @param {!string} selector Selector to look for
- * @return {!boolean} Whether the element matches the selector
- */
-const matchesSelectorCompat = (el, selector) => {
-  if (el.matches) {
-    return el.matches(selector)
-  }
-  if (el.matchesSelector) {
-    return el.matchesSelector(selector)
-  }
-  if (el.webkitMatchesSelector) {
-    return el.webkitMatchesSelector(selector)
-  }
-  return false
-}
+import Polyfill from './Polyfill'
 
 /**
  * Returns closest ancestor of element which matches selector.
@@ -29,7 +12,7 @@ const matchesSelectorCompat = (el, selector) => {
 const findClosestAncestor = (el, selector) => {
   let parentElement
   for (parentElement = el.parentElement;
-    parentElement && !matchesSelectorCompat(parentElement, selector);
+    parentElement && !Polyfill.matchesSelector(parentElement, selector);
     parentElement = parentElement.parentElement) {
     // Intentionally empty.
   }
@@ -94,7 +77,6 @@ const copyDataAttributesToAttributes = (source, destination, attributes) => {
 }
 
 export default {
-  matchesSelectorCompat,
   findClosestAncestor,
   isNestedInTable,
   isVisible,
