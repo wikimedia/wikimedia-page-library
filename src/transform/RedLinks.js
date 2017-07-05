@@ -44,7 +44,7 @@ const replaceAnchorWithSpan = (anchor, span) => anchor.parentNode.replaceChild(s
 const hideRedLinks = (document, fragment) => {
   const spanTemplate = newRedLinkTemplate(document)
   const content = fragment !== undefined ? fragment : document
-  redLinkAnchorsInContent(content)
+  Array.from(redLinkAnchorsInContent(content))
     .forEach(redLink => {
       const span = spanTemplate.cloneNode(false)
       configureRedLinkTemplate(span, redLink)
