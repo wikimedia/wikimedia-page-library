@@ -12,7 +12,7 @@ const configureRedLinkTemplate = (span, anchor) => {
 /**
  * Finds red links in a document or document fragment.
  * @param {!(Document|DocumentFragment)} content Document or fragment in which to seek red links.
- * @return {!HTMLAnchorElementArray} Array of zero or more red link anchors.
+ * @return {!HTMLAnchorElement[]} Array of zero or more red link anchors.
  */
 const redLinkAnchorsInContent =
   content => Array.prototype.slice.call(content.querySelectorAll('a.new'))
