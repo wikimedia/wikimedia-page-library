@@ -12,9 +12,10 @@ const configureRedLinkTemplate = (span, anchor) => {
 /**
  * Finds red links in a document or document fragment.
  * @param {!(Document|DocumentFragment)} content Document or fragment in which to seek red links.
- * @return {!NodeList} Nodelist of zero or more red link anchors.
+ * @return {!HTMLAnchorElementArray} Array of zero or more red link anchors.
  */
-const redLinkAnchorsInContent = content => content.querySelectorAll('a.new')
+const redLinkAnchorsInContent =
+  content => Array.prototype.slice.call(content.querySelectorAll('a.new'))
 
 /**
  * Makes span to be used as cloning template for red link anchor replacements.
@@ -44,7 +45,7 @@ const replaceAnchorWithSpan = (anchor, span) => anchor.parentNode.replaceChild(s
 const hideRedLinks = (document, fragment) => {
   const spanTemplate = newRedLinkTemplate(document)
   const content = fragment !== undefined ? fragment : document
-  Array.from(redLinkAnchorsInContent(content))
+  redLinkAnchorsInContent(content)
     .forEach(redLink => {
       const span = spanTemplate.cloneNode(false)
       configureRedLinkTemplate(span, redLink)
