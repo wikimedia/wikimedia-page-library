@@ -10,28 +10,6 @@ describe('ElementUtilities', () => {
     document = fixtureIO.documentFromFixtureFile('ElementUtilities.html')
   })
 
-  describe('matchesSelectorCompat()', () => {
-    it('matches()', () => {
-      const element = { matches: () => true }
-      assert.ok(elementUtilities.matchesSelectorCompat(element, 'html'))
-    })
-
-    it('matchesSelector()', () => {
-      const element = { matchesSelector: () => true }
-      assert.ok(elementUtilities.matchesSelectorCompat(element, 'html'))
-    })
-
-    it('webkitMatchesSelector()', () => {
-      const element = { webkitMatchesSelector: () => true }
-      assert.ok(elementUtilities.matchesSelectorCompat(element, 'html'))
-    })
-
-    it('unsupported', () => {
-      const element = {}
-      assert.ok(!elementUtilities.matchesSelectorCompat(element, 'html'))
-    })
-  })
-
   describe('findClosestAncestor()', () => {
     it('doesn\'t consider self', () => {
       const element = document.querySelector('.matching')
