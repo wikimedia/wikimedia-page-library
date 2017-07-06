@@ -46,16 +46,34 @@ const intersectsViewportRectangle = (element, rectangle) => {
 }
 
 /**
- * Copy attributes from source to destination as data-* attributes.
+ * Move attributes from source to destination as data-* attributes.
  * @param {!HTMLElement} source
  * @param {!HTMLElement} destination
  * @param {!string[]} attributes
  * @return {void}
  */
-const copyAttributesToDataAttributes = (source, destination, attributes) => {
+const moveAttributesToDataAttributes = (source, destination, attributes) => {
   attributes.forEach(attribute => {
     if (source.hasAttribute(attribute)) {
       destination.setAttribute(`data-${attribute}`, source.getAttribute(attribute))
+      source.removeAttribute(attribute)
+    }
+  })
+}
+
+/**
+ * Move data-* attributes from source to destination as attributes.
+ * @param {!HTMLElement} source
+ * @param {!HTMLElement} destination
+ * @param {!string[]} attributes
+ * @return {void}
+ */
+const moveDataAttributesToAttributes = (source, destination, attributes) => {
+  attributes.forEach(attribute => {
+    const dataAttribute = `data-${attribute}`
+    if (source.hasAttribute(dataAttribute)) {
+      destination.setAttribute(attribute, source.getAttribute(dataAttribute))
+      source.removeAttribute(dataAttribute)
     }
   })
 }
@@ -81,6 +99,7 @@ export default {
   isNestedInTable,
   isVisible,
   intersectsViewportRectangle,
-  copyAttributesToDataAttributes,
+  moveAttributesToDataAttributes,
+  moveDataAttributesToAttributes,
   copyDataAttributesToAttributes
 }

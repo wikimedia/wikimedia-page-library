@@ -1,117 +1,133 @@
 import './LazyLoadTransform.css'
 import ElementUtilities from './ElementUtilities'
 
-// CSS classes used to identify and present transformed images. Placeholders are always members of
-// the PLACEHOLDER_CLASS and exactly one of PENDING, LOADING, or LOADED, depending on the current
-// transform state. These class names should match what's used in LazyLoadTransform.css.
-const PLACEHOLDER_CLASS = 'pagelib-lazy-load-placeholder' // Always present.
-const PLACEHOLDER_PENDING_CLASS = 'pagelib-lazy-load-placeholder-pending' // Download not started.
-const PLACEHOLDER_LOADING_CLASS = 'pagelib-lazy-load-placeholder-loading' // Download started.
-const PLACEHOLDER_LOADED_CLASS = 'pagelib-lazy-load-placeholder-loaded' // Download completed.
+// CSS classes used to identify and present transformed images. An image is only a member of one
+// class at a time depending on the current transform state. These class names should match the
+// classes in LazyLoadTransform.css.
+const PENDING_CLASS = 'pagelib-lazy-load-image-pending' // Download pending or started.
+const LOADED_CLASS = 'pagelib-lazy-load-image-loaded' // Download completed.
 
-// Selector used to identify transformable images. Images must be parented.
-const TRANSFORM_IMAGE_SELECTOR = `:not(.${PLACEHOLDER_CLASS}) img`
+// Attributes saved via data-* attributes for later restoration. These attributes can cause files to
+// be downloaded when set so they're temporarily preserved and removed. Additionally, `style.width`
+// and `style.height` are saved with their priorities. In the rare case that a conflicting data-*
+// attribute already exists, it is overwritten.
+const PRESERVE_ATTRIBUTES = ['src', 'srcset']
+const PRESERVE_STYLE_WIDTH_VALUE = 'data-width-value'
+const PRESERVE_STYLE_HEIGHT_VALUE = 'data-height-value'
+const PRESERVE_STYLE_WIDTH_PRIORITY = 'data-width-priority'
+const PRESERVE_STYLE_HEIGHT_PRIORITY = 'data-height-priority'
 
-// Attributes copied from images to placeholders via data-* attributes for later restoration. If
-// additional data savings are wanted, don't restore srcset.
-const COPY_ATTRIBUTES = ['class', 'style', 'src', 'srcset', 'width', 'height', 'alt']
-
-/**
- * Create and populate a new placeholder from an image.
- * @param {!Document} document
- * @param {!HTMLImageElement} image The image to be replaced.
- * @return {!HTMLSpanElement}
- */
-const newPlaceholder = (document, image) => {
-  const placeholder = document.createElement('span')
-
-  ElementUtilities.copyAttributesToDataAttributes(image, placeholder, COPY_ATTRIBUTES)
-
-  placeholder.classList.add(PLACEHOLDER_CLASS)
-  placeholder.classList.add(PLACEHOLDER_PENDING_CLASS)
-
-  const width = image.hasAttribute('width') ? `width: ${image.getAttribute('width')}px;` : ''
-  const height = image.hasAttribute('height') ? `height: ${image.getAttribute('height')}px;` : ''
-  placeholder.setAttribute('style', width + height)
-
-  return placeholder
-}
+// A transparent single pixel gif via https://stackoverflow.com/a/15960901/970346.
+const PLACEHOLDER_URI = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEAAAAALAAAAAABAAEAAAI='
 
 /**
- * Create and populate a new image from a placeholder.
+ * Replace image data with placeholder content.
  * @param {!Document} document
- * @param {!HTMLSpanElement} placeholder
- * @param {!Function} loadEventListener
- * @return {!HTMLImageElement}
- */
-const newImageSubstitute = (document, placeholder, loadEventListener) => {
-  const image = document.createElement('img')
-
-  // Add the download listener prior to setting the src attribute to avoid missing the load event.
-  image.addEventListener('load', loadEventListener, { once: true })
-
-  // Set src and other attributes, triggering a download.
-  ElementUtilities.copyDataAttributesToAttributes(placeholder, image, COPY_ATTRIBUTES)
-
-  return image
-}
-
-/**
- * Replace image with placeholder.
- * @param {!Document} document
- * @param {!HTMLImageElement} image The image to be replaced. Must be parented.
- * @return {!HTMLSpanElement} The placeholder that replaced the image.
+ * @param {!HTMLImageElement} image The image to be updated.
+ * @return {void}
  */
 const transformImage = (document, image) => {
-  // Replace the image and its attributes with a span to prevent the image from downloading. A
-  // replacement span is used instead of the image itself for consistency with MobileFrontend /
-  // Minerva and because image src is not an animatable property which prevents cross-fading with
-  // the background.
-  const placeholder = newPlaceholder(document, image)
-  image.parentNode.replaceChild(placeholder, image)
-  return placeholder
+  // Minerva's image dimension CSS rule cannot be disinherited:
+  //
+  //   .content a > img {
+  //     max-width: 100% !important;
+  //     height: auto !important;
+  //   }
+  //
+  // This forces an image to be bound to screen width and to appear (with scrollbars) proportionally
+  // when it is too large. Unfortunately, the placeholder image rarely matches the original's aspect
+  // ratio and `height: auto` forces this ratio to be used instead of the original's. Minerva uses
+  // spans for placeholders and the CSS rule does not apply. This implementation sets the dimensions
+  // as an inline style with height as `!important` to override Minerva. For images that are capped
+  // by `max-width`, this usually causes the height of the placeholder and the height of the loaded
+  // image to mismatch which causes a reflow. To stimulate this issue, go to the Pablo Picasso
+  // article and set the screen width to be less than the image width. When placeholders are
+  // replaced with images, the image height reduces dramatically. Minerva has the same limitation
+  // with spans. Note: clientWidth is unavailable since this transform occurs in a separate
+  // Document.
+  //
+  // This implementation previously used spans as placeholders and appended an image as a child once
+  // loaded. Crossfading worked well but it was difficult to account for all CSS scenarios. Another
+  // previous implementation replaced the span instead of appending to it. This reduced the
+  // crossfade to just a fade in but still had CSS concerns for the placeholder.
+  let width = image.style.getPropertyValue('width')
+  if (width) {
+    image.setAttribute(PRESERVE_STYLE_WIDTH_VALUE, width)
+    image.setAttribute(PRESERVE_STYLE_WIDTH_PRIORITY, image.style.getPropertyPriority('width'))
+  } else {
+    width = image.hasAttribute('width') && `${image.getAttribute('width')}px`
+  }
+  if (width) { image.style.setProperty('width', width) }
+
+  let height = image.style.getPropertyValue('height')
+  if (height) {
+    image.setAttribute(PRESERVE_STYLE_HEIGHT_VALUE, height)
+    image.setAttribute(PRESERVE_STYLE_HEIGHT_PRIORITY, image.style.getPropertyPriority('height'))
+  } else {
+    height = image.hasAttribute('height') && `${image.getAttribute('height')}px`
+  }
+  if (height) { image.style.setProperty('height', height, 'important') }
+
+  ElementUtilities.moveAttributesToDataAttributes(image, image, PRESERVE_ATTRIBUTES)
+  image.setAttribute('src', PLACEHOLDER_URI)
+
+  image.classList.add(PENDING_CLASS)
 }
 
 /**
- * Visually* replace placeholder with a substitute image. The image only appears once loaded.
- *
- * *The substitute image is actually appended to the placeholder.
+ * Start downloading image resources associated with a given image element and update the
+ * placeholder with the original content when available.
  * @param {!Document} document
- * @param {!HTMLSpanElement} placeholder The placeholder to replace.
- * @return {!HTMLImageElement} The substitute image.
+ * @param {!HTMLImageElement} image The old image element showing placeholder content. This element
+ *                                  will be updated when the new image resources finish downloading.
+ * @return {!HTMLElement} A new image element for downloading the resources.
  */
-const loadImage = (document, placeholder) => {
-  placeholder.classList.remove(PLACEHOLDER_PENDING_CLASS)
-  placeholder.classList.add(PLACEHOLDER_LOADING_CLASS)
+const loadImage = (document, image) => {
+  const download = document.createElement('img')
 
-  const image = newImageSubstitute(document, placeholder, () => {
-    placeholder.appendChild(image)
+  // Add the download listener prior to setting the src attribute to avoid missing the load event.
+  download.addEventListener('load', () => {
+    ElementUtilities.moveDataAttributesToAttributes(image, image, PRESERVE_ATTRIBUTES)
 
-    placeholder.classList.remove(PLACEHOLDER_LOADING_CLASS)
-    placeholder.classList.add(PLACEHOLDER_LOADED_CLASS)
-  })
+    if (image.hasAttribute(PRESERVE_STYLE_WIDTH_VALUE)) {
+      image.style.setProperty('width', image.getAttribute(PRESERVE_STYLE_WIDTH_VALUE),
+        image.getAttribute(PRESERVE_STYLE_WIDTH_PRIORITY))
+      image.removeAttribute(PRESERVE_STYLE_WIDTH_VALUE)
+      image.removeAttribute(PRESERVE_STYLE_WIDTH_PRIORITY)
+    }
 
-  return image
+    if (image.hasAttribute(PRESERVE_STYLE_HEIGHT_VALUE)) {
+      image.style.setProperty('height', image.getAttribute(PRESERVE_STYLE_HEIGHT_VALUE),
+        image.getAttribute(PRESERVE_STYLE_HEIGHT_PRIORITY))
+      image.removeAttribute(PRESERVE_STYLE_HEIGHT_VALUE)
+      image.removeAttribute(PRESERVE_STYLE_HEIGHT_PRIORITY)
+    }
+
+    image.classList.remove(PENDING_CLASS)
+    image.classList.add(LOADED_CLASS)
+  }, { once: true })
+
+  // Set src and other attributes, triggering a download.
+  ElementUtilities.copyDataAttributesToAttributes(image, download, PRESERVE_ATTRIBUTES)
+
+  return download
 }
 
 /**
  * @param {!Element} element
  * @return {!HTMLImageElement[]} Transformable images descendent from but not including element.
  */
-const queryTransformImages = element =>
-  Array.prototype.slice.call(element.querySelectorAll(TRANSFORM_IMAGE_SELECTOR))
+const queryTransformImages = element => Array.prototype.slice.call(element.querySelectorAll('img'))
 
 /**
- * Replace images with placeholders. Only image class, style, src, srcset, width, height, and alt
- * attributes are preserved. The transformation is inverted by calling loadImages().
+ * Replace images with placeholders. The transformation is inverted by calling loadImage().
  * @param {!Document} document
- * @param {!HTMLImageElement[]} images The images to replace.
- * @return {!HTMLSpanElement[]} Placeholders that replaced images.
+ * @param {!HTMLImageElement[]} images The images to lazily load.
+ * @return {void}
  */
-const transform = (document, images) => images.map(image => transformImage(document, image))
+const transform = (document, images) => images.forEach(image => transformImage(document, image))
 
 export default {
-  test: { transformImage },
   loadImage,
   queryTransformImages,
   transform

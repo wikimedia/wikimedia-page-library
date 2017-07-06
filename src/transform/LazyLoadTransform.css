@@ -1,68 +1,38 @@
 /* Transform lifecycle:
   - Original:
-    <img src=/ width=1 height=2>
+    <img style='width: 1px; height: 2px' src=/>
 
-  - Transformed (replace image with span and preserve image attributes as data-* attributes):
-    <span class='pagelib-lazy-load-placeholder pagelib-lazy-load-placeholder-pending'
-      style='width: 1px; height: 2px;' data-src=/ data-width=1 data-height=2></span>
+  - Transformed to a lazily loaded placeholder image (add class, preserve attributes, replace
+    source, and override width and height):
+    <img class=pagelib-lazy-load-image-pending
+      style='width: 1px; height: 2px !important' src=data: data-src=/ data-width-value=1px
+      data-width-priority= data-height-value=2px data-height-priority=>
 
-  - Loading (replace pending class with loading):
-    <span class='pagelib-lazy-load-placeholder pagelib-lazy-load-placeholder-loading'
-      style='width: 1px; height: 2px;' data-src=/ data-width=1 data-height=2></span>
+  - Downloading immediately after a call to LazyLoadTransform.loadImage() (unchanged).
 
-  - Loaded (append image and replace loading class with loaded):
-    <span class='pagelib-lazy-load-placeholder pagelib-lazy-load-placeholder-loaded'
-      style='width: 1px; height: 2px;' data-src=/ data-width=1 data-height=2>
-      <img src=/ width=1 height=2>
-    </span>
+  - Loaded after original image has downloaded (replace content with original and loading class with
+    loaded):
+    <img class=pagelib-lazy-load-image-loaded style='width: 1px; height: 2px' src=/>
 
   Colors from: https://phabricator.wikimedia.org/source/wikimedia-ui-base/browse/master/wikimedia-ui-base.css;d19168ec6d4995561c0a1d2dd59eb8b3f1577a5a.
 */
 
-/* Placeholders are persistent members of this class. This class must match
-   LazyLoadTransform.PLACEHOLDER_CLASS. Additionally, width and height attributes as specified by a
-   replaced image are set as inline styles on the placeholder. */
-.pagelib-lazy-load-placeholder {
-  /* In order to avoid reflows placeholder needs to be block, or inline-block+overflow:hidden given
-     it is nested inside an inline <a>.*/
-  display: block;
-
-  /* Placeholders are just blank boxes. */
+/* LazyLoadTransform.PENDING_CLASS. Note: width and height are set as inline styles and derived
+   first from any preexisting width and height inline style and then from width and height
+   attributes, if specified. See transform lifecycle above. */
+.pagelib-lazy-load-image-pending {
   background-color: #eaecf0;
 }
 
-.dark .pagelib-lazy-load-placeholder {
-  background-color: #72777d;
+.dark .pagelib-lazy-load-image-pending {
+  /* todo: reevaluate whether important priority is necessary when consolidating dark mode, T164311. */
+  background-color: #72777d !important;
 }
 
-/* Placeholders that have not started downloading are temporary members of this class. This class
-   must match LazyLoadTransform.PLACHOLDER_PENDING_CLASS. */
-.pagelib-lazy-load-placeholder-pending {}
-
-/* Placeholders that have started downloading are temporary members of this class. This class must
-   match LazyLoadTransform.PLACHOLDER_LOADING_CLASS. */
-.pagelib-lazy-load-placeholder-loading {}
-
-/* Placeholders that have finished downloading are permanent members of this class. This class must
-   match LazyLoadTransform.PLACHOLDER_LOADED_CLASS. */
-.pagelib-lazy-load-placeholder-loaded {
-  /* When the image has loaded, transition the background color for a fade-out effect, allowing the
-     page background to show for a translucent image. */
-  -webkit-animation: pagelib-lazy-load-placeholder-fade-out .3s ease-in;
-  animation: pagelib-lazy-load-placeholder-fade-out .3s ease-in;
-  background-color: transparent;
-}
-
-.dark .pagelib-lazy-load-placeholder-loaded {
-  -webkit-animation-name: pagelib-lazy-load-placeholder-dark-fade-out;
-  animation-name: pagelib-lazy-load-placeholder-dark-fade-out;
-}
-
-.pagelib-lazy-load-placeholder-loaded img {
-  /* When the image has loaded, transition the image in for a fade-in effect. */
+/* LazyLoadTransform.LOADED_CLASS. */
+.pagelib-lazy-load-image-loaded {
   -webkit-animation: pagelib-lazy-load-image-fade-in .3s ease-in;
   animation: pagelib-lazy-load-image-fade-in .3s ease-in;
-  opacity: 1;
 }
 
 @-webkit-keyframes pagelib-lazy-load-image-fade-in {
@@ -73,40 +43,4 @@
 @keyframes pagelib-lazy-load-image-fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
-}
-
-/* The lazily loaded image is a child. Animate the background color to transparency instead of the
-   opacity which would affect the child. */
-@-webkit-keyframes pagelib-lazy-load-placeholder-fade-out {
-  from { background-color: #eaecf0; }
-  to { background-color: transparent; }
-}
-
-@keyframes pagelib-lazy-load-placeholder-fade-out {
-  from { background-color: #eaecf0; }
-  to { background-color: transparent; }
-}
-
-@-webkit-keyframes pagelib-lazy-load-placeholder-dark-fade-out {
-  from { background-color: #72777d; }
-  to { background-color: transparent; }
-}
-
-@keyframes pagelib-lazy-load-placeholder-dark-fade-out {
-  from { background-color: #72777d; }
-  to { background-color: transparent; }
-}
-
-/* Prevent the inline style from exceeding the width of the screen.
-   https://phabricator.wikimedia.org/diffusion/EMFR/browse/59a252f7a9ae/resources/skins.minerva.content.styles/images.less;e15c49de788cd451abe648497123480da1c9c9d4$49 */
-.content a > .pagelib-lazy-load-placeholder-loaded img,
-.content a > .pagelib-lazy-load-placeholder {
-  max-width: 100%;
-}
-
-/* https://phabricator.wikimedia.org/diffusion/EMOB/browse/master/styles/android/parsoid.less;4964fcc32aa9d68238dbc8ef59ebadb03d276e62$10 */
-.content figure .pagelib-lazy-load-placeholder {
-  margin: 0.6em auto;
-  display: block;
-  clear: both;
 }

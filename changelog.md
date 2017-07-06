@@ -1,6 +1,8 @@
+### v4.1.0
+- New: add lazily loaded image transform
+
 ### v4.0.1
 - Breaking: require a Window instead of a Document in the first parameter of CollapseTable.collapseTables()
-- New: add lazily loaded image and video transform
 - New: update bundle to support AMD, ES, and IIFE / script usage, in addition to CJS
 - New: emit a `section-toggled` CustomEvent when a table is expanded or collapsed
 - Fix: use `Array.prototype.slice` instead of `Array.from` to fix compatibility bug

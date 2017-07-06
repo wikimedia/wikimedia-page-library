@@ -6,8 +6,7 @@
     <title>LazyLoadTransformer</title>
     <link href=../build/wikimedia-page-library-transform.css rel=stylesheet>
     <style>
-      body { margin: 4px 4px; }
-      .pagelib-lazy-load-placeholder { margin: 4px 4px; float: left; }
+      body, img { margin: 4px 4px; }
     </style>
   </head>
 
@@ -20,11 +19,11 @@
 
       const div = lazyDocument.createElement('div')
       for (const data of LazyLoadImageData) {
-        const img = lazyDocument.createElement('img')
-        img.setAttribute('src', `https:${data.src}`)
-        img.setAttribute('width', data.width)
-        img.setAttribute('height', data.height)
-        div.appendChild(img)
+        const image = lazyDocument.createElement('img')
+        image.setAttribute('src', `https:${data.src}`)
+        image.setAttribute('width', data.width)
+        image.setAttribute('height', data.height)
+        div.appendChild(image)
       }
 
       const transformer = new pagelib.LazyLoadTransformer(window, 1)

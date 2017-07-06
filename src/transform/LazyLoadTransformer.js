@@ -25,7 +25,7 @@ export default class {
   constructor(window, loadDistanceMultiplier) {
     this._window = window
 
-    this._placeholders = []
+    this._images = []
     this._resizeEventThrottle = new EventThrottle(window, THROTTLE_PERIOD_MILLISECONDS)
     this._scrollEventThrottle = new EventThrottle(window, THROTTLE_PERIOD_MILLISECONDS)
     this._loadImagesCallback = () =>
@@ -40,8 +40,8 @@ export default class {
    */
   transform(element) {
     const images = LazyLoadTransform.queryTransformImages(element)
-    const placeholders = LazyLoadTransform.transform(this._window.document, images)
-    this._placeholders = this._placeholders.concat(placeholders)
+    LazyLoadTransform.transform(this._window.document, images)
+    this._images = this._images.concat(images)
     this._register()
   }
 
@@ -67,7 +67,7 @@ export default class {
 
     this._scrollEventThrottle.deregister()
     this._resizeEventThrottle.deregister()
-    this._placeholders = []
+    this._images = []
   }
 
   /**
@@ -75,7 +75,7 @@ export default class {
    * @return {void}
    */
   _register() {
-    if (this._registered() || !this._placeholders.length) { return }
+    if (this._registered() || !this._images.length) { return }
 
     this._resizeEventThrottle.register(this._window, UNTHROTTLED_RESIZE_EVENT_TYPE,
       new Polyfill.CustomEvent(THROTTLED_RESIZE_EVENT_TYPE))
@@ -96,10 +96,10 @@ export default class {
    * @return {void}
    */
   _loadImages(viewport) {
-    this._placeholders = this._placeholders.filter(placeholder =>
+    this._images = this._images.filter(placeholder =>
       !(this._isImageEligibleToLoad(placeholder, viewport)
         && LazyLoadTransform.loadImage(this._window.document, placeholder)))
-    if (this._placeholders.length === 0) {
+    if (this._images.length === 0) {
       this.deregister()
     }
   }
