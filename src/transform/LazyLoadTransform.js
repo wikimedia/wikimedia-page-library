@@ -1,5 +1,6 @@
 import './LazyLoadTransform.css'
 import ElementUtilities from './ElementUtilities'
+import Polyfill from './Polyfill'
 
 // CSS classes used to identify and present transformed images. An image is only a member of one
 // class at a time depending on the current transform state. These class names should match the
@@ -120,15 +121,15 @@ const loadImage = (document, image) => {
     if (image.hasAttribute(PRESERVE_STYLE_WIDTH_VALUE)) {
       image.style.setProperty('width', image.getAttribute(PRESERVE_STYLE_WIDTH_VALUE),
         image.getAttribute(PRESERVE_STYLE_WIDTH_PRIORITY))
-      image.removeAttribute(PRESERVE_STYLE_WIDTH_VALUE)
-      image.removeAttribute(PRESERVE_STYLE_WIDTH_PRIORITY)
+    } else {
+      Polyfill.setStyleProperty(image, 'width', image.style.getPropertyValue('width'))
     }
 
     if (image.hasAttribute(PRESERVE_STYLE_HEIGHT_VALUE)) {
       image.style.setProperty('height', image.getAttribute(PRESERVE_STYLE_HEIGHT_VALUE),
         image.getAttribute(PRESERVE_STYLE_HEIGHT_PRIORITY))
-      image.removeAttribute(PRESERVE_STYLE_HEIGHT_VALUE)
-      image.removeAttribute(PRESERVE_STYLE_HEIGHT_PRIORITY)
+    } else {
+      Polyfill.setStyleProperty(image, 'height', image.style.getPropertyValue('height'))
     }
 
     image.classList.remove(PENDING_CLASS)

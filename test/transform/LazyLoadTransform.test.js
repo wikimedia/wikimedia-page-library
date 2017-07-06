@@ -212,20 +212,12 @@ describe('LazyLoadTransform', () => {
 
         it('the width value is restored', () =>
           assert.ok(this.image.style.getPropertyValue('width') === '300em'))
-        it('the width value data-* attribute is removed', () =>
-          assert.ok(!this.image.hasAttribute('data-width-value')))
         it('the width priority is restored', () =>
           assert.ok(this.image.style.getPropertyPriority('width') === 'important'))
-        it('the width priority data-* attribute is removed', () =>
-          assert.ok(!this.image.hasAttribute('data-width-priority')))
         it('the height value is restored', () =>
           assert.ok(this.image.style.getPropertyValue('height') === '400em'))
-        it('the height value data-* attribute is removed', () =>
-          assert.ok(!this.image.hasAttribute('data-height-value')))
         it('the height priority is restored', () =>
           assert.ok(!this.image.style.getPropertyPriority('height')))
-        it('the height priority data-* attribute is removed', () =>
-          assert.ok(!this.image.hasAttribute('data-height-priority')))
         it('the other styles are unmodified', () =>
           assert.ok(this.image.style.background === 'red'))
       })
