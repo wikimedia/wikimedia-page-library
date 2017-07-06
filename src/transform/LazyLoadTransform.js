@@ -20,6 +20,32 @@ const PRESERVE_STYLE_HEIGHT_PRIORITY = 'data-height-priority'
 // A transparent single pixel gif via https://stackoverflow.com/a/15960901/970346.
 const PLACEHOLDER_URI = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEAAAAALAAAAAABAAEAAAI='
 
+// Small images, especially icons, are quickly downloaded and may appear in many places. Lazily
+// loading these images degrades the experience with little gain. Always eagerly load these images.
+// Example: the infobox for the 1896 Summer Olympics medal table.
+const UNIT_TO_MINIMUM_TRANSFORM_SIZE = {
+  px: 50, // https://phabricator.wikimedia.org/diffusion/EMFR/browse/master/includes/MobileFormatter.php;c89f371ea9e789d7e1a827ddfec7c8028a549c12$22
+  ex: 10, // ''
+  em: 5 // 1ex ≈ .5em; https://developer.mozilla.org/en-US/docs/Web/CSS/length#Units
+}
+
+/**
+ * @param {!HTMLImageElement} image The image to be consider.
+ * @return {!boolean} true if image should be lazily loaded, false if image should be eagerly
+ *                    loaded.
+*/
+const isTransformable = image =>
+  ['width', 'height'].every(dimension => {
+    let valueUnit = image.style.getPropertyValue(dimension) || ''
+
+    if (valueUnit === '' && image.hasAttribute(dimension)) {
+      valueUnit = `${image.getAttribute(dimension)}px`
+    }
+
+    const [ , value, unit ] = valueUnit.match(/(\d+)(\D+)/) || []
+    return value === undefined || value >= UNIT_TO_MINIMUM_TRANSFORM_SIZE[unit]
+  })
+
 /**
  * Replace image data with placeholder content.
  * @param {!Document} document
@@ -50,12 +76,14 @@ const transformImage = (document, image) => {
   // loaded. Crossfading worked well but it was difficult to account for all CSS scenarios. Another
   // previous implementation replaced the span instead of appending to it. This reduced the
   // crossfade to just a fade in but still had CSS concerns for the placeholder.
+  //
+  // https://phabricator.wikimedia.org/diffusion/EMFR/browse/master/resources/skins.minerva.content.styles/images.less;e15c49de788cd451abe648497123480da1c9c9d4$55
   let width = image.style.getPropertyValue('width')
   if (width) {
     image.setAttribute(PRESERVE_STYLE_WIDTH_VALUE, width)
     image.setAttribute(PRESERVE_STYLE_WIDTH_PRIORITY, image.style.getPropertyPriority('width'))
-  } else {
-    width = image.hasAttribute('width') && `${image.getAttribute('width')}px`
+  } else if (image.hasAttribute('width')) {
+    width = `${image.getAttribute('width')}px`
   }
   if (width) { image.style.setProperty('width', width) }
 
@@ -63,8 +91,8 @@ const transformImage = (document, image) => {
   if (height) {
     image.setAttribute(PRESERVE_STYLE_HEIGHT_VALUE, height)
     image.setAttribute(PRESERVE_STYLE_HEIGHT_PRIORITY, image.style.getPropertyPriority('height'))
-  } else {
-    height = image.hasAttribute('height') && `${image.getAttribute('height')}px`
+  } else if (image.hasAttribute('height')) {
+    height = `${image.getAttribute('height')}px`
   }
   if (height) { image.style.setProperty('height', height, 'important') }
 
@@ -117,7 +145,9 @@ const loadImage = (document, image) => {
  * @param {!Element} element
  * @return {!HTMLImageElement[]} Transformable images descendent from but not including element.
  */
-const queryTransformImages = element => Array.prototype.slice.call(element.querySelectorAll('img'))
+const queryTransformImages = element =>
+  Array.prototype.slice.call(element.querySelectorAll('img'))
+    .filter(image => isTransformable(image))
 
 /**
  * Replace images with placeholders. The transformation is inverted by calling loadImage().

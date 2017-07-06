@@ -3,6 +3,102 @@ import assert from 'assert'
 import domino from 'domino'
 
 describe('LazyLoadTransform', () => {
+  describe('.queryTransformImages()', () => {
+    describe('images missing one or both dimensions should be returned:', () => {
+      it('dimensionless', () => {
+        const document = domino.createDocument('<img src=/>')
+        const images = LazyLoadTransform.queryTransformImages(document.documentElement)
+        assert.ok(images.length)
+      })
+
+      it('no width', () => {
+        const document = domino.createDocument('<img height=100 src=/>')
+        const images = LazyLoadTransform.queryTransformImages(document.documentElement)
+        assert.ok(images.length)
+      })
+
+      it('no height', () => {
+        const document = domino.createDocument('<img width=100 src=/>')
+        const images = LazyLoadTransform.queryTransformImages(document.documentElement)
+        assert.ok(images.length)
+      })
+    })
+
+    describe('images with dimension attributes should be considered:', () => {
+      describe('images with a small side should not be returned:', () => {
+        it('width', () => {
+          const document = domino.createDocument('<img width=1 height=100 src=/>')
+          const images = LazyLoadTransform.queryTransformImages(document.documentElement)
+          assert.ok(!images.length)
+        })
+
+        it('height', () => {
+          const document = domino.createDocument('<img width=100 height=1 src=/>')
+          const images = LazyLoadTransform.queryTransformImages(document.documentElement)
+          assert.ok(!images.length)
+        })
+      })
+
+      it('large images should be returned', () => {
+        const document = domino.createDocument('<img width=100 height=100 src=/>')
+        const images = LazyLoadTransform.queryTransformImages(document.documentElement)
+        assert.ok(images.length)
+      })
+
+      describe('images with dimension styles should be considered first:', () => {
+        describe('images with a small side should not be returned:', () => {
+          it('width', () => {
+            const html = '<img style="width: 1px" width=100 height=100 src=/>'
+            const document = domino.createDocument(html)
+            const images = LazyLoadTransform.queryTransformImages(document.documentElement)
+            assert.ok(!images.length)
+          })
+
+          it('height', () => {
+            const html = '<img style="height: 1px" width=100 height=100 src=/>'
+            const document = domino.createDocument(html)
+            const images = LazyLoadTransform.queryTransformImages(document.documentElement)
+            assert.ok(!images.length)
+          })
+        })
+
+        it('large images should be returned', () => {
+          const html = '<img style="width: 100px; height: 100px" width=1 height=1 src=/>'
+          const document = domino.createDocument(html)
+          const images = LazyLoadTransform.queryTransformImages(document.documentElement)
+          assert.ok(images.length)
+        })
+      })
+    })
+
+    describe('images with dimension styles should support the following units:', () => {
+      for (const unit of ['px', 'ex', 'em']) {
+        describe(unit, () => {
+          it('small', () => {
+            const html = `<img style="width: 1${unit}; height: 1${unit}" src=/>`
+            const document = domino.createDocument(html)
+            const images = LazyLoadTransform.queryTransformImages(document.documentElement)
+            assert.ok(!images.length)
+          })
+
+          it('large', () => {
+            const html = `<img style="width: 100${unit}; height: 100${unit}" src=/>`
+            const document = domino.createDocument(html)
+            const images = LazyLoadTransform.queryTransformImages(document.documentElement)
+            assert.ok(images.length)
+          })
+        })
+      }
+
+      it('unknown', () => {
+        const html = '<img style="width: 1mm; height: 1mm" src=/>'
+        const document = domino.createDocument(html)
+        const images = LazyLoadTransform.queryTransformImages(document.documentElement)
+        assert.ok(!images.length)
+      })
+    })
+  })
+
   describe('.transform()', () => {
     describe('when an image is transformed', () => {
       describe('and dimensions are unspecified', function Test() {
@@ -33,7 +129,7 @@ describe('LazyLoadTransform', () => {
 
       describe('and dimensions are specified as attributes', function Test() {
         beforeEach(() => {
-          const document = domino.createDocument('<img src=/ width=1 height=2>')
+          const document = domino.createDocument('<img src=/ width=100 height=200>')
           const images = LazyLoadTransform.queryTransformImages(document.documentElement)
           this.image = images[0]
 
@@ -41,17 +137,18 @@ describe('LazyLoadTransform', () => {
         })
 
         it('the width is set', () =>
-          assert.ok(this.image.style.getPropertyValue('width') === '1px'))
+          assert.ok(this.image.style.getPropertyValue('width') === '100px'))
         it('the height is set', () =>
-          assert.ok(this.image.style.getPropertyValue('height') === '2px'))
+          assert.ok(this.image.style.getPropertyValue('height') === '200px'))
         it('the height has important priority', () =>
           assert.ok(this.image.style.getPropertyPriority('height') === 'important'))
       })
 
       describe('and dimensions are specified as a style', function Test() {
         beforeEach(() => {
-          const html = `<img style="background: red; width: 3em !important; height: 4em !important"
-            width=1 height=2 src=/>`
+          const html = `
+            <img style="background: red; width: 300em !important; height: 400em !important"
+              width=100 height=200 src=/>`
           const document = domino.createDocument(html)
           const images = LazyLoadTransform.queryTransformImages(document.documentElement)
           this.image = images[0]
@@ -60,9 +157,9 @@ describe('LazyLoadTransform', () => {
         })
 
         it('the width value is preserved as a data-* attribute', () =>
-          assert.ok(this.image.getAttribute('data-width-value') === '3em'))
+          assert.ok(this.image.getAttribute('data-width-value') === '300em'))
         it('the height value is preserved as a data-* attribute', () =>
-          assert.ok(this.image.getAttribute('data-height-value') === '4em'))
+          assert.ok(this.image.getAttribute('data-height-value') === '400em'))
         it('the width priority is preserved as a data-* attribute', () =>
           assert.ok(this.image.getAttribute('data-width-priority') === 'important'))
         it('the height priority is preserved as a data-* attribute', () =>
@@ -71,9 +168,9 @@ describe('LazyLoadTransform', () => {
           assert.ok(this.image.style.background === 'red'))
 
         it('the width is set', () =>
-          assert.ok(this.image.style.getPropertyValue('width') === '3em'))
+          assert.ok(this.image.style.getPropertyValue('width') === '300em'))
         it('the height is set', () =>
-          assert.ok(this.image.style.getPropertyValue('height') === '4em'))
+          assert.ok(this.image.style.getPropertyValue('height') === '400em'))
         it('the height has important priority', () =>
           assert.ok(this.image.style.getPropertyPriority('height') === 'important'))
       })
@@ -84,9 +181,9 @@ describe('LazyLoadTransform', () => {
     describe('when an image is loading', function Test() {
       beforeEach(() => {
         const html = `<img class='classes pagelib-lazy-load-image-pending'
-          style='background: red; width: 3em; height 4em !important' src=data: width=1 height=2
-          data-src=/src data-srcset=/srcset data-width-value=3em data-width-priority=important
-          data-height-value=4em data-height-priority=>`
+          style='background: red; width: 300em; height 400em !important' src=data: width=100
+          height=200 data-src=/src data-srcset=/srcset data-width-value=300em
+          data-width-priority=important data-height-value=400em data-height-priority=>`
         const document = domino.createDocument(html)
         this.image = document.querySelector('img')
         this.download = LazyLoadTransform.loadImage(document, this.image)
@@ -114,7 +211,7 @@ describe('LazyLoadTransform', () => {
         })
 
         it('the width value is restored', () =>
-          assert.ok(this.image.style.getPropertyValue('width') === '3em'))
+          assert.ok(this.image.style.getPropertyValue('width') === '300em'))
         it('the width value data-* attribute is removed', () =>
           assert.ok(!this.image.hasAttribute('data-width-value')))
         it('the width priority is restored', () =>
@@ -122,7 +219,7 @@ describe('LazyLoadTransform', () => {
         it('the width priority data-* attribute is removed', () =>
           assert.ok(!this.image.hasAttribute('data-width-priority')))
         it('the height value is restored', () =>
-          assert.ok(this.image.style.getPropertyValue('height') === '4em'))
+          assert.ok(this.image.style.getPropertyValue('height') === '400em'))
         it('the height value data-* attribute is removed', () =>
           assert.ok(!this.image.hasAttribute('data-height-value')))
         it('the height priority is restored', () =>
