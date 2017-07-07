@@ -64,25 +64,12 @@ const shouldWidenImage = image => {
 }
 
 /**
- * Removes barriers to images widening taking effect.
- * @param  {!HTMLElement} image   The image in question
- * @return {void}
- */
-const makeRoomForImageWidening = image => {
-  widenAncestors(image)
-
-  // Remove width and height attributes so wideImageOverride width percentages can take effect.
-  image.removeAttribute('width')
-  image.removeAttribute('height')
-}
-
-/**
  * Widens the image.
  * @param  {!HTMLElement} image   The image in question
  * @return {void}
  */
 const widenImage = image => {
-  makeRoomForImageWidening(image)
+  widenAncestors(image)
   image.classList.add('wideImageOverride')
 }
 
