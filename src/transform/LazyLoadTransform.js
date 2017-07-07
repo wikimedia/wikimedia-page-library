@@ -102,7 +102,8 @@ const transformImage = (document, image) => {
   } else if (image.hasAttribute('width')) {
     width = `${image.getAttribute('width')}px`
   }
-  if (width) { image.style.setProperty('width', width) }
+  // !important priority for WidenImage (`width: 100% !important` and placeholder is 1px wide).
+  if (width) { image.style.setProperty('width', width, 'important') }
 
   let height = image.style.getPropertyValue('height')
   if (height) {
@@ -111,6 +112,7 @@ const transformImage = (document, image) => {
   } else if (image.hasAttribute('height')) {
     height = `${image.getAttribute('height')}px`
   }
+  // !important priority for Minerva.
   if (height) { image.style.setProperty('height', height, 'important') }
 
   ElementUtilities.moveAttributesToDataAttributes(image, image, PRESERVE_ATTRIBUTES)
@@ -129,26 +131,14 @@ const loadImageCallback = image => {
     image.style.setProperty('width', image.getAttribute(PRESERVE_STYLE_WIDTH_VALUE),
       image.getAttribute(PRESERVE_STYLE_WIDTH_PRIORITY))
   } else {
-    image.style.setProperty('width', image.style.getPropertyValue('width'))
+    image.style.removeProperty('width')
   }
 
   if (image.hasAttribute(PRESERVE_STYLE_HEIGHT_VALUE)) {
     image.style.setProperty('height', image.getAttribute(PRESERVE_STYLE_HEIGHT_VALUE),
       image.getAttribute(PRESERVE_STYLE_HEIGHT_PRIORITY))
   } else {
-    // When the previous property was !important, some implementations only allow another
-    // !important property to replace it. Mobile web avoids this issue by using spans for the
-    // placeholders which do not require an !important override. This issue affects Android
-    // KitKat 4.4.2 (API 19), Tracfone LG Ultimate 2 (LGL41C) and Verizon Samsung Galaxy Note II
-    // (SCH-I605) and is obvious on the "List of works by Vincent van Gogh" article's lead
-    // infobox. The reflow caused by removeProperty() is obvious on the "First Nations"
-    // article's lead infobox.
-    //
-    // https://bugs.chromium.org/p/chromium/issues/detail?id=331236
-    // https://en.m.wikipedia.org/wiki/List_of_works_by_Vincent_van_Gogh?oldid=781965885
     image.style.removeProperty('height')
-
-    image.style.setProperty('height', image.style.getPropertyValue('height'))
   }
 }
 
