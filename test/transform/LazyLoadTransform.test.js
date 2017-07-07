@@ -112,8 +112,6 @@ describe('LazyLoadTransform', () => {
 
         it('the src is preserved as a data-* attribute', () =>
           assert.ok(this.image.getAttribute('data-src') === '/src'))
-        it('the srcset is preserved as a data-* attribute', () =>
-          assert.ok(this.image.getAttribute('data-srcset') === '/srcset'))
 
         it('the src is replaced with placeholder content', () =>
           assert.ok(this.image.getAttribute('src').startsWith('data:')))
@@ -182,7 +180,7 @@ describe('LazyLoadTransform', () => {
       beforeEach(() => {
         const html = `<img class='classes pagelib-lazy-load-image-pending'
           style='background: red; width: 300em; height 400em !important' src=data: width=100
-          height=200 data-src=/src data-srcset=/srcset data-width-value=300em
+          height=200 data-src=/src data-width-value=300em
           data-width-priority=important data-height-value=400em data-height-priority=>`
         const document = domino.createDocument(html)
         this.image = document.querySelector('img')
@@ -190,7 +188,6 @@ describe('LazyLoadTransform', () => {
       })
 
       it('the src is set', () => assert.ok(this.download.getAttribute('src') === '/src'))
-      it('the srcset is set', () => assert.ok(this.download.getAttribute('srcset') === '/srcset'))
 
       describe('and completes loading', () => {
         beforeEach(() => this.download.dispatchEvent(new domino.impl.Event('load')))
@@ -198,10 +195,6 @@ describe('LazyLoadTransform', () => {
         it('the src is restored', () => assert.ok(this.image.getAttribute('src') === '/src'))
         it('the src data-* attribute is removed', () =>
           assert.ok(!this.image.hasAttribute('data-src')))
-        it('the srcset is restored', () =>
-          assert.ok(this.image.getAttribute('srcset') === '/srcset'))
-        it('the srcset data-* attribute is removed', () =>
-          assert.ok(!this.image.hasAttribute('data-srcset')))
 
         it('the pending class membership is replaced with loaded', () =>
           assert.ok(this.image.classList.contains('pagelib-lazy-load-image-loaded')))
