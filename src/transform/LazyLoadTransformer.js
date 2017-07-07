@@ -61,7 +61,7 @@ export default class {
     if (!this._registered()) { return }
 
     this._window.removeEventListener(THROTTLED_SCROLL_EVENT_TYPE, this._loadImagesCallback)
-    this._window.addEventListener(THROTTLED_RESIZE_EVENT_TYPE, this._loadImagesCallback)
+    this._window.removeEventListener(THROTTLED_RESIZE_EVENT_TYPE, this._loadImagesCallback)
     this._window.removeEventListener(CollapseTable.SECTION_TOGGLED_EVENT_TYPE,
       this._loadImagesCallback)
 

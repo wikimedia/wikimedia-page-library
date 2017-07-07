@@ -22,7 +22,8 @@ const PLACEHOLDER_URI = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEAAAAALAAAA
 
 // Small images, especially icons, are quickly downloaded and may appear in many places. Lazily
 // loading these images degrades the experience with little gain. Always eagerly load these images.
-// Example: the infobox for the 1896 Summer Olympics medal table.
+// Example: flags in the medal count for the "1896 Summer Olympics medal table."
+// https://en.m.wikipedia.org/wiki/1896_Summer_Olympics_medal_table?oldid=773498394#Medal_count
 const UNIT_TO_MINIMUM_TRANSFORM_SIZE = {
   px: 50, // https://phabricator.wikimedia.org/diffusion/EMFR/browse/master/includes/MobileFormatter.php;c89f371ea9e789d7e1a827ddfec7c8028a549c12$22
   ex: 10, // ''
@@ -60,8 +61,8 @@ const transformImage = (document, image) => {
   //   This option has the best cross-fading and extensibility but makes the CSS rules for the
   //   appended image impractical.
   //
-  // - [Minerva] Replace the original image with a span and replace the span with a new downloaded
-  //   image.
+  // - [MobileFrontend] Replace the original image with a span and replace the span with a new
+  //   downloaded image.
   //   This option has a good fade-in but has some CSS concerns for the placeholder, particularly
   //   `max-width`.
   //
@@ -79,18 +80,19 @@ const transformImage = (document, image) => {
   // This forces an image to be bound to screen width and to appear (with scrollbars) proportionally
   // when it is too large. For the current implementation, unfortunately, the transparent
   // placeholder image rarely matches the original's aspect ratio and `height: auto !important`
-  // forces this ratio to be used instead of the original's. Minerva uses spans for placeholders and
-  // the CSS rule does not apply. This implementation sets the dimensions as an inline style with
-  // height as `!important` to override Minerva. For images that are capped by `max-width`, this
-  // usually causes the height of the placeholder and the height of the loaded image to mismatch
-  // which causes a reflow. To stimulate this issue, go to the Pablo Picasso article and set the
-  // screen width to be less than the image width. When placeholders are replaced with images, the
-  // image height reduces dramatically. Minerva has the same limitation with spans. Note:
-  // clientWidth is unavailable since this transform occurs in a separate Document.
+  // forces this ratio to be used instead of the original's. MobileFrontend uses spans for
+  // placeholders and the CSS rule does not apply. This implementation sets the dimensions as an
+  // inline style with height as `!important` to override MobileFrontend. For images that are capped
+  // by `max-width`, this usually causes the height of the placeholder and the height of the loaded
+  // image to mismatch which causes a reflow. To stimulate this issue, go to the "Pablo Picasso"
+  // article and set the screen width to be less than the image width. When placeholders are
+  // replaced with images, the image height reduces dramatically. MobileFrontend has the same
+  // limitation with spans. Note: clientWidth is unavailable since this transform occurs in a
+  // separate Document.
   //
-  // Reflows also occur in this and Minerva when the image width or height do not match the actual
-  // file dimensions. e.g., see the image captioned "Obama and his wife Michelle at the Civil Rights
-  // Summit..." on the Barack Obama article.
+  // Reflows also occur in this and MobileFrontend when the image width or height do not match the
+  // actual file dimensions. e.g., see the image captioned "Obama and his wife Michelle at the Civil
+  // Rights Summit..." on the "Barack Obama" article.
   //
   // https://phabricator.wikimedia.org/diffusion/EMFR/browse/master/resources/skins.minerva.content.styles/images.less;e15c49de788cd451abe648497123480da1c9c9d4$55
   // https://en.m.wikipedia.org/wiki/Barack_Obama?oldid=789232530

@@ -5,8 +5,8 @@
   - Transformed to a lazily loaded placeholder image (add class, preserve attributes, replace
     source, and override width and height):
     <img class=pagelib-lazy-load-image-pending
-      style='width: 1px; height: 2px !important' src=data: data-src=/ data-width-value=1px
-      data-width-priority= data-height-value=2px data-height-priority=>
+      style='width: 1px !important; height: 2px !important' src=data: data-src=/
+      data-width-value=1px data-width-priority= data-height-value=2px data-height-priority=>
 
   - Downloading immediately after a call to LazyLoadTransform.loadImage() (unchanged).
 
