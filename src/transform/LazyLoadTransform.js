@@ -11,7 +11,7 @@ const LOADED_CLASS = 'pagelib-lazy-load-image-loaded' // Download completed.
 // be downloaded when set so they're temporarily preserved and removed. Additionally, `style.width`
 // and `style.height` are saved with their priorities. In the rare case that a conflicting data-*
 // attribute already exists, it is overwritten.
-const PRESERVE_ATTRIBUTES = ['src']
+const PRESERVE_ATTRIBUTES = ['src', 'srcset']
 const PRESERVE_STYLE_WIDTH_VALUE = 'data-width-value'
 const PRESERVE_STYLE_HEIGHT_VALUE = 'data-height-value'
 const PRESERVE_STYLE_WIDTH_PRIORITY = 'data-width-priority'
@@ -116,7 +116,6 @@ const transformImage = (document, image) => {
   if (height) { image.style.setProperty('height', height, 'important') }
 
   ElementUtilities.moveAttributesToDataAttributes(image, image, PRESERVE_ATTRIBUTES)
-  image.removeAttribute('srcset')
   image.setAttribute('src', PLACEHOLDER_URI)
 
   image.classList.add(PENDING_CLASS)
