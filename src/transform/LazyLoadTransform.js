@@ -1,6 +1,5 @@
 import './LazyLoadTransform.css'
 import ElementUtilities from './ElementUtilities'
-import Polyfill from './Polyfill'
 
 // CSS classes used to identify and present transformed images. An image is only a member of one
 // class at a time depending on the current transform state. These class names should match the
@@ -54,7 +53,23 @@ const isTransformable = image =>
  * @return {void}
  */
 const transformImage = (document, image) => {
-  // Minerva's image dimension CSS rule cannot be disinherited:
+  // There are a number of possible implementations including:
+  //
+  // - [Previous] Replace the original image with a span and append a new downloaded image to the
+  //   span.
+  //   This option has the best cross-fading and extensibility but makes the CSS rules for the
+  //   appended image impractical.
+  //
+  // - [Minerva] Replace the original image with a span and replace the span with a new downloaded
+  //   image.
+  //   This option has a good fade-in but has some CSS concerns for the placeholder, particularly
+  //   `max-width`.
+  //
+  // - [Current] Replace the original image's source with a transparent image and update the source
+  //   from a new downloaded image.
+  //   This option has a good fade-in but minimal CSS concerns for the placeholder and image.
+  //
+  // Minerva's tricky image dimension CSS rule cannot be disinherited:
   //
   //   .content a > img {
   //     max-width: 100% !important;
@@ -62,23 +77,24 @@ const transformImage = (document, image) => {
   //   }
   //
   // This forces an image to be bound to screen width and to appear (with scrollbars) proportionally
-  // when it is too large. Unfortunately, the placeholder image rarely matches the original's aspect
-  // ratio and `height: auto` forces this ratio to be used instead of the original's. Minerva uses
-  // spans for placeholders and the CSS rule does not apply. This implementation sets the dimensions
-  // as an inline style with height as `!important` to override Minerva. For images that are capped
-  // by `max-width`, this usually causes the height of the placeholder and the height of the loaded
-  // image to mismatch which causes a reflow. To stimulate this issue, go to the Pablo Picasso
-  // article and set the screen width to be less than the image width. When placeholders are
-  // replaced with images, the image height reduces dramatically. Minerva has the same limitation
-  // with spans. Note: clientWidth is unavailable since this transform occurs in a separate
-  // Document.
+  // when it is too large. For the current implementation, unfortunately, the transparent
+  // placeholder image rarely matches the original's aspect ratio and `height: auto !important`
+  // forces this ratio to be used instead of the original's. Minerva uses spans for placeholders and
+  // the CSS rule does not apply. This implementation sets the dimensions as an inline style with
+  // height as `!important` to override Minerva. For images that are capped by `max-width`, this
+  // usually causes the height of the placeholder and the height of the loaded image to mismatch
+  // which causes a reflow. To stimulate this issue, go to the Pablo Picasso article and set the
+  // screen width to be less than the image width. When placeholders are replaced with images, the
+  // image height reduces dramatically. Minerva has the same limitation with spans. Note:
+  // clientWidth is unavailable since this transform occurs in a separate Document.
   //
-  // This implementation previously used spans as placeholders and appended an image as a child once
-  // loaded. Crossfading worked well but it was difficult to account for all CSS scenarios. Another
-  // previous implementation replaced the span instead of appending to it. This reduced the
-  // crossfade to just a fade in but still had CSS concerns for the placeholder.
+  // Reflows also occur in this and Minerva when the image width or height do not match the actual
+  // file dimensions. e.g., see the image captioned "Obama and his wife Michelle at the Civil Rights
+  // Summit..." on the Barack Obama article.
   //
   // https://phabricator.wikimedia.org/diffusion/EMFR/browse/master/resources/skins.minerva.content.styles/images.less;e15c49de788cd451abe648497123480da1c9c9d4$55
+  // https://en.m.wikipedia.org/wiki/Barack_Obama?oldid=789232530
+  // https://en.m.wikipedia.org/wiki/Pablo_Picasso?oldid=788122694
   let width = image.style.getPropertyValue('width')
   if (width) {
     image.setAttribute(PRESERVE_STYLE_WIDTH_VALUE, width)
@@ -105,6 +121,38 @@ const transformImage = (document, image) => {
 }
 
 /**
+ * @param {!HTMLImageElement} image
+ * @return {void}
+ */
+const loadImageCallback = image => {
+  if (image.hasAttribute(PRESERVE_STYLE_WIDTH_VALUE)) {
+    image.style.setProperty('width', image.getAttribute(PRESERVE_STYLE_WIDTH_VALUE),
+      image.getAttribute(PRESERVE_STYLE_WIDTH_PRIORITY))
+  } else {
+    image.style.setProperty('width', image.style.getPropertyValue('width'))
+  }
+
+  if (image.hasAttribute(PRESERVE_STYLE_HEIGHT_VALUE)) {
+    image.style.setProperty('height', image.getAttribute(PRESERVE_STYLE_HEIGHT_VALUE),
+      image.getAttribute(PRESERVE_STYLE_HEIGHT_PRIORITY))
+  } else {
+    // When the previous property was !important, some implementations only allow another
+    // !important property to replace it. Mobile web avoids this issue by using spans for the
+    // placeholders which do not require an !important override. This issue affects Android
+    // KitKat 4.4.2 (API 19), Tracfone LG Ultimate 2 (LGL41C) and Verizon Samsung Galaxy Note II
+    // (SCH-I605) and is obvious on the "List of works by Vincent van Gogh" article's lead
+    // infobox. The reflow caused by removeProperty() is obvious on the "First Nations"
+    // article's lead infobox.
+    //
+    // https://bugs.chromium.org/p/chromium/issues/detail?id=331236
+    // https://en.m.wikipedia.org/wiki/List_of_works_by_Vincent_van_Gogh?oldid=781965885
+    image.style.removeProperty('height')
+
+    image.style.setProperty('height', image.style.getPropertyValue('height'))
+  }
+}
+
+/**
  * Start downloading image resources associated with a given image element and update the
  * placeholder with the original content when available.
  * @param {!Document} document
@@ -117,24 +165,17 @@ const loadImage = (document, image) => {
 
   // Add the download listener prior to setting the src attribute to avoid missing the load event.
   download.addEventListener('load', () => {
-    ElementUtilities.moveDataAttributesToAttributes(image, image, PRESERVE_ATTRIBUTES)
-
-    if (image.hasAttribute(PRESERVE_STYLE_WIDTH_VALUE)) {
-      image.style.setProperty('width', image.getAttribute(PRESERVE_STYLE_WIDTH_VALUE),
-        image.getAttribute(PRESERVE_STYLE_WIDTH_PRIORITY))
-    } else {
-      Polyfill.setStyleProperty(image, 'width', image.style.getPropertyValue('width'))
-    }
-
-    if (image.hasAttribute(PRESERVE_STYLE_HEIGHT_VALUE)) {
-      image.style.setProperty('height', image.getAttribute(PRESERVE_STYLE_HEIGHT_VALUE),
-        image.getAttribute(PRESERVE_STYLE_HEIGHT_PRIORITY))
-    } else {
-      Polyfill.setStyleProperty(image, 'height', image.style.getPropertyValue('height'))
-    }
-
-    image.classList.remove(PENDING_CLASS)
     image.classList.add(LOADED_CLASS)
+    image.classList.remove(PENDING_CLASS)
+
+    // Add the restoration listener prior to setting the src attribute to avoid missing the load
+    // event.
+    image.addEventListener('load', () => loadImageCallback(image), { once: true })
+
+    // Set src and other attributes, triggering a download from cache which still takes time on
+    // older devices and can cause a reflow due to the call to `style.removeProperty('height')`
+    // necessary on the same devices.
+    ElementUtilities.moveDataAttributesToAttributes(image, image, PRESERVE_ATTRIBUTES)
   }, { once: true })
 
   // Set src and other attributes, triggering a download.
@@ -159,8 +200,4 @@ const queryTransformImages = element =>
  */
 const transform = (document, images) => images.forEach(image => transformImage(document, image))
 
-export default {
-  loadImage,
-  queryTransformImages,
-  transform
-}
+export default { loadImage, queryTransformImages, transform }

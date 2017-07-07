@@ -190,7 +190,10 @@ describe('LazyLoadTransform', () => {
       it('the src is set', () => assert.ok(this.download.getAttribute('src') === '/src'))
 
       describe('and completes loading', () => {
-        beforeEach(() => this.download.dispatchEvent(new domino.impl.Event('load')))
+        beforeEach(() => {
+          this.download.dispatchEvent(new domino.impl.Event('load'))
+          this.image.dispatchEvent(new domino.impl.Event('load'))
+        })
 
         it('the src is restored', () => assert.ok(this.image.getAttribute('src') === '/src'))
         it('the src data-* attribute is removed', () =>
