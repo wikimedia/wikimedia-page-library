@@ -88,7 +88,7 @@ const toggleCollapseClickCallback = function(footerDivClickCallback) {
       caption.style.visibility = 'visible'
     }
     footer.style.display = 'none'
-        // if they clicked the bottom div, then scroll back up to the top of the table.
+    // if they clicked the bottom div, then scroll back up to the top of the table.
     if (this === footer && footerDivClickCallback) {
       footerDivClickCallback(container)
     }
