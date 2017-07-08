@@ -4,15 +4,15 @@
   "configurations": [
     {
       "type": "node",
+      "protocol": "inspector",
       "request": "launch",
       "name": "Mocha Tests",
       "cwd": "${workspaceRoot}",
       "runtimeExecutable": "mocha",
       "runtimeArgs": [
-        "-u", "tdd",
+        "-cu", "tdd",
         "-t", "999999",
-        "-c",
-        "test/**/*.js"
+        "test/**/*.test.js"
       ],
       "internalConsoleOptions": "openOnSessionStart"
     }
