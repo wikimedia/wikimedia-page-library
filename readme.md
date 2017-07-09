@@ -118,12 +118,17 @@ Note the `un` in the command above.
 
 After running the `unlink` command above, your file system browser should again show a normal folder for `www/node_modules/wikimedia-page-library` instead of a symlink folder.
 
+### Supported ES6 syntax
+Babel transpiles ES6 syntax to ES5 except for...of, spread, array destructuring, spread, generators, and async functions. Additionally, ES6 built-ins such as `Array.from()` are not transpiled. babel-polyfill is not a requirement of this library so do not use these features.
+
+https://babeljs.io/docs/usage/caveats/#polyfills
+
 ### Testing
 Tests are executed prior to commits but may also be executed manually:
 
 - Run all tests: `npm -s t`
-- Run all tests for a module: `npm run -s test -- -g ElementUtilities`
-- Run all tests for a method: `npm run -s test -- -g 'copyDataAttributesToAttributes()'`
+- Run all tests for a module: `npm -s t -- -g ElementUtilities`
+- Run all tests for a method: `npm -s t -- -g 'isNestedInTable()'`
 
 ### Lint
 ESLint is executed prior to commits and publishing to identify cataloged style and functionality concerns. Linting may also be performed by running `npm run -s lint:all`. When a violation is detected, it may be fixed manually or suppressed by [selectively disabling the rule] (e.g, `// eslint-disable-line no-magic-number`). Some rules support automated fixes via `npm run -s lint -- --fix .`.
