@@ -37,13 +37,15 @@ const UNIT_TO_MINIMUM_TRANSFORM_SIZE = {
 */
 const isTransformable = image =>
   ['width', 'height'].every(dimension => {
-    let valueUnit = image.style.getPropertyValue(dimension) || ''
+    let valueUnitString = image.style.getPropertyValue(dimension) || ''
 
-    if (valueUnit === '' && image.hasAttribute(dimension)) {
-      valueUnit = `${image.getAttribute(dimension)}px`
+    if (valueUnitString === '' && image.hasAttribute(dimension)) {
+      valueUnitString = `${image.getAttribute(dimension)}px`
     }
 
-    const [ , value, unit ] = valueUnit.match(/(\d+)(\D+)/) || []
+    const matchValueUnit = valueUnitString.match(/(\d+)(\D+)/) || []
+    const value = matchValueUnit[1]
+    const unit = matchValueUnit[2]
     return value === undefined || value >= UNIT_TO_MINIMUM_TRANSFORM_SIZE[unit]
   })
 
