@@ -1,6 +1,9 @@
 ### v4.1.0
 - New: add lazily loaded image transform
 
+### v4.0.2
+- Chore: upgrade dependencies
+
 ### v4.0.1
 - Breaking: require a Window instead of a Document in the first parameter of CollapseTable.collapseTables()
 - New: update bundle to support AMD, ES, and IIFE / script usage, in addition to CJS
