@@ -36,7 +36,9 @@ const isVisible = element =>
 
 /**
  * @param {!Element} element
- * @param {!Rectangle} rectangle A rectangle relative the viewport.
+ * @param {!Rectangle} rectangle A Rectangle relative the viewport. This is not necessarily the
+ *                               viewport itself, it's just a Rectangle relative to the viewport's
+ *                               origin.
  * @return {!boolean} true if element and rectangle overlap, false otherwise.
  */
 const intersectsViewportRectangle = (element, rectangle) => {

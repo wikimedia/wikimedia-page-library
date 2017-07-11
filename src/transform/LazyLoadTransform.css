@@ -3,7 +3,7 @@
     <img style='width: 1px; height: 2px' src=/>
 
   - Transformed to a lazily loaded placeholder image (add class, preserve attributes, replace
-    source, and override width and height):
+    source with a transparent pixel, and override width and height):
     <img class=pagelib-lazy-load-image-pending
       style='width: 1px !important; height: 2px !important' src=data: data-src=/
       data-width-value=1px data-width-priority= data-height-value=2px data-height-priority=>
