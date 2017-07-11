@@ -1,6 +1,5 @@
 import CollapseTable from './CollapseTable'
 import ElementUtilities from './ElementUtilities'
-import EventThrottle from './EventThrottle'
 import LazyLoadTransform from './LazyLoadTransform'
 import LazyLoadTransformer from './LazyLoadTransformer'
 import Polyfill from './Polyfill'
@@ -16,6 +15,6 @@ export default {
   RedLinks,
   WidenImage,
   test: {
-    ElementUtilities, EventThrottle, Polyfill, Rectangle, Throttle
+    ElementUtilities, Polyfill, Rectangle, Throttle
   }
 }

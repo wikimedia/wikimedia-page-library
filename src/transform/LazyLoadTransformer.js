@@ -1,15 +1,11 @@
 import CollapseTable from './CollapseTable'
 import ElementUtilities from './ElementUtilities'
-import EventThrottle from './EventThrottle'
 import LazyLoadTransform from './LazyLoadTransform'
-import Polyfill from './Polyfill'
 import Rectangle from './Rectangle'
+import Throttle from './Throttle'
 
-const UNTHROTTLED_RESIZE_EVENT_TYPE = 'resize'
-const UNTHROTTLED_SCROLL_EVENT_TYPE = 'scroll'
-const THROTTLED_RESIZE_EVENT_TYPE = 'resize:lazy-load-throttled'
-const THROTTLED_SCROLL_EVENT_TYPE = 'scroll:lazy-load-throttled'
-
+const RESIZE_EVENT_TYPE = 'resize'
+const SCROLL_EVENT_TYPE = 'scroll'
 const THROTTLE_PERIOD_MILLISECONDS = 100
 
 /**
@@ -26,10 +22,9 @@ export default class {
     this._window = window
 
     this._images = []
-    this._resizeEventThrottle = new EventThrottle(window, THROTTLE_PERIOD_MILLISECONDS)
-    this._scrollEventThrottle = new EventThrottle(window, THROTTLE_PERIOD_MILLISECONDS)
-    this._loadImagesCallback = () =>
-      this._loadImages(this._newLoadEligibilityRectangle(loadDistanceMultiplier))
+    this._registered = false
+    this._throttledLoadImages = Throttle.wrap(window, THROTTLE_PERIOD_MILLISECONDS, () =>
+      this._loadImages(this._newLoadEligibilityRectangle(loadDistanceMultiplier)))
   }
 
   /**
@@ -50,7 +45,7 @@ export default class {
    * listening to page events.
    * @return {void}
    */
-  loadImages() { this._loadImagesCallback() }
+  loadImages() { this._throttledLoadImages() }
 
   /**
    * This method may be safely called even when already unregistered. This function clears the
@@ -58,16 +53,13 @@ export default class {
    * @return {void}
    */
   deregister() {
-    if (!this._registered()) { return }
+    if (!this._registered) { return }
 
-    this._window.removeEventListener(THROTTLED_SCROLL_EVENT_TYPE, this._loadImagesCallback)
-    this._window.removeEventListener(THROTTLED_RESIZE_EVENT_TYPE, this._loadImagesCallback)
-    this._window.removeEventListener(CollapseTable.SECTION_TOGGLED_EVENT_TYPE,
-      this._loadImagesCallback)
+    [SCROLL_EVENT_TYPE, RESIZE_EVENT_TYPE, CollapseTable.SECTION_TOGGLED_EVENT_TYPE]
+      .forEach(eventType => this._window.removeEventListener(eventType, this._throttledLoadImages))
 
-    this._scrollEventThrottle.deregister()
-    this._resizeEventThrottle.deregister()
     this._images = []
+    this._registered = false
   }
 
   /**
@@ -75,21 +67,12 @@ export default class {
    * @return {void}
    */
   _register() {
-    if (this._registered() || !this._images.length) { return }
+    if (this._registered || !this._images.length) { return }
+    this._registered = true;
 
-    this._resizeEventThrottle.register(this._window, UNTHROTTLED_RESIZE_EVENT_TYPE,
-      new Polyfill.CustomEvent(THROTTLED_RESIZE_EVENT_TYPE))
-    this._scrollEventThrottle.register(this._window, UNTHROTTLED_SCROLL_EVENT_TYPE,
-      new Polyfill.CustomEvent(THROTTLED_SCROLL_EVENT_TYPE))
-
-    this._window.addEventListener(CollapseTable.SECTION_TOGGLED_EVENT_TYPE,
-      this._loadImagesCallback)
-    this._window.addEventListener(THROTTLED_RESIZE_EVENT_TYPE, this._loadImagesCallback)
-    this._window.addEventListener(THROTTLED_SCROLL_EVENT_TYPE, this._loadImagesCallback)
+    [CollapseTable.SECTION_TOGGLED_EVENT_TYPE, RESIZE_EVENT_TYPE, SCROLL_EVENT_TYPE]
+      .forEach(eventType => this._window.addEventListener(eventType, this._throttledLoadImages))
   }
-
-  /** @return {!boolean} */
-  _registered() { return this._resizeEventThrottle.registered() }
 
   /**
    * @param {!Rectangle} viewport
