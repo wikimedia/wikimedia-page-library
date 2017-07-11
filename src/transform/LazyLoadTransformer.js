@@ -1,7 +1,6 @@
 import CollapseTable from './CollapseTable'
 import ElementUtilities from './ElementUtilities'
 import LazyLoadTransform from './LazyLoadTransform'
-import Rectangle from './Rectangle'
 import Throttle from './Throttle'
 
 const EVENT_TYPES = ['scroll', 'resize', CollapseTable.SECTION_TOGGLED_EVENT_TYPE]
@@ -15,15 +14,17 @@ const THROTTLE_PERIOD_MILLISECONDS = 100
 export default class {
   /**
    * @param {!Window} window
-   * @param {!number} loadDistanceMultiplier viewport distance multiplier.
+   * @param {!number} loadDistanceMultiplier Images within this multiple of the screen height are
+   *                                         loaded in either direction.
    */
   constructor(window, loadDistanceMultiplier) {
     this._window = window
+    this._loadDistanceMultiplier = loadDistanceMultiplier
 
     this._pendingImages = []
     this._registered = false
-    this._throttledLoadImages = Throttle.wrap(window, THROTTLE_PERIOD_MILLISECONDS, () =>
-      this._loadImages(this._newLoadEligibilityRectangle(loadDistanceMultiplier)))
+    this._throttledLoadImages = Throttle.wrap(window, THROTTLE_PERIOD_MILLISECONDS,
+      () => this._loadImages())
   }
 
   /**
@@ -73,15 +74,12 @@ export default class {
       this._window.addEventListener(eventType, this._throttledLoadImages))
   }
 
-  /**
-   * @param {!Rectangle} viewport
-   * @return {void}
-   */
-  _loadImages(viewport) {
-    this._pendingImages = this._pendingImages.filter(placeholder => {
+  /** @return {void} */
+  _loadImages() {
+    this._pendingImages = this._pendingImages.filter(image => {
       let pending = true
-      if (this._isImageEligibleToLoad(placeholder, viewport)) {
-        LazyLoadTransform.loadImage(this._window.document, placeholder)
+      if (this._isImageEligibleToLoad(image)) {
+        LazyLoadTransform.loadImage(this._window.document, image)
         pending = false
       }
       return pending
@@ -93,26 +91,20 @@ export default class {
   }
 
   /**
-   * @param {!HTMLSpanElement} placeholder
-   * @param {!Rectangle} viewport
+   * @param {!HTMLSpanElement} image
    * @return {!boolean}
    */
-  _isImageEligibleToLoad(placeholder, viewport) {
-    return ElementUtilities.isVisible(placeholder)
-      && ElementUtilities.intersectsViewportRectangle(placeholder, viewport)
+  _isImageEligibleToLoad(image) {
+    return ElementUtilities.isVisible(image) && this._isImageWithinLoadDistance(image)
   }
 
   /**
-   * @return {!Rectangle} The boundaries for images eligible to load relative the viewport. Images
-   *                      within these boundaries may already be loading or loaded; images outside
-   *                      of these boundaries should not be loaded as they're ineligible, however,
-   *                      they may have previously been loaded.
+   * @param {!HTMLSpanElement} image
+   * @return {!boolean}
    */
-  _newLoadEligibilityRectangle(loadDistanceMultiplier) {
-    const x = 0
-    const y = 0
-    const width = this._window.innerWidth * loadDistanceMultiplier
-    const height = this._window.innerHeight * loadDistanceMultiplier
-    return new Rectangle(y, x + width, y + height, x)
+  _isImageWithinLoadDistance(image) {
+    const bounds = image.getBoundingClientRect()
+    const range = this._window.innerHeight * this._loadDistanceMultiplier
+    return !(bounds.top > range || bounds.bottom < -range)
   }
 }

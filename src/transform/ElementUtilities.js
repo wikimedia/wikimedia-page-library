@@ -35,19 +35,6 @@ const isVisible = element =>
   Boolean(element.offsetWidth || element.offsetHeight || element.getClientRects().length)
 
 /**
- * @param {!Element} element
- * @param {!Rectangle} rectangle A Rectangle relative the viewport. This is not necessarily the
- *                               viewport itself, it's just a Rectangle relative to the viewport's
- *                               origin.
- * @return {!boolean} true if element and rectangle overlap, false otherwise.
- */
-const intersectsViewportRectangle = (element, rectangle) => {
-  const bounds = element.getBoundingClientRect()
-  return !(bounds.top > rectangle.bottom || bounds.right < rectangle.left
-    || bounds.bottom < rectangle.top || bounds.left > rectangle.right)
-}
-
-/**
  * Move attributes from source to destination as data-* attributes.
  * @param {!HTMLElement} source
  * @param {!HTMLElement} destination
@@ -100,7 +87,6 @@ export default {
   findClosestAncestor,
   isNestedInTable,
   isVisible,
-  intersectsViewportRectangle,
   moveAttributesToDataAttributes,
   moveDataAttributesToAttributes,
   copyDataAttributesToAttributes

@@ -4,7 +4,6 @@ import fixtureIO from '../utilities/FixtureIO'
 import pagelib from '../../build/wikimedia-page-library-transform'
 
 const elementUtilities = pagelib.test.ElementUtilities
-const Rectangle = pagelib.test.Rectangle
 let document
 
 describe('ElementUtilities', () => {
@@ -45,35 +44,6 @@ describe('ElementUtilities', () => {
 
     it('confirm positive result', () => {
       assert.ok(elementUtilities.isNestedInTable(document.getElementById('divInTable')))
-    })
-  })
-
-  describe('intersectsViewportRectangle()', () => {
-    let bounds
-    const element = { getBoundingClientRect: () => bounds }
-
-    it('inclusive', () => {
-      const rectangle = new Rectangle(0, 1, 1, 0)
-      bounds = new Rectangle(0, 0, 0, 0)
-      assert.ok(elementUtilities.intersectsViewportRectangle(element, rectangle))
-    })
-
-    it('within', () => {
-      const rectangle = new Rectangle(0, 1, 1, 0)
-      bounds = new Rectangle(.5, .5, .5, .5)
-      assert.ok(elementUtilities.intersectsViewportRectangle(element, rectangle))
-    })
-
-    it('partially disjoint', () => {
-      const rectangle = new Rectangle(0, 1, 1, 0)
-      bounds = new Rectangle(.5, 1.5, 1.5, .5)
-      assert.ok(elementUtilities.intersectsViewportRectangle(element, rectangle))
-    })
-
-    it('disjoint', () => {
-      const rectangle = new Rectangle(0, 1, 1, 0)
-      bounds = new Rectangle(2, 2, 2, 2)
-      assert.ok(!elementUtilities.intersectsViewportRectangle(element, rectangle))
     })
   })
 
