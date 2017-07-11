@@ -4,8 +4,7 @@ import LazyLoadTransform from './LazyLoadTransform'
 import Rectangle from './Rectangle'
 import Throttle from './Throttle'
 
-const RESIZE_EVENT_TYPE = 'resize'
-const SCROLL_EVENT_TYPE = 'scroll'
+const EVENT_TYPES = ['scroll', 'resize', CollapseTable.SECTION_TOGGLED_EVENT_TYPE]
 const THROTTLE_PERIOD_MILLISECONDS = 100
 
 /**
@@ -21,7 +20,7 @@ export default class {
   constructor(window, loadDistanceMultiplier) {
     this._window = window
 
-    this._images = []
+    this._pendingImages = []
     this._registered = false
     this._throttledLoadImages = Throttle.wrap(window, THROTTLE_PERIOD_MILLISECONDS, () =>
       this._loadImages(this._newLoadEligibilityRectangle(loadDistanceMultiplier)))
@@ -36,7 +35,7 @@ export default class {
   transform(element) {
     const images = LazyLoadTransform.queryTransformImages(element)
     LazyLoadTransform.transform(this._window.document, images)
-    this._images = this._images.concat(images)
+    this._pendingImages = this._pendingImages.concat(images)
     this._register()
   }
 
@@ -55,10 +54,10 @@ export default class {
   deregister() {
     if (!this._registered) { return }
 
-    [SCROLL_EVENT_TYPE, RESIZE_EVENT_TYPE, CollapseTable.SECTION_TOGGLED_EVENT_TYPE]
-      .forEach(eventType => this._window.removeEventListener(eventType, this._throttledLoadImages))
+    EVENT_TYPES.forEach(eventType =>
+      this._window.removeEventListener(eventType, this._throttledLoadImages))
 
-    this._images = []
+    this._pendingImages = []
     this._registered = false
   }
 
@@ -67,11 +66,11 @@ export default class {
    * @return {void}
    */
   _register() {
-    if (this._registered || !this._images.length) { return }
-    this._registered = true;
+    if (this._registered || !this._pendingImages.length) { return }
+    this._registered = true
 
-    [CollapseTable.SECTION_TOGGLED_EVENT_TYPE, RESIZE_EVENT_TYPE, SCROLL_EVENT_TYPE]
-      .forEach(eventType => this._window.addEventListener(eventType, this._throttledLoadImages))
+    EVENT_TYPES.forEach(eventType =>
+      this._window.addEventListener(eventType, this._throttledLoadImages))
   }
 
   /**
@@ -79,10 +78,16 @@ export default class {
    * @return {void}
    */
   _loadImages(viewport) {
-    this._images = this._images.filter(placeholder =>
-      !(this._isImageEligibleToLoad(placeholder, viewport)
-        && LazyLoadTransform.loadImage(this._window.document, placeholder)))
-    if (this._images.length === 0) {
+    this._pendingImages = this._pendingImages.filter(placeholder => {
+      let pending = true
+      if (this._isImageEligibleToLoad(placeholder, viewport)) {
+        LazyLoadTransform.loadImage(this._window.document, placeholder)
+        pending = false
+      }
+      return pending
+    })
+
+    if (this._pendingImages.length === 0) {
       this.deregister()
     }
   }

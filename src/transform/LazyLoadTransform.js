@@ -32,10 +32,10 @@ const UNIT_TO_MINIMUM_TRANSFORM_SIZE = {
 
 /**
  * @param {!HTMLImageElement} image The image to be consider.
- * @return {!boolean} true if image should be lazily loaded, false if image should be eagerly
+ * @return {!boolean} true if image download can be deferred, false if image should be eagerly
  *                    loaded.
 */
-const isTransformable = image =>
+const isLazilyLoadable = image =>
   ['width', 'height'].every(dimension => {
     let valueUnitString = image.style.getPropertyValue(dimension) || ''
 
@@ -183,7 +183,7 @@ const loadImage = (document, image) => {
  */
 const queryTransformImages = element =>
   Array.prototype.slice.call(element.querySelectorAll('img'))
-    .filter(image => isTransformable(image))
+    .filter(image => isLazilyLoadable(image))
 
 /**
  * Replace images with placeholders. The transformation is inverted by calling loadImage().
