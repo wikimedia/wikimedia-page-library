@@ -27,7 +27,7 @@
       }
 
       const transformer = new pagelib.LazyLoadTransformer(window, 1)
-      transformer.transform(div)
+      transformer.convertImagesToPlaceholders(div)
 
       document.querySelector('body').appendChild(div)
       transformer.loadImages()</script>

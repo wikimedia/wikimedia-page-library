@@ -27,14 +27,14 @@ export default class {
   }
 
   /**
-   * Replace images with placeholders. Calling this function may register this instance to listen to
+   * Convert images with placeholders. Calling this function may register this instance to listen to
    * page events.
    * @param {!Element} element
    * @return {void}
    */
-  transform(element) {
-    const images = LazyLoadTransform.queryTransformImages(element)
-    LazyLoadTransform.transform(this._window.document, images)
+  convertImagesToPlaceholders(element) {
+    const images = LazyLoadTransform.queryLazyLoadableImages(element)
+    LazyLoadTransform.convertImagesToPlaceholders(this._window.document, images)
     this._pendingImages = this._pendingImages.concat(images)
     this._register()
   }

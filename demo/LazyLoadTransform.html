@@ -26,8 +26,8 @@
         div.appendChild(image)
       }
 
-      const images = pagelib.LazyLoadTransform.queryTransformImages(div)
-      pagelib.LazyLoadTransform.transform(document, images)
+      const images = pagelib.LazyLoadTransform.queryLazyLoadableImages(div)
+      pagelib.LazyLoadTransform.convertImagesToPlaceholders(document, images)
 
       images.forEach(image => {
         image.addEventListener('click', () => {

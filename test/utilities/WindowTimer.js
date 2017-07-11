@@ -1,4 +1,7 @@
-/** Mocks the time keeping portion of Window and WindowOrWorkerGlobalScope. */
+/**
+ * Mocks the time keeping portion of Window and WindowOrWorkerGlobalScope. Domino does not provide
+ * this functionality.
+ */
 export default class {
   /** */
   constructor() {

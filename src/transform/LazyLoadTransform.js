@@ -1,9 +1,9 @@
 import './LazyLoadTransform.css'
 import ElementUtilities from './ElementUtilities'
 
-// CSS classes used to identify and present transformed images. An image is only a member of one
-// class at a time depending on the current transform state. These class names should match the
-// classes in LazyLoadTransform.css.
+// CSS classes used to identify and present converted images. An image is only a member of one class
+// at a time depending on the current transform state. These class names should match the classes in
+// LazyLoadTransform.css.
 const PENDING_CLASS = 'pagelib-lazy-load-image-pending' // Download pending or started.
 const LOADED_CLASS = 'pagelib-lazy-load-image-loaded' // Download completed.
 
@@ -24,7 +24,7 @@ const PLACEHOLDER_URI = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEAAAAALAAAA
 // loading these images degrades the experience with little gain. Always eagerly load these images.
 // Example: flags in the medal count for the "1896 Summer Olympics medal table."
 // https://en.m.wikipedia.org/wiki/1896_Summer_Olympics_medal_table?oldid=773498394#Medal_count
-const UNIT_TO_MINIMUM_TRANSFORM_SIZE = {
+const UNIT_TO_MINIMUM_LAZY_LOAD_SIZE = {
   px: 50, // https://phabricator.wikimedia.org/diffusion/EMFR/browse/master/includes/MobileFormatter.php;c89f371ea9e789d7e1a827ddfec7c8028a549c12$22
   ex: 10, // ''
   em: 5 // 1ex ≈ .5em; https://developer.mozilla.org/en-US/docs/Web/CSS/length#Units
@@ -35,8 +35,9 @@ const UNIT_TO_MINIMUM_TRANSFORM_SIZE = {
  * @return {!boolean} true if image download can be deferred, false if image should be eagerly
  *                    loaded.
 */
-const isLazilyLoadable = image =>
+const isLazyLoadable = image =>
   ['width', 'height'].every(dimension => {
+    // todo: remove `|| ''` when https://github.com/fgnass/domino/issues/98 is fixed.
     let valueUnitString = image.style.getPropertyValue(dimension) || ''
 
     if (valueUnitString === '' && image.hasAttribute(dimension)) {
@@ -46,7 +47,7 @@ const isLazilyLoadable = image =>
     const matchValueUnit = valueUnitString.match(/(\d+)(\D+)/) || []
     const value = matchValueUnit[1]
     const unit = matchValueUnit[2]
-    return value === undefined || value >= UNIT_TO_MINIMUM_TRANSFORM_SIZE[unit]
+    return value === undefined || value >= UNIT_TO_MINIMUM_LAZY_LOAD_SIZE[unit]
   })
 
 /**
@@ -55,7 +56,7 @@ const isLazilyLoadable = image =>
  * @param {!HTMLImageElement} image The image to be updated.
  * @return {void}
  */
-const transformImage = (document, image) => {
+const convertImageToPlaceholder = (document, image) => {
   // There are a number of possible implementations including:
   //
   // - [Previous] Replace the original image with a span and append a new downloaded image to the
@@ -89,7 +90,7 @@ const transformImage = (document, image) => {
   // image to mismatch which causes a reflow. To stimulate this issue, go to the "Pablo Picasso"
   // article and set the screen width to be less than the image width. When placeholders are
   // replaced with images, the image height reduces dramatically. MobileFrontend has the same
-  // limitation with spans. Note: clientWidth is unavailable since this transform occurs in a
+  // limitation with spans. Note: clientWidth is unavailable since this conversion occurs in a
   // separate Document.
   //
   // Reflows also occur in this and MobileFrontend when the image width or height do not match the
@@ -179,18 +180,19 @@ const loadImage = (document, image) => {
 
 /**
  * @param {!Element} element
- * @return {!HTMLImageElement[]} Transformable images descendent from but not including element.
+ * @return {!HTMLImageElement[]} Convertible images descendent from but not including element.
  */
-const queryTransformImages = element =>
+const queryLazyLoadableImages = element =>
   Array.prototype.slice.call(element.querySelectorAll('img'))
-    .filter(image => isLazilyLoadable(image))
+    .filter(image => isLazyLoadable(image))
 
 /**
- * Replace images with placeholders. The transformation is inverted by calling loadImage().
+ * Convert images with placeholders. The transformation is inverted by calling loadImage().
  * @param {!Document} document
  * @param {!HTMLImageElement[]} images The images to lazily load.
  * @return {void}
  */
-const transform = (document, images) => images.forEach(image => transformImage(document, image))
+const convertImagesToPlaceholders = (document, images) =>
+  images.forEach(image => convertImageToPlaceholder(document, image))
 
-export default { loadImage, queryTransformImages, transform }
+export default { loadImage, queryLazyLoadableImages, convertImagesToPlaceholders }
