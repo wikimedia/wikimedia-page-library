@@ -31,6 +31,15 @@ const UNIT_TO_MINIMUM_LAZY_LOAD_SIZE = {
 }
 
 /**
+ * @param {!string} value
+ * @return {!string[]} A value-unit tuple.
+ */
+const splitStylePropertyValue = value => {
+  const matchValueUnit = value.match(/(\d+)(\D+)/) || []
+  return [matchValueUnit[1] || '', matchValueUnit[2] || '']
+}
+
+/**
  * @param {!HTMLImageElement} image The image to be consider.
  * @return {!boolean} true if image download can be deferred, false if image should be eagerly
  *                    loaded.
@@ -40,14 +49,12 @@ const isLazyLoadable = image =>
     // todo: remove `|| ''` when https://github.com/fgnass/domino/issues/98 is fixed.
     let valueUnitString = image.style.getPropertyValue(dimension) || ''
 
-    if (valueUnitString === '' && image.hasAttribute(dimension)) {
+    if (!valueUnitString && image.hasAttribute(dimension)) {
       valueUnitString = `${image.getAttribute(dimension)}px`
     }
 
-    const matchValueUnit = valueUnitString.match(/(\d+)(\D+)/) || []
-    const value = matchValueUnit[1]
-    const unit = matchValueUnit[2]
-    return value === undefined || value >= UNIT_TO_MINIMUM_LAZY_LOAD_SIZE[unit]
+    const valueUnit = splitStylePropertyValue(valueUnitString)
+    return !valueUnit[0] || valueUnit[0] >= UNIT_TO_MINIMUM_LAZY_LOAD_SIZE[valueUnit[1]]
   })
 
 /**
@@ -167,8 +174,8 @@ const loadImage = (document, image) => {
     image.addEventListener('load', () => loadImageCallback(image), { once: true })
 
     // Set src and other attributes, triggering a download from cache which still takes time on
-    // older devices and can cause a reflow due to the call to `style.removeProperty('height')`
-    // necessary on the same devices.
+    // older devices. Waiting until the image is loaded prevents an unnecessary potential reflow due
+    // to the call to style.removeProperty('height')`.
     ElementUtilities.moveDataAttributesToAttributes(image, image, PRESERVE_ATTRIBUTES)
   }, { once: true })
 
