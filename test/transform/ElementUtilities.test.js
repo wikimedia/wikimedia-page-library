@@ -1,4 +1,5 @@
 import assert from 'assert'
+import domino from 'domino'
 import fixtureIO from '../utilities/FixtureIO'
 import pagelib from '../../build/wikimedia-page-library-transform'
 
@@ -44,5 +45,53 @@ describe('ElementUtilities', () => {
     it('confirm positive result', () => {
       assert.ok(elementUtilities.isNestedInTable(document.getElementById('divInTable')))
     })
+  })
+
+  describe('moveAttributesToDataAttributes()', function Test() {
+    beforeEach(() => {
+      const html = '<img id=source src=/a width=1> <img id=destination src=/b>'
+      const document = domino.createDocument(html)
+      this.source = document.querySelector('#source')
+      this.destination = document.querySelector('#destination')
+      const attributes = ['width', 'height']
+      elementUtilities.moveAttributesToDataAttributes(this.source, this.destination, attributes)
+    })
+
+    it('present', () => {
+      assert.ok(!this.source.hasAttribute('data-width'))
+      assert.ok(this.destination.getAttribute('data-width') === '1')
+    })
+    it('missing', () => assert.ok(!this.destination.hasAttribute('data-height')))
+  })
+
+  describe('moveDataAttributesToAttributes()', function Test() {
+    beforeEach(() => {
+      const html = '<img id=source src=/a data-width=1> <img id=destination src=/b>'
+      const document = domino.createDocument(html)
+      this.source = document.querySelector('#source')
+      this.destination = document.querySelector('#destination')
+      const attributes = ['width', 'height']
+      elementUtilities.moveDataAttributesToAttributes(this.source, this.destination, attributes)
+    })
+
+    it('present', () => {
+      assert.ok(!this.source.hasAttribute('width'))
+      assert.ok(this.destination.getAttribute('width') === '1')
+    })
+    it('missing', () => assert.ok(!this.destination.hasAttribute('height')))
+  })
+
+  describe('copyDataAttributesToAttributes()', function Test() {
+    beforeEach(() => {
+      const html = '<img id=source src=/a data-width=1> <img id=destination src=/b>'
+      const document = domino.createDocument(html)
+      const source = document.querySelector('#source')
+      this.destination = document.querySelector('#destination')
+      const attributes = ['width', 'height']
+      elementUtilities.copyDataAttributesToAttributes(source, this.destination, attributes)
+    })
+
+    it('present', () => assert.ok(this.destination.getAttribute('width') === '1'))
+    it('missing', () => assert.ok(!this.destination.hasAttribute('height')))
   })
 })

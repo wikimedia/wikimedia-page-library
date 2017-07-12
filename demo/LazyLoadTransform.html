@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang=en>
+
+  <head>
+    <meta charset=utf-8>
+    <title>LazyLoadTransform</title>
+    <link href=../build/wikimedia-page-library-transform.css rel=stylesheet>
+    <style>
+      body, img { margin: 4px 4px; }
+    </style>
+  </head>
+
+  <body>
+    <script src=../build/wikimedia-page-library-transform.js></script>
+    <script src=./LazyLoadImageData.js></script>
+    <script>
+      /* global pagelib, LazyLoadImageData */
+      const lazyDocument = document.implementation.createHTMLDocument()
+
+      const div = lazyDocument.createElement('div')
+      for (const data of LazyLoadImageData) {
+        const image = lazyDocument.createElement('img')
+        image.setAttribute('src', `https:${data.src}`)
+        image.setAttribute('width', data.width)
+        image.setAttribute('height', data.height)
+        div.appendChild(image)
+      }
+
+      const images = pagelib.LazyLoadTransform.queryLazyLoadableImages(div)
+      pagelib.LazyLoadTransform.convertImagesToPlaceholders(document, images)
+
+      images.forEach(image => {
+        image.addEventListener('click', () => {
+          pagelib.LazyLoadTransform.loadImage(document, image)
+        }, { once: true })
+      })
+      document.querySelector('body').appendChild(div)</script>
+  </body>
+
+</html>

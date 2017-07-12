@@ -1,0 +1,46 @@
+/* Transform lifecycle:
+  - Original:
+    <img style='width: 1px; height: 2px' src=/>
+
+  - Converted to a lazily loaded placeholder image (add class, preserve attributes, replace source
+    with a transparent pixel, and override width and height):
+    <img class=pagelib-lazy-load-image-pending
+      style='width: 1px !important; height: 2px !important' src=data: data-src=/
+      data-width-value=1px data-width-priority= data-height-value=2px data-height-priority=>
+
+  - Downloading immediately after a call to LazyLoadTransform.loadImage() (unchanged).
+
+  - Loaded after original image has downloaded (replace content with original and loading class with
+    loaded):
+    <img class=pagelib-lazy-load-image-loaded style='width: 1px; height: 2px' src=/>
+
+  Colors from: https://phabricator.wikimedia.org/source/wikimedia-ui-base/browse/master/wikimedia-ui-base.css;d19168ec6d4995561c0a1d2dd59eb8b3f1577a5a.
+*/
+
+/* LazyLoadTransform.PENDING_CLASS. Note: width and height are set as inline styles and derived
+   first from any preexisting width and height inline style and then from width and height
+   attributes, if specified. See transform lifecycle above. */
+.pagelib-lazy-load-image-pending {
+  background-color: #eaecf0;
+}
+
+.dark .pagelib-lazy-load-image-pending {
+  /* todo: reevaluate whether important priority is necessary when consolidating dark mode, T164311. */
+  background-color: #72777d !important;
+}
+
+/* LazyLoadTransform.LOADED_CLASS. */
+.pagelib-lazy-load-image-loaded {
+  -webkit-animation: pagelib-lazy-load-image-fade-in .3s ease-in;
+  animation: pagelib-lazy-load-image-fade-in .3s ease-in;
+}
+
+@-webkit-keyframes pagelib-lazy-load-image-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pagelib-lazy-load-image-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

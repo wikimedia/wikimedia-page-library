@@ -58,18 +58,6 @@ describe('WidenImage', () => {
       assert.ok(image.classList.contains('wideImageOverride'))
     })
 
-    it('widened image has its width attribute removed', () => {
-      const image = document.getElementById('imageWithWidthAndHeight')
-      maybeWidenImage(image)
-      assert.ok(!image.hasAttribute('width'))
-    })
-
-    it('widened image has its height attribute removed', () => {
-      const image = document.getElementById('imageWithWidthAndHeight')
-      maybeWidenImage(image)
-      assert.ok(!image.hasAttribute('height'))
-    })
-
     it('widened image ancestors make room for widened image', () => {
       const ancestors = Array.from(document.querySelectorAll('.widthConstrainedAncestor'))
 

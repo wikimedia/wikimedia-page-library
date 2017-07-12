@@ -26,7 +26,68 @@ const findClosestAncestor = (el, selector) => {
  */
 const isNestedInTable = el => Boolean(findClosestAncestor(el, 'table'))
 
+/**
+ * @param {!HTMLElement} element
+ * @return {!boolean} true if element affects layout, false otherwise.
+ */
+const isVisible = element =>
+  // https://github.com/jquery/jquery/blob/305f193/src/css/hiddenVisibleSelectors.js#L12
+  Boolean(element.offsetWidth || element.offsetHeight || element.getClientRects().length)
+
+/**
+ * Move attributes from source to destination as data-* attributes.
+ * @param {!HTMLElement} source
+ * @param {!HTMLElement} destination
+ * @param {!string[]} attributes
+ * @return {void}
+ */
+const moveAttributesToDataAttributes = (source, destination, attributes) => {
+  attributes.forEach(attribute => {
+    if (source.hasAttribute(attribute)) {
+      destination.setAttribute(`data-${attribute}`, source.getAttribute(attribute))
+      source.removeAttribute(attribute)
+    }
+  })
+}
+
+/**
+ * Move data-* attributes from source to destination as attributes.
+ * @param {!HTMLElement} source
+ * @param {!HTMLElement} destination
+ * @param {!string[]} attributes
+ * @return {void}
+ */
+const moveDataAttributesToAttributes = (source, destination, attributes) => {
+  attributes.forEach(attribute => {
+    const dataAttribute = `data-${attribute}`
+    if (source.hasAttribute(dataAttribute)) {
+      destination.setAttribute(attribute, source.getAttribute(dataAttribute))
+      source.removeAttribute(dataAttribute)
+    }
+  })
+}
+
+/**
+ * Copy data-* attributes from source to destination as attributes.
+ * @param {!HTMLElement} source
+ * @param {!HTMLElement} destination
+ * @param {!string[]} attributes
+ * @return {void}
+ */
+const copyDataAttributesToAttributes = (source, destination, attributes) => {
+  attributes.forEach(attribute => {
+    const dataAttribute = `data-${attribute}`
+    if (source.hasAttribute(dataAttribute)) {
+      destination.setAttribute(attribute, source.getAttribute(dataAttribute))
+    }
+  })
+}
+
 export default {
   findClosestAncestor,
-  isNestedInTable
+  isNestedInTable,
+  isVisible,
+  moveAttributesToDataAttributes,
+  moveDataAttributesToAttributes,
+  copyDataAttributesToAttributes
 }

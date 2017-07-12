@@ -1,3 +1,6 @@
+### v4.1.0
+- New: add lazily loaded image transform
+
 ### v4.0.2
 - Chore: upgrade dependencies
 
