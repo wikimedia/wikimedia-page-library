@@ -1,5 +1,6 @@
 import CollapseTable from './CollapseTable'
 import ElementUtilities from './ElementUtilities'
+import FooterContainer from './FooterContainer'
 import FooterLegal from './FooterLegal'
 import LazyLoadTransform from './LazyLoadTransform'
 import LazyLoadTransformer from './LazyLoadTransformer'
@@ -10,6 +11,7 @@ import WidenImage from './WidenImage'
 
 export default {
   CollapseTable,
+  FooterContainer,
   FooterLegal,
   LazyLoadTransform,
   LazyLoadTransformer,
