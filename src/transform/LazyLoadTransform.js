@@ -1,5 +1,6 @@
 import './LazyLoadTransform.css'
 import ElementUtilities from './ElementUtilities'
+import Polyfill from './Polyfill'
 
 // CSS classes used to identify and present converted images. An image is only a member of one class
 // at a time depending on the current transform state. These class names should match the classes in
@@ -190,8 +191,7 @@ const loadImage = (document, image) => {
  * @return {!HTMLImageElement[]} Convertible images descendent from but not including element.
  */
 const queryLazyLoadableImages = element =>
-  Array.prototype.slice.call(element.querySelectorAll('img'))
-    .filter(image => isLazyLoadable(image))
+  Polyfill.querySelectorAll(element, 'img').filter(image => isLazyLoadable(image))
 
 /**
  * Convert images with placeholders. The transformation is inverted by calling loadImage().

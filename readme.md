@@ -42,6 +42,17 @@ Directory names should be lowercase. Filenames should be singular.
 - JS module names use PascalCase
 - CSS class names use shish-kebab-case; `pagelib-class-name-element-state` (note: class name omits the word "Transform").
 
+### Design
+- [Colors](https://phabricator.wikimedia.org/source/wikimedia-ui-base/browse/master/wikimedia-ui-base.css) adhere to the [Wikimedia UI Style Guide](https://wikimedia.github.io/WikimediaUI-Style-Guide/).
+- Theme-specific CSS rules should appear in one of the following files:
+  - If a related transform exists, directly below any default / non-themed rule or at least in the transform's CSS file.
+  - Otherwise, if a default override rule exists, directly below it.
+  - Otherwise in ThemeTransform.css.
+- Legacy-specific CSS fallback rules should appear in one of the following files:
+  - If a related transform exists, directly above any default / non-compatibility rule or at least in the transform's CSS file.
+  - Otherwise, if a default override rule exists, directly above it.
+  - Otherwise in CompatibilityTransform.css.
+
 ## Development setup and workflow
 
 ### NPM

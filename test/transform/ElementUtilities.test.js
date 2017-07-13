@@ -11,7 +11,7 @@ describe('ElementUtilities', () => {
     document = fixtureIO.documentFromFixtureFile('ElementUtilities.html')
   })
 
-  describe('findClosestAncestor()', () => {
+  describe('.findClosestAncestor()', () => {
     it('doesn\'t consider self', () => {
       const element = document.querySelector('.matching')
       const ancestor = elementUtilities.findClosestAncestor(element, '.matching')
@@ -37,7 +37,41 @@ describe('ElementUtilities', () => {
     })
   })
 
-  describe('isNestedInTable()', () => {
+  describe('.closestInlineStyle()', () => {
+    describe('present', () => {
+      it('inclusive', () => {
+        const document = domino.createDocument('<br style="top: 0;">')
+        const element = document.querySelector('br')
+        assert.ok(elementUtilities.closestInlineStyle(element, 'top'))
+      })
+
+      it('parent', () => {
+        const document = domino.createDocument('<div style="top: 0;"><br></div>')
+        const element = document.querySelector('br')
+        assert.ok(elementUtilities.closestInlineStyle(element, 'top').tagName === 'DIV')
+      })
+
+      it('grandparent', () => {
+        const document = domino.createDocument('<div style="top: 0;"><p><br></p></div>')
+        const element = document.querySelector('br')
+        assert.ok(elementUtilities.closestInlineStyle(element, 'top').tagName === 'DIV')
+      })
+    })
+
+    describe('absent', () => {
+      it('defined', () => {
+        const document = domino.createDocument('<div style="bottom: 0;"><p><br></p></div>')
+        const element = document.querySelector('br')
+        assert.ok(!elementUtilities.closestInlineStyle(element, 'top'))
+      })
+
+      it('undefined', () => {
+        assert.ok(!elementUtilities.closestInlineStyle(undefined, 'top'))
+      })
+    })
+  })
+
+  describe('.isNestedInTable()', () => {
     it('confirm negative result', () => {
       assert.ok(!elementUtilities.isNestedInTable(document.getElementById('someImage')))
     })
@@ -47,7 +81,7 @@ describe('ElementUtilities', () => {
     })
   })
 
-  describe('moveAttributesToDataAttributes()', function Test() {
+  describe('.moveAttributesToDataAttributes()', function Test() {
     beforeEach(() => {
       const html = '<img id=source src=/a width=1> <img id=destination src=/b>'
       const document = domino.createDocument(html)
@@ -64,7 +98,7 @@ describe('ElementUtilities', () => {
     it('missing', () => assert.ok(!this.destination.hasAttribute('data-height')))
   })
 
-  describe('moveDataAttributesToAttributes()', function Test() {
+  describe('.moveDataAttributesToAttributes()', function Test() {
     beforeEach(() => {
       const html = '<img id=source src=/a data-width=1> <img id=destination src=/b>'
       const document = domino.createDocument(html)
@@ -81,7 +115,7 @@ describe('ElementUtilities', () => {
     it('missing', () => assert.ok(!this.destination.hasAttribute('height')))
   })
 
-  describe('copyDataAttributesToAttributes()', function Test() {
+  describe('.copyDataAttributesToAttributes()', function Test() {
     beforeEach(() => {
       const html = '<img id=source src=/a data-width=1> <img id=destination src=/b>'
       const document = domino.createDocument(html)

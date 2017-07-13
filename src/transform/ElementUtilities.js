@@ -1,5 +1,6 @@
 import Polyfill from './Polyfill'
 
+// todo: drop ancestor consideration and move to Polyfill.closest().
 /**
  * Returns closest ancestor of element which matches selector.
  * Similar to 'closest' methods as seen here:
@@ -20,9 +21,21 @@ const findClosestAncestor = (el, selector) => {
 }
 
 /**
+ * @param {?Element} element
+ * @param {!string} property
+ * @return {?Element} The inclusive first element with an inline style or undefined.
+ */
+const closestInlineStyle = (element, property) => {
+  for (let el = element; el; el = el.parentElement) {
+    if (el.style[property]) { return el }
+  }
+  return undefined
+}
+
+/**
  * Determines if element has a table ancestor.
  * @param  {!Element}  el   Element
- * @return {boolean}        Whether table ancestor of 'el' is found
+ * @return {!boolean}       Whether table ancestor of 'el' is found
  */
 const isNestedInTable = el => Boolean(findClosestAncestor(el, 'table'))
 
@@ -86,6 +99,7 @@ const copyDataAttributesToAttributes = (source, destination, attributes) => {
 export default {
   findClosestAncestor,
   isNestedInTable,
+  closestInlineStyle,
   isVisible,
   moveAttributesToDataAttributes,
   moveDataAttributesToAttributes,
