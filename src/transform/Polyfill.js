@@ -20,7 +20,7 @@ const matchesSelector = (el, selector) => {
 /**
  * @param {!Element} element
  * @param {!string} selector
- * @return {!Element[]}
+ * @return {!Array.<Element>}
  */
 const querySelectorAll = (element, selector) =>
   Array.prototype.slice.call(element.querySelectorAll(selector))
