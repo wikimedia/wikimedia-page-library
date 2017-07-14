@@ -254,7 +254,7 @@ const fetchReadMore = (baseURL, title, showReadMoreHandler, containerID, saveBut
   const xhr = new XMLHttpRequest() // eslint-disable-line no-undef
   xhr.open('GET', readMoreQueryURL(title, baseURL), true)
   xhr.onload = function() {
-    if (xhr.readyState === 4) {
+    if (xhr.readyState === XMLHttpRequest.DONE) { // eslint-disable-line no-undef
       if (xhr.status === 200) {
         showReadMoreHandler(JSON.parse(xhr.responseText).query.pages, document, containerID,
           saveButtonClickHandler, titlesShownHandler)
