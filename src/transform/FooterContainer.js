@@ -2,12 +2,11 @@ import './FooterContainer.css'
 
 /**
  * Ensures the 'Read more' section header can always be scrolled to the top of the screen.
- * @param {!Document} document
  * @param {!Window} window
  * @return {void}
  */
-const updateBottomPaddingToAllowReadMoreToScrollToTop = (document, window) => {
-  const div = document.getElementById('pagelib_footer_container_ensure_can_scroll_to_top')
+const updateBottomPaddingToAllowReadMoreToScrollToTop = window => {
+  const div = window.document.getElementById('pagelib_footer_container_ensure_can_scroll_to_top')
   let currentPadding = parseInt(div.style.paddingBottom, 10)
   if (isNaN(currentPadding)) { currentPadding = 0 }
   const height = div.clientHeight - currentPadding
