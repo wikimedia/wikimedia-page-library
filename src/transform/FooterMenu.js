@@ -8,10 +8,10 @@ import Polyfill from './Polyfill'
  */
 
 /**
-  * @typedef {function} FooterMenuItemClickCallback
-  * @param {!string[]} payload Important - should return empty array if no payload strings.
-  * @return {void}
-  */
+ * @typedef {function} FooterMenuItemClickCallback
+ * @param {!string[]} payload Important - should return empty array if no payload strings.
+ * @return {void}
+ */
 
 /**
  * Extracts array of no-html page issues strings from document.

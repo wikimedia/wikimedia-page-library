@@ -7,21 +7,21 @@ import './FooterReadMore.css'
  */
 
 /**
-  * @typedef {function} TitlesShownHandler
-  * @param {!string[]} titles
-  * @return {void}
-  */
+ * @typedef {function} TitlesShownHandler
+ * @param {!string[]} titles
+ * @return {void}
+ */
 
 /**
-   * Display fetched read more pages.
-   * @typedef {function} ShownReadMoreHandler
-   * @param {!Object[]} pages
-   * @param {!Document} document
-   * @param {!string} containerID
-   * @param {SaveButtonClickHandler} saveButtonClickHandler
-   * @param {TitlesShownHandler} titlesShownHandler
-   * @return {void}
-   */
+ * Display fetched read more pages.
+ * @typedef {function} ShownReadMoreHandler
+ * @param {!Object[]} pages
+ * @param {!Document} document
+ * @param {!string} containerID
+ * @param {SaveButtonClickHandler} saveButtonClickHandler
+ * @param {TitlesShownHandler} titlesShownHandler
+ * @return {void}
+ */
 
 let _saveForLaterString = null
 let _savedForLaterString = null
