@@ -1,5 +1,5 @@
 
-.footer_legal_contents {
+.pagelib_footer_legal_contents {
 
   margin-top: 27px;
   padding-top: 23px;
@@ -12,26 +12,26 @@
 
 }
 
-html[dir="ltr"] .footer_legal_contents {
+html[dir="ltr"] .pagelib_footer_legal_contents {
   background-position: left top;
 }
 
-html[dir="rtl"] .footer_legal_contents {
+html[dir="rtl"] .pagelib_footer_legal_contents {
   background-position: right top;
 }
 
-.footer_legal_licence {
+.pagelib_footer_legal_licence {
   color: #54595d;
   font-size: 0.75em;
   line-height: 1.5;
   display: block;
 }
 
-.footer_legal_licence_link {
+.pagelib_footer_legal_licence_link {
   color: #2C5BC5;
 }
 
-.footer_legal_divider {
+.pagelib_footer_legal_divider {
   height: 0.5px;
   border: none;
   background-color: #c8ccd1;

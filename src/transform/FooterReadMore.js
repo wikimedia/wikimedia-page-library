@@ -96,25 +96,25 @@ class WMFPageFragment {
 
     const outerAnchorContainer = document.createElement('a')
     outerAnchorContainer.id = index
-    outerAnchorContainer.className = 'footer_readmore_page'
+    outerAnchorContainer.className = 'pagelib_footer_readmore_page'
 
     const hasImage = wmfPage.thumbnail && wmfPage.thumbnail.source
     if (hasImage) {
       const image = document.createElement('div')
       image.style.backgroundImage = `url(${wmfPage.thumbnail.source})`
-      image.classList.add('footer_readmore_page_image')
+      image.classList.add('pagelib_footer_readmore_page_image')
       outerAnchorContainer.appendChild(image)
     }
 
     const innerDivContainer = document.createElement('div')
-    innerDivContainer.classList.add('footer_readmore_page_container')
+    innerDivContainer.classList.add('pagelib_footer_readmore_page_container')
     outerAnchorContainer.appendChild(innerDivContainer)
     outerAnchorContainer.href = `/wiki/${encodeURI(wmfPage.title)}`
 
     if (wmfPage.title) {
       const title = document.createElement('div')
       title.id = index
-      title.className = 'footer_readmore_page_title'
+      title.className = 'pagelib_footer_readmore_page_title'
       const displayTitle = wmfPage.title.replace(/_/g, ' ')
       title.innerHTML = displayTitle
       outerAnchorContainer.title = displayTitle
@@ -131,7 +131,7 @@ class WMFPageFragment {
     if (description) {
       const descriptionEl = document.createElement('div')
       descriptionEl.id = index
-      descriptionEl.className = 'footer_readmore_page_description'
+      descriptionEl.className = 'pagelib_footer_readmore_page_description'
       descriptionEl.innerHTML = description
       innerDivContainer.appendChild(descriptionEl)
     }
@@ -140,7 +140,7 @@ class WMFPageFragment {
     saveButton.id = `${_saveButtonIDPrefix}${encodeURI(wmfPage.title)}`
     saveButton.innerText = _saveForLaterString
     saveButton.title = _saveForLaterString
-    saveButton.className = 'footer_readmore_page_save'
+    saveButton.className = 'pagelib_footer_readmore_page_save'
     saveButton.addEventListener('click', event => {
       event.stopPropagation()
       event.preventDefault()
@@ -290,11 +290,11 @@ const updateSaveButtonText = (button, title, isSaved) => {
  * @return {void}
  */
 const updateSaveButtonBookmarkIcon = (button, title, isSaved) => {
-  button.classList.remove('footer_readmore_bookmark_unfilled')
-  button.classList.remove('footer_readmore_bookmark_filled')
-  button.classList.add(
-    isSaved ? 'footer_readmore_bookmark_filled' : 'footer_readmore_bookmark_unfilled'
-  )
+  const unfilledClass = 'pagelib_footer_readmore_bookmark_unfilled'
+  const filledClass = 'pagelib_footer_readmore_bookmark_filled'
+  button.classList.remove(unfilledClass)
+  button.classList.remove(filledClass)
+  button.classList.add(isSaved ? filledClass : unfilledClass)
 }
 
 /**

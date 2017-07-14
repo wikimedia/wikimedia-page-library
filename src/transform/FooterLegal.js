@@ -19,18 +19,18 @@ const add =
     const licenseStringHalves = licenseString.split('$1')
 
     container.innerHTML =
-  `<div class='footer_legal_contents'>
-    <hr class='footer_legal_divider'>
-    <span class='footer_legal_licence'>
+  `<div class='pagelib_footer_legal_contents'>
+    <hr class='pagelib_footer_legal_divider'>
+    <span class='pagelib_footer_legal_licence'>
       ${licenseStringHalves[0]}
-      <a class='footer_legal_licence_link'>
+      <a class='pagelib_footer_legal_licence_link'>
         ${licenseSubstitutionString}
       </a>
       ${licenseStringHalves[1]}
     </span>
   </div>`
 
-    container.querySelector('.footer_legal_licence_link')
+    container.querySelector('.pagelib_footer_legal_licence_link')
       .addEventListener('click', () => {
         licenceLinkClickHandler()
       }, false)

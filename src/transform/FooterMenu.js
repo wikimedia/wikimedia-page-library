@@ -80,15 +80,15 @@ class WMFMenuItem {
   iconClass() {
     switch (this.itemType) {
     case MenuItemType.languages:
-      return 'footer_menu_icon_languages'
+      return 'pagelib_footer_menu_icon_languages'
     case MenuItemType.lastEdited:
-      return 'footer_menu_icon_last_edited'
+      return 'pagelib_footer_menu_icon_last_edited'
     case MenuItemType.pageIssues:
-      return 'footer_menu_icon_page_issues'
+      return 'pagelib_footer_menu_icon_page_issues'
     case MenuItemType.disambiguation:
-      return 'footer_menu_icon_disambiguation'
+      return 'pagelib_footer_menu_icon_disambiguation'
     case MenuItemType.coordinate:
-      return 'footer_menu_icon_coordinate'
+      return 'pagelib_footer_menu_icon_coordinate'
     default:
       return ''
     }
@@ -128,7 +128,7 @@ class WMFMenuItemFragment {
    */
   constructor(wmfMenuItem, document) {
     const item = document.createElement('div')
-    item.className = 'footer_menu_item'
+    item.className = 'pagelib_footer_menu_item'
 
     const containerAnchor = document.createElement('a')
     containerAnchor.addEventListener('click', () => {
@@ -139,7 +139,7 @@ class WMFMenuItemFragment {
 
     if (wmfMenuItem.title) {
       const title = document.createElement('div')
-      title.className = 'footer_menu_item_title'
+      title.className = 'pagelib_footer_menu_item_title'
       title.innerText = wmfMenuItem.title
       containerAnchor.title = wmfMenuItem.title
       containerAnchor.appendChild(title)
@@ -147,7 +147,7 @@ class WMFMenuItemFragment {
 
     if (wmfMenuItem.subtitle) {
       const subtitle = document.createElement('div')
-      subtitle.className = 'footer_menu_item_subtitle'
+      subtitle.className = 'pagelib_footer_menu_item_subtitle'
       subtitle.innerText = wmfMenuItem.subtitle
       containerAnchor.appendChild(subtitle)
     }

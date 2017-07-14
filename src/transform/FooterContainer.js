@@ -7,7 +7,7 @@ import './FooterContainer.css'
  * @return {void}
  */
 const updateBottomPaddingToAllowReadMoreToScrollToTop = (document, window) => {
-  const div = document.getElementById('footer_container_ensure_can_scroll_to_top')
+  const div = document.getElementById('pagelib_footer_container_ensure_can_scroll_to_top')
   let currentPadding = parseInt(div.style.paddingBottom, 10)
   if (isNaN(currentPadding)) { currentPadding = 0 }
   const height = div.clientHeight - currentPadding
@@ -23,16 +23,18 @@ const updateBottomPaddingToAllowReadMoreToScrollToTop = (document, window) => {
  * @return {void}
  */
 const updateLeftAndRightMargin = (document, margin) => {
-  const elements = document.querySelectorAll(
-    '#footer_container_menu_heading, #footer_container_readmore, #footer_container_legal'
-  )
+  const elements = document.querySelectorAll(`
+    #pagelib_footer_container_menu_heading, 
+    #pagelib_footer_container_readmore, 
+    #pagelib_footer_container_legal
+  `)
   Array.from(elements)
     .forEach(element => {
       element.style.marginLeft = `${margin}px`
       element.style.marginRight = `${margin}px`
     })
   const rightOrLeft = document.querySelector('html').dir === 'rtl' ? 'right' : 'left'
-  Array.from(document.querySelectorAll('.footer_menu_item'))
+  Array.from(document.querySelectorAll('.pagelib_footer_menu_item'))
     .forEach(element => {
       element.style.backgroundPosition = `${rightOrLeft} ${margin}px center`
       element.style.paddingLeft = `${margin}px`
@@ -50,21 +52,26 @@ const containerFragment = document => {
   const containerFragment = document.createDocumentFragment()
   containerFragment.appendChild(containerDiv)
   containerDiv.innerHTML =
-  `<div id='footer_container' class='footer_container'>
-    <div id='footer_container_section_0'>
-      <div id='footer_container_menu'>
-        <div id='footer_container_menu_heading' class='footer_container_heading'></div>
-        <div id='footer_container_menu_items'></div>
-      </div>
-    </div>
-    <div id='footer_container_ensure_can_scroll_to_top'>
-      <div id='footer_container_section_1'>
-        <div id='footer_container_readmore'>
-          <div id='footer_container_readmore_heading' class='footer_container_heading'></div>
-          <div id='footer_container_readmore_pages'></div>
+  `<div id='pagelib_footer_container' class='pagelib_footer_container'>
+    <div id='pagelib_footer_container_section_0'>
+      <div id='pagelib_footer_container_menu'>
+        <div id='pagelib_footer_container_menu_heading' class='pagelib_footer_container_heading'>
+        </div>
+        <div id='pagelib_footer_container_menu_items'>
         </div>
       </div>
-      <div id='footer_container_legal'></div>
+    </div>
+    <div id='pagelib_footer_container_ensure_can_scroll_to_top'>
+      <div id='pagelib_footer_container_section_1'>
+        <div id='pagelib_footer_container_readmore'>
+          <div 
+            id='pagelib_footer_container_readmore_heading' class='pagelib_footer_container_heading'>
+          </div>
+          <div id='pagelib_footer_container_readmore_pages'>
+          </div>
+        </div>
+      </div>
+      <div id='pagelib_footer_container_legal'></div>
     </div>
   </div>`
   return containerFragment
@@ -75,7 +82,7 @@ const containerFragment = document => {
  * @param {!Document} document
  * @return {boolean}
  */
-const isContainerAttached = document => document.querySelector('#footer_container') !== null
+const isContainerAttached = document => document.querySelector('#pagelib_footer_container') !== null
 
 export default {
   containerFragment,
