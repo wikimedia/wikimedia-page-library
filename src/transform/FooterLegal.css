@@ -20,14 +20,14 @@ html[dir="rtl"] .pagelib_footer_legal_contents {
   background-position: right top;
 }
 
-.pagelib_footer_legal_licence {
+.pagelib_footer_legal_license {
   color: #54595d;
   font-size: 0.75em;
   line-height: 1.5;
   display: block;
 }
 
-.pagelib_footer_legal_licence_link {
+.pagelib_footer_legal_license_link {
   color: #2C5BC5;
 }
 
