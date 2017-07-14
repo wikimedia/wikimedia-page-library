@@ -104,17 +104,17 @@ class WMFMenuItem {
   payloadExtractor() {
     switch (this.itemType) {
     case MenuItemType.languages:
-      return null
+      return undefined
     case MenuItemType.lastEdited:
-      return null
+      return undefined
     case MenuItemType.pageIssues:
       return pageIssuesStringsArray
     case MenuItemType.disambiguation:
       return disambiguationTitlesArray
     case MenuItemType.coordinate:
-      return null
+      return undefined
     default:
-      return null
+      return undefined
     }
   }
 }
@@ -189,7 +189,7 @@ const maybeAddItem = (title, subtitle, itemType, containerID, clickHandler, docu
   const item = new WMFMenuItem(title, subtitle, itemType, clickHandler)
 
   // Items are not added if they have a payload extractor which fails to extract anything.
-  if (item.payloadExtractor() !== null) {
+  if (item.payloadExtractor() !== undefined) {
     item.payload = item.payloadExtractor()(document)
     if (item.payload.length === 0) {
       return

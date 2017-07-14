@@ -23,8 +23,8 @@ import './FooterReadMore.css'
  * @return {void}
  */
 
-let _saveForLaterString = null
-let _savedForLaterString = null
+let _saveForLaterString = ''
+let _savedForLaterString = ''
 const _saveButtonIDPrefix = 'readmore:save:'
 
 /**
@@ -36,10 +36,10 @@ const _saveButtonIDPrefix = 'readmore:save:'
  */
 const safelyRemoveEnclosures = (string, opener, closer) => {
   const enclosureRegex = new RegExp(`\\s?[${opener}][^${opener}${closer}]+[${closer}]`, 'g')
-  let previousString = null
   let counter = 0
   const safeMaxTries = 30
   let stringToClean = string
+  let previousString = ''
   do {
     previousString = stringToClean
     stringToClean = stringToClean.replace(enclosureRegex, '')
@@ -121,11 +121,11 @@ class WMFPageFragment {
       innerDivContainer.appendChild(title)
     }
 
-    let description = null
+    let description
     if (wmfPage.terms) {
       description = wmfPage.terms.description[0]
     }
-    if ((description === null || description.length < 10) && wmfPage.extract) {
+    if ((description === undefined || description.length < 10) && wmfPage.extract) {
       description = cleanExtract(wmfPage.extract)
     }
     if (description) {
@@ -266,7 +266,7 @@ const fetchReadMore = (baseURL, title, showReadMoreHandler, containerID, saveBut
   xhr.onerror = function(e) {
     fetchErrorHandler(xhr.statusText)
   }
-  xhr.send(null)
+  xhr.send()
 }
 
 /**
