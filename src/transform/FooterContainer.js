@@ -7,8 +7,7 @@ import './FooterContainer.css'
  */
 const updateBottomPaddingToAllowReadMoreToScrollToTop = window => {
   const div = window.document.getElementById('pagelib_footer_container_ensure_can_scroll_to_top')
-  let currentPadding = parseInt(div.style.paddingBottom, 10)
-  if (isNaN(currentPadding)) { currentPadding = 0 }
+  const currentPadding = parseInt(div.style.paddingBottom, 10) || 0
   const height = div.clientHeight - currentPadding
   const newPadding = Math.max(0, window.innerHeight - height)
   div.style.paddingBottom = `${newPadding}px`
