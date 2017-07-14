@@ -3,6 +3,7 @@ import ElementUtilities from './ElementUtilities'
 import FooterContainer from './FooterContainer'
 import FooterLegal from './FooterLegal'
 import FooterMenu from './FooterMenu'
+import FooterReadMore from './FooterReadMore'
 import LazyLoadTransform from './LazyLoadTransform'
 import LazyLoadTransformer from './LazyLoadTransformer'
 import Polyfill from './Polyfill'
@@ -15,6 +16,7 @@ export default {
   FooterContainer,
   FooterLegal,
   FooterMenu,
+  FooterReadMore,
   LazyLoadTransform,
   LazyLoadTransformer,
   RedLinks,
