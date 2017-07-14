@@ -9,7 +9,7 @@ import Polyfill from './Polyfill'
 
 /**
   * @typedef {function} FooterMenuItemClickCallback
-  * @param  {!string[]} payload Important - should return empty array if no payload strings.
+  * @param {!string[]} payload Important - should return empty array if no payload strings.
   * @return {void}
   */
 
@@ -62,10 +62,10 @@ const MenuItemType = {
 class WMFMenuItem {
   /**
    * WMFMenuItem constructor.
-   * @param  {!string} title
-   * @param  {?string} subtitle
-   * @param  {!MenuItemType} itemType
-   * @param  {FooterMenuItemClickCallback} clickHandler
+   * @param {!string} title
+   * @param {?string} subtitle
+   * @param {!MenuItemType} itemType
+   * @param {FooterMenuItemClickCallback} clickHandler
    * @return {void}
    */
   constructor(title, subtitle, itemType, clickHandler) {
@@ -177,11 +177,11 @@ const addItem = (wmfMenuItem, containerID, document) => {
 
 /**
  * Conditionally adds a WMFMenuItem to a container.
- * @param  {!string} title
- * @param  {!string} subtitle
- * @param  {!MenuItemType} itemType
- * @param  {!string} containerID
- * @param  {FooterMenuItemClickCallback} clickHandler
+ * @param {!string} title
+ * @param {!string} subtitle
+ * @param {!MenuItemType} itemType
+ * @param {!string} containerID
+ * @param {FooterMenuItemClickCallback} clickHandler
  * @param {!Document} document
  * @return {void}
  */
