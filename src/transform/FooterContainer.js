@@ -1,4 +1,5 @@
 import './FooterContainer.css'
+import Polyfill from './Polyfill'
 
 /**
  * Ensures the 'Read more' section header can always be scrolled to the top of the screen.
@@ -21,7 +22,7 @@ const updateBottomPaddingToAllowReadMoreToScrollToTop = window => {
  * @return {void}
  */
 const updateLeftAndRightMargin = (document, margin) => {
-  const elements = document.querySelectorAll(`
+  const elements = Polyfill.querySelectorAll(document, `
     #pagelib_footer_container_menu_heading, 
     #pagelib_footer_container_readmore, 
     #pagelib_footer_container_legal
@@ -32,7 +33,7 @@ const updateLeftAndRightMargin = (document, margin) => {
       element.style.marginRight = `${margin}px`
     })
   const rightOrLeft = document.querySelector('html').dir === 'rtl' ? 'right' : 'left'
-  Array.from(document.querySelectorAll('.pagelib_footer_menu_item'))
+  Array.from(Polyfill.querySelectorAll(document, '.pagelib_footer_menu_item'))
     .forEach(element => {
       element.style.backgroundPosition = `${rightOrLeft} ${margin}px center`
       element.style.paddingLeft = `${margin}px`

@@ -1,4 +1,5 @@
 import './FooterMenu.css'
+import Polyfill from './Polyfill'
 
 /**
  * @typedef {function} FooterMenuItemPayloadExtractor
@@ -17,7 +18,7 @@ import './FooterMenu.css'
  * @type {FooterMenuItemPayloadExtractor}
  */
 const pageIssuesStringsArray = document => {
-  const tables = document.querySelectorAll(
+  const tables = Polyfill.querySelectorAll(document,
     'div#content_block_0 table.ambox:not(.ambox-multiple_issues):not(.ambox-notice)'
   )
   // Get the tables into a fragment so we can remove some elements without triggering a layout
@@ -26,9 +27,11 @@ const pageIssuesStringsArray = document => {
     fragment.appendChild(tables[i].cloneNode(true))
   }
   // Remove some element so their text doesn't appear when we use "innerText"
-  Array.from(fragment.querySelectorAll('.hide-when-compact, .collapsed')).forEach(el => el.remove())
+  Array.from(Polyfill.querySelectorAll(fragment,
+    '.hide-when-compact, .collapsed')).forEach(el => el.remove())
   // Get the innerText
-  return Array.from(fragment.querySelectorAll('td[class$=mbox-text]')).map(el => el.innerText)
+  return Array.from(Polyfill.querySelectorAll(fragment,
+    'td[class$=mbox-text]')).map(el => el.innerText)
 }
 
 /**
@@ -36,7 +39,7 @@ const pageIssuesStringsArray = document => {
  * @type {FooterMenuItemPayloadExtractor}
  */
 const disambiguationTitlesArray = document => Array.from(
-  document.querySelectorAll(
+  Polyfill.querySelectorAll(document,
     'div#content_block_0 div.hatnote a[href]:not([href=""]):not([redlink="1"])'
   )
 ).map(el => el.href)
