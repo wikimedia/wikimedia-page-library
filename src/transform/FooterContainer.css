@@ -9,8 +9,7 @@
     line-height: 1.6;
 }
 
-#pagelib_footer_container_readmore_pages::-webkit-scrollbar {
-  display: none;
+#pagelib_footer_container_readmore_pages {
 }
 
 #pagelib_footer_container_menu_heading {
