@@ -2,7 +2,7 @@
 // https://en.wikipedia.org/?oldid=781965885
 // eslint-disable-next-line no-unused-vars
 const LazyLoadImageData = [
-  { src: '//upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Van_Gogh_self-portrait_dedicated_to_Gauguin.jpg/220px-Van_Gogh_self-portrait_dedicated_to_Gauguin.jpg', width: 220, height: 268 },
+  { src: '//upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Van_Gogh_self-portrait_dedicated_to_Gauguin.jpg/220px-Van_Gogh_self-portrait_dedicated_to_Gauguin.jpg', width: 220, height: 269 },
   { src: '//upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Still_Life_with_Cabbage_and_Clogs.jpg/100px-Still_Life_with_Cabbage_and_Clogs.jpg', width: 100, height: 62 },
   { src: '//upload.wikimedia.org/wikipedia/commons/thumb/2/29/Van_Gogh_-_Kauernder_Junge_mit_Sichel.jpeg/100px-Van_Gogh_-_Kauernder_Junge_mit_Sichel.jpeg', width: 100, height: 75 },
   { src: '//upload.wikimedia.org/wikipedia/commons/thumb/c/c8/An_Old_Man_Putting_Dry_Rice_on_the_Hearth_1881_Vincent_van_Gogh.jpg/100px-An_Old_Man_Putting_Dry_Rice_on_the_Hearth_1881_Vincent_van_Gogh.jpg', width: 100, height: 123 },
