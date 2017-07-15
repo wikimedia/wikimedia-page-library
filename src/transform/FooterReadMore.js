@@ -282,11 +282,10 @@ const updateSaveButtonText = (button, title, isSaved) => {
 /**
  * Updates save button bookmark icon for saved state.
  * @param {!HTMLDivElement} button
- * @param {!string} title
  * @param {!Boolean} isSaved
  * @return {void}
  */
-const updateSaveButtonBookmarkIcon = (button, title, isSaved) => {
+const updateSaveButtonBookmarkIcon = (button, isSaved) => {
   const unfilledClass = 'pagelib_footer_readmore_bookmark_unfilled'
   const filledClass = 'pagelib_footer_readmore_bookmark_filled'
   button.classList.remove(unfilledClass)
@@ -304,7 +303,7 @@ const updateSaveButtonBookmarkIcon = (button, title, isSaved) => {
 const setTitleIsSaved = (title, isSaved, document) => {
   const saveButton = document.getElementById(`${_saveButtonIDPrefix}${title}`)
   updateSaveButtonText(saveButton, title, isSaved)
-  updateSaveButtonBookmarkIcon(saveButton, title, isSaved)
+  updateSaveButtonBookmarkIcon(saveButton, isSaved)
 }
 
 /**
