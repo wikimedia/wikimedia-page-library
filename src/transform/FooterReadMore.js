@@ -23,8 +23,6 @@ import './FooterReadMore.css'
  * @return {void}
  */
 
-let _saveForLaterString = ''
-let _savedForLaterString = ''
 const _saveButtonIDPrefix = 'readmore:save:'
 
 /**
@@ -134,8 +132,6 @@ const documentFragmentForReadMorePage = (readMorePage, index, document,
 
   const saveButton = document.createElement('div')
   saveButton.id = `${_saveButtonIDPrefix}${encodeURI(readMorePage.title)}`
-  saveButton.innerText = _saveForLaterString
-  saveButton.title = _saveForLaterString
   saveButton.className = 'pagelib_footer_readmore_page_save'
   saveButton.addEventListener('click', event => {
     event.stopPropagation()
@@ -267,19 +263,6 @@ const fetchReadMore = (baseURL, title, showReadMorePagesHandler, containerID,
 }
 
 /**
- * Updates save button text for saved state.
- * @param {!HTMLDivElement} button
- * @param {!string} title
- * @param {!Boolean} isSaved
- * @return {void}
- */
-const updateSaveButtonText = (button, title, isSaved) => {
-  const text = isSaved ? _savedForLaterString : _saveForLaterString
-  button.innerText = text
-  button.title = text
-}
-
-/**
  * Updates save button bookmark icon for saved state.
  * @param {!HTMLDivElement} button
  * @param {!Boolean} isSaved
@@ -296,13 +279,15 @@ const updateSaveButtonBookmarkIcon = (button, isSaved) => {
 /**
  * Updates save button text and bookmark icon for saved state.
  * @param {!string} title
+ * @param {!string} text
  * @param {!Boolean} isSaved
  * @param {!Document} document
  * @return {void}
 */
-const setTitleIsSaved = (title, isSaved, document) => {
+const updateSaveButtonForTitle = (title, text, isSaved, document) => {
   const saveButton = document.getElementById(`${_saveButtonIDPrefix}${title}`)
-  updateSaveButtonText(saveButton, title, isSaved)
+  saveButton.innerText = text
+  saveButton.title = text
   updateSaveButtonBookmarkIcon(saveButton, isSaved)
 }
 
@@ -311,16 +296,11 @@ const setTitleIsSaved = (title, isSaved, document) => {
  * @param {!Document} document
  * @param {?string} baseURL
  * @param {!string} title
- * @param {!string} saveForLaterString
- * @param {!string} savedForLaterString
  * @param {!string} containerID
  * @param {SaveButtonClickHandler} saveButtonClickHandler
  * @param {TitlesShownHandler} titlesShownHandler
  */
-const add = (document, baseURL, title, saveForLaterString, savedForLaterString, containerID,
-  saveButtonClickHandler, titlesShownHandler) => {
-  _saveForLaterString = saveForLaterString
-  _savedForLaterString = savedForLaterString
+const add = (document, baseURL, title, containerID, saveButtonClickHandler, titlesShownHandler) => {
   fetchReadMore(
     baseURL,
     title,
@@ -345,7 +325,7 @@ const setHeading = (headingString, headingID, document) => {
 }
 
 export default {
+  add,
   setHeading,
-  setTitleIsSaved,
-  add
+  updateSaveButtonForTitle
 }
