@@ -124,48 +124,43 @@ class MenuItem {
 }
 
 /**
- * Menu item fragment model.
+ * Makes document fragment for a menu item.
+ * @param {!MenuItem} menuItem
+ * @param {!Document} document
+ * @return {!DocumentFragment}
  */
-class MenuItemFragment {
-  /**
-   * MenuItemFragment constructor.
-   * @param {!MenuItem} menuItem
-   * @param {!Document} document
-   * @return {!DocumentFragment}
-   */
-  constructor(menuItem, document) {
-    const item = document.createElement('div')
-    item.className = 'pagelib_footer_menu_item'
+const documentFragmentForMenuItem = (menuItem, document) => {
+  const item = document.createElement('div')
+  item.className = 'pagelib_footer_menu_item'
 
-    const containerAnchor = document.createElement('a')
-    containerAnchor.addEventListener('click', () => {
-      menuItem.clickHandler(menuItem.payload)
-    }, false)
+  const containerAnchor = document.createElement('a')
+  containerAnchor.addEventListener('click', () => {
+    menuItem.clickHandler(menuItem.payload)
+  }, false)
 
-    item.appendChild(containerAnchor)
+  item.appendChild(containerAnchor)
 
-    if (menuItem.title) {
-      const title = document.createElement('div')
-      title.className = 'pagelib_footer_menu_item_title'
-      title.innerText = menuItem.title
-      containerAnchor.title = menuItem.title
-      containerAnchor.appendChild(title)
-    }
-
-    if (menuItem.subtitle) {
-      const subtitle = document.createElement('div')
-      subtitle.className = 'pagelib_footer_menu_item_subtitle'
-      subtitle.innerText = menuItem.subtitle
-      containerAnchor.appendChild(subtitle)
-    }
-
-    const iconClass = menuItem.iconClass()
-    if (iconClass) {
-      item.classList.add(iconClass)
-    }
-
-    return document.createDocumentFragment().appendChild(item)
+  if (menuItem.title) {
+    const title = document.createElement('div')
+    title.className = 'pagelib_footer_menu_item_title'
+    title.innerText = menuItem.title
+    containerAnchor.title = menuItem.title
+    containerAnchor.appendChild(title)
   }
+
+  if (menuItem.subtitle) {
+    const subtitle = document.createElement('div')
+    subtitle.className = 'pagelib_footer_menu_item_subtitle'
+    subtitle.innerText = menuItem.subtitle
+    containerAnchor.appendChild(subtitle)
+  }
+
+  const iconClass = menuItem.iconClass()
+  if (iconClass) {
+    item.classList.add(iconClass)
+  }
+
+  return document.createDocumentFragment().appendChild(item)
 }
 
 /**
@@ -175,8 +170,9 @@ class MenuItemFragment {
  * @param {!Document} document
  */
 const addItem = (menuItem, containerID, document) => {
-  const fragment = new MenuItemFragment(menuItem, document)
-  document.getElementById(containerID).appendChild(fragment)
+  document.getElementById(containerID).appendChild(
+    documentFragmentForMenuItem(menuItem, document)
+  )
 }
 
 /**

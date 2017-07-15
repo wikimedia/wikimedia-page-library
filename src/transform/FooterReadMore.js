@@ -81,75 +81,70 @@ class ReadMorePage {
 }
 
 /**
- * Read more page fragment model.
- */
-class ReadMorePageFragment {
-  /**
-   * ReadMorePageFragment constructor.
-   * @param {!ReadMorePage} readMorePage
-   * @param {!number} index
-   * @param {!Document} document
-   * @param {SaveButtonClickHandler} saveButtonClickHandler
-   * @return {!DocumentFragment}
-   */
-  constructor(readMorePage, index, document, saveButtonClickHandler) {
+ * Makes document fragment for a read more page.
+ * @param {!ReadMorePage} readMorePage
+ * @param {!number} index
+ * @param {!Document} document
+ * @param {SaveButtonClickHandler} saveButtonClickHandler
+ * @return {!DocumentFragment}
+ */  
+const documentFragmentForReadMorePage = (readMorePage, index, document,
+  saveButtonClickHandler) => {
+  const outerAnchorContainer = document.createElement('a')
+  outerAnchorContainer.id = index
+  outerAnchorContainer.className = 'pagelib_footer_readmore_page'
 
-    const outerAnchorContainer = document.createElement('a')
-    outerAnchorContainer.id = index
-    outerAnchorContainer.className = 'pagelib_footer_readmore_page'
-
-    const hasImage = readMorePage.thumbnail && readMorePage.thumbnail.source
-    if (hasImage) {
-      const image = document.createElement('div')
-      image.style.backgroundImage = `url(${readMorePage.thumbnail.source})`
-      image.classList.add('pagelib_footer_readmore_page_image')
-      outerAnchorContainer.appendChild(image)
-    }
-
-    const innerDivContainer = document.createElement('div')
-    innerDivContainer.classList.add('pagelib_footer_readmore_page_container')
-    outerAnchorContainer.appendChild(innerDivContainer)
-    outerAnchorContainer.href = `/wiki/${encodeURI(readMorePage.title)}`
-
-    if (readMorePage.title) {
-      const title = document.createElement('div')
-      title.id = index
-      title.className = 'pagelib_footer_readmore_page_title'
-      const displayTitle = readMorePage.title.replace(/_/g, ' ')
-      title.innerHTML = displayTitle
-      outerAnchorContainer.title = displayTitle
-      innerDivContainer.appendChild(title)
-    }
-
-    let description
-    if (readMorePage.terms) {
-      description = readMorePage.terms.description[0]
-    }
-    if ((description === undefined || description.length < 10) && readMorePage.extract) {
-      description = cleanExtract(readMorePage.extract)
-    }
-    if (description) {
-      const descriptionEl = document.createElement('div')
-      descriptionEl.id = index
-      descriptionEl.className = 'pagelib_footer_readmore_page_description'
-      descriptionEl.innerHTML = description
-      innerDivContainer.appendChild(descriptionEl)
-    }
-
-    const saveButton = document.createElement('div')
-    saveButton.id = `${_saveButtonIDPrefix}${encodeURI(readMorePage.title)}`
-    saveButton.innerText = _saveForLaterString
-    saveButton.title = _saveForLaterString
-    saveButton.className = 'pagelib_footer_readmore_page_save'
-    saveButton.addEventListener('click', event => {
-      event.stopPropagation()
-      event.preventDefault()
-      saveButtonClickHandler(readMorePage.title)
-    }, false)
-    innerDivContainer.appendChild(saveButton)
-
-    return document.createDocumentFragment().appendChild(outerAnchorContainer)
+  const hasImage = readMorePage.thumbnail && readMorePage.thumbnail.source
+  if (hasImage) {
+    const image = document.createElement('div')
+    image.style.backgroundImage = `url(${readMorePage.thumbnail.source})`
+    image.classList.add('pagelib_footer_readmore_page_image')
+    outerAnchorContainer.appendChild(image)
   }
+
+  const innerDivContainer = document.createElement('div')
+  innerDivContainer.classList.add('pagelib_footer_readmore_page_container')
+  outerAnchorContainer.appendChild(innerDivContainer)
+  outerAnchorContainer.href = `/wiki/${encodeURI(readMorePage.title)}`
+
+  if (readMorePage.title) {
+    const title = document.createElement('div')
+    title.id = index
+    title.className = 'pagelib_footer_readmore_page_title'
+    const displayTitle = readMorePage.title.replace(/_/g, ' ')
+    title.innerHTML = displayTitle
+    outerAnchorContainer.title = displayTitle
+    innerDivContainer.appendChild(title)
+  }
+
+  let description
+  if (readMorePage.terms) {
+    description = readMorePage.terms.description[0]
+  }
+  if ((description === undefined || description.length < 10) && readMorePage.extract) {
+    description = cleanExtract(readMorePage.extract)
+  }
+  if (description) {
+    const descriptionEl = document.createElement('div')
+    descriptionEl.id = index
+    descriptionEl.className = 'pagelib_footer_readmore_page_description'
+    descriptionEl.innerHTML = description
+    innerDivContainer.appendChild(descriptionEl)
+  }
+
+  const saveButton = document.createElement('div')
+  saveButton.id = `${_saveButtonIDPrefix}${encodeURI(readMorePage.title)}`
+  saveButton.innerText = _saveForLaterString
+  saveButton.title = _saveForLaterString
+  saveButton.className = 'pagelib_footer_readmore_page_save'
+  saveButton.addEventListener('click', event => {
+    event.stopPropagation()
+    event.preventDefault()
+    saveButtonClickHandler(readMorePage.title)
+  }, false)
+  innerDivContainer.appendChild(saveButton)
+
+  return document.createDocumentFragment().appendChild(outerAnchorContainer)
 }
 
 /**
@@ -164,7 +159,7 @@ const showReadMorePages = (pages, document, containerID, saveButtonClickHandler,
     shownTitles.push(title)
     const pageModel = new ReadMorePage(title, page.thumbnail, page.terms, page.extract)
     const pageFragment =
-      new ReadMorePageFragment(pageModel, index, document, saveButtonClickHandler)
+      documentFragmentForReadMorePage(pageModel, index, document, saveButtonClickHandler)
     container.appendChild(pageFragment)
   })
   titlesShownHandler(shownTitles)
