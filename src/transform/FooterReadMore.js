@@ -16,10 +16,10 @@ import './FooterReadMore.css'
  * Display fetched read more pages.
  * @typedef {function} ShownReadMorePagesHandler
  * @param {!Object[]} pages
- * @param {!Document} document
  * @param {!string} containerID
  * @param {SaveButtonClickHandler} saveButtonClickHandler
  * @param {TitlesShownHandler} titlesShownHandler
+ * @param {!Document} document
  * @return {void}
  */
 
@@ -82,12 +82,11 @@ class ReadMorePage {
  * Makes document fragment for a read more page.
  * @param {!ReadMorePage} readMorePage
  * @param {!number} index
- * @param {!Document} document
  * @param {SaveButtonClickHandler} saveButtonClickHandler
+ * @param {!Document} document
  * @return {!DocumentFragment}
  */  
-const documentFragmentForReadMorePage = (readMorePage, index, document,
-  saveButtonClickHandler) => {
+const documentFragmentForReadMorePage = (readMorePage, index, saveButtonClickHandler, document) => {
   const outerAnchorContainer = document.createElement('a')
   outerAnchorContainer.id = index
   outerAnchorContainer.className = 'pagelib_footer_readmore_page'
@@ -146,8 +145,8 @@ const documentFragmentForReadMorePage = (readMorePage, index, document,
 /**
  * @type {ShownReadMorePagesHandler}
  */
-const showReadMorePages = (pages, document, containerID, saveButtonClickHandler,
-  titlesShownHandler) => {
+const showReadMorePages = (pages, containerID, saveButtonClickHandler, titlesShownHandler,
+  document) => {
   const shownTitles = []
   const container = document.getElementById(containerID)
   pages.forEach((page, index) => {
@@ -155,7 +154,7 @@ const showReadMorePages = (pages, document, containerID, saveButtonClickHandler,
     shownTitles.push(title)
     const pageModel = new ReadMorePage(title, page.thumbnail, page.terms, page.extract)
     const pageFragment =
-      documentFragmentForReadMorePage(pageModel, index, document, saveButtonClickHandler)
+      documentFragmentForReadMorePage(pageModel, index, saveButtonClickHandler, document)
     container.appendChild(pageFragment)
   })
   titlesShownHandler(shownTitles)
@@ -250,8 +249,13 @@ const fetchReadMore = (title, containerID, baseURL, showReadMorePagesHandler,
   xhr.onload = function() {
     if (xhr.readyState === XMLHttpRequest.DONE) { // eslint-disable-line no-undef
       if (xhr.status === 200) {
-        showReadMorePagesHandler(JSON.parse(xhr.responseText).query.pages, document, containerID,
-          saveButtonClickHandler, titlesShownHandler)
+        showReadMorePagesHandler(
+          JSON.parse(xhr.responseText).query.pages,
+          containerID,
+          saveButtonClickHandler,
+          titlesShownHandler,
+          document
+        )
       } else {
         fetchErrorHandler(xhr.statusText)
       }
