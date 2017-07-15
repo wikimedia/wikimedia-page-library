@@ -59,9 +59,9 @@ const MenuItemType = {
 /**
  * Menu item model.
  */
-class WMFMenuItem {
+class MenuItem {
   /**
-   * WMFMenuItem constructor.
+   * MenuItem constructor.
    * @param {!string} title
    * @param {?string} subtitle
    * @param {!MenuItemType} itemType
@@ -122,40 +122,40 @@ class WMFMenuItem {
 /**
  * Menu item fragment model.
  */
-class WMFMenuItemFragment {
+class MenuItemFragment {
   /**
-   * WMFMenuItemFragment constructor.
-   * @param {!WMFMenuItem} wmfMenuItem
+   * MenuItemFragment constructor.
+   * @param {!MenuItem} menuItem
    * @param {!Document} document
    * @return {!DocumentFragment}
    */
-  constructor(wmfMenuItem, document) {
+  constructor(menuItem, document) {
     const item = document.createElement('div')
     item.className = 'pagelib_footer_menu_item'
 
     const containerAnchor = document.createElement('a')
     containerAnchor.addEventListener('click', () => {
-      wmfMenuItem.clickHandler(wmfMenuItem.payload)
+      menuItem.clickHandler(menuItem.payload)
     }, false)
 
     item.appendChild(containerAnchor)
 
-    if (wmfMenuItem.title) {
+    if (menuItem.title) {
       const title = document.createElement('div')
       title.className = 'pagelib_footer_menu_item_title'
-      title.innerText = wmfMenuItem.title
-      containerAnchor.title = wmfMenuItem.title
+      title.innerText = menuItem.title
+      containerAnchor.title = menuItem.title
       containerAnchor.appendChild(title)
     }
 
-    if (wmfMenuItem.subtitle) {
+    if (menuItem.subtitle) {
       const subtitle = document.createElement('div')
       subtitle.className = 'pagelib_footer_menu_item_subtitle'
-      subtitle.innerText = wmfMenuItem.subtitle
+      subtitle.innerText = menuItem.subtitle
       containerAnchor.appendChild(subtitle)
     }
 
-    const iconClass = wmfMenuItem.iconClass()
+    const iconClass = menuItem.iconClass()
     if (iconClass) {
       item.classList.add(iconClass)
     }
@@ -165,18 +165,18 @@ class WMFMenuItemFragment {
 }
 
 /**
- * Adds a WMFMenuItem to a container.
- * @param {!WMFMenuItem} wmfMenuItem
+ * Adds a MenuItem to a container.
+ * @param {!MenuItem} menuItem
  * @param {!string} containerID
  * @param {!Document} document
  */
-const addItem = (wmfMenuItem, containerID, document) => {
-  const fragment = new WMFMenuItemFragment(wmfMenuItem, document)
+const addItem = (menuItem, containerID, document) => {
+  const fragment = new MenuItemFragment(menuItem, document)
   document.getElementById(containerID).appendChild(fragment)
 }
 
 /**
- * Conditionally adds a WMFMenuItem to a container.
+ * Conditionally adds a MenuItem to a container.
  * @param {!string} title
  * @param {!string} subtitle
  * @param {!MenuItemType} itemType
@@ -186,7 +186,7 @@ const addItem = (wmfMenuItem, containerID, document) => {
  * @return {void}
  */
 const maybeAddItem = (title, subtitle, itemType, containerID, clickHandler, document) => {
-  const item = new WMFMenuItem(title, subtitle, itemType, clickHandler)
+  const item = new MenuItem(title, subtitle, itemType, clickHandler)
 
   // Items are not added if they have a payload extractor which fails to extract anything.
   if (item.payloadExtractor() !== undefined) {

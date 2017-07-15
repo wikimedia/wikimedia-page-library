@@ -14,7 +14,7 @@ import './FooterReadMore.css'
 
 /**
  * Display fetched read more pages.
- * @typedef {function} ShownReadMoreHandler
+ * @typedef {function} ShownReadMorePagesHandler
  * @param {!Object[]} pages
  * @param {!Document} document
  * @param {!string} containerID
@@ -63,9 +63,9 @@ const cleanExtract = string => {
 /**
  * Read more page model.
  */
-class WMFPage {
+class ReadMorePage {
   /**
-   * WMFPage constructor.
+   * ReadMorePage constructor.
    * @param {!string} title
    * @param {?string} thumbnail
    * @param {?Object} terms
@@ -83,25 +83,25 @@ class WMFPage {
 /**
  * Read more page fragment model.
  */
-class WMFPageFragment {
+class ReadMorePageFragment {
   /**
-   * WMFPageFragment constructor.
-   * @param {!WMFPage} wmfPage
+   * ReadMorePageFragment constructor.
+   * @param {!ReadMorePage} readMorePage
    * @param {!number} index
    * @param {!Document} document
    * @param {SaveButtonClickHandler} saveButtonClickHandler
    * @return {!DocumentFragment}
    */
-  constructor(wmfPage, index, document, saveButtonClickHandler) {
+  constructor(readMorePage, index, document, saveButtonClickHandler) {
 
     const outerAnchorContainer = document.createElement('a')
     outerAnchorContainer.id = index
     outerAnchorContainer.className = 'pagelib_footer_readmore_page'
 
-    const hasImage = wmfPage.thumbnail && wmfPage.thumbnail.source
+    const hasImage = readMorePage.thumbnail && readMorePage.thumbnail.source
     if (hasImage) {
       const image = document.createElement('div')
-      image.style.backgroundImage = `url(${wmfPage.thumbnail.source})`
+      image.style.backgroundImage = `url(${readMorePage.thumbnail.source})`
       image.classList.add('pagelib_footer_readmore_page_image')
       outerAnchorContainer.appendChild(image)
     }
@@ -109,24 +109,24 @@ class WMFPageFragment {
     const innerDivContainer = document.createElement('div')
     innerDivContainer.classList.add('pagelib_footer_readmore_page_container')
     outerAnchorContainer.appendChild(innerDivContainer)
-    outerAnchorContainer.href = `/wiki/${encodeURI(wmfPage.title)}`
+    outerAnchorContainer.href = `/wiki/${encodeURI(readMorePage.title)}`
 
-    if (wmfPage.title) {
+    if (readMorePage.title) {
       const title = document.createElement('div')
       title.id = index
       title.className = 'pagelib_footer_readmore_page_title'
-      const displayTitle = wmfPage.title.replace(/_/g, ' ')
+      const displayTitle = readMorePage.title.replace(/_/g, ' ')
       title.innerHTML = displayTitle
       outerAnchorContainer.title = displayTitle
       innerDivContainer.appendChild(title)
     }
 
     let description
-    if (wmfPage.terms) {
-      description = wmfPage.terms.description[0]
+    if (readMorePage.terms) {
+      description = readMorePage.terms.description[0]
     }
-    if ((description === undefined || description.length < 10) && wmfPage.extract) {
-      description = cleanExtract(wmfPage.extract)
+    if ((description === undefined || description.length < 10) && readMorePage.extract) {
+      description = cleanExtract(readMorePage.extract)
     }
     if (description) {
       const descriptionEl = document.createElement('div')
@@ -137,14 +137,14 @@ class WMFPageFragment {
     }
 
     const saveButton = document.createElement('div')
-    saveButton.id = `${_saveButtonIDPrefix}${encodeURI(wmfPage.title)}`
+    saveButton.id = `${_saveButtonIDPrefix}${encodeURI(readMorePage.title)}`
     saveButton.innerText = _saveForLaterString
     saveButton.title = _saveForLaterString
     saveButton.className = 'pagelib_footer_readmore_page_save'
     saveButton.addEventListener('click', event => {
       event.stopPropagation()
       event.preventDefault()
-      saveButtonClickHandler(wmfPage.title)
+      saveButtonClickHandler(readMorePage.title)
     }, false)
     innerDivContainer.appendChild(saveButton)
 
@@ -153,16 +153,18 @@ class WMFPageFragment {
 }
 
 /**
- * @type {ShownReadMoreHandler}
+ * @type {ShownReadMorePagesHandler}
  */
-const showReadMore = (pages, document, containerID, saveButtonClickHandler, titlesShownHandler) => {
+const showReadMorePages = (pages, document, containerID, saveButtonClickHandler,
+  titlesShownHandler) => {
   const shownTitles = []
   const container = document.getElementById(containerID)
   pages.forEach((page, index) => {
     const title = page.title.replace(/ /g, '_')
     shownTitles.push(title)
-    const pageModel = new WMFPage(title, page.thumbnail, page.terms, page.extract)
-    const pageFragment = new WMFPageFragment(pageModel, index, document, saveButtonClickHandler)
+    const pageModel = new ReadMorePage(title, page.thumbnail, page.terms, page.extract)
+    const pageFragment =
+      new ReadMorePageFragment(pageModel, index, document, saveButtonClickHandler)
     container.appendChild(pageFragment)
   })
   titlesShownHandler(shownTitles)
@@ -211,7 +213,7 @@ const stringFromQueryParameters = parameters => Object.keys(parameters)
   .join('&')
 
 /**
- * URL for retrieving 'Read more' items for a given title.
+ * URL for retrieving 'Read more' pages for a given title.
  * @param {!string} title
  * @param {?string} baseURL
  * @return {!sring}
@@ -239,24 +241,24 @@ const fetchErrorHandler = statusText => {
 }
 
 /**
- * Fetches 'Read more' items.
+ * Fetches 'Read more' pages.
  * @param {?string} baseURL Leave 'baseURL' null if you don't need to deal with proxying.
  * @param {!string} title
- * @param {ShownReadMoreHandler} showReadMoreHandler
+ * @param {ShownReadMorePagesHandler} showReadMorePagesHandler
  * @param {!string} containerID
  * @param {SaveButtonClickHandler} saveButtonClickHandler
  * @param {TitlesShownHandler} titlesShownHandler
  * @param {!Document} document
  * @return {void}
  */
-const fetchReadMore = (baseURL, title, showReadMoreHandler, containerID, saveButtonClickHandler,
-  titlesShownHandler, document) => {
+const fetchReadMore = (baseURL, title, showReadMorePagesHandler, containerID,
+  saveButtonClickHandler, titlesShownHandler, document) => {
   const xhr = new XMLHttpRequest() // eslint-disable-line no-undef
   xhr.open('GET', readMoreQueryURL(title, baseURL), true)
   xhr.onload = function() {
     if (xhr.readyState === XMLHttpRequest.DONE) { // eslint-disable-line no-undef
       if (xhr.status === 200) {
-        showReadMoreHandler(JSON.parse(xhr.responseText).query.pages, document, containerID,
+        showReadMorePagesHandler(JSON.parse(xhr.responseText).query.pages, document, containerID,
           saveButtonClickHandler, titlesShownHandler)
       } else {
         fetchErrorHandler(xhr.statusText)
@@ -326,7 +328,13 @@ const add = (document, baseURL, title, saveForLaterString, savedForLaterString, 
   _saveForLaterString = saveForLaterString
   _savedForLaterString = savedForLaterString
   fetchReadMore(
-    baseURL, title, showReadMore, containerID, saveButtonClickHandler, titlesShownHandler, document
+    baseURL,
+    title,
+    showReadMorePages,
+    containerID,
+    saveButtonClickHandler,
+    titlesShownHandler,
+    document
   )
 }
 
