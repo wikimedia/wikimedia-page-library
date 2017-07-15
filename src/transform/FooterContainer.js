@@ -17,11 +17,11 @@ const updateBottomPaddingToAllowReadMoreToScrollToTop = window => {
 /**
  * Allows native code to adjust footer container margins without having to worry about
  * implementation details.
- * @param {!Document} document
  * @param {!number} margin
+ * @param {!Document} document
  * @return {void}
  */
-const updateLeftAndRightMargin = (document, margin) => {
+const updateLeftAndRightMargin = (margin, document) => {
   const elements = Polyfill.querySelectorAll(document, `
     #pagelib_footer_container_menu_heading, 
     #pagelib_footer_container_readmore, 
