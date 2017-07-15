@@ -205,6 +205,7 @@ const stringFromQueryParameters = parameters => Object.keys(parameters)
 
 /**
  * URL for retrieving 'Read more' pages for a given title.
+ * Leave 'baseURL' null if you don't need to deal with proxying.
  * @param {!string} title
  * @param {?string} baseURL
  * @return {!sring}
@@ -233,16 +234,16 @@ const fetchErrorHandler = statusText => {
 
 /**
  * Fetches 'Read more' pages.
- * @param {?string} baseURL Leave 'baseURL' null if you don't need to deal with proxying.
  * @param {!string} title
- * @param {ShownReadMorePagesHandler} showReadMorePagesHandler
  * @param {!string} containerID
+ * @param {?string} baseURL
+ * @param {ShownReadMorePagesHandler} showReadMorePagesHandler
  * @param {SaveButtonClickHandler} saveButtonClickHandler
  * @param {TitlesShownHandler} titlesShownHandler
  * @param {!Document} document
  * @return {void}
  */
-const fetchReadMore = (baseURL, title, showReadMorePagesHandler, containerID,
+const fetchReadMore = (title, containerID, baseURL, showReadMorePagesHandler,
   saveButtonClickHandler, titlesShownHandler, document) => {
   const xhr = new XMLHttpRequest() // eslint-disable-line no-undef
   xhr.open('GET', readMoreQueryURL(title, baseURL), true)
@@ -292,20 +293,21 @@ const updateSaveButtonForTitle = (title, text, isSaved, document) => {
 }
 
 /**
- * Adds 'Read more' to 'containerID' element.
- * @param {!Document} document
- * @param {?string} baseURL
+ * Adds 'Read more' for 'title' to 'containerID' element.
+ * Leave 'baseURL' null if you don't need to deal with proxying.
  * @param {!string} title
  * @param {!string} containerID
+ * @param {?string} baseURL
  * @param {SaveButtonClickHandler} saveButtonClickHandler
  * @param {TitlesShownHandler} titlesShownHandler
+ * @param {!Document} document
  */
-const add = (document, baseURL, title, containerID, saveButtonClickHandler, titlesShownHandler) => {
+const add = (title, containerID, baseURL, saveButtonClickHandler, titlesShownHandler, document) => {
   fetchReadMore(
-    baseURL,
     title,
-    showReadMorePages,
     containerID,
+    baseURL,
+    showReadMorePages,
     saveButtonClickHandler,
     titlesShownHandler,
     document
