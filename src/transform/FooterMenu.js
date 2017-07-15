@@ -14,6 +14,10 @@ import Polyfill from './Polyfill'
  */
 
 /**
+ * @typedef {number} MenuItemType
+ */
+
+/**
  * Extracts array of no-html page issues strings from document.
  * @type {FooterMenuItemPayloadExtractor}
  */
@@ -46,7 +50,7 @@ const disambiguationTitlesArray = document => Array.from(
 
 /**
  * Type representing kinds of menu items.
- * @type {Object}
+ * @enum {MenuItemType}
  */
 const MenuItemType = {
   languages: 1,
