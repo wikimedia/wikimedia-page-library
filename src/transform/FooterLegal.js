@@ -13,12 +13,12 @@ import './FooterLegal.css'
  * @param {!string} containerID
  * @param {?FooterLegalClickCallback} licenseLinkClickHandler
  */
-const add =
-  (content, licenseString, licenseSubstitutionString, containerID, licenseLinkClickHandler) => {
-    const container = content.querySelector(`#${containerID}`)
-    const licenseStringHalves = licenseString.split('$1')
+const add = (content, licenseString, licenseSubstitutionString, containerID,
+  licenseLinkClickHandler) => {
+  const container = content.querySelector(`#${containerID}`)
+  const licenseStringHalves = licenseString.split('$1')
 
-    container.innerHTML =
+  container.innerHTML =
   `<div class='pagelib_footer_legal_contents'>
     <hr class='pagelib_footer_legal_divider'>
     <span class='pagelib_footer_legal_license'>
@@ -30,11 +30,11 @@ const add =
     </span>
   </div>`
 
-    container.querySelector('.pagelib_footer_legal_license_link')
-      .addEventListener('click', () => {
-        licenseLinkClickHandler()
-      }, false)
-  }
+  container.querySelector('.pagelib_footer_legal_license_link')
+    .addEventListener('click', () => {
+      licenseLinkClickHandler()
+    }, false)
+}
 
 export default {
   add
