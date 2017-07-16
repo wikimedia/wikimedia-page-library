@@ -6,7 +6,7 @@
     <title>LazyLoadTransformer</title>
     <link href=../build/wikimedia-page-library-transform.css rel=stylesheet>
     <style>
-      body, img { margin: 4px 4px; }
+      body, img, .pagelib-lazy-load-placeholder { margin: 4px; }
     </style>
   </head>
 
@@ -30,7 +30,7 @@
       transformer.convertImagesToPlaceholders(div)
 
       document.querySelector('body').appendChild(div)
-      transformer.loadImages()</script>
+      transformer.loadPlaceholders()</script>
   </body>
 
 </html>

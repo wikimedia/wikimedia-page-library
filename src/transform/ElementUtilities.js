@@ -48,52 +48,29 @@ const isVisible = element =>
   Boolean(element.offsetWidth || element.offsetHeight || element.getClientRects().length)
 
 /**
- * Move attributes from source to destination as data-* attributes.
+ * Copy existing attributes from source to destination as data-* attributes.
  * @param {!HTMLElement} source
  * @param {!HTMLElement} destination
  * @param {!Array.<string>} attributes
  * @return {void}
  */
-const moveAttributesToDataAttributes = (source, destination, attributes) => {
-  attributes.forEach(attribute => {
-    if (source.hasAttribute(attribute)) {
-      destination.setAttribute(`data-${attribute}`, source.getAttribute(attribute))
-      source.removeAttribute(attribute)
-    }
-  })
+const copyAttributesToDataAttributes = (source, destination, attributes) => {
+  attributes.filter(attribute => source.hasAttribute(attribute))
+    .forEach(attribute =>
+      destination.setAttribute(`data-${attribute}`, source.getAttribute(attribute)))
 }
 
 /**
- * Move data-* attributes from source to destination as attributes.
- * @param {!HTMLElement} source
- * @param {!HTMLElement} destination
- * @param {!Array.<string>} attributes
- * @return {void}
- */
-const moveDataAttributesToAttributes = (source, destination, attributes) => {
-  attributes.forEach(attribute => {
-    const dataAttribute = `data-${attribute}`
-    if (source.hasAttribute(dataAttribute)) {
-      destination.setAttribute(attribute, source.getAttribute(dataAttribute))
-      source.removeAttribute(dataAttribute)
-    }
-  })
-}
-
-/**
- * Copy data-* attributes from source to destination as attributes.
+ * Copy existing data-* attributes from source to destination as attributes.
  * @param {!HTMLElement} source
  * @param {!HTMLElement} destination
  * @param {!Array.<string>} attributes
  * @return {void}
  */
 const copyDataAttributesToAttributes = (source, destination, attributes) => {
-  attributes.forEach(attribute => {
-    const dataAttribute = `data-${attribute}`
-    if (source.hasAttribute(dataAttribute)) {
-      destination.setAttribute(attribute, source.getAttribute(dataAttribute))
-    }
-  })
+  attributes.filter(attribute => source.hasAttribute(`data-${attribute}`))
+    .forEach(attribute =>
+      destination.setAttribute(attribute, source.getAttribute(`data-${attribute}`)))
 }
 
 export default {
@@ -101,7 +78,6 @@ export default {
   isNestedInTable,
   closestInlineStyle,
   isVisible,
-  moveAttributesToDataAttributes,
-  moveDataAttributesToAttributes,
+  copyAttributesToDataAttributes,
   copyDataAttributesToAttributes
 }

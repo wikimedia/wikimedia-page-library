@@ -1,15 +1,15 @@
-.pagelib-theme-dark.pagelib-compatibility-filter .mwe-math-fallback-image-inline {
+.pagelib-theme-dark.pagelib-compatibility-filter img.mwe-math-fallback-image-inline {
   background: #ccc;
   padding: 2px;
 }
 
-.pagelib-theme-dark .mwe-math-fallback-image-inline {
+.pagelib-theme-dark img.mwe-math-fallback-image-inline {
   -webkit-filter: invert(100%);
   filter: invert(100%);
 }
 
-.pagelib-theme-dark .pagelib-theme-image-no-background.pagelib-theme-image-nontabular:not(.mwe-math-fallback-image-inline),
-.pagelib-theme-dark .infobox .image .pagelib-theme-image-no-background:not(.mwe-math-fallback-image-inline) {
+.pagelib-theme-dark img.pagelib-theme-image-no-background.pagelib-theme-image-nontabular:not(.mwe-math-fallback-image-inline),
+.pagelib-theme-dark .infobox .image img.pagelib-theme-image-no-background:not(.mwe-math-fallback-image-inline) {
   background: #fff;
 }
 

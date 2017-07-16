@@ -103,126 +103,112 @@ describe('LazyLoadTransform', () => {
     describe('when an image is converted', () => {
       describe('and dimensions are unspecified', function Test() {
         beforeEach(() => {
-          const document = domino.createDocument('<img class=classes src=/src srcset=/srcset>')
-          const images = LazyLoadTransform.queryLazyLoadableImages(document.documentElement)
+          const html = `<img class=classes style='width: 300em; height: 400em' width=100 height=200
+            src=/src srcset=/srcset alt=text>`
+          this.document = domino.createDocument(html)
+          const images = LazyLoadTransform.queryLazyLoadableImages(this.document.documentElement)
           this.image = images[0]
-
-          LazyLoadTransform.convertImagesToPlaceholders(document, images)
+          this.placeholder = LazyLoadTransform.convertImagesToPlaceholders(this.document, images)[0]
         })
 
-        it('the src is preserved as a data-* attribute', () =>
-          assert.ok(this.image.getAttribute('data-src') === '/src'))
-        it('the srcset is preserved as a data-* attribute', () =>
-          assert.ok(this.image.getAttribute('data-srcset') === '/srcset'))
-
-        it('the src is replaced with placeholder content', () =>
-          assert.ok(this.image.getAttribute('src').startsWith('data:')))
-        it('the srcset is removed', () => assert.ok(!this.image.hasAttribute('srcset')))
-
-        it('the image is a pending class member', () =>
-          assert.ok(this.image.classList.contains('pagelib-lazy-load-image-pending')))
-        it('the classes are otherwise unchanged', () => {
-          assert.ok(this.image.classList.contains('classes'))
-          assert.ok(this.image.classList.length === 2)
-        })
-      })
-
-      describe('and dimensions are specified as attributes', function Test() {
-        beforeEach(() => {
-          const document = domino.createDocument('<img src=/ width=100 height=200>')
-          const images = LazyLoadTransform.queryLazyLoadableImages(document.documentElement)
-          this.image = images[0]
-
-          LazyLoadTransform.convertImagesToPlaceholders(document, images)
+        describe('the image attributes are preserved as placeholder data-* attributes:', () => {
+          it('class', () => assert.ok(this.placeholder.getAttribute('data-class') === 'classes'))
+          it('style', () =>
+            assert.ok(this.placeholder.getAttribute('data-style')
+              === 'width: 300em; height: 400em'))
+          it('src', () => assert.ok(this.placeholder.getAttribute('data-src') === '/src'))
+          it('srcset', () => assert.ok(this.placeholder.getAttribute('data-srcset') === '/srcset'))
+          it('width', () => assert.ok(this.placeholder.getAttribute('data-width') === '100'))
+          it('height', () => assert.ok(this.placeholder.getAttribute('data-height') === '200'))
+          it('alt', () => assert.ok(this.placeholder.getAttribute('data-alt') === 'text'))
         })
 
-        it('the width is set', () =>
-          assert.ok(this.image.style.getPropertyValue('width') === '100px'))
-        it('the height is set', () =>
-          assert.ok(this.image.style.getPropertyValue('height') === '200px'))
-        it('the height has important priority', () =>
-          assert.ok(this.image.style.getPropertyPriority('height') === 'important'))
-      })
+        it('the placeholder is a pending class member', () =>
+          assert.ok(this.placeholder.classList.contains('pagelib-lazy-load-placeholder-pending')))
+        it('the classes are otherwise unchanged', () =>
+          assert.ok(this.placeholder.classList.contains('classes')))
 
-      describe('and dimensions are specified as a style', function Test() {
-        beforeEach(() => {
-          const html = `
-            <img style="background: red; width: 300em !important; height: 400em !important"
-              width=100 height=200 src=/>`
-          const document = domino.createDocument(html)
-          const images = LazyLoadTransform.queryLazyLoadableImages(document.documentElement)
-          this.image = images[0]
-
-          LazyLoadTransform.convertImagesToPlaceholders(document, images)
+        it('the placeholder has the same width as the image', () =>
+          assert.ok(this.placeholder.style.getPropertyValue('width') === '300em'))
+        it('the placeholder has the same height as the image', () => {
+          const spacing = this.placeholder.firstElementChild
+          assert.ok(spacing.style.getPropertyValue('padding-top') === '133.33333333333331%')
         })
 
-        it('the width value is preserved as a data-* attribute', () =>
-          assert.ok(this.image.getAttribute('data-width-value') === '300em'))
-        it('the height value is preserved as a data-* attribute', () =>
-          assert.ok(this.image.getAttribute('data-height-value') === '400em'))
-        it('the width priority is preserved as a data-* attribute', () =>
-          assert.ok(this.image.getAttribute('data-width-priority') === 'important'))
-        it('the height priority is preserved as a data-* attribute', () =>
-          assert.ok(this.image.getAttribute('data-height-priority') === 'important'))
-        it('the other styles are unmodified', () =>
-          assert.ok(this.image.style.background === 'red'))
-
-        it('the width is set', () =>
-          assert.ok(this.image.style.getPropertyValue('width') === '300em'))
-        it('the height is set', () =>
-          assert.ok(this.image.style.getPropertyValue('height') === '400em'))
-        it('the height has important priority', () =>
-          assert.ok(this.image.style.getPropertyPriority('height') === 'important'))
+        it('the placeholder is added to the DOM', () =>
+          assert.ok(this.document.querySelector('.pagelib-lazy-load-placeholder')))
+        it('the image is removed from the DOM', () =>
+          assert.ok(!this.document.querySelector('img')))
+        it('the image is an orphan', () => assert.ok(!this.image.parentNode))
       })
     })
   })
 
-  describe('.loadImage()', () => {
+  describe('.loadPlaceholder()', () => {
     describe('when an image is loading', function Test() {
       beforeEach(() => {
-        const html = `<img class='classes pagelib-lazy-load-image-pending'
-          style='background: red; width: 300em; height 400em !important' src=data: width=100
-          height=200 data-src=/src data-srcset=/srcset data-width-value=300em
-          data-width-priority=important data-height-value=400em data-height-priority=>`
-        const document = domino.createDocument(html)
-        this.image = document.querySelector('img')
-        this.download = LazyLoadTransform.loadImage(document, this.image)
+        const html = `
+          <span class='classes pagelib-lazy-load-placeholder pagelib-lazy-load-placeholder-pending'
+            style='width: 300em' data-class=classes data-style='width: 300em; height 400em'
+            data-src=/src data-srcset=/srcset data-width=100 data-height=200 data-alt=text>
+            <span style='padding-top: 133.3333%'></span>
+          </span>`
+        this.document = domino.createDocument(html)
+        this.placeholder = this.document.querySelector('.pagelib-lazy-load-placeholder')
+        this.image = LazyLoadTransform.loadPlaceholder(this.document, this.placeholder)
       })
 
-      it('the src is set', () => assert.ok(this.download.getAttribute('src') === '/src'))
-      it('the srcset is set', () => assert.ok(this.download.getAttribute('srcset') === '/srcset'))
+      describe('the image attributes are restored:', () => {
+        it('class', () => assert.ok(this.image.classList.contains('classes')))
+        it('style', () =>
+          assert.ok(this.image.getAttribute('style') === 'width: 300em; height 400em'))
+        it('src', () => assert.ok(this.image.getAttribute('src') === '/src'))
+        it('srcset', () => assert.ok(this.image.getAttribute('srcset') === '/srcset'))
+        it('width', () => assert.ok(this.image.getAttribute('width') === '100'))
+        it('height', () => assert.ok(this.image.getAttribute('height') === '200'))
+        it('alt', () => assert.ok(this.image.getAttribute('alt') === 'text'))
+      })
+
+      it('the placeholder is still in the DOM', () =>
+        assert.ok(this.document.querySelector('.pagelib-lazy-load-placeholder')))
+      it('the image is not in the DOM', () =>
+        assert.ok(!this.document.querySelector('img')))
+      it('the image is an orphan', () => assert.ok(!this.image.parentNode))
+
+      it('the placeholder is no longer a pending class member', () =>
+        assert.ok(!this.placeholder.classList.contains('pagelib-lazy-load-placeholder-pending')))
+      it('the placeholder is a loading class member', () =>
+        assert.ok(this.placeholder.classList.contains('pagelib-lazy-load-placeholder-loading')))
+      it('the placeholder classes are otherwise unchanged', () =>
+        assert.ok(this.placeholder.classList.contains('classes')))
+
+      it('the image is a loading class member', () =>
+        assert.ok(this.image.classList.contains('pagelib-lazy-load-image-loading')))
+      it('the image classes are otherwise unchanged', () =>
+        assert.ok(this.image.classList.contains('classes')))
 
       describe('and completes loading', () => {
-        beforeEach(() => {
-          this.download.dispatchEvent(new domino.impl.Event('load'))
-          this.image.dispatchEvent(new domino.impl.Event('load'))
-        })
+        beforeEach(() => this.image.dispatchEvent(new domino.impl.Event('load')))
 
-        it('the src is restored', () => assert.ok(this.image.getAttribute('src') === '/src'))
-        it('the src data-* attribute is removed', () =>
-          assert.ok(!this.image.hasAttribute('data-src')))
-        it('the srcset is restored', () =>
-          assert.ok(this.image.getAttribute('srcset') === '/srcset'))
-        it('the srcset data-* attribute is removed', () =>
-          assert.ok(!this.image.hasAttribute('data-srcset')))
-
-        it('the pending class membership is replaced with loaded', () =>
+        it('the image is no longer a loading class member', () =>
+          assert.ok(!this.image.classList.contains('pagelib-lazy-load-image-loading')))
+        it('the image is a loaded class member', () =>
           assert.ok(this.image.classList.contains('pagelib-lazy-load-image-loaded')))
-        it('the classes are otherwise unchanged', () => {
-          assert.ok(this.image.classList.contains('classes'))
-          assert.ok(this.image.classList.length === 2)
-        })
 
-        it('the width value is restored', () =>
-          assert.ok(this.image.style.getPropertyValue('width') === '300em'))
-        it('the width priority is restored', () =>
-          assert.ok(this.image.style.getPropertyPriority('width') === 'important'))
-        it('the height value is restored', () =>
-          assert.ok(this.image.style.getPropertyValue('height') === '400em'))
-        it('the height priority is restored', () =>
-          assert.ok(!this.image.style.getPropertyPriority('height')))
-        it('the other styles are unmodified', () =>
-          assert.ok(this.image.style.background === 'red'))
+        it('the image is added to the the DOM', () =>
+          assert.ok(this.document.querySelector('.pagelib-lazy-load-image-loaded')))
+        it('the placeholder is not in the DOM', () =>
+          assert.ok(!this.document.querySelector('.pagelib-lazy-load-placeholder')))
+        it('the placeholder is an orphan', () => assert.ok(!this.placeholder.parentNode))
+      })
+
+      describe('and loading fails', () => {
+        beforeEach(() => this.image.dispatchEvent(new domino.impl.Event('error')))
+
+        it('the placeholder is no longer a loading class member', () =>
+          assert.ok(!this.image.classList.contains('pagelib-lazy-load-placeholder-loading')))
+        it('the placeholder is an error class member', () =>
+          assert.ok(!this.image.classList.contains('pagelib-lazy-load-placeholder-error')))
       })
     })
   })
