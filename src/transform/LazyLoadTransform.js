@@ -151,4 +151,8 @@ const loadPlaceholder = (document, placeholder) => {
   return image
 }
 
-export default { queryLazyLoadableImages, convertImagesToPlaceholders, loadPlaceholder }
+export default {
+  queryLazyLoadableImages,
+  convertImagesToPlaceholders,
+  loadPlaceholder
+}
