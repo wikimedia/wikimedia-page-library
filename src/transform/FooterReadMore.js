@@ -206,16 +206,12 @@ const stringFromQueryParameters = parameters => Object.keys(parameters)
  * URL for retrieving 'Read more' pages for a given title.
  * Leave 'baseURL' null if you don't need to deal with proxying.
  * @param {!string} title
+ * @param {!number} count Number of `Read more` items to fetch for this title
  * @param {?string} baseURL
  * @return {!sring}
  */
-const readMoreQueryURL = (title, baseURL) => {
-  const readMoreItemFetchCount = 3
-  const readMoreQueryParameterString = stringFromQueryParameters(
-    queryParameters(title, readMoreItemFetchCount)
-  )
-  return `${baseURL || ''}/w/api.php?${readMoreQueryParameterString}`
-}
+const readMoreQueryURL = (title, count, baseURL) =>
+  `${baseURL || ''}/w/api.php?${stringFromQueryParameters(queryParameters(title, count))}`
 
 /**
  * Fetch error handler.
@@ -230,6 +226,7 @@ const fetchErrorHandler = statusText => {
 /**
  * Fetches 'Read more' pages.
  * @param {!string} title
+ * @param {!number} count
  * @param {!string} containerID
  * @param {?string} baseURL
  * @param {ShownReadMorePagesHandler} showReadMorePagesHandler
@@ -238,10 +235,10 @@ const fetchErrorHandler = statusText => {
  * @param {!Document} document
  * @return {void}
  */
-const fetchReadMore = (title, containerID, baseURL, showReadMorePagesHandler,
+const fetchReadMore = (title, count, containerID, baseURL, showReadMorePagesHandler,
   saveButtonClickHandler, titlesShownHandler, document) => {
   const xhr = new XMLHttpRequest() // eslint-disable-line no-undef
-  xhr.open('GET', readMoreQueryURL(title, baseURL), true)
+  xhr.open('GET', readMoreQueryURL(title, count, baseURL), true)
   xhr.onload = () => {
     if (xhr.readyState === XMLHttpRequest.DONE) { // eslint-disable-line no-undef
       if (xhr.status === 200) {
@@ -296,15 +293,18 @@ const updateSaveButtonForTitle = (title, text, isSaved, document) => {
  * Adds 'Read more' for 'title' to 'containerID' element.
  * Leave 'baseURL' null if you don't need to deal with proxying.
  * @param {!string} title
+ * @param {!number} count
  * @param {!string} containerID
  * @param {?string} baseURL
  * @param {SaveButtonClickHandler} saveButtonClickHandler
  * @param {TitlesShownHandler} titlesShownHandler
  * @param {!Document} document
  */
-const add = (title, containerID, baseURL, saveButtonClickHandler, titlesShownHandler, document) => {
+const add = (title, count, containerID, baseURL, saveButtonClickHandler, titlesShownHandler,
+  document) => {
   fetchReadMore(
     title,
+    count,
     containerID,
     baseURL,
     showReadMorePages,
