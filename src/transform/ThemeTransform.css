@@ -14,15 +14,24 @@
 }
 
 .pagelib-theme-dark body {
-  color: #f8f9fa; /* Text color. */
-  background: #222;
+  color: #f8f9fa;
+  background: #2e3136;
+}
+
+.pagelib-theme-sepia body {
+  color: #222;
+  background: #f8f1e3;
 }
 
 .pagelib-theme-dark a {
   color: #69f;
 }
 
-.pagelib-theme-dark a.external {
+.pagelib-theme-sepia a {
+  color: #36c;
+}
+
+.pagelib-theme-dark a.external, .pagelib-theme-sepia a.external {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAGJJREFUKFN1jdENgCAMBYmJn47Bak7DZrhTpc/XIm34OAjXA4qIgHI/dSBbLGTcOKjBryFlinGmjDQGiOF0MQkxI3v5wq6L38qR7SnsAx8ul37igPjAd+o5Oz2MRA+xY4ZSXuaW6wYouOLpAAAAAElFTkSuQmCC);
 }
 
@@ -53,4 +62,8 @@
   /* The border around infobox columns.
      https://phabricator.wikimedia.org/diffusion/SMIN/browse/master/resources/skins.minerva.content.styles/hacks.less;2cc9516cde6027234de9881d503ed7161e0e2ace$49 */
   border-color: #43464a;
+}
+
+.content figcaption, .content .thumbcaption {
+  color: #a2a9b1;
 }
