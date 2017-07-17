@@ -136,7 +136,7 @@ const documentFragmentForReadMorePage = (readMorePage, index, saveButtonClickHan
     event.stopPropagation()
     event.preventDefault()
     saveButtonClickHandler(readMorePage.title)
-  }, false)
+  })
   innerDivContainer.appendChild(saveButton)
 
   return document.createDocumentFragment().appendChild(outerAnchorContainer)

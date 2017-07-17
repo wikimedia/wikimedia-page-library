@@ -133,7 +133,7 @@ const documentFragmentForMenuItem = (menuItem, document) => {
   const containerAnchor = document.createElement('a')
   containerAnchor.addEventListener('click', () => {
     menuItem.clickHandler(menuItem.payload)
-  }, false)
+  })
 
   item.appendChild(containerAnchor)
 

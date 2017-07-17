@@ -33,7 +33,7 @@ const add = (content, licenseString, licenseSubstitutionString, containerID,
   container.querySelector('.pagelib_footer_legal_license_link')
     .addEventListener('click', () => {
       licenseLinkClickHandler()
-    }, false)
+    })
 }
 
 export default {
