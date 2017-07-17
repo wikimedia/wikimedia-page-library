@@ -1,11 +1,9 @@
 
 .pagelib_footer_readmore_page {
   background-color: white;
-  padding: 10px;
+  padding: 11px 10px;
   margin-top: 10px;
   margin-bottom: 10px;
-  padding-top: 11px;
-  padding-bottom: 11px;
   border-radius: 2px;
   box-shadow: 0px 2px 4px rgba(200, 204, 209, 0.5);
   display:block;
