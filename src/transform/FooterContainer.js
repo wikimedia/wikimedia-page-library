@@ -80,7 +80,7 @@ const containerFragment = document => {
  * @param {!Document} document
  * @return {boolean}
  */
-const isContainerAttached = document => document.querySelector('#pagelib_footer_container') !== null
+const isContainerAttached = document => Boolean(document.querySelector('#pagelib_footer_container'))
 
 export default {
   containerFragment,
