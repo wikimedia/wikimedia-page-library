@@ -130,8 +130,15 @@ const loadPlaceholder = (document, placeholder) => {
 
   const image = document.createElement('img')
 
+  const retryListener = event => { // eslint-disable-line require-jsdoc
+    image.setAttribute('src', image.getAttribute('src'))
+    event.stopPropagation()
+    event.preventDefault()
+  }
+
   // Add the download listener prior to setting the src attribute to avoid missing the load event.
   image.addEventListener('load', () => {
+    placeholder.removeEventListener('click', retryListener)
     placeholder.parentNode.replaceChild(image, placeholder)
     image.classList.add(IMAGE_LOADED_CLASS)
     image.classList.remove(IMAGE_LOADING_CLASS)
@@ -140,7 +147,8 @@ const loadPlaceholder = (document, placeholder) => {
   image.addEventListener('error', () => {
     placeholder.classList.add(PLACEHOLDER_ERROR_CLASS)
     placeholder.classList.remove(PLACEHOLDER_LOADING_CLASS)
-  })
+    placeholder.addEventListener('click', retryListener)
+  }, { once: true })
 
   // Set src and other attributes, triggering a download.
   ElementUtilities.copyDataAttributesToAttributes(placeholder, image, COPY_ATTRIBUTES)
