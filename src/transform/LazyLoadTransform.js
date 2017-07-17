@@ -202,4 +202,8 @@ const queryLazyLoadableImages = element =>
 const convertImagesToPlaceholders = (document, images) =>
   images.forEach(image => convertImageToPlaceholder(document, image))
 
-export default { loadImage, queryLazyLoadableImages, convertImagesToPlaceholders }
+export default {
+  loadImage,
+  queryLazyLoadableImages,
+  convertImagesToPlaceholders
+}

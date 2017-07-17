@@ -48,4 +48,9 @@ const classifyElements = element => {
   })
 }
 
-export default { CONSTRAINT, THEME, setTheme, classifyElements }
+export default {
+  CONSTRAINT,
+  THEME,
+  setTheme,
+  classifyElements
+}

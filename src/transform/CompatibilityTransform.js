@@ -32,4 +32,7 @@ const enableSupport = document => {
   if (!isFilterSupported(document)) { html.classList.add(COMPATIBILITY.FILTER) }
 }
 
-export default { COMPATIBILITY, enableSupport }
+export default {
+  COMPATIBILITY,
+  enableSupport
+}
