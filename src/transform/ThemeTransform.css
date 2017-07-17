@@ -1,0 +1,69 @@
+.pagelib-theme-dark.pagelib-compatibility-filter .mwe-math-fallback-image-inline {
+  background: #ccc;
+  padding: 2px;
+}
+
+.pagelib-theme-dark .mwe-math-fallback-image-inline {
+  -webkit-filter: invert(100%);
+  filter: invert(100%);
+}
+
+.pagelib-theme-dark .pagelib-theme-image-no-background.pagelib-theme-image-nontabular:not(.mwe-math-fallback-image-inline),
+.pagelib-theme-dark .infobox .image .pagelib-theme-image-no-background:not(.mwe-math-fallback-image-inline) {
+  background: #fff;
+}
+
+.pagelib-theme-dark body {
+  color: #f8f9fa;
+  background: #2e3136;
+}
+
+.pagelib-theme-sepia body {
+  color: #222;
+  background: #f8f1e3;
+}
+
+.pagelib-theme-dark a {
+  color: #69f;
+}
+
+.pagelib-theme-sepia a {
+  color: #36c;
+}
+
+.pagelib-theme-dark a.external, .pagelib-theme-sepia a.external {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAGJJREFUKFN1jdENgCAMBYmJn47Bak7DZrhTpc/XIm34OAjXA4qIgHI/dSBbLGTcOKjBryFlinGmjDQGiOF0MQkxI3v5wq6L38qR7SnsAx8ul37igPjAd+o5Oz2MRA+xY4ZSXuaW6wYouOLpAAAAAElFTkSuQmCC);
+}
+
+.pagelib-theme-dark .content table.infobox,
+.pagelib-theme-dark .content table.infobox th {
+  /* The infobox background. Some backgrounds need important to override inline styles like
+     https://en.m.wikipedia.org/wiki/Wolverine_(character)?oldid=789987909.
+     https://phabricator.wikimedia.org/diffusion/SMIN/browse/master/resources/skins.minerva.content.styles/hacks.less;2cc9516cde6027234de9881d503ed7161e0e2ace$44 */
+  background: #43464a !important;
+}
+
+/* Same specificity as in MobileFrontend/less/content/hacks.less */
+.pagelib-theme-dark .content table.infobox tr {
+  /* The infobox row background. Some backgrounds need important to override inline styles like
+     https://en.m.wikipedia.org/wiki/Wolverine_(character)?oldid=789987909. */
+  background: #27292d !important;
+}
+
+.pagelib-theme-dark li.gallerybox div.thumb {
+  border-color: #43464a;
+  background: #27292d;
+}
+
+.pagelib-theme-dark .content table td,
+.pagelib-theme-dark .content table th,
+.pagelib-theme-dark .content table.infobox th,
+.pagelib-theme-dark .content table.infobox td {
+  /* The border around infobox columns.
+     https://phabricator.wikimedia.org/diffusion/SMIN/browse/master/resources/skins.minerva.content.styles/hacks.less;2cc9516cde6027234de9881d503ed7161e0e2ace$49 */
+  border-color: #43464a;
+}
+
+.content figcaption, .content .thumbcaption {
+  color: #a2a9b1;
+}

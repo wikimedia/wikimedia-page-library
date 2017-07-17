@@ -13,8 +13,6 @@
   - Loaded after original image has downloaded (replace content with original and loading class with
     loaded):
     <img class=pagelib-lazy-load-image-loaded style='width: 1px; height: 2px' src=/>
-
-  Colors from: https://phabricator.wikimedia.org/source/wikimedia-ui-base/browse/master/wikimedia-ui-base.css;d19168ec6d4995561c0a1d2dd59eb8b3f1577a5a.
 */
 
 /* LazyLoadTransform.PENDING_CLASS. Note: width and height are set as inline styles and derived
@@ -24,8 +22,7 @@
   background-color: #eaecf0;
 }
 
-.dark .pagelib-lazy-load-image-pending {
-  /* todo: reevaluate whether important priority is necessary when consolidating dark mode, T164311. */
+.pagelib-theme-dark .pagelib-lazy-load-image-pending {
   background-color: #72777d !important;
 }
 
