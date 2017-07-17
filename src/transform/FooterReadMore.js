@@ -246,7 +246,7 @@ const fetchReadMore = (title, containerID, baseURL, showReadMorePagesHandler,
   saveButtonClickHandler, titlesShownHandler, document) => {
   const xhr = new XMLHttpRequest() // eslint-disable-line no-undef
   xhr.open('GET', readMoreQueryURL(title, baseURL), true)
-  xhr.onload = function() {
+  xhr.onload = () => {
     if (xhr.readyState === XMLHttpRequest.DONE) { // eslint-disable-line no-undef
       if (xhr.status === 200) {
         showReadMorePagesHandler(
@@ -261,7 +261,7 @@ const fetchReadMore = (title, containerID, baseURL, showReadMorePagesHandler,
       }
     }
   }
-  xhr.onerror = function(e) {
+  xhr.onerror = e => {
     fetchErrorHandler(xhr.statusText)
   }
   xhr.send()
