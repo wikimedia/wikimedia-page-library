@@ -27,13 +27,12 @@ const updateLeftAndRightMargin = (margin, document) => {
     #pagelib_footer_container_readmore, 
     #pagelib_footer_container_legal
   `)
-  Array.from(elements)
-    .forEach(element => {
-      element.style.marginLeft = `${margin}px`
-      element.style.marginRight = `${margin}px`
-    })
+  elements.forEach(element => {
+    element.style.marginLeft = `${margin}px`
+    element.style.marginRight = `${margin}px`
+  })
   const rightOrLeft = document.querySelector('html').dir === 'rtl' ? 'right' : 'left'
-  Array.from(Polyfill.querySelectorAll(document, '.pagelib_footer_menu_item'))
+  Polyfill.querySelectorAll(document, '.pagelib_footer_menu_item')
     .forEach(element => {
       element.style.backgroundPosition = `${rightOrLeft} ${margin}px center`
       element.style.paddingLeft = `${margin}px`

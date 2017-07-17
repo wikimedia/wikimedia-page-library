@@ -31,22 +31,19 @@ const pageIssuesStringsArray = document => {
     fragment.appendChild(tables[i].cloneNode(true))
   }
   // Remove some element so their text doesn't appear when we use "innerText"
-  Array.from(Polyfill.querySelectorAll(fragment,
-    '.hide-when-compact, .collapsed')).forEach(el => el.remove())
+  Polyfill.querySelectorAll(fragment, '.hide-when-compact, .collapsed').forEach(el => el.remove())
   // Get the innerText
-  return Array.from(Polyfill.querySelectorAll(fragment,
-    'td[class$=mbox-text]')).map(el => el.innerText)
+  return Polyfill.querySelectorAll(fragment, 'td[class$=mbox-text]').map(el => el.innerText)
 }
 
 /**
  * Extracts array of disambiguation page urls from document.
  * @type {FooterMenuItemPayloadExtractor}
  */
-const disambiguationTitlesArray = document => Array.from(
+const disambiguationTitlesArray = document =>
   Polyfill.querySelectorAll(document,
     'div#content_block_0 div.hatnote a[href]:not([href=""]):not([redlink="1"])'
-  )
-).map(el => el.href)
+  ).map(el => el.href)
 
 /**
  * Type representing kinds of menu items.
