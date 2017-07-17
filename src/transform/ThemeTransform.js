@@ -5,8 +5,8 @@ import Polyfill from './Polyfill'
 // Elements marked with either of these classes indicate certain ancestry constraints that are
 // difficult to describe as CSS selectors.
 const CONSTRAINT = {
-  NO_BACKGROUND_IMAGE: 'pagelib-theme-image-no-background',
-  NONTABULAR_IMAGE: 'pagelib-theme-image-nontabular'
+  IMAGE_NO_BACKGROUND: 'pagelib-theme-image-no-background',
+  IMAGE_NONTABULAR: 'pagelib-theme-image-nontabular'
 }
 
 // Theme to CSS classes.
@@ -40,10 +40,10 @@ const setTheme = (document, theme) => {
 const classifyElements = element => {
   Polyfill.querySelectorAll(element, 'img').forEach(image => {
     if (!ElementUtilities.closestInlineStyle(image, 'background')) {
-      image.classList.add(CONSTRAINT.NO_BACKGROUND_IMAGE)
+      image.classList.add(CONSTRAINT.IMAGE_NO_BACKGROUND)
     }
     if (!ElementUtilities.isNestedInTable(image)) {
-      image.classList.add(CONSTRAINT.NONTABULAR_IMAGE)
+      image.classList.add(CONSTRAINT.IMAGE_NONTABULAR)
     }
   })
 }
