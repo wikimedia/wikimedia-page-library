@@ -100,7 +100,7 @@ class MenuItem {
 
   /**
    * Returns reference to function for extracting payload when this menu item is tapped.
-   * @return {FooterMenuItemPayloadExtractor}
+   * @return {?FooterMenuItemPayloadExtractor}
    */
   payloadExtractor() {
     switch (this.itemType) {
