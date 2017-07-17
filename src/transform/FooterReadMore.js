@@ -214,11 +214,7 @@ const readMoreQueryURL = (title, baseURL) => {
   const readMoreQueryParameterString = stringFromQueryParameters(
     queryParameters(title, readMoreItemFetchCount)
   )
-  let baseURLToUse = baseURL
-  if (baseURLToUse === null) {
-    baseURLToUse = ''
-  }
-  return `${baseURLToUse}/w/api.php?${readMoreQueryParameterString}`
+  return `${baseURL || ''}/w/api.php?${readMoreQueryParameterString}`
 }
 
 /**
