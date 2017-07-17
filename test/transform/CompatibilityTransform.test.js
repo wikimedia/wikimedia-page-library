@@ -6,8 +6,8 @@ describe('CompatibilityTransform', () => {
   it('.enableSupport()', () => {
     const document = domino.createDocument()
     pagelib.CompatibilityTransform.enableSupport(document)
-    for (const classValue of Object.values(pagelib.CompatibilityTransform.COMPATIBILITY)) {
-      assert.ok(document.querySelector('html').classList.contains(classValue))
+    for (const value of Object.values(pagelib.CompatibilityTransform.COMPATIBILITY)) {
+      assert.ok(document.querySelector('html').classList.contains(value))
     }
   })
 })
