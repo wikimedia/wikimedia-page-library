@@ -61,11 +61,11 @@
   vertical-align: middle;
 }
 
-html[dir="rtl"] .pagelib_footer_readmore_page_save {
+html[dir='rtl'] .pagelib_footer_readmore_page_save {
   background-position: right center;
 }
 
-html[dir="ltr"] .pagelib_footer_readmore_page_save {
+html[dir='ltr'] .pagelib_footer_readmore_page_save {
   background-position: left center;
 }
 
@@ -77,13 +77,13 @@ html[dir="ltr"] .pagelib_footer_readmore_page_save {
   border-radius: 2px;
 }
 
-html[dir="ltr"] .pagelib_footer_readmore_page_image {
+html[dir='ltr'] .pagelib_footer_readmore_page_image {
   float: right;
   margin-left: 8px;
   margin-right: 0px;
 }
 
-html[dir="rtl"] .pagelib_footer_readmore_page_image {
+html[dir='rtl'] .pagelib_footer_readmore_page_image {
   float: left;
   margin-right: 8px;
   margin-left: 0px;

@@ -8,11 +8,11 @@
     margin-bottom: 0.5px;
 }
 
-html[dir="ltr"] .pagelib_footer_menu_item {
+html[dir='ltr'] .pagelib_footer_menu_item {
   background-position: left center;
 }
 
-html[dir="rtl"] .pagelib_footer_menu_item {
+html[dir='rtl'] .pagelib_footer_menu_item {
   background-position: right center;
 }
 
@@ -20,11 +20,11 @@ html[dir="rtl"] .pagelib_footer_menu_item {
     color: black;
 }
 
-html[dir="ltr"] .pagelib_footer_menu_item_title {
+html[dir='ltr'] .pagelib_footer_menu_item_title {
   padding-left: 50px;
 }
 
-html[dir="rtl"] .pagelib_footer_menu_item_title {
+html[dir='rtl'] .pagelib_footer_menu_item_title {
   padding-right: 50px;
 }
 
@@ -34,11 +34,11 @@ html[dir="rtl"] .pagelib_footer_menu_item_title {
     line-height: 1.1;
 }
 
-html[dir="ltr"] .pagelib_footer_menu_item_subtitle {
+html[dir='ltr'] .pagelib_footer_menu_item_subtitle {
   padding-left: 50px;
 }
 
-html[dir="rtl"] .pagelib_footer_menu_item_subtitle {
+html[dir='rtl'] .pagelib_footer_menu_item_subtitle {
   padding-right: 50px;
 }
 

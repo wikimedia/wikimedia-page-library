@@ -12,11 +12,11 @@
 
 }
 
-html[dir="ltr"] .pagelib_footer_legal_contents {
+html[dir='ltr'] .pagelib_footer_legal_contents {
   background-position: left top;
 }
 
-html[dir="rtl"] .pagelib_footer_legal_contents {
+html[dir='rtl'] .pagelib_footer_legal_contents {
   background-position: right top;
 }
 
