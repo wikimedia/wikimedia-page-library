@@ -149,7 +149,7 @@ const newCollapsedFooterDiv = (document, content) => {
 
 /**
  * @param {!string} title
- * @param {!string[]} headerText
+ * @param {!Array.<string>} headerText
  * @return {!string} HTML string.
  */
 const newCaption = (title, headerText) => {
