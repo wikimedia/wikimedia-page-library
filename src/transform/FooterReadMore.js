@@ -270,8 +270,7 @@ const fetchReadMore = (title, count, containerID, baseURL, showReadMorePagesHand
 const updateSaveButtonBookmarkIcon = (button, isSaved) => {
   const unfilledClass = 'pagelib_footer_readmore_bookmark_unfilled'
   const filledClass = 'pagelib_footer_readmore_bookmark_filled'
-  button.classList.remove(unfilledClass)
-  button.classList.remove(filledClass)
+  button.classList.remove(filledClass, unfilledClass)
   button.classList.add(isSaved ? filledClass : unfilledClass)
 }
 
