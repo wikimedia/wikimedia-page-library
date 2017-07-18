@@ -171,6 +171,8 @@ describe('LazyLoadTransform', () => {
 
       it('the placeholder is still in the DOM', () =>
         assert.ok(this.document.querySelector('.pagelib-lazy-load-placeholder')))
+      it('the placeholder is not clickable', () =>
+        assert.ok(!(this.placeholder._listeners || {}).click))
       it('the image is not in the DOM', () =>
         assert.ok(!this.document.querySelector('img')))
       it('the image is an orphan', () => assert.ok(!this.image.parentNode))
@@ -187,7 +189,7 @@ describe('LazyLoadTransform', () => {
       it('the image classes are otherwise unchanged', () =>
         assert.ok(this.image.classList.contains('classes')))
 
-      describe('and completes loading', () => {
+      const andCompletesLoading = () => { // eslint-disable-line require-jsdoc
         beforeEach(() => this.image.dispatchEvent(new domino.impl.Event('load')))
 
         it('the image is no longer a loading class member', () =>
@@ -197,18 +199,39 @@ describe('LazyLoadTransform', () => {
 
         it('the image is added to the the DOM', () =>
           assert.ok(this.document.querySelector('.pagelib-lazy-load-image-loaded')))
+        it('the placeholder is not clickable', () =>
+          assert.ok(!(this.placeholder._listeners || {}).click))
         it('the placeholder is not in the DOM', () =>
           assert.ok(!this.document.querySelector('.pagelib-lazy-load-placeholder')))
         it('the placeholder is an orphan', () => assert.ok(!this.placeholder.parentNode))
-      })
+      }
 
-      describe('and loading fails', () => {
+      const andLoadingFails = () => { // eslint-disable-line require-jsdoc
         beforeEach(() => this.image.dispatchEvent(new domino.impl.Event('error')))
 
         it('the placeholder is no longer a loading class member', () =>
           assert.ok(!this.image.classList.contains('pagelib-lazy-load-placeholder-loading')))
         it('the placeholder is an error class member', () =>
           assert.ok(!this.image.classList.contains('pagelib-lazy-load-placeholder-error')))
+
+        it('the placeholder is still in the DOM', () =>
+          assert.ok(this.document.querySelector('.pagelib-lazy-load-placeholder')))
+        it('the placeholder is clickable', () => assert.ok(this.placeholder._listeners.click))
+        it('the image is not added to the the DOM', () =>
+          assert.ok(!this.document.querySelector('.pagelib-lazy-load-image-loaded')))
+      }
+
+      describe('and completes loading', andCompletesLoading)
+
+      describe('and loading fails', () => {
+        andLoadingFails()
+
+        describe('and loading is retried', () => {
+          beforeEach(() => this.placeholder.click())
+
+          describe('and completes loading', andCompletesLoading)
+          describe('and loading fails', andLoadingFails)
+        })
       })
     })
   })
