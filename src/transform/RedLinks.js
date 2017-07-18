@@ -14,7 +14,7 @@ const configureRedLinkTemplate = (span, anchor) => {
 /**
  * Finds red links in a document or document fragment.
  * @param {!(Document|DocumentFragment)} content Document or fragment in which to seek red links.
- * @return {!HTMLAnchorElement[]} Array of zero or more red link anchors.
+ * @return {!Array.<HTMLAnchorElement>} Array of zero or more red link anchors.
  */
 const redLinkAnchorsInContent = content => Polyfill.querySelectorAll(content, 'a.new')
 
