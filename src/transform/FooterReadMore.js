@@ -118,7 +118,7 @@ const documentFragmentForReadMorePage = (readMorePage, index, saveButtonClickHan
   if (readMorePage.terms) {
     description = readMorePage.terms.description[0]
   }
-  if ((description === undefined || description.length < 10) && readMorePage.extract) {
+  if ((!description || description.length < 10) && readMorePage.extract) {
     description = cleanExtract(readMorePage.extract)
   }
   if (description) {
