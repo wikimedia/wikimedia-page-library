@@ -4,12 +4,12 @@ import Polyfill from './Polyfill'
 /**
  * @typedef {function} FooterMenuItemPayloadExtractor
  * @param {!Document} document
- * @return {!string[]} Important - should return empty array if no payload strings.
+ * @return {!Array.<string>} Important - should return empty array if no payload strings.
  */
 
 /**
  * @typedef {function} FooterMenuItemClickCallback
- * @param {!string[]} payload Important - should return empty array if no payload strings.
+ * @param {!Array.<string>} payload Important - should return empty array if no payload strings.
  * @return {void}
  */
 

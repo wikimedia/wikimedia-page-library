@@ -8,14 +8,14 @@ import './FooterReadMore.css'
 
 /**
  * @typedef {function} TitlesShownHandler
- * @param {!string[]} titles
+ * @param {!Array.<string>} titles
  * @return {void}
  */
 
 /**
  * Display fetched read more pages.
  * @typedef {function} ShownReadMorePagesHandler
- * @param {!Object[]} pages
+ * @param {!Array.<object>} pages
  * @param {!string} containerID
  * @param {SaveButtonClickHandler} saveButtonClickHandler
  * @param {TitlesShownHandler} titlesShownHandler
