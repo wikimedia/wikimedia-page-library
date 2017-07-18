@@ -329,5 +329,9 @@ const setHeading = (headingString, headingID, document) => {
 export default {
   add,
   setHeading,
-  updateSaveButtonForTitle
+  updateSaveButtonForTitle,
+  test: {
+    cleanExtract,
+    safelyRemoveEnclosures
+  }
 }
