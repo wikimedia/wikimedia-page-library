@@ -4,7 +4,7 @@ const COMPATIBILITY = {
 
 /**
  * @param {!Document} document
- * @param {!string[]} properties
+ * @param {!Array.<string>} properties
  * @param {!string} value
  * @return {void}
  */
