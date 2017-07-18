@@ -1,3 +1,5 @@
+import Polyfill from './Polyfill'
+
 /**
  * Configures span to be suitable replacement for red link anchor.
  * @param {!HTMLSpanElement} span The span element to configure as anchor replacement.
@@ -14,8 +16,7 @@ const configureRedLinkTemplate = (span, anchor) => {
  * @param {!(Document|DocumentFragment)} content Document or fragment in which to seek red links.
  * @return {!HTMLAnchorElement[]} Array of zero or more red link anchors.
  */
-const redLinkAnchorsInContent =
-  content => Array.prototype.slice.call(content.querySelectorAll('a.new'))
+const redLinkAnchorsInContent = content => Polyfill.querySelectorAll(content, 'a.new')
 
 /**
  * Makes span to be used as cloning template for red link anchor replacements.

@@ -1,3 +1,6 @@
+### v4.2.0
+- New: add theme transform with dark mode support
+
 ### v4.1.0
 - New: add lazily loaded image transform
 

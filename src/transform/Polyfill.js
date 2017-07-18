@@ -36,4 +36,8 @@ const CustomEvent = typeof window !== 'undefined' && window.CustomEvent
     return event
   }
 
-export default { matchesSelector, querySelectorAll, CustomEvent }
+export default {
+  matchesSelector,
+  querySelectorAll,
+  CustomEvent
+}
