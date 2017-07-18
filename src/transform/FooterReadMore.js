@@ -23,7 +23,7 @@ import './FooterReadMore.css'
  * @return {void}
  */
 
-const _saveButtonIDPrefix = 'readmore:save:'
+const SAVE_BUTTON_ID_PREFIX = 'readmore:save:'
 
 /**
  * Removes parenthetical enclosures from string. 
@@ -130,7 +130,7 @@ const documentFragmentForReadMorePage = (readMorePage, index, saveButtonClickHan
   }
 
   const saveButton = document.createElement('div')
-  saveButton.id = `${_saveButtonIDPrefix}${encodeURI(readMorePage.title)}`
+  saveButton.id = `${SAVE_BUTTON_ID_PREFIX}${encodeURI(readMorePage.title)}`
   saveButton.className = 'pagelib_footer_readmore_page_save'
   saveButton.addEventListener('click', event => {
     event.stopPropagation()
@@ -281,7 +281,7 @@ const updateSaveButtonBookmarkIcon = (button, isSaved) => {
  * @return {void}
 */
 const updateSaveButtonForTitle = (title, text, isSaved, document) => {
-  const saveButton = document.getElementById(`${_saveButtonIDPrefix}${title}`)
+  const saveButton = document.getElementById(`${SAVE_BUTTON_ID_PREFIX}${title}`)
   saveButton.innerText = text
   saveButton.title = text
   updateSaveButtonBookmarkIcon(saveButton, isSaved)
