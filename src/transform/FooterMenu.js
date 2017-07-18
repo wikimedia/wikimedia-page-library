@@ -17,6 +17,7 @@ import Polyfill from './Polyfill'
  * @typedef {number} MenuItemType
  */
 
+// eslint-disable-next-line
 /**
  * Extracts array of no-html page issues strings from document.
  * @type {FooterMenuItemPayloadExtractor}
@@ -36,6 +37,7 @@ const pageIssuesStringsArray = document => {
   return Polyfill.querySelectorAll(fragment, 'td[class$=mbox-text]').map(el => el.innerText)
 }
 
+// eslint-disable-next-line
 /**
  * Extracts array of disambiguation page urls from document.
  * @type {FooterMenuItemPayloadExtractor}

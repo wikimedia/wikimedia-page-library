@@ -142,6 +142,7 @@ const documentFragmentForReadMorePage = (readMorePage, index, saveButtonClickHan
   return document.createDocumentFragment().appendChild(outerAnchorContainer)
 }
 
+// eslint-disable-next-line
 /**
  * @type {ShownReadMorePagesHandler}
  */
