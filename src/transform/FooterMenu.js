@@ -189,8 +189,9 @@ const maybeAddItem = (title, subtitle, itemType, containerID, clickHandler, docu
   const item = new MenuItem(title, subtitle, itemType, clickHandler)
 
   // Items are not added if they have a payload extractor which fails to extract anything.
-  if (item.payloadExtractor()) {
-    item.payload = item.payloadExtractor()(document)
+  const extractor = item.payloadExtractor()
+  if (extractor) {
+    item.payload = extractor(document)
     if (item.payload.length === 0) {
       return
     }
