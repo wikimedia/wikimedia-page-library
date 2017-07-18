@@ -165,6 +165,7 @@ const documentFragmentForMenuItem = (menuItem, document) => {
  * @param {!MenuItem} menuItem
  * @param {!string} containerID
  * @param {!Document} document
+ * @return {void}
  */
 const addItem = (menuItem, containerID, document) => {
   document.getElementById(containerID).appendChild(
@@ -201,6 +202,7 @@ const maybeAddItem = (title, subtitle, itemType, containerID, clickHandler, docu
  * @param {!string} headingString
  * @param {!string} headingID
  * @param {!Document} document
+ * @return {void}
  */
 const setHeading = (headingString, headingID, document) => {
   const headingElement = document.getElementById(headingID)

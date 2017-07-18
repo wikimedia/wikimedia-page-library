@@ -66,7 +66,7 @@ class ReadMorePage {
    * ReadMorePage constructor.
    * @param {!string} title
    * @param {?string} thumbnail
-   * @param {?Object} terms
+   * @param {?object} terms
    * @param {?string} extract
    * @return {void}
    */
@@ -164,7 +164,7 @@ const showReadMorePages = (pages, containerID, saveButtonClickHandler, titlesSho
  * Makes 'Read more' query parameters object for a title.
  * @param {!string} title
  * @param {!number} count
- * @return {!Object}
+ * @return {!object}
  */
 const queryParameters = (title, count) => ({
   action: 'query',
@@ -195,7 +195,7 @@ const queryParameters = (title, count) => ({
 
 /**
  * Converts query parameter object to string.
- * @param {!Object} parameters
+ * @param {!object} parameters
  * @return {!string}
  */
 const stringFromQueryParameters = parameters => Object.keys(parameters)
@@ -263,7 +263,7 @@ const fetchReadMore = (title, count, containerID, baseURL, showReadMorePagesHand
 /**
  * Updates save button bookmark icon for saved state.
  * @param {!HTMLDivElement} button
- * @param {!Boolean} isSaved
+ * @param {!boolean} isSaved
  * @return {void}
  */
 const updateSaveButtonBookmarkIcon = (button, isSaved) => {
@@ -278,7 +278,7 @@ const updateSaveButtonBookmarkIcon = (button, isSaved) => {
  * Updates save button text and bookmark icon for saved state.
  * @param {!string} title
  * @param {!string} text
- * @param {!Boolean} isSaved
+ * @param {!boolean} isSaved
  * @param {!Document} document
  * @return {void}
 */
@@ -299,6 +299,7 @@ const updateSaveButtonForTitle = (title, text, isSaved, document) => {
  * @param {SaveButtonClickHandler} saveButtonClickHandler
  * @param {TitlesShownHandler} titlesShownHandler
  * @param {!Document} document
+ * @return {void}
  */
 const add = (title, count, containerID, baseURL, saveButtonClickHandler, titlesShownHandler,
   document) => {
@@ -319,6 +320,7 @@ const add = (title, count, containerID, baseURL, saveButtonClickHandler, titlesS
  * @param {!string} headingString
  * @param {!string} headingID
  * @param {!Document} document
+ * @return {void}
  */
 const setHeading = (headingString, headingID, document) => {
   const headingElement = document.getElementById(headingID)
