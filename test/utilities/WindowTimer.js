@@ -23,11 +23,7 @@ export default class {
   /** @return {!number} The nonnegative number of times clearTimeout() was invoked. */
   get clears() { return this._clears }
 
-  /**
-   * @param {!function} timeout
-   * @param {!number} delay
-   * @return {!number} A nonnegative timeout identifier.
-   */
+  /** @return {!number} A nonnegative timeout identifier. */
   setTimeout(timeout, delay) {
     this._timeout = timeout
     this._delay = delay

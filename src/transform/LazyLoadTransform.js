@@ -33,7 +33,7 @@ const UNIT_TO_MINIMUM_LAZY_LOAD_SIZE = {
 
 /**
  * @param {!string} value
- * @return {!Array.<string>} A value-unit tuple.
+ * @return {!string[]} A value-unit tuple.
  */
 const splitStylePropertyValue = value => {
   const matchValueUnit = value.match(/(\d+)(\D+)/) || []
@@ -188,7 +188,7 @@ const loadImage = (document, image) => {
 
 /**
  * @param {!Element} element
- * @return {!Array.<HTMLImageElement>} Convertible images descendent from but not including element.
+ * @return {!HTMLImageElement[]} Convertible images descendent from but not including element.
  */
 const queryLazyLoadableImages = element =>
   Polyfill.querySelectorAll(element, 'img').filter(image => isLazyLoadable(image))
@@ -196,7 +196,7 @@ const queryLazyLoadableImages = element =>
 /**
  * Convert images with placeholders. The transformation is inverted by calling loadImage().
  * @param {!Document} document
- * @param {!Array.<HTMLImageElement>} images The images to lazily load.
+ * @param {!HTMLImageElement[]} images The images to lazily load.
  * @return {void}
  */
 const convertImagesToPlaceholders = (document, images) =>

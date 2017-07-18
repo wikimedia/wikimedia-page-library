@@ -51,7 +51,7 @@ const isVisible = element =>
  * Move attributes from source to destination as data-* attributes.
  * @param {!HTMLElement} source
  * @param {!HTMLElement} destination
- * @param {!Array.<string>} attributes
+ * @param {!string[]} attributes
  * @return {void}
  */
 const moveAttributesToDataAttributes = (source, destination, attributes) => {
@@ -67,7 +67,7 @@ const moveAttributesToDataAttributes = (source, destination, attributes) => {
  * Move data-* attributes from source to destination as attributes.
  * @param {!HTMLElement} source
  * @param {!HTMLElement} destination
- * @param {!Array.<string>} attributes
+ * @param {!string[]} attributes
  * @return {void}
  */
 const moveDataAttributesToAttributes = (source, destination, attributes) => {
@@ -84,7 +84,7 @@ const moveDataAttributesToAttributes = (source, destination, attributes) => {
  * Copy data-* attributes from source to destination as attributes.
  * @param {!HTMLElement} source
  * @param {!HTMLElement} destination
- * @param {!Array.<string>} attributes
+ * @param {!string[]} attributes
  * @return {void}
  */
 const copyDataAttributesToAttributes = (source, destination, attributes) => {
