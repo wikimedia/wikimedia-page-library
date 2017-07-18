@@ -1,25 +1,21 @@
 import './LazyLoadTransform.css'
+import ElementGeometry from './ElementGeometry'
 import ElementUtilities from './ElementUtilities'
 import Polyfill from './Polyfill'
 
-// CSS classes used to identify and present converted images. An image is only a member of one class
-// at a time depending on the current transform state. These class names should match the classes in
-// LazyLoadTransform.css.
-const PENDING_CLASS = 'pagelib-lazy-load-image-pending' // Download pending or started.
-const LOADED_CLASS = 'pagelib-lazy-load-image-loaded' // Download completed.
+// CSS classes used to identify and present lazily loaded images. Placeholders are members of
+// PLACEHOLDER_CLASS and one state class: pending, loading, or error. Images are members of either
+// loading or loaded state classes. Class names should match those in LazyLoadTransform.css.
+const PLACEHOLDER_CLASS = 'pagelib-lazy-load-placeholder'
+const PLACEHOLDER_PENDING_CLASS = 'pagelib-lazy-load-placeholder-pending' // Download pending.
+const PLACEHOLDER_LOADING_CLASS = 'pagelib-lazy-load-placeholder-loading' // Download started.
+const PLACEHOLDER_ERROR_CLASS = 'pagelib-lazy-load-placeholder-error' // Download failure.
+const IMAGE_LOADING_CLASS = 'pagelib-lazy-load-image-loading' // Download started.
+const IMAGE_LOADED_CLASS = 'pagelib-lazy-load-image-loaded' // Download completed.
 
-// Attributes saved via data-* attributes for later restoration. These attributes can cause files to
-// be downloaded when set so they're temporarily preserved and removed. Additionally, `style.width`
-// and `style.height` are saved with their priorities. In the rare case that a conflicting data-*
-// attribute already exists, it is overwritten.
-const PRESERVE_ATTRIBUTES = ['src', 'srcset']
-const PRESERVE_STYLE_WIDTH_VALUE = 'data-width-value'
-const PRESERVE_STYLE_HEIGHT_VALUE = 'data-height-value'
-const PRESERVE_STYLE_WIDTH_PRIORITY = 'data-width-priority'
-const PRESERVE_STYLE_HEIGHT_PRIORITY = 'data-height-priority'
-
-// A transparent single pixel gif via https://stackoverflow.com/a/15960901/970346.
-const PLACEHOLDER_URI = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEAAAAALAAAAAABAAEAAAI='
+// Attributes copied from images to placeholders via data-* attributes for later restoration. The
+// image's classes and dimensions are also set on the placeholder.
+const COPY_ATTRIBUTES = ['class', 'style', 'src', 'srcset', 'width', 'height', 'alt']
 
 // Small images, especially icons, are quickly downloaded and may appear in many places. Lazily
 // loading these images degrades the experience with little gain. Always eagerly load these images.
@@ -32,158 +28,77 @@ const UNIT_TO_MINIMUM_LAZY_LOAD_SIZE = {
 }
 
 /**
- * @param {!string} value
- * @return {!Array.<string>} A value-unit tuple.
- */
-const splitStylePropertyValue = value => {
-  const matchValueUnit = value.match(/(\d+)(\D+)/) || []
-  return [matchValueUnit[1] || '', matchValueUnit[2] || '']
-}
-
-/**
- * @param {!HTMLImageElement} image The image to be consider.
- * @return {!boolean} true if image download can be deferred, false if image should be eagerly
- *                    loaded.
-*/
-const isLazyLoadable = image =>
-  ['width', 'height'].every(dimension => {
-    // todo: remove `|| ''` when https://github.com/fgnass/domino/issues/98 is fixed.
-    let valueUnitString = image.style.getPropertyValue(dimension) || ''
-
-    if (!valueUnitString && image.hasAttribute(dimension)) {
-      valueUnitString = `${image.getAttribute(dimension)}px`
-    }
-
-    const valueUnit = splitStylePropertyValue(valueUnitString)
-    return !valueUnit[0] || valueUnit[0] >= UNIT_TO_MINIMUM_LAZY_LOAD_SIZE[valueUnit[1]]
-  })
-
-/**
- * Replace image data with placeholder content.
+ * Replace an image with a placeholder.
  * @param {!Document} document
- * @param {!HTMLImageElement} image The image to be updated.
- * @return {void}
+ * @param {!HTMLImageElement} image The image to be replaced.
+ * @return {!HTMLSpanElement} The placeholder replacing image.
  */
 const convertImageToPlaceholder = (document, image) => {
-  // There are a number of possible implementations including:
-  //
-  // - [Previous] Replace the original image with a span and append a new downloaded image to the
-  //   span.
-  //   This option has the best cross-fading and extensibility but makes the CSS rules for the
-  //   appended image impractical.
+  // There are a number of possible implementations for placeholders including:
   //
   // - [MobileFrontend] Replace the original image with a span and replace the span with a new
   //   downloaded image.
   //   This option has a good fade-in but has some CSS concerns for the placeholder, particularly
-  //   `max-width`.
+  //   `max-width`, and causes significant reflows when used with image widening.
   //
-  // - [Current] Replace the original image's source with a transparent image and update the source
+  // - [Previous] Replace the original image with a span and append a new downloaded image to the
+  //   span.
+  //   This option has the best cross-fading and extensibility but makes duplicating all the CSS
+  //   rules for the appended image impractical.
+  //
+  // - [Previous] Replace the original image's source with a transparent image and update the source
   //   from a new downloaded image.
-  //   This option has a good fade-in but minimal CSS concerns for the placeholder and image.
+  //   This option has a good fade-in and minimal CSS concerns for the placeholder and image but
+  //   causes significant reflows when used with image widening.
   //
-  // Minerva's tricky image dimension CSS rule cannot be disinherited:
-  //
-  //   .content a > img {
-  //     max-width: 100% !important;
-  //     height: auto !important;
-  //   }
-  //
-  // This forces an image to be bound to screen width and to appear (with scrollbars) proportionally
-  // when it is too large. For the current implementation, unfortunately, the transparent
-  // placeholder image rarely matches the original's aspect ratio and `height: auto !important`
-  // forces this ratio to be used instead of the original's. MobileFrontend uses spans for
-  // placeholders and the CSS rule does not apply. This implementation sets the dimensions as an
-  // inline style with height as `!important` to override MobileFrontend. For images that are capped
-  // by `max-width`, this usually causes the height of the placeholder and the height of the loaded
-  // image to mismatch which causes a reflow. To stimulate this issue, go to the "Pablo Picasso"
-  // article and set the screen width to be less than the image width. When placeholders are
-  // replaced with images, the image height reduces dramatically. MobileFrontend has the same
-  // limitation with spans. Note: clientWidth is unavailable since this conversion occurs in a
-  // separate Document.
-  //
-  // Reflows also occur in this and MobileFrontend when the image width or height do not match the
-  // actual file dimensions. e.g., see the image captioned "Obama and his wife Michelle at the Civil
-  // Rights Summit..." on the "Barack Obama" article.
-  //
-  // https://phabricator.wikimedia.org/diffusion/EMFR/browse/master/resources/skins.minerva.content.styles/images.less;e15c49de788cd451abe648497123480da1c9c9d4$55
-  // https://en.m.wikipedia.org/wiki/Barack_Obama?oldid=789232530
-  // https://en.m.wikipedia.org/wiki/Pablo_Picasso?oldid=788122694
-  let width = image.style.getPropertyValue('width')
-  if (width) {
-    image.setAttribute(PRESERVE_STYLE_WIDTH_VALUE, width)
-    image.setAttribute(PRESERVE_STYLE_WIDTH_PRIORITY, image.style.getPropertyPriority('width'))
-  } else if (image.hasAttribute('width')) {
-    width = `${image.getAttribute('width')}px`
+  // - [Current] Replace the original image with a couple spans and replace the spans with a new
+  //   downloaded image.
+  //   This option is about the same as MobileFrontend but supports image widening without reflows.
+
+  // Create the root placeholder.
+  const placeholder = document.createElement('span')
+
+  // Copy the image's classes and append the placeholder and current state (pending) classes.
+  if (image.hasAttribute('class')) {
+    placeholder.setAttribute('class', image.getAttribute('class'))
   }
-  // !important priority for WidenImage (`width: 100% !important` and placeholder is 1px wide).
-  if (width) { image.style.setProperty('width', width, 'important') }
+  placeholder.classList.add(PLACEHOLDER_CLASS)
+  placeholder.classList.add(PLACEHOLDER_PENDING_CLASS)
 
-  let height = image.style.getPropertyValue('height')
-  if (height) {
-    image.setAttribute(PRESERVE_STYLE_HEIGHT_VALUE, height)
-    image.setAttribute(PRESERVE_STYLE_HEIGHT_PRIORITY, image.style.getPropertyPriority('height'))
-  } else if (image.hasAttribute('height')) {
-    height = `${image.getAttribute('height')}px`
+  // Match the image's width, if specified. If image widening is used, this width will be overridden
+  // by !important priority.
+  const geometry = ElementGeometry.from(image)
+  if (geometry.width) { placeholder.style.setProperty('width', `${geometry.width}`) }
+
+  // Save the image's attributes to data-* attributes for later restoration.
+  ElementUtilities.copyAttributesToDataAttributes(image, placeholder, COPY_ATTRIBUTES)
+
+  // Create a spacer and match the aspect ratio of the original image, if determinable. If image
+  // widening is used, this spacer will scale with the width proportionally.
+  const spacing = document.createElement('span')
+  if (geometry.width && geometry.height) {
+    // Assume units are identical.
+    const ratio = geometry.heightValue / geometry.widthValue
+    spacing.style.setProperty('padding-top', `${ratio * 100}%`)
   }
-  // !important priority for Minerva.
-  if (height) { image.style.setProperty('height', height, 'important') }
 
-  ElementUtilities.moveAttributesToDataAttributes(image, image, PRESERVE_ATTRIBUTES)
-  image.setAttribute('src', PLACEHOLDER_URI)
+  // Append the spacer to the placeholder and replace the image with the placeholder.
+  placeholder.appendChild(spacing)
+  image.parentNode.replaceChild(placeholder, image)
 
-  image.classList.add(PENDING_CLASS)
+  return placeholder
 }
 
 /**
- * @param {!HTMLImageElement} image
- * @return {void}
+ * @param {!HTMLImageElement} image The image to be considered.
+ * @return {!boolean} true if image download can be deferred, false if image should be eagerly
+ *                    loaded.
  */
-const loadImageCallback = image => {
-  if (image.hasAttribute(PRESERVE_STYLE_WIDTH_VALUE)) {
-    image.style.setProperty('width', image.getAttribute(PRESERVE_STYLE_WIDTH_VALUE),
-      image.getAttribute(PRESERVE_STYLE_WIDTH_PRIORITY))
-  } else {
-    image.style.removeProperty('width')
-  }
-
-  if (image.hasAttribute(PRESERVE_STYLE_HEIGHT_VALUE)) {
-    image.style.setProperty('height', image.getAttribute(PRESERVE_STYLE_HEIGHT_VALUE),
-      image.getAttribute(PRESERVE_STYLE_HEIGHT_PRIORITY))
-  } else {
-    image.style.removeProperty('height')
-  }
-}
-
-/**
- * Start downloading image resources associated with a given image element and update the
- * placeholder with the original content when available.
- * @param {!Document} document
- * @param {!HTMLImageElement} image The old image element showing placeholder content. This element
- *                                  will be updated when the new image resources finish downloading.
- * @return {!HTMLElement} A new image element for downloading the resources.
- */
-const loadImage = (document, image) => {
-  const download = document.createElement('img')
-
-  // Add the download listener prior to setting the src attribute to avoid missing the load event.
-  download.addEventListener('load', () => {
-    image.classList.add(LOADED_CLASS)
-    image.classList.remove(PENDING_CLASS)
-
-    // Add the restoration listener prior to setting the src attribute to avoid missing the load
-    // event.
-    image.addEventListener('load', () => loadImageCallback(image), { once: true })
-
-    // Set src and other attributes, triggering a download from cache which still takes time on
-    // older devices. Waiting until the image is loaded prevents an unnecessary potential reflow due
-    // to the call to style.removeProperty('height')`.
-    ElementUtilities.moveDataAttributesToAttributes(image, image, PRESERVE_ATTRIBUTES)
-  }, { once: true })
-
-  // Set src and other attributes, triggering a download.
-  ElementUtilities.copyDataAttributesToAttributes(image, download, PRESERVE_ATTRIBUTES)
-
-  return download
+const isLazyLoadable = image => {
+  const geometry = ElementGeometry.from(image)
+  if (!geometry.width || !geometry.height) { return true }
+  return geometry.widthValue >= UNIT_TO_MINIMUM_LAZY_LOAD_SIZE[geometry.widthUnit]
+    && geometry.heightValue >= UNIT_TO_MINIMUM_LAZY_LOAD_SIZE[geometry.heightUnit]
 }
 
 /**
@@ -197,13 +112,55 @@ const queryLazyLoadableImages = element =>
  * Convert images with placeholders. The transformation is inverted by calling loadImage().
  * @param {!Document} document
  * @param {!Array.<HTMLImageElement>} images The images to lazily load.
- * @return {void}
+ * @return {!Array.<HTMLSpanElement>} The placeholders replacing images.
  */
 const convertImagesToPlaceholders = (document, images) =>
-  images.forEach(image => convertImageToPlaceholder(document, image))
+  images.map(image => convertImageToPlaceholder(document, image))
+
+/**
+ * Start downloading image resources associated with a given placeholder and replace the placeholder
+ * with a new image element when the download is complete.
+ * @param {!Document} document
+ * @param {!HTMLSpanElement} placeholder
+ * @return {!HTMLImageElement} A new image element.
+ */
+const loadPlaceholder = (document, placeholder) => {
+  placeholder.classList.add(PLACEHOLDER_LOADING_CLASS)
+  placeholder.classList.remove(PLACEHOLDER_PENDING_CLASS)
+
+  const image = document.createElement('img')
+
+  const retryListener = event => { // eslint-disable-line require-jsdoc
+    image.setAttribute('src', image.getAttribute('src'))
+    event.stopPropagation()
+    event.preventDefault()
+  }
+
+  // Add the download listener prior to setting the src attribute to avoid missing the load event.
+  image.addEventListener('load', () => {
+    placeholder.removeEventListener('click', retryListener)
+    placeholder.parentNode.replaceChild(image, placeholder)
+    image.classList.add(IMAGE_LOADED_CLASS)
+    image.classList.remove(IMAGE_LOADING_CLASS)
+  }, { once: true })
+
+  image.addEventListener('error', () => {
+    placeholder.classList.add(PLACEHOLDER_ERROR_CLASS)
+    placeholder.classList.remove(PLACEHOLDER_LOADING_CLASS)
+    placeholder.addEventListener('click', retryListener)
+  }, { once: true })
+
+  // Set src and other attributes, triggering a download.
+  ElementUtilities.copyDataAttributesToAttributes(placeholder, image, COPY_ATTRIBUTES)
+
+  // Append to the class list after copying over any preexisting classes.
+  image.classList.add(IMAGE_LOADING_CLASS)
+
+  return image
+}
 
 export default {
-  loadImage,
   queryLazyLoadableImages,
-  convertImagesToPlaceholders
+  convertImagesToPlaceholders,
+  loadPlaceholder
 }
