@@ -173,8 +173,7 @@ describe('LazyLoadTransform', () => {
         assert.ok(this.document.querySelector('.pagelib-lazy-load-placeholder')))
       it('the placeholder is not clickable', () =>
         assert.ok(!(this.placeholder._listeners || {}).click))
-      it('the image is not in the DOM', () =>
-        assert.ok(!this.document.querySelector('img')))
+      it('the image is not in the DOM', () => assert.ok(!this.document.querySelector('img')))
       it('the image is an orphan', () => assert.ok(!this.image.parentNode))
 
       it('the placeholder is no longer a pending class member', () =>
@@ -210,15 +209,14 @@ describe('LazyLoadTransform', () => {
         beforeEach(() => this.image.dispatchEvent(new domino.impl.Event('error')))
 
         it('the placeholder is no longer a loading class member', () =>
-          assert.ok(!this.image.classList.contains('pagelib-lazy-load-placeholder-loading')))
+          assert.ok(!this.placeholder.classList.contains('pagelib-lazy-load-placeholder-loading')))
         it('the placeholder is an error class member', () =>
-          assert.ok(!this.image.classList.contains('pagelib-lazy-load-placeholder-error')))
+          assert.ok(this.placeholder.classList.contains('pagelib-lazy-load-placeholder-error')))
 
         it('the placeholder is still in the DOM', () =>
           assert.ok(this.document.querySelector('.pagelib-lazy-load-placeholder')))
         it('the placeholder is clickable', () => assert.ok(this.placeholder._listeners.click))
-        it('the image is not added to the the DOM', () =>
-          assert.ok(!this.document.querySelector('.pagelib-lazy-load-image-loaded')))
+        it('the image is not in the DOM', () => assert.ok(!this.document.querySelector('img')))
       }
 
       describe('and completes loading', andCompletesLoading)
