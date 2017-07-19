@@ -73,6 +73,13 @@
   border-color: #43464a;
 }
 
+.pagelib-theme-sepia .content table td,
+.pagelib-theme-sepia .content table th,
+.pagelib-theme-sepia .content table.infobox th,
+.pagelib-theme-sepia .content table.infobox td {
+  border-color: #cbc8c1;
+}
+
 .content figcaption, .content .thumbcaption {
   color: #a2a9b1;
 }
