@@ -1,5 +1,6 @@
 import CollapseTable from './CollapseTable'
 import CompatibilityTransform from './CompatibilityTransform'
+import ElementGeometry from './ElementGeometry'
 import ElementUtilities from './ElementUtilities'
 import FooterContainer from './FooterContainer'
 import FooterLegal from './FooterLegal'
@@ -26,6 +27,6 @@ export default {
   ThemeTransform,
   WidenImage,
   test: {
-    ElementUtilities, Polyfill, Throttle
+    ElementGeometry, ElementUtilities, Polyfill, Throttle
   }
 }

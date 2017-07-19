@@ -6,7 +6,7 @@ import assert from 'assert'
 /**
  * An object whose properties are taken to be style property names,
  * and whose property values are taken to be style property values.
- * @typedef {Object} StylesHash
+ * @typedef {object} StylesHash
  */
 
 /**

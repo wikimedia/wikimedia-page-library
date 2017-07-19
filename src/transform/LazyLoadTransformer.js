@@ -21,10 +21,10 @@ export default class {
     this._window = window
     this._loadDistanceMultiplier = loadDistanceMultiplier
 
-    this._pendingImages = []
+    this._placeholders = []
     this._registered = false
-    this._throttledLoadImages = Throttle.wrap(window, THROTTLE_PERIOD_MILLISECONDS,
-      () => this._loadImages())
+    this._throttledLoadPlaceholders = Throttle.wrap(window, THROTTLE_PERIOD_MILLISECONDS,
+      () => this._loadPlaceholders())
   }
 
   /**
@@ -35,8 +35,9 @@ export default class {
    */
   convertImagesToPlaceholders(element) {
     const images = LazyLoadTransform.queryLazyLoadableImages(element)
-    LazyLoadTransform.convertImagesToPlaceholders(this._window.document, images)
-    this._pendingImages = this._pendingImages.concat(images)
+    const placeholders = LazyLoadTransform.convertImagesToPlaceholders(this._window.document,
+      images)
+    this._placeholders = this._placeholders.concat(placeholders)
     this._register()
   }
 
@@ -45,7 +46,7 @@ export default class {
    * listening to page events.
    * @return {void}
    */
-  loadImages() { this._throttledLoadImages() }
+  loadPlaceholders() { this._throttledLoadPlaceholders() }
 
   /**
    * This method may be safely called even when already unregistered. This function clears the
@@ -56,9 +57,9 @@ export default class {
     if (!this._registered) { return }
 
     EVENT_TYPES.forEach(eventType =>
-      this._window.removeEventListener(eventType, this._throttledLoadImages))
+      this._window.removeEventListener(eventType, this._throttledLoadPlaceholders))
 
-    this._pendingImages = []
+    this._placeholders = []
     this._registered = false
   }
 
@@ -67,43 +68,44 @@ export default class {
    * @return {void}
    */
   _register() {
-    if (this._registered || !this._pendingImages.length) { return }
+    if (this._registered || !this._placeholders.length) { return }
     this._registered = true
 
     EVENT_TYPES.forEach(eventType =>
-      this._window.addEventListener(eventType, this._throttledLoadImages))
+      this._window.addEventListener(eventType, this._throttledLoadPlaceholders))
   }
 
   /** @return {void} */
-  _loadImages() {
-    this._pendingImages = this._pendingImages.filter(image => {
+  _loadPlaceholders() {
+    this._placeholders = this._placeholders.filter(placeholder => {
       let pending = true
-      if (this._isImageEligibleToLoad(image)) {
-        LazyLoadTransform.loadImage(this._window.document, image)
+      if (this._isPlaceholderEligibleToLoad(placeholder)) {
+        LazyLoadTransform.loadPlaceholder(this._window.document, placeholder)
         pending = false
       }
       return pending
     })
 
-    if (this._pendingImages.length === 0) {
+    if (this._placeholders.length === 0) {
       this.deregister()
     }
   }
 
   /**
-   * @param {!HTMLSpanElement} image
+   * @param {!HTMLSpanElement} placeholder
    * @return {!boolean}
    */
-  _isImageEligibleToLoad(image) {
-    return ElementUtilities.isVisible(image) && this._isImageWithinLoadDistance(image)
+  _isPlaceholderEligibleToLoad(placeholder) {
+    return ElementUtilities.isVisible(placeholder)
+      && this._isPlaceholderWithinLoadDistance(placeholder)
   }
 
   /**
-   * @param {!HTMLSpanElement} image
+   * @param {!HTMLSpanElement} placeholder
    * @return {!boolean}
    */
-  _isImageWithinLoadDistance(image) {
-    const bounds = image.getBoundingClientRect()
+  _isPlaceholderWithinLoadDistance(placeholder) {
+    const bounds = placeholder.getBoundingClientRect()
     const range = this._window.innerHeight * this._loadDistanceMultiplier
     return !(bounds.top > range || bounds.bottom < -range)
   }

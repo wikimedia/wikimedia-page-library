@@ -1,6 +1,11 @@
 ### v4.3.0
 - New: add footer transforms
 
+### v4.2.1
+- Update: support lazily loading widened images without reflows
+- Update: add loading and error states to lazily loaded images and retry handler
+- Chore: update `LazyLoadTransform` demo to use image widening.
+
 ### v4.2.0
 - New: add theme transform with dark mode support
 
