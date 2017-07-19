@@ -1,3 +1,6 @@
+### v4.3.0
+- New: add footer transforms
+
 ### v4.2.0
 - New: add theme transform with dark mode support
 
