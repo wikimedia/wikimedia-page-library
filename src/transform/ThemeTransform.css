@@ -43,11 +43,20 @@
   background: #27292d !important;
 }
 
+.pagelib-theme-sepia .content table.infobox,
+.pagelib-theme-sepia .content table.infobox th {
+  background: #f0e6d6 !important;
+}
+
 /* Same specificity as in MobileFrontend/less/content/hacks.less */
 .pagelib-theme-dark .content table.infobox tr {
   /* The infobox row background. Some backgrounds need important to override inline styles like
      https://en.m.wikipedia.org/wiki/Wolverine_(character)?oldid=789987909. */
   background: #27292d !important;
+}
+
+.pagelib-theme-sepia .content table.infobox tr {
+  background: #f0e6d6 !important;
 }
 
 .pagelib-theme-dark li.gallerybox div.thumb {

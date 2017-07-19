@@ -91,8 +91,12 @@ table.infobox caption {
 
 .pagelib-theme-dark .app_table_container {
   box-shadow: none;
-  border: 1px solid #43464a;
   background-color: #202020;
+}
+
+.pagelib-theme-sepia .app_table_container {
+  box-shadow: none;
+  background-color: #f0e6d6;
 }
 
 /* The outermost table container's header. todo: rename. */
@@ -108,6 +112,10 @@ table.infobox caption {
 
 .pagelib-theme-dark .app_table_collapsed_container {
   background-color: #27292d;
+}
+
+.pagelib-theme-sepia .app_table_collapsed_container {
+  background-color: #f0e6d6;
 }
 
 /* The outermost table container header's subcaption text. todo: rename. */
@@ -130,6 +138,10 @@ table.infobox caption {
 
 .pagelib-theme-dark .app_table_collapsed_bottom {
   background-color: #27292d;
+}
+
+.pagelib-theme-sepia .app_table_collapsed_bottom {
+  background-color: #f0e6d6;
 }
 
 .app_table_collapse_icon {
