@@ -8,6 +8,14 @@
   display: block;
 }
 
+.pagelib-theme-dark .pagelib_footer_readmore_page {
+  background-color: #2e3136;
+}
+
+.pagelib-theme-sepia .pagelib_footer_readmore_page {
+  background-color: #f0e6d6;
+}
+
 @media (min-device-width:768px){
   .pagelib_footer_readmore_page {
     box-shadow: 0 0 6px rgba(200, 204, 209, 0.5);
@@ -23,6 +31,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.pagelib-theme-dark .pagelib_footer_readmore_page_title {
+  color: #f8f9fa;
 }
 
 .pagelib_footer_readmore_page_description {
