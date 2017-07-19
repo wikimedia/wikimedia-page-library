@@ -2,6 +2,14 @@
   background-color: #eaecf0;
 }
 
+.pagelib-theme-dark .pagelib_footer_container {
+  background-color: #222;
+}
+
+.pagelib-theme-sepia .pagelib_footer_container {
+  background-color: #f0e6d6;
+}
+
 .pagelib_footer_container_heading {
   padding-top: 35px;
   font-size: 0.95em;
