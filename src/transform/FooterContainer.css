@@ -1,0 +1,23 @@
+.pagelib_footer_container {
+  background-color: #eaecf0;
+}
+
+.pagelib_footer_container_heading {
+  padding-top: 35px;
+  font-size: 0.95em;
+  line-height: 1.6;
+}
+
+#pagelib_footer_container_readmore_pages {
+}
+
+#pagelib_footer_container_menu_heading {
+  margin-bottom: 10px;
+}
+
+#pagelib_footer_container_menu_items {
+  background-color: #c8ccd1;
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+}
