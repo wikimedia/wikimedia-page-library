@@ -7,6 +7,14 @@
   margin-bottom: 0.5px;
 }
 
+.pagelib-theme-dark .pagelib_footer_menu_item {
+  background-color: #2e3136;
+}
+
+.pagelib-theme-sepia .pagelib_footer_menu_item {
+  background-color: #f0e6d6;
+}
+
 html[dir='ltr'] .pagelib_footer_menu_item {
   background-position: left center;
 }
@@ -17,6 +25,10 @@ html[dir='rtl'] .pagelib_footer_menu_item {
 
 .pagelib_footer_menu_item_title {
   color: black;
+}
+
+.pagelib-theme-dark .pagelib_footer_menu_item_title {
+  color: #f8f9fa;
 }
 
 html[dir='ltr'] .pagelib_footer_menu_item_title {
@@ -31,6 +43,10 @@ html[dir='rtl'] .pagelib_footer_menu_item_title {
   color: #a2a9b1;
   font-size: 0.9em;
   line-height: 1.1;
+}
+
+.pagelib-theme-sepia .pagelib_footer_menu_item_subtitle {
+  color: #7c776e;
 }
 
 html[dir='ltr'] .pagelib_footer_menu_item_subtitle {

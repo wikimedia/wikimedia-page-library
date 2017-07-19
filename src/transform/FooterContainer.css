@@ -7,7 +7,7 @@
 }
 
 .pagelib-theme-sepia .pagelib_footer_container {
-  background-color: #f0e6d6;
+  background-color: #e1dad1;
 }
 
 .pagelib_footer_container_heading {
@@ -28,4 +28,12 @@
   display: table;
   width: 100%;
   border-collapse: collapse;
+}
+
+.pagelib-theme-dark #pagelib_footer_container_menu_items {
+  background-color: #43464a;
+}
+
+.pagelib-theme-sepia #pagelib_footer_container_menu_items {
+  background-color: #cbc8c1;
 }
