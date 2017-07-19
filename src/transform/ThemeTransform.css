@@ -40,7 +40,7 @@
   /* The infobox background. Some backgrounds need important to override inline styles like
      https://en.m.wikipedia.org/wiki/Wolverine_(character)?oldid=789987909.
      https://phabricator.wikimedia.org/diffusion/SMIN/browse/master/resources/skins.minerva.content.styles/hacks.less;2cc9516cde6027234de9881d503ed7161e0e2ace$44 */
-  background: #43464a !important;
+  background: #27292d !important;
 }
 
 /* Same specificity as in MobileFrontend/less/content/hacks.less */
