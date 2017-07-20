@@ -35,3 +35,11 @@ html[dir='rtl'] .pagelib_footer_legal_contents {
   border: none;
   background-color: #c8ccd1;
 }
+
+.pagelib-theme-dark .pagelib_footer_legal_divider {
+  background-color: #43464a;
+}
+
+.pagelib-theme-sepia .pagelib_footer_legal_divider {
+  background-color: #cbc8c1;
+}
