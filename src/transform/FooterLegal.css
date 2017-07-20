@@ -22,6 +22,14 @@ html[dir='rtl'] .pagelib_footer_legal_contents {
   display: block;
 }
 
+.pagelib-theme-dark .pagelib_footer_legal_license {
+  color: #a2a9b1;
+}
+
+.pagelib-theme-sepia .pagelib_footer_legal_license {
+  color: #7c776e;
+}
+
 .pagelib_footer_legal_license_link {
   color: #2c5bc5;
 }
