@@ -26,6 +26,10 @@ html[dir='rtl'] .pagelib_footer_legal_contents {
   color: #2c5bc5;
 }
 
+.pagelib-theme-dark .pagelib_footer_legal_license_link {
+  color: #6699ff;
+}
+
 .pagelib_footer_legal_divider {
   height: 0.5px;
   border: none;
