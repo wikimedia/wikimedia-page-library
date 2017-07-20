@@ -1,3 +1,7 @@
+### v4.3.1
+- Fix: dark and sepia themes for tables
+- Fix: dark and sepia themes for footer transforms
+
 ### v4.3.0
 - New: add footer transforms
 

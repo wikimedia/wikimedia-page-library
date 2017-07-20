@@ -2,6 +2,14 @@
   background-color: #eaecf0;
 }
 
+.pagelib-theme-dark .pagelib_footer_container {
+  background-color: #222;
+}
+
+.pagelib-theme-sepia .pagelib_footer_container {
+  background-color: #e1dad1;
+}
+
 .pagelib_footer_container_heading {
   padding-top: 35px;
   font-size: 0.95em;
@@ -20,4 +28,12 @@
   display: table;
   width: 100%;
   border-collapse: collapse;
+}
+
+.pagelib-theme-dark #pagelib_footer_container_menu_items {
+  background-color: #43464a;
+}
+
+.pagelib-theme-sepia #pagelib_footer_container_menu_items {
+  background-color: #cbc8c1;
 }
