@@ -1,3 +1,6 @@
+### v4.4.0
+- New: add platform transform
+
 ### v4.3.1
 - Fix: dark and sepia themes for tables
 - Fix: dark and sepia themes for footer transforms
