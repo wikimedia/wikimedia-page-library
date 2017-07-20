@@ -10,16 +10,12 @@
 
 .pagelib-theme-dark .pagelib_footer_readmore_page {
   background-color: #2e3136;
+  box-shadow: 0px 2px 4px rgba(67, 70, 74, 0.75);
 }
 
 .pagelib-theme-sepia .pagelib_footer_readmore_page {
   background-color: #f0e6d6;
-}
-
-@media (min-device-width:768px){
-  .pagelib_footer_readmore_page {
-    box-shadow: 0 0 6px rgba(200, 204, 209, 0.5);
-  }
+  box-shadow: 0px 2px 4px rgba(203, 200, 193, 0.5);
 }
 
 .pagelib_footer_readmore_page_container {
