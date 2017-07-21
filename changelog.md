@@ -1,4 +1,5 @@
-### v4.4.1
+### v4.5.0
+- New: edit transform
 - Fix: dark mode collapsed table secondary text and edit link colors
 
 ### v4.4.0

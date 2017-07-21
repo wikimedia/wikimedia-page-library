@@ -19,10 +19,6 @@
           <h2>
             Edit section (<span class=platform></span>, <span class=direction></span>, <span class=theme></span>,
               <span class=protection></span>, <span class=compatibility></span>)
-
-            <span class=edit_section_button_wrapper>
-              <a class=edit_section_button></a>
-            </span>
           </h2>
         </div>
       </div>
@@ -33,6 +29,7 @@
       /* global pagelib */
       const template = document.querySelector('template')
 
+      let index = 0
       for (const platform of Object.keys(pagelib.PlatformTransform.CLASS)) {
         for (const direction of ['ltr', 'rtl']) {
           for (const theme of Object.keys(pagelib.ThemeTransform.THEME)) {
@@ -61,7 +58,11 @@
                 clone.querySelector('.protection').textContent = protection
                 clone.querySelector('.compatibility').textContent = compatibility
 
+                const link = pagelib.EditTransform.newEditSectionLink(document, index)
+                clone.querySelector('h2').appendChild(link)
+
                 document.querySelector('body').appendChild(clone)
+                ++index
               }
             }
           }
