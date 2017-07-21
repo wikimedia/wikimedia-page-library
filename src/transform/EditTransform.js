@@ -1,8 +1,8 @@
 import './EditTransform.css'
 
 const CLASS = {
-  CONTAINER: 'edit_section_button_wrapper',
-  LINK: 'edit_section_button',
+  CONTAINER: 'pagelib_edit_section_link_container',
+  LINK: 'pagelib_edit_section_link',
   PROTECTION: { UNPROTECTED: '', PROTECTED: 'page-protected', FORBIDDEN: 'no-editing' }
 }
 
