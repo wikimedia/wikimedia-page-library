@@ -1,3 +1,6 @@
+### v4.4.1
+- Fix: dark mode collapsed table secondary text and edit link colors
+
 ### v4.4.0
 - New: add platform transform
 
