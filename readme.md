@@ -4,7 +4,7 @@ Library for common JavaScript transforms and CSS used by both the Android and iO
 [Phabricator]: https://phabricator.wikimedia.org/tag/wikimedia-page-library/
 
 ## Background
-Presently we are consolidating duplicate Android and iOS Wikipedia app implementations of certain JavaScript transformations, such as image widening. **wikimedia-page-library** is where we are placing these consolidated JavaScript transform implementations. 
+Presently we are consolidating duplicate Android and iOS Wikipedia app implementations of certain JavaScript transformations, such as image widening. **wikimedia-page-library** is where we are placing these consolidated JavaScript transform implementations.
 
 ### What wikimedia-page-library is for
 - JavaScript transforms common to **both** the Android and iOS Wikipedia apps.
@@ -56,7 +56,7 @@ Directory names should be lowercase. Filenames should be singular.
 ## Development setup and workflow
 
 ### NPM
-The Android and iOS Wikipedia apps make use of the `wikimedia-page-library`. At some point their respective build phases invoke `npm install` which causes a *published* version of this library to be retrieved and used in their respective builds. 
+The Android and iOS Wikipedia apps make use of the `wikimedia-page-library`. At some point their respective build phases invoke `npm install` which causes a *published* version of this library to be retrieved and used in their respective builds.
 
 But sometimes we want to test *unpublished* `wikimedia-page-library` branches. This could be to review bug fixes or new feature branches or to develop fixes and features ourselves. We'd like to be able to checkout a local branch of `wikimedia-page-library` and run the app's build process and have the app use whatever we had checked out of our local copy of `wikimedia-page-library`.
 
@@ -99,13 +99,13 @@ cd $NATIVE_APP_REPO/www # Replace $NATIVE_APP_REPO with the path to the Android 
 npm link wikimedia-page-library
 ```
 
-After running the `link` command above, your file system browser should show a symlink folder for `www/node_modules/wikimedia-page-library` instead of a normal folder. 
+After running the `link` command above, your file system browser should show a symlink folder for `www/node_modules/wikimedia-page-library` instead of a normal folder.
 
-Now NPM is "pointing" to our local copy of `wikimedia-page-library` and when the app's build process invokes `npm install` NPM will try to get `wikimedia-page-library` build products from our local copy. 
+Now NPM is "pointing" to our local copy of `wikimedia-page-library` and when the app's build process invokes `npm install` NPM will try to get `wikimedia-page-library` build products from our local copy.
 
 **Step 5** (do this each time you make a change to the local copy)
 
-*Important!* 
+*Important!*
 
 Don't forget to rebuild the local copy of `wikimedia-page-library` any time you make a change to it (before you run the app's build process), otherwise the app's build process won't "see" the change!
 ```

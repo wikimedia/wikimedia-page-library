@@ -26,7 +26,7 @@ import './FooterReadMore.css'
 const SAVE_BUTTON_ID_PREFIX = 'readmore:save:'
 
 /**
- * Removes parenthetical enclosures from string. 
+ * Removes parenthetical enclosures from string.
  * @param {!string} string
  * @param {!string} opener
  * @param {!string} closer
@@ -47,7 +47,7 @@ const safelyRemoveEnclosures = (string, opener, closer) => {
 }
 
 /**
- * Removes '(...)' and '/.../' parenthetical enclosures from string. 
+ * Removes '(...)' and '/.../' parenthetical enclosures from string.
  * @param {!string} string
  * @return {!string}
  */
@@ -85,7 +85,7 @@ class ReadMorePage {
  * @param {SaveButtonClickHandler} saveButtonClickHandler
  * @param {!Document} document
  * @return {!DocumentFragment}
- */  
+ */
 const documentFragmentForReadMorePage = (readMorePage, index, saveButtonClickHandler, document) => {
   const outerAnchorContainer = document.createElement('a')
   outerAnchorContainer.id = index
