@@ -256,7 +256,11 @@ const fetchReadMore = (title, count, containerID, baseURL, showReadMorePagesHand
     }
   }
   xhr.onerror = () => fetchErrorHandler(xhr.statusText)
-  xhr.send()
+  try {
+    xhr.send()
+  } catch (error) {
+    fetchErrorHandler(error.toString())
+  }
 }
 
 /**
