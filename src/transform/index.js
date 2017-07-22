@@ -1,5 +1,6 @@
 import CollapseTable from './CollapseTable'
 import CompatibilityTransform from './CompatibilityTransform'
+import DimImagesTransform from './DimImagesTransform'
 import EditTransform from './EditTransform'
 import ElementGeometry from './ElementGeometry'
 import ElementUtilities from './ElementUtilities'
@@ -20,6 +21,7 @@ export default {
   // todo: rename CollapseTableTransform.
   CollapseTable,
   CompatibilityTransform,
+  DimImagesTransform,
   EditTransform,
   // todo: rename Footer.ContainerTransform, Footer.LegalTransform, Footer.MenuTransform,
   //       Footer.ReadMoreTransform.

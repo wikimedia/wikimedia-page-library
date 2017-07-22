@@ -1,5 +1,6 @@
 ### v4.5.0
 - New: edit transform
+- New: image dimming transform
 - Fix: dark mode collapsed table secondary text and edit link colors
 
 ### v4.4.0
