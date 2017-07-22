@@ -12,17 +12,26 @@ const ACTION_EDIT_SECTION = 'edit_section'
 /**
  * @param {!Document} document
  * @param {!number} index The zero-based index of the section.
- * @return {!HTMLSpanElement}
+ * @return {!HTMLAnchorElement}
  */
 const newEditSectionLink = (document, index) => {
-  const container = document.createElement('span')
-  container.classList.add(CLASS.CONTAINER)
-
   const link = document.createElement('a')
   link.setAttribute(DATA_ATTRIBUTE.SECTION_INDEX, index)
   link.setAttribute(DATA_ATTRIBUTE.ACTION, ACTION_EDIT_SECTION)
   link.classList.add(CLASS.LINK)
+  return link
+}
 
+/**
+ * @param {!Document} document
+ * @param {!number} index The zero-based index of the section.
+ * @return {!HTMLSpanElement}
+ */
+const newEditSectionButton = (document, index) => {
+  const container = document.createElement('span')
+  container.classList.add(CLASS.CONTAINER)
+
+  const link = newEditSectionLink(document, index)
   container.appendChild(link)
 
   return container
@@ -30,5 +39,5 @@ const newEditSectionLink = (document, index) => {
 
 export default {
   CLASS,
-  newEditSectionLink
+  newEditSectionButton
 }
