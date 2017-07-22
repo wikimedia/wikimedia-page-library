@@ -123,6 +123,10 @@ table.infobox caption {
   color: #808080;
 }
 
+.pagelib-theme-dark .app_span_collapse_text {
+  color: #c8ccd1;
+}
+
 /* The outermost table container's footer. todo: rename. */
 .app_table_collapsed_bottom {
   width: 100%;

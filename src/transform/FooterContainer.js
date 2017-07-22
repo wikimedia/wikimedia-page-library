@@ -23,8 +23,8 @@ const updateBottomPaddingToAllowReadMoreToScrollToTop = window => {
  */
 const updateLeftAndRightMargin = (margin, document) => {
   const elements = Polyfill.querySelectorAll(document, `
-    #pagelib_footer_container_menu_heading, 
-    #pagelib_footer_container_readmore, 
+    #pagelib_footer_container_menu_heading,
+    #pagelib_footer_container_readmore,
     #pagelib_footer_container_legal
   `)
   elements.forEach(element => {
@@ -62,7 +62,7 @@ const containerFragment = document => {
     <div id='pagelib_footer_container_ensure_can_scroll_to_top'>
       <div id='pagelib_footer_container_section_1'>
         <div id='pagelib_footer_container_readmore'>
-          <div 
+          <div
             id='pagelib_footer_container_readmore_heading' class='pagelib_footer_container_heading'>
           </div>
           <div id='pagelib_footer_container_readmore_pages'>
