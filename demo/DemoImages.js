@@ -38,7 +38,6 @@ class ImageData  {
 
 // eslint-disable-next-line no-unused-vars
 const DemoImageData = [
-  new ImageData('/static/images/mobile/copyright/wikipedia-wordmark-en.svg', 116, 18),
   new ImageData('//upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Van_Gogh_self-portrait_dedicated_to_Gauguin.jpg/220px-Van_Gogh_self-portrait_dedicated_to_Gauguin.jpg', 220, 269),
   new ImageData('//upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Still_Life_with_Cabbage_and_Clogs.jpg/100px-Still_Life_with_Cabbage_and_Clogs.jpg', 100, 62),
   new ImageData('//upload.wikimedia.org/wikipedia/commons/thumb/2/29/Van_Gogh_-_Kauernder_Junge_mit_Sichel.jpeg/100px-Van_Gogh_-_Kauernder_Junge_mit_Sichel.jpeg', 100, 76),
