@@ -59,8 +59,8 @@
                 clone.querySelector('.compatibility').textContent = compatibility
 
                 const link = pagelib.EditTransform.newEditSectionLink(document, index)
-                clone.querySelector('h2').appendChild(link)
-
+                const header = clone.querySelector('h2')
+                header.parentNode.insertBefore(link, header)
                 document.querySelector('body').appendChild(clone)
                 ++index
               }
