@@ -136,7 +136,7 @@ https://babeljs.io/docs/usage/caveats/#polyfills
 The demos are expected to be run with `npm run -s serve:demo` after building them.
 
 ### Automatic incremental builds
-`npm run -s build:watch` will monitor and automatically rebuild the JavaScript and CSS bundles when files change. When used with NPM linking, this allows the app to always pull the latest local changes. When used in parallel with `npm run -s serve:demo`, changes are seen instantly in the browser. One way to run the commands simultaneously is `parallel -- 'npm run -s build:watch' 'npm run -s serve:demo'`.
+`npm run -s build:watch` will monitor and automatically rebuild the JavaScript and CSS bundles when files change. Note: CSS changes do not yet trigger rebuilds. When used with NPM linking, this allows the app to always pull the latest local changes. When used in parallel with `npm run -s serve:demo`, changes are seen instantly in the browser. One way to run the commands simultaneously is `parallel -- 'npm run -s build:watch' 'npm run -s serve:demo'`.
 
 ### Testing
 Tests are executed prior to commits but may also be executed manually:
