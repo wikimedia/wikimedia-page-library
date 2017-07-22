@@ -1,5 +1,5 @@
 import './DimImagesTransform.css'
-const CLASS = 'pagelib-dim-images'
+const CLASS = 'pagelib_dim_images'
 
 /**
  * @param {!Window} window
