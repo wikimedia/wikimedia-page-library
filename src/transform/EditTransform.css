@@ -4,9 +4,8 @@
 }
 
 .pagelib_edit_section_link_container {
-  margin-left: 0;
-  margin-right: 8px;
-
+  margin: 2px 8px;
+  float: right;
   opacity: .54;
 }
 
@@ -26,8 +25,6 @@
 }
 
 .content-rtl .pagelib_edit_section_link_container {
-  margin-left: 8px;
-  margin-right: 0;
   float: left;
   -webkit-transform: scaleX( -1 );
   transform: scaleX( -1 );
@@ -37,7 +34,7 @@ a.pagelib_edit_section_link {
   position: relative;
   width: 28px;
   height: 28px;
-  float: right;
+  display: inline-block;
   background-size: 28px 28px;
   background-repeat: no-repeat;
 
