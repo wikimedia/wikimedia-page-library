@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 // https://en.wikipedia.org/?oldid=781965885
 // eslint-disable-next-line no-unused-vars
-const LazyLoadImageData = [
+const DemoImageData = [
   { src: '/static/images/mobile/copyright/wikipedia-wordmark-en.svg', width: 116, height: 18 },
   { src: '//upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Van_Gogh_self-portrait_dedicated_to_Gauguin.jpg/220px-Van_Gogh_self-portrait_dedicated_to_Gauguin.jpg', width: 220, height: 269 },
   { src: '//upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Still_Life_with_Cabbage_and_Clogs.jpg/100px-Still_Life_with_Cabbage_and_Clogs.jpg', width: 100, height: 62 },
