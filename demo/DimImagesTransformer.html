@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang=en>
+
+  <head>
+    <meta charset=utf-8>
+    <title>LazyLoadTransformer</title>
+    <link href=../build/wikimedia-page-library-transform.css rel=stylesheet>
+    <style>
+      body, img, input { margin: 14px; }
+    </style>
+  </head>
+
+  <body>
+
+    <input type='checkbox' onclick='
+      pagelib.DimImagesTransform.dimImages(
+        window, 
+        !pagelib.DimImagesTransform.isDimmingEnabled(window)
+      )
+    '> Dim images
+    <br>
+    
+    <script src=../build/wikimedia-page-library-transform.js></script>
+    <script src=./DemoImages.js></script>
+    <script>
+      /* global DemoImageData */
+      const body = document.getElementsByTagName('body')[0]
+      for (const data of DemoImageData.slice(1, 10)) {
+        const image = document.createElement('img')
+        image.setAttribute('src', `https:${data.src}`)
+        image.setAttribute('width', data.width)
+        image.setAttribute('height', data.height)
+        body.appendChild(image)
+      }</script>
+  </body>
+
+</html>
