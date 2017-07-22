@@ -13,16 +13,7 @@
   <body>
 
     <input type='checkbox' onclick='dimmingToggle()' id='toggleCheckbox'> Dim images
-    <br>
-    <script>
-      document.getElementById('toggleCheckbox').addEventListener('click', () => {
-        /* global pagelib */
-        pagelib.DimImagesTransform.dim(
-          window,
-          !pagelib.DimImagesTransform.isDim(window)
-        )
-      })</script>
-    
+    <br>    
     <script src=../build/wikimedia-page-library-transform.js></script>
     <script src=./DemoImages.js></script>
     <script>
@@ -34,7 +25,14 @@
         image.setAttribute('width', data.width)
         image.setAttribute('height', data.height)
         body.appendChild(image)
-      }</script>
+      }
+      document.getElementById('toggleCheckbox').addEventListener('click', () => {
+        /* global pagelib */
+        pagelib.DimImagesTransform.dim(
+          window,
+          !pagelib.DimImagesTransform.isDim(window)
+        )
+      })</script>
   </body>
 
 </html>
