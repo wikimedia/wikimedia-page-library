@@ -15,11 +15,11 @@ const dim = (window, enable) => {
  * @param {!Window} window
  * @return {boolean}
  */
-const isDimmingEnabled = window => window.document.querySelector('html')
+const isDim = window => window.document.querySelector('html')
   .classList.contains(CLASS)
 
 export default {
   CLASS,
-  isDimmingEnabled,
+  isDim,
   dim
 }
