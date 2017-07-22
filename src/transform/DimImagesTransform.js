@@ -1,6 +1,7 @@
 import './DimImagesTransform.css'
 const CLASS = 'pagelib_dim_images'
 
+// todo: only require a Document
 /**
  * @param {!Window} window
  * @param {!boolean} enable
@@ -11,6 +12,7 @@ const dim = (window, enable) => {
     .classList[enable ? 'add' : 'remove'](CLASS)
 }
 
+// todo: only require a Document
 /**
  * @param {!Window} window
  * @return {boolean}
