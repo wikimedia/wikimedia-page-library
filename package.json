@@ -23,8 +23,10 @@
     "lint": "eslint --cache --max-warnings 0 --ext .js --ext .json --ext .html",
     "lint:all": "npm run -s lint .",
     "build": "rollup -c",
+    "build:watch": "rollup -cw",
     "pretest": "npm run -s build",
     "test": "mocha test/**/*.test.js",
+    "serve:demo": "live-server",
     "clean": "rm -rf build/",
     "preversion": "[ -z \"$(git status -z)\" ]",
     "postversion": "git push --follow-tags origin HEAD && npm publish",
@@ -52,12 +54,14 @@
     "eslint-plugin-html": "3.0.0",
     "eslint-plugin-jsdoc": "3.1.1",
     "eslint-plugin-json": "1.2.0",
+    "live-server": "1.2.0",
     "mocha": "3.4.2",
     "npm-check-updates": "2.12.1",
     "pre-commit": "1.2.2",
     "rollup": "0.43.0",
     "rollup-plugin-babel": "2.7.1",
-    "rollup-plugin-css-porter": "0.1.2"
+    "rollup-plugin-css-porter": "0.1.2",
+    "rollup-watch": "4.3.1"
   },
   "license": "Apache-2.0"
 }
