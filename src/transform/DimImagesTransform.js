@@ -3,12 +3,12 @@ const CLASS = 'pagelib_dim_images'
 
 /**
  * @param {!Window} window
- * @param {!boolean} shouldDim
+ * @param {!boolean} enable
  * @return {void}
  */
-const dimImages = (window, shouldDim) => {
+const dimImages = (window, enable) => {
   window.document.querySelector('html')
-    .classList[shouldDim ? 'add' : 'remove'](CLASS)
+    .classList[enable ? 'add' : 'remove'](CLASS)
 }
 
 /**
