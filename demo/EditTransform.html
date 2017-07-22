@@ -58,9 +58,9 @@
                 clone.querySelector('.protection').textContent = protection
                 clone.querySelector('.compatibility').textContent = compatibility
 
-                const link = pagelib.EditTransform.newEditSectionLink(document, index)
-                clone.querySelector('h2').appendChild(link)
-
+                const button = pagelib.EditTransform.newEditSectionButton(document, index)
+                const header = clone.querySelector('h2')
+                header.parentNode.insertBefore(button, header)
                 document.querySelector('body').appendChild(clone)
                 ++index
               }
