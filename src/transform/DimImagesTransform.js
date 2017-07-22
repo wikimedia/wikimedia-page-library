@@ -6,7 +6,7 @@ const CLASS = 'pagelib_dim_images'
  * @param {!boolean} enable
  * @return {void}
  */
-const dimImages = (window, enable) => {
+const dim = (window, enable) => {
   window.document.querySelector('html')
     .classList[enable ? 'add' : 'remove'](CLASS)
 }
@@ -21,5 +21,5 @@ const isDimmingEnabled = window => window.document.querySelector('html')
 export default {
   CLASS,
   isDimmingEnabled,
-  dimImages
+  dim
 }
