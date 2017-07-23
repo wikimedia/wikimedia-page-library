@@ -155,6 +155,7 @@
     const initCallback = (clone, selector, callback) => {
       const element = clone.querySelector(selector)
       element.addEventListener('change', callback.bind(this))
+      // todo: support setting the default value from the query string.
       element.dispatchEvent(new Event('change'))
     }
 
