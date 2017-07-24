@@ -4,26 +4,25 @@
   <head>
     <meta charset=utf-8>
     <title>DimImagesTransform</title>
-    <link href=../build/wikimedia-page-library-transform.css rel=stylesheet>
     <style>
+      :root {
+        --control-panel-theme-visibility: visible;
+      }
       body, img, input { margin: 14px; }
     </style>
+    <link rel=import href=ControlPanel.html>
   </head>
 
   <body>
-
-    <input type='checkbox' onclick='dimmingToggle()' id='toggleCheckbox'> Dim images
-    <br>    
-    <script src=../build/wikimedia-page-library-transform.js></script>
+    <control-panel></control-panel>
+    <input type='checkbox' id='toggleCheckbox'><label for=toggleCheckbox>Dim images</label>
+    <br>
     <script src=./DemoImages.js></script>
     <script>
       /* global DemoImageData */
       const body = document.querySelector('body')
-      for (const data of DemoImageData.slice(1, 10)) {
-        const image = document.createElement('img')
-        image.setAttribute('src', `https:${data.src}`)
-        image.setAttribute('width', data.width)
-        image.setAttribute('height', data.height)
+      for (const data of DemoImageData.slice(0, 9)) {
+        const image = data.newImage(document)
         body.appendChild(image)
       }
       document.getElementById('toggleCheckbox').addEventListener('click', () => {

@@ -4,14 +4,19 @@
   <head>
     <meta charset=utf-8>
     <title>LazyLoadTransformer</title>
-    <link href=../build/wikimedia-page-library-transform.css rel=stylesheet>
     <style>
+      :root {
+        --control-panel-theme-visibility: visible;
+        --control-panel-dim-images-visibility: visible;
+      }
       body, img, .pagelib-lazy-load-placeholder { margin: 4px; }
     </style>
+    <link rel=import href=ControlPanel.html>
   </head>
 
   <body>
-    <script src=../build/wikimedia-page-library-transform.js></script>
+    <control-panel></control-panel>
+
     <script src=./DemoImages.js></script>
     <script>
       /* global pagelib, DemoImageData */
@@ -19,10 +24,7 @@
 
       const div = lazyDocument.createElement('div')
       for (const data of DemoImageData) {
-        const image = lazyDocument.createElement('img')
-        image.setAttribute('src', `https:${data.src}`)
-        image.setAttribute('width', data.width)
-        image.setAttribute('height', data.height)
+        const image = data.newImage(document)
         div.appendChild(image)
       }
 

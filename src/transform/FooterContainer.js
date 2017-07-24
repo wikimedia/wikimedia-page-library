@@ -84,7 +84,7 @@ const isContainerAttached = document => Boolean(document.querySelector('#pagelib
 
 export default {
   containerFragment,
-  isContainerAttached,
+  isContainerAttached, // todo: rename isAttached()?
   updateBottomPaddingToAllowReadMoreToScrollToTop,
   updateLeftAndRightMargin
 }

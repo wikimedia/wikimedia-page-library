@@ -169,29 +169,29 @@ const showReadMorePages = (pages, containerID, saveButtonClickHandler, titlesSho
  */
 const queryParameters = (title, count) => ({
   action: 'query',
-  continue: '',
-  exchars: 256,
-  exintro: 1,
-  exlimit: count,
-  explaintext: '',
   format: 'json',
+  formatversion: 2,
+  prop: 'extracts|pageimages',
+
+  // https://www.mediawiki.org/wiki/API:Search
+  // https://www.mediawiki.org/wiki/Help:CirrusSearch
   generator: 'search',
-  gsrinfo: '',
-  gsrlimit: count,
-  gsrnamespace: 0,
-  gsroffset: 0,
-  gsrprop: 'redirecttitle',
-  gsrsearch: `morelike:${title}`,
-  gsrwhat: 'text',
-  ns: 'ppprop',
-  pilimit: count,
-  piprop: 'thumbnail',
-  pithumbsize: 120,
-  prop: 'pageterms|pageimages|pageprops|revisions|extracts',
-  rrvlimit: 1,
-  rvprop: 'ids',
-  wbptterms: 'description',
-  formatversion: 2
+  gsrlimit: count, // Limit search results by count.
+  gsrprop: 'redirecttitle', // Include a a parsed snippet of the redirect title property.
+  gsrsearch: `morelike:${title}`, // Weight search with the title.
+  gsrwhat: 'text', // Search the text then titles of pages.
+
+  // https://www.mediawiki.org/wiki/Extension:TextExtracts
+  exchars: 256, // Limit number of characters returned.
+  exintro: '', // Only content before the first section.
+  exlimit: count, // Limit extract results by count.
+  explaintext: '', // Strip HTML.
+
+  // https://www.mediawiki.org/wiki/Extension:PageImages
+  pilicense: 'any', // Include non-free images.
+  pilimit: count, // Limit thumbnail results by count.
+  piprop: 'thumbnail', // Include URL and dimensions of thumbnail.
+  pithumbsize: 120 // Limit thumbnail dimensions.
 })
 
 /**
@@ -221,7 +221,7 @@ const readMoreQueryURL = (title, count, baseURL) =>
  */
 const fetchErrorHandler = statusText => {
   // TODO: figure out if we want to hide the 'Read more' header in cases when fetch fails.
-  // console.log(`statusText = ${statusText}`);
+  console.log(`statusText = ${statusText}`) // eslint-disable-line no-console
 }
 
 /**
@@ -256,7 +256,11 @@ const fetchReadMore = (title, count, containerID, baseURL, showReadMorePagesHand
     }
   }
   xhr.onerror = () => fetchErrorHandler(xhr.statusText)
-  xhr.send()
+  try {
+    xhr.send()
+  } catch (error) {
+    fetchErrorHandler(error.toString())
+  }
 }
 
 /**

@@ -10,6 +10,10 @@
   background-color: #e1dad1;
 }
 
+.pagelib-platform-android #pagelib_footer_container_section_0 {
+  display: none;
+}
+
 .pagelib_footer_container_heading {
   padding-top: 35px;
   font-size: 0.95em;

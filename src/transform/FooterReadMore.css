@@ -8,6 +8,12 @@
   display: block;
 }
 
+a.pagelib_footer_readmore_page,
+a.pagelib_footer_readmore_page:active,
+a.pagelib_footer_readmore_page:hover {
+  text-decoration: none;
+}
+
 .pagelib-theme-dark .pagelib_footer_readmore_page {
   background-color: #2e3136;
   box-shadow: 0px 2px 4px rgba(67, 70, 74, 0.75);
@@ -83,11 +89,12 @@
   color: #69f;
 }
 
-html[dir='rtl'] .pagelib_footer_readmore_page_save {
+html[dir='rtl'] .pagelib_footer_readmore_page_save,
+.content-rtl .pagelib_footer_readmore_page_save {
   background-position: right center;
 }
 
-html[dir='ltr'] .pagelib_footer_readmore_page_save {
+.pagelib_footer_readmore_page_save {
   background-position: left center;
 }
 
@@ -99,13 +106,14 @@ html[dir='ltr'] .pagelib_footer_readmore_page_save {
   border-radius: 2px;
 }
 
-html[dir='ltr'] .pagelib_footer_readmore_page_image {
+.pagelib_footer_readmore_page_image {
   float: right;
   margin-left: 8px;
   margin-right: 0px;
 }
 
-html[dir='rtl'] .pagelib_footer_readmore_page_image {
+html[dir='rtl'] .pagelib_footer_readmore_page_image,
+.content-rtl .pagelib_footer_readmore_page_image {
   float: left;
   margin-right: 8px;
   margin-left: 0px;
