@@ -1,4 +1,4 @@
-### v4.5.0
+### v4.5.1
 - Chore: add `dev` and `build:watch` scripts
 
 ### v4.5.0
