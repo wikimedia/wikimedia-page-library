@@ -21,5 +21,8 @@ export default {
     babel({
       plugins: ['external-helpers']
     })
-  ]
+  ],
+  watch: {
+    exclude: ['.eslintcache', 'build', 'demo']
+  }
 }

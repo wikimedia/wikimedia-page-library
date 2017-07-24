@@ -4,15 +4,20 @@
   <head>
     <meta charset=utf-8>
     <title>LazyLoadTransform</title>
-    <link href=../build/wikimedia-page-library-transform.css rel=stylesheet>
     <style>
+      :root {
+        --control-panel-theme-visibility: visible;
+        --control-panel-dim-images-visibility: visible;
+      }
       body { margin: 4px; }
       img, .pagelib-lazy-load-placeholder { margin-top: 4px; margin-bottom: 4px; }
     </style>
+    <link rel=import href=ControlPanel.html>
   </head>
 
   <body>
-    <script src=../build/wikimedia-page-library-transform.js></script>
+    <control-panel></control-panel>
+
     <script src=./DemoImages.js></script>
     <script>
       /* global pagelib, DemoImageData */

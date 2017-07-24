@@ -1,0 +1,203 @@
+<link href=../build/wikimedia-page-library-transform.css rel=stylesheet>
+
+<style>
+  /* todo: import Roboto and Apple fonts. */
+  .content-rtl body {
+    text-align: right;
+  }
+</style>
+
+<template>
+  <style>
+    .component {
+      margin-bottom: 8px;
+      text-align: left;
+    }
+    input {
+      vertical-align: middle;
+    }
+    .platform {
+      display: var(--control-panel-platform-visibility, none);
+    }
+    .layout_direction {
+      display: var(--control-panel-layout-direction-visibility, none);
+    }
+    .theme {
+      display: var(--control-panel-theme-visibility, none);
+    }
+    .dim_images {
+      display: var(--control-panel-dim-images-visibility, none);
+    }
+    .compatibility {
+      display: var(--control-panel-compatibility-visibility, none);
+    }
+    .page_protection {
+      display: var(--control-panel-page-protection-visibility, none);
+    }
+  </style>
+
+  <form class=component>
+    <select name=platform class=platform>
+      <option disabled>Platform</option>
+      <option value=ANDROID selected>Android</option>
+      <option value=IOS>iOS</option>
+      <option value>Unknown</option>
+    </select>
+
+    <select name=layout_direction class=layout_direction>
+      <option disabled>Layout direction</option>
+      <option value='content-ltr' selected>Left-to-right</option>
+      <option value='content-rtl'>Right-to-left</option>
+      <option value>Unknown</option>
+    </select>
+
+    <select name=theme class=theme>
+      <option disabled>Theme</option>
+      <option value=DEFAULT selected>Default</option>
+      <option value=DARK>Dark</option>
+      <option value=SEPIA>Sepia</option>
+      <option value>Unknown</option>
+    </select>
+
+    <span class=dim_images>
+      <input name=dim_images id=dim_images type=checkbox>
+      <label for=dim_images>Dim images</label>
+    </span>
+
+    <span class=compatibility>
+      <input name=compatibility_filter id=compatibility_filter value=FILTER type=checkbox>
+      <label for=compatibility_filter>Compatibility filter</label>
+    </span>
+
+    <select name=page_protection class=page_protection>
+      <option disabled>Page protection</option>
+      <option value=UNPROTECTED selected>Unprotected</option>
+      <option value=PROTECTED>Protected</option>
+      <option value=FORBIDDEN>Forbidden</option>
+    </select>
+  </form>
+</template>
+
+<script src=../build/wikimedia-page-library-transform.js></script>
+<script>
+  /* global pagelib */
+  pagelib.ThemeTransform.classifyElements(document)
+
+  // https://stackoverflow.com/a/901144/970346
+  /**
+   * @param {!string} name
+   * @return {?string}
+   */
+  const queryStringValueByName = name => {
+    const url = window.location.href
+    const escapedName = name.replace(/[[]]/g, '\\$&')
+    const regex = new RegExp(`[?&]${escapedName}(=([^&#]*)|&|#|$)`)
+    const results = regex.exec(url)
+    if (!results) { return null }
+    if (!results[2]) { return '' }
+    return decodeURIComponent(results[2].replace(/\+/g, ' '))
+  }
+
+  const currentDocument = document.currentScript.ownerDocument
+  const prototype = Object.create(HTMLElement.prototype)
+
+  prototype.onPlatformChange = function(event) {
+    const platformClass = pagelib.PlatformTransform.CLASS[event.target.value]
+    const html = document.querySelector('html')
+    if (platformClass) {
+      html.classList.add(platformClass)
+    }
+
+    Object.values(pagelib.PlatformTransform.CLASS)
+      .filter(previousClass => previousClass !== platformClass)
+      .forEach(previousClass => html.classList.remove(previousClass))
+
+    this.dispatchEvent(new CustomEvent('change:platform', { detail: event.target.value }))
+  }
+
+  prototype.onLayoutDirectionChange = function(event) {
+    const html = document.querySelector('html')
+    const directionClass = event.target.value
+    if (directionClass) {
+      html.classList.add(directionClass)
+    }
+
+    const options = Array.from(event.target.querySelectorAll('option'))
+    options
+      .filter(option => !option.disabled && option.value && option.value !== directionClass)
+      .forEach(option => html.classList.remove(option.value))
+
+    this.dispatchEvent(new CustomEvent('change:layout_direction', { detail: directionClass }))
+  }
+
+  prototype.onThemeChange = function(event) {
+    const themeClass = pagelib.ThemeTransform.THEME[event.target.value]
+    pagelib.ThemeTransform.setTheme(document, themeClass)
+
+    this.dispatchEvent(new CustomEvent('change:theme', { detail: event.target.value }))
+  }
+
+  prototype.onDimImagesChange = function(event) {
+    pagelib.DimImagesTransform.dim(window, event.target.checked)
+
+    this.dispatchEvent(new CustomEvent('change:dim_images', { detail: event.target.checked }))
+  }
+
+  prototype.onCompatibilityFilterChange = function(event) {
+    const html = document.querySelector('html')
+    const compatibilityClass = pagelib.CompatibilityTransform.COMPATIBILITY[event.target.value]
+    html.classList[event.target.checked ? 'add' : 'remove'](compatibilityClass)
+
+    this.dispatchEvent(new CustomEvent('change:compatibility_filter'),
+      { detail: event.target.checked })
+  }
+
+  prototype.onPageProtectionChange = function(event) {
+    const protectionClass = pagelib.EditTransform.CLASS.PROTECTION[event.target.value]
+    const html = document.querySelector('html')
+    if (protectionClass) {
+      html.classList.add(protectionClass)
+    }
+
+    Object.values(pagelib.EditTransform.CLASS.PROTECTION)
+      .filter(previousClass => previousClass && previousClass !== protectionClass)
+      .forEach(previousClass => html.classList.remove(previousClass))
+
+    this.dispatchEvent(new CustomEvent('change:page_protection'), { detail: event.target.value })
+  }
+
+  prototype.createdCallback = function() {
+    // eslint-disable-next-line require-jsdoc
+    const initCallback = (clone, selector, callback) => {
+      const element = clone.querySelector(selector)
+      element.addEventListener('change', callback.bind(this))
+
+      // Update the URL on change.
+      element.addEventListener('change', () => element.form.submit())
+
+      const value = queryStringValueByName(element.name)
+      const option = element.value === value ? element : element.querySelector(`[value='${value}']`)
+      if (option) {
+        option.selected = true
+        option.checked = true
+      }
+
+      // Trigger the initial state.
+      element.dispatchEvent(new Event('change'))
+    }
+
+    const template = currentDocument.querySelector('template')
+    const clone = document.importNode(template.content, true)
+
+    initCallback(clone, '.platform', this.onPlatformChange)
+    initCallback(clone, '.layout_direction', this.onLayoutDirectionChange)
+    initCallback(clone, '.theme', this.onThemeChange)
+    initCallback(clone, '#dim_images', this.onDimImagesChange)
+    initCallback(clone, '#compatibility_filter', this.onCompatibilityFilterChange)
+    initCallback(clone, '.page_protection', this.onPageProtectionChange)
+
+    const root = this.createShadowRoot()
+    root.appendChild(clone)
+  }
+
+  document.registerElement('control-panel', { prototype })</script>

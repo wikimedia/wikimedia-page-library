@@ -1,4 +1,7 @@
 ### v4.5.0
+- Chore: add `dev` and `build:watch` scripts
+
+### v4.5.0
 - New: edit transform
 - New: image dimming transform
 - Fix: dark mode collapsed table secondary text and edit link colors
