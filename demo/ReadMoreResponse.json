@@ -1,9 +1,4 @@
 {
-  "warnings": {
-    "main": {
-      "warnings": "Unrecognized parameters: ns, rrvlimit."
-    }
-  },
   "batchcomplete": true,
   "continue": {
     "gsroffset": 3,
@@ -16,83 +11,36 @@
         "ns": 0,
         "title": "Kulfi",
         "index": 1,
-        "terms": {
-          "description": [
-            "Indian frozen dessert"
-          ]
-        },
+        "extract": "Kulfi  is a popular frozen dairy dessert from the Indian subcontinent. . It is popular throughout India, Sri Lanka, Pakistan, Bangladesh, Nepal, Burma (Myanmar), and the Middle East, and widely available in Indian restaurants in Australia, Europe, East Asia...",
         "thumbnail": {
           "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Matkakulfi.jpg/120px-Matkakulfi.jpg",
           "width": 120,
           "height": 90
-        },
-        "pageprops": {
-          "page_image_free": "Matkakulfi.jpg",
-          "wikibase_item": "Q3051553"
-        },
-        "revisions": [
-          {
-            "revid": 791543851,
-            "parentid": 787549630
-          }
-        ],
-        "extract": "Kulfi  is a popular frozen dairy dessert from the Indian subcontinent. . It is popular throughout India, Sri Lanka, Pakistan, Bangladesh, Nepal, Burma (Myanmar), and the Middle East, and widely available in Indian restaurants in Australia, Europe, East Asia..."
+        }
       },
       {
         "pageid": 2298022,
         "ns": 0,
         "title": "Ice cream parlor",
         "index": 2,
-        "terms": {
-          "description": [
-            "a shop selling ice creams",
-            "a shop selling ice creams"
-          ]
-        },
+        "extract": "Ice cream parlors (or parlours) are restaurants that sell ice cream, gelato, sorbet, and frozen yogurt to consumers. Ice cream is typically sold as regular ice cream (also called hard-packed ice cream), gelato, and soft serve, which is usually dispensed by...",
         "thumbnail": {
           "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Venice_-_Ice_cream_parlor_-_4017.jpg/120px-Venice_-_Ice_cream_parlor_-_4017.jpg",
           "width": 120,
           "height": 80
-        },
-        "pageprops": {
-          "defaultsort": "Ice Cream Parlor",
-          "page_image_free": "Venice_-_Ice_cream_parlor_-_4017.jpg",
-          "wikibase_item": "Q1311064"
-        },
-        "revisions": [
-          {
-            "revid": 775062047,
-            "parentid": 753463507
-          }
-        ],
-        "extract": "Ice cream parlors (or parlours) are restaurants that sell ice cream, gelato, sorbet, and frozen yogurt to consumers. Ice cream is typically sold as regular ice cream (also called hard-packed ice cream), gelato, and soft serve, which is usually dispensed by..."
+        }
       },
       {
         "pageid": 5106456,
         "ns": 0,
         "title": "Sorbet",
         "index": 3,
-        "terms": {
-          "description": [
-            "frozen dessert"
-          ]
-        },
+        "extract": "Sorbet , is a frozen dessert made from sweetened water with flavouring (typically fruit juice or fruit purée, wine, liqueur or, very rarely, honey)....",
         "thumbnail": {
           "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/RaspberrySherbet.jpg/92px-RaspberrySherbet.jpg",
           "width": 92,
           "height": 120
-        },
-        "pageprops": {
-          "page_image_free": "RaspberrySherbet.jpg",
-          "wikibase_item": "Q13302"
-        },
-        "revisions": [
-          {
-            "revid": 791252637,
-            "parentid": 791252288
-          }
-        ],
-        "extract": "Sorbet , is a frozen dessert made from sweetened water with flavouring (typically fruit juice or fruit purée, wine, liqueur or, very rarely, honey)...."
+        }
       }
     ]
   }
