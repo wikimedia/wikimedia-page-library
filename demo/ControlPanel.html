@@ -99,105 +99,134 @@
   }
 
   const currentDocument = document.currentScript.ownerDocument
-  const prototype = Object.create(HTMLElement.prototype)
+  const template = currentDocument.querySelector('template')
 
-  prototype.onPlatformChange = function(event) {
-    const platformClass = pagelib.PlatformTransform.CLASS[event.target.value]
-    const html = document.querySelector('html')
-    if (platformClass) {
-      html.classList.add(platformClass)
-    }
+  /** A collection of buttons and knobs for demos. */
+  class ControlPanel extends HTMLElement {
+    /** */
+    constructor() {
+      super()
 
-    Object.values(pagelib.PlatformTransform.CLASS)
-      .filter(previousClass => previousClass !== platformClass)
-      .forEach(previousClass => html.classList.remove(previousClass))
+      const clone = document.importNode(template.content, true)
 
-    this.dispatchEvent(new CustomEvent('change:platform', { detail: event.target.value }))
-  }
+      // eslint-disable-next-line require-jsdoc
+      const initCallback = (selector, callback) => {
+        const element = clone.querySelector(selector)
+        element.addEventListener('change', callback.bind(this))
 
-  prototype.onLayoutDirectionChange = function(event) {
-    const html = document.querySelector('html')
-    const directionClass = event.target.value
-    if (directionClass) {
-      html.classList.add(directionClass)
-    }
+        // Update the URL on change.
+        element.addEventListener('change', () => element.form.submit())
 
-    const options = Array.from(event.target.querySelectorAll('option'))
-    options
-      .filter(option => !option.disabled && option.value && option.value !== directionClass)
-      .forEach(option => html.classList.remove(option.value))
+        const value = queryStringValueByName(element.name)
+        const option = element.value === value ? element : element.querySelector(`[value='${value}']`)
+        if (option) {
+          option.selected = true
+          option.checked = true
+        }
 
-    this.dispatchEvent(new CustomEvent('change:layout_direction', { detail: directionClass }))
-  }
-
-  prototype.onThemeChange = function(event) {
-    const themeClass = pagelib.ThemeTransform.THEME[event.target.value]
-    pagelib.ThemeTransform.setTheme(document, themeClass)
-
-    this.dispatchEvent(new CustomEvent('change:theme', { detail: event.target.value }))
-  }
-
-  prototype.onDimImagesChange = function(event) {
-    pagelib.DimImagesTransform.dim(window, event.target.checked)
-
-    this.dispatchEvent(new CustomEvent('change:dim_images', { detail: event.target.checked }))
-  }
-
-  prototype.onCompatibilityFilterChange = function(event) {
-    const html = document.querySelector('html')
-    const compatibilityClass = pagelib.CompatibilityTransform.COMPATIBILITY[event.target.value]
-    html.classList[event.target.checked ? 'add' : 'remove'](compatibilityClass)
-
-    this.dispatchEvent(new CustomEvent('change:compatibility_filter'),
-      { detail: event.target.checked })
-  }
-
-  prototype.onPageProtectionChange = function(event) {
-    const protectionClass = pagelib.EditTransform.CLASS.PROTECTION[event.target.value]
-    const html = document.querySelector('html')
-    if (protectionClass) {
-      html.classList.add(protectionClass)
-    }
-
-    Object.values(pagelib.EditTransform.CLASS.PROTECTION)
-      .filter(previousClass => previousClass && previousClass !== protectionClass)
-      .forEach(previousClass => html.classList.remove(previousClass))
-
-    this.dispatchEvent(new CustomEvent('change:page_protection'), { detail: event.target.value })
-  }
-
-  prototype.createdCallback = function() {
-    // eslint-disable-next-line require-jsdoc
-    const initCallback = (clone, selector, callback) => {
-      const element = clone.querySelector(selector)
-      element.addEventListener('change', callback.bind(this))
-
-      // Update the URL on change.
-      element.addEventListener('change', () => element.form.submit())
-
-      const value = queryStringValueByName(element.name)
-      const option = element.value === value ? element : element.querySelector(`[value='${value}']`)
-      if (option) {
-        option.selected = true
-        option.checked = true
+        // Trigger the initial state.
+        element.dispatchEvent(new Event('change'))
       }
 
-      // Trigger the initial state.
-      element.dispatchEvent(new Event('change'))
+      initCallback('.platform', this.onPlatformChange)
+      initCallback('.layout_direction', this.onLayoutDirectionChange)
+      initCallback('.theme', this.onThemeChange)
+      initCallback('#dim_images', this.onDimImagesChange)
+      initCallback('#compatibility_filter', this.onCompatibilityFilterChange)
+      initCallback('.page_protection', this.onPageProtectionChange)
+
+      const shadow = this.attachShadow({ mode: 'open' })
+      shadow.appendChild(clone)
     }
 
-    const template = currentDocument.querySelector('template')
-    const clone = document.importNode(template.content, true)
+    /**
+     * @param {!Event} event
+     * @return {void}
+     */
+    onPlatformChange(event) {
+      const platformClass = pagelib.PlatformTransform.CLASS[event.target.value]
+      const html = document.querySelector('html')
+      if (platformClass) {
+        html.classList.add(platformClass)
+      }
 
-    initCallback(clone, '.platform', this.onPlatformChange)
-    initCallback(clone, '.layout_direction', this.onLayoutDirectionChange)
-    initCallback(clone, '.theme', this.onThemeChange)
-    initCallback(clone, '#dim_images', this.onDimImagesChange)
-    initCallback(clone, '#compatibility_filter', this.onCompatibilityFilterChange)
-    initCallback(clone, '.page_protection', this.onPageProtectionChange)
+      Object.values(pagelib.PlatformTransform.CLASS)
+        .filter(previousClass => previousClass !== platformClass)
+        .forEach(previousClass => html.classList.remove(previousClass))
 
-    const root = this.createShadowRoot()
-    root.appendChild(clone)
+      this.dispatchEvent(new CustomEvent('change:platform', { detail: event.target.value }))
+    }
+
+    /**
+     * @param {!Event} event
+     * @return {void}
+     */
+    onLayoutDirectionChange(event) {
+      const html = document.querySelector('html')
+      const directionClass = event.target.value
+      if (directionClass) {
+        html.classList.add(directionClass)
+      }
+
+      const options = Array.from(event.target.querySelectorAll('option'))
+      options
+        .filter(option => !option.disabled && option.value && option.value !== directionClass)
+        .forEach(option => html.classList.remove(option.value))
+
+      this.dispatchEvent(new CustomEvent('change:layout_direction', { detail: directionClass }))
+    }
+
+    /**
+     * @param {!Event} event
+     * @return {void}
+     */
+    onThemeChange(event) {
+      const themeClass = pagelib.ThemeTransform.THEME[event.target.value]
+      pagelib.ThemeTransform.setTheme(document, themeClass)
+
+      this.dispatchEvent(new CustomEvent('change:theme', { detail: event.target.value }))
+    }
+
+    /**
+     * @param {!Event} event
+     * @return {void}
+     */
+    onDimImagesChange(event) {
+      pagelib.DimImagesTransform.dim(window, event.target.checked)
+
+      this.dispatchEvent(new CustomEvent('change:dim_images', { detail: event.target.checked }))
+    }
+
+    /**
+     * @param {!Event} event
+     * @return {void}
+     */
+    onCompatibilityFilterChange(event) {
+      const html = document.querySelector('html')
+      const compatibilityClass = pagelib.CompatibilityTransform.COMPATIBILITY[event.target.value]
+      html.classList[event.target.checked ? 'add' : 'remove'](compatibilityClass)
+
+      this.dispatchEvent(new CustomEvent('change:compatibility_filter'),
+        { detail: event.target.checked })
+    }
+
+    /**
+     * @param {!Event} event
+     * @return {void}
+     */
+    onPageProtectionChange(event) {
+      const protectionClass = pagelib.EditTransform.CLASS.PROTECTION[event.target.value]
+      const html = document.querySelector('html')
+      if (protectionClass) {
+        html.classList.add(protectionClass)
+      }
+
+      Object.values(pagelib.EditTransform.CLASS.PROTECTION)
+        .filter(previousClass => previousClass && previousClass !== protectionClass)
+        .forEach(previousClass => html.classList.remove(previousClass))
+
+      this.dispatchEvent(new CustomEvent('change:page_protection'), { detail: event.target.value })
+    }
   }
 
-  document.registerElement('control-panel', { prototype })</script>
+  customElements.define('control-panel', ControlPanel)</script>
