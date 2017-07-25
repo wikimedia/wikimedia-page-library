@@ -4,5 +4,11 @@ module.exports = {
   server: {
     baseDir: 'demo',
     directory: true
+  },
+  middleware: (req, res, next) => {
+    if (req.url.includes('gsrsearch=morelike')) {
+      req.url = '/ReadMoreResponse.json'
+    }
+    return next()
   }
 }
