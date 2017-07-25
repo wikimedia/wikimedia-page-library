@@ -16,6 +16,7 @@ const ACTION_EDIT_SECTION = 'edit_section'
  */
 const newEditSectionLink = (document, index) => {
   const link = document.createElement('a')
+  link.href = ''
   link.setAttribute(DATA_ATTRIBUTE.SECTION_INDEX, index)
   link.setAttribute(DATA_ATTRIBUTE.ACTION, ACTION_EDIT_SECTION)
   link.classList.add(CLASS.LINK)
