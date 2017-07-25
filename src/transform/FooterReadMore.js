@@ -18,7 +18,7 @@ import './FooterReadMore.css'
  * @param {!Array.<object>} pages
  * @param {!string} containerID
  * @param {!SaveButtonClickHandler} saveButtonClickHandler
- * @param {TitlesShownHandler} titlesShownHandler
+ * @param {!TitlesShownHandler} titlesShownHandler
  * @param {!Document} document
  * @return {void}
  */
@@ -232,7 +232,7 @@ const fetchErrorHandler = statusText => {
  * @param {?string} baseURL
  * @param {!ShowReadMorePagesHandler} showReadMorePagesHandler
  * @param {!SaveButtonClickHandler} saveButtonClickHandler
- * @param {TitlesShownHandler} titlesShownHandler
+ * @param {!TitlesShownHandler} titlesShownHandler
  * @param {!Document} document
  * @return {void}
  */
@@ -295,7 +295,7 @@ const updateSaveButtonForTitle = (title, text, isSaved, document) => {
  * @param {!string} containerID
  * @param {?string} baseURL
  * @param {!SaveButtonClickHandler} saveButtonClickHandler
- * @param {TitlesShownHandler} titlesShownHandler
+ * @param {!TitlesShownHandler} titlesShownHandler
  * @param {!Document} document
  * @return {void}
  */
