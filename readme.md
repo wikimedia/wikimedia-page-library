@@ -133,7 +133,7 @@ Babel transpiles ES6 syntax to ES5 except for...of, spread, array destructuring,
 https://babeljs.io/docs/usage/caveats/#polyfills
 
 ### Automatic incremental builds
-`npm run -s build:watch` will monitor and automatically rebuild the JavaScript and CSS bundles when files change. When used with NPM linking, this allows the app to always pull the latest local changes. Demos are viewable by running `npm run -s dev` which also updates the browser instantly for changes.
+`npm run -s build:watch` will monitor and automatically rebuild the JavaScript and CSS bundles when files change. When used with NPM linking, this allows the app to always pull the latest local changes. Demos are viewable by running `npm run -s dev` which also updates the browser instantly for changes. Note: these demos only run in Chrome and Chromium presently.
 
 ### Testing
 Tests are executed prior to commits but may also be executed manually:
