@@ -1,4 +1,4 @@
-/* eslint-disable max-len */
+/* eslint-disable max-len, eol-last */
 // https://en.wikipedia.org/?oldid=781965885
 
 /** Image source and dimensions. */
