@@ -11,7 +11,7 @@ import './FooterLegal.css'
  * @param {?string} licenseString
  * @param {?string} licenseSubstitutionString
  * @param {!string} containerID
- * @param {?FooterLegalClickCallback} licenseLinkClickHandler
+ * @param {!FooterLegalClickCallback} licenseLinkClickHandler
  * @return {void}
  */
 const add = (content, licenseString, licenseSubstitutionString, containerID,

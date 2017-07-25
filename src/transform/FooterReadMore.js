@@ -14,10 +14,10 @@ import './FooterReadMore.css'
 
 /**
  * Display fetched read more pages.
- * @typedef {function} ShownReadMorePagesHandler
+ * @typedef {function} ShowReadMorePagesHandler
  * @param {!Array.<object>} pages
  * @param {!string} containerID
- * @param {SaveButtonClickHandler} saveButtonClickHandler
+ * @param {!SaveButtonClickHandler} saveButtonClickHandler
  * @param {TitlesShownHandler} titlesShownHandler
  * @param {!Document} document
  * @return {void}
@@ -82,7 +82,7 @@ class ReadMorePage {
  * Makes document fragment for a read more page.
  * @param {!ReadMorePage} readMorePage
  * @param {!number} index
- * @param {SaveButtonClickHandler} saveButtonClickHandler
+ * @param {!SaveButtonClickHandler} saveButtonClickHandler
  * @param {!Document} document
  * @return {!DocumentFragment}
  */
@@ -144,7 +144,7 @@ const documentFragmentForReadMorePage = (readMorePage, index, saveButtonClickHan
 
 // eslint-disable-next-line valid-jsdoc
 /**
- * @type {ShownReadMorePagesHandler}
+ * @type {ShowReadMorePagesHandler}
  */
 const showReadMorePages = (pages, containerID, saveButtonClickHandler, titlesShownHandler,
   document) => {
@@ -230,8 +230,8 @@ const fetchErrorHandler = statusText => {
  * @param {!number} count
  * @param {!string} containerID
  * @param {?string} baseURL
- * @param {ShownReadMorePagesHandler} showReadMorePagesHandler
- * @param {SaveButtonClickHandler} saveButtonClickHandler
+ * @param {!ShowReadMorePagesHandler} showReadMorePagesHandler
+ * @param {!SaveButtonClickHandler} saveButtonClickHandler
  * @param {TitlesShownHandler} titlesShownHandler
  * @param {!Document} document
  * @return {void}
@@ -294,7 +294,7 @@ const updateSaveButtonForTitle = (title, text, isSaved, document) => {
  * @param {!number} count
  * @param {!string} containerID
  * @param {?string} baseURL
- * @param {SaveButtonClickHandler} saveButtonClickHandler
+ * @param {!SaveButtonClickHandler} saveButtonClickHandler
  * @param {TitlesShownHandler} titlesShownHandler
  * @param {!Document} document
  * @return {void}
