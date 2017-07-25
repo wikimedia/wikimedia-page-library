@@ -11,13 +11,14 @@
       }
       body, img, .pagelib-lazy-load-placeholder { margin: 4px; }
     </style>
+    <script src=build/wikimedia-page-library-transform.js></script>
     <link rel=import href=ControlPanel.html>
   </head>
 
   <body>
     <control-panel></control-panel>
 
-    <script src=./DemoImages.js></script>
+    <script src=DemoImages.js></script>
     <script>
       /* global pagelib, DemoImageData */
       const lazyDocument = document.implementation.createHTMLDocument()

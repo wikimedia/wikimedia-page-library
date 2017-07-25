@@ -26,7 +26,7 @@
     "build:watch": "rollup -cw",
     "pretest": "npm run -s build",
     "test": "mocha test/**/*.test.js",
-    "serve:demo": "browser-sync start -c browsersync.config.js",
+    "serve:demo": "browser-sync start -c .browsersync.config.js",
     "dev": "run-p -s build:watch serve:demo",
     "clean": "rm -rf build/",
     "preversion": "[ -z \"$(git status -z)\" ]",
