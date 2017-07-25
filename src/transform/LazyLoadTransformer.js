@@ -58,6 +58,7 @@ export default class {
 
     EVENT_TYPES.forEach(eventType =>
       this._window.removeEventListener(eventType, this._throttledLoadPlaceholders))
+    this._throttledLoadPlaceholders.reset()
 
     this._placeholders = []
     this._registered = false
