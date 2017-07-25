@@ -16,6 +16,11 @@
           "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Matkakulfi.jpg/120px-Matkakulfi.jpg",
           "width": 120,
           "height": 90
+        },
+        "terms": {
+          "description": [
+            "Indian frozen dessert"
+          ]
         }
       },
       {
@@ -28,6 +33,12 @@
           "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Venice_-_Ice_cream_parlor_-_4017.jpg/120px-Venice_-_Ice_cream_parlor_-_4017.jpg",
           "width": 120,
           "height": 80
+        },
+        "terms": {
+          "description": [
+            "a shop selling ice creams",
+            "a shop selling ice creams"
+          ]
         }
       },
       {
@@ -40,6 +51,11 @@
           "source": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/RaspberrySherbet.jpg/92px-RaspberrySherbet.jpg",
           "width": 92,
           "height": 120
+        },
+        "terms": {
+          "description": [
+            "frozen dessert"
+          ]
         }
       }
     ]

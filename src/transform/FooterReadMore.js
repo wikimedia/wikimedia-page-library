@@ -171,7 +171,7 @@ const queryParameters = (title, count) => ({
   action: 'query',
   format: 'json',
   formatversion: 2,
-  prop: 'extracts|pageimages',
+  prop: 'extracts|pageimages|pageterms',
 
   // https://www.mediawiki.org/wiki/API:Search
   // https://www.mediawiki.org/wiki/Help:CirrusSearch
@@ -191,7 +191,10 @@ const queryParameters = (title, count) => ({
   pilicense: 'any', // Include non-free images.
   pilimit: count, // Limit thumbnail results by count.
   piprop: 'thumbnail', // Include URL and dimensions of thumbnail.
-  pithumbsize: 120 // Limit thumbnail dimensions.
+  pithumbsize: 120, // Limit thumbnail dimensions.
+
+  // https://en.wikipedia.org/w/api.php?action=help&modules=query%2Bpageterms
+  wbptterms: 'description'
 })
 
 /**
