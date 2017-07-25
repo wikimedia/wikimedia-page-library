@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang=en>
+
+  <head>
+    <meta charset=utf-8>
+    <title>FooterTransform</title>
+    <style>
+      :root {
+        --control-panel-platform-visibility: visible;
+        --control-panel-layout-direction-visibility: visible;
+        --control-panel-theme-visibility: visible;
+      }
+      a {
+        text-decoration: none;
+      }
+      div {
+        max-width: 380px;
+        margin: 0 auto;
+
+        /* Mimic the constraints of a physical screen by preventing box shadows from spilling out. */
+        overflow: hidden;
+      }
+    </style>
+    <script src=build/wikimedia-page-library-transform.js></script>
+    <link rel=import href=ControlPanel.html>
+  </head>
+
+  <body>
+    <control-panel></control-panel>
+    <div></div>
+
+    <script>
+      /* global pagelib */
+      const container = document.querySelector('div')
+
+      // eslint-disable-next-line require-jsdoc, no-confusing-arrow
+      const saveLabel = saved => saved ? 'Saved' :  'Save for later'
+      const configuration = {
+        baseURL: '',
+        title: 'Ice cream',
+        readMore: {
+          header: 'Read more',
+          limit: 3,
+          saveClickHandler: title => {
+            const saved = false
+            pagelib.FooterReadMore.updateSaveButtonForTitle(title, saveLabel(!saved), !saved,
+              window.document)
+          },
+          loadCallback: titleUrlSegments => {
+            titleUrlSegments.forEach(title => {
+              const saved = title === 'Kulfi'
+              pagelib.FooterReadMore.updateSaveButtonForTitle(title, saveLabel(saved), saved,
+                window.document)
+            })
+          }
+        },
+        license: {
+          template: 'Content is available under $1 unless otherwise noted',
+          substitution: 'CC BY-SA 3.0',
+          substitutionClickCallback: () => {
+            window.location.href = 'https://creativecommons.org/licenses/by-sa/3.0/'
+          }
+        }
+      }
+
+      const transformer = new pagelib.FooterTransformer()
+      transformer.add(window, container, configuration.baseURL, configuration.title,
+        configuration.readMore.header, configuration.readMore.limit, configuration.license.template,
+        configuration.license.substitution, configuration.license.substitutionClickCallback,
+        configuration.readMore.loadCallback, configuration.readMore.saveClickHandler)
+      pagelib.FooterContainer.updateLeftAndRightMargin(16, window.document)
+    </script>
+  </body>
+
+</html>

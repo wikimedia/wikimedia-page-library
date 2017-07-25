@@ -8,6 +8,7 @@ import FooterContainer from './FooterContainer'
 import FooterLegal from './FooterLegal'
 import FooterMenu from './FooterMenu'
 import FooterReadMore from './FooterReadMore'
+import FooterTransformer from './FooterTransformer'
 import LazyLoadTransform from './LazyLoadTransform'
 import LazyLoadTransformer from './LazyLoadTransformer'
 import PlatformTransform from './PlatformTransform'
@@ -29,6 +30,7 @@ export default {
   FooterLegal,
   FooterMenu,
   FooterReadMore,
+  FooterTransformer,
   LazyLoadTransform,
   LazyLoadTransformer,
   PlatformTransform,
