@@ -1,2 +1,6 @@
 env:
   browser: true
+
+rules:
+  # Stylistic Issues
+  eol-last: [1, always] # Allow <script> tags to appear on their own line at the end of the file.
