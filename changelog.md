@@ -1,3 +1,6 @@
+### v4.5.2
+- Fix: LazyLoadTransformer deregistration
+
 ### v4.5.1
 - Chore: add `dev` and `build:watch` scripts
 
