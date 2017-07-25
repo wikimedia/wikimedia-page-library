@@ -10,6 +10,7 @@
       }
       body, img, input { margin: 14px; }
     </style>
+    <script src=build/wikimedia-page-library-transform.js></script>
     <link rel=import href=ControlPanel.html>
   </head>
 
@@ -17,7 +18,7 @@
     <control-panel></control-panel>
     <input type='checkbox' id='toggleCheckbox'><label for=toggleCheckbox>Dim images</label>
     <br>
-    <script src=./DemoImages.js></script>
+    <script src=DemoImages.js></script>
     <script>
       /* global DemoImageData */
       const body = document.querySelector('body')
