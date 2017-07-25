@@ -25,10 +25,17 @@
     "build": "rollup -c",
     "pretest": "npm run -s build",
     "test": "mocha test/**/*.js",
+    "browser:install": "selenium-standalone --config=.selenium.json install",
+    "browser:start": "selenium-standalone --config=.selenium.json start 2> /dev/null",
+    "browser:wait": "while ! nc -z 0.0.0.0 4444; do :; done",
+    "test:gemini": "gemini test .",
+    "test:gemini-gui": "gemini-gui .",
+    "test:screenshot": "run-p browser:start -s browser:wait test:gemini",
+    "test:screenshot-gui": "run-p browser:start -s browser:wait test:gemini-gui",
     "clean": "rm -rf build/",
     "preversion": "[ -z \"$(git status -z)\" ]",
     "postversion": "git push --follow-tags origin HEAD && npm publish",
-    "prepublish": "npm run -s lint:all && npm run -s clean && npm -s t",
+    "prepublishOnly": "run-s lint:all clean test",
     "upgrade": "ncu -au"
   },
   "pre-commit": [
@@ -51,12 +58,17 @@
     "eslint-config-wikimedia": "0.3.0",
     "eslint-plugin-jsdoc": "3.0.2",
     "eslint-plugin-json": "1.2.0",
+    "gemini": "4.18.1",
+    "gemini-gui": "4.6.1",
     "mocha": "3.3.0",
     "npm-check-updates": "2.11.0",
+    "npm-run-all": "4.0.2",
     "pre-commit": "1.2.2",
     "rollup": "0.41.6",
     "rollup-plugin-babel": "2.7.1",
-    "rollup-plugin-css-porter": "0.1.2"
+    "rollup-plugin-css-porter": "0.1.2",
+    "selenium-standalone": "6.4.1"
   },
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "dependencies": {}
 }

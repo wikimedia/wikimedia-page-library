@@ -1,0 +1,17 @@
+# https://github.com/gemini-testing/gemini/blob/master/doc/config.md
+rootUrl: https://en.m.wikipedia.org
+screenshotsDir: result
+system:
+  projectRoot: test/screenshot
+  sourceRoot: .
+browsers:
+  # These versions must be installed and compatible with the WebDrivers installed and specified by
+  # Selenium. https://github.com/vvo/selenium-standalone/blob/3fde486/lib/default-config.js
+  # add links to old chrome
+  # chrome: {desiredCapabilities: {browserName: chrome, version: 58}}
+
+  # Use an older version of Firefox via https://github.com/gemini-testing/gemini/issues/688
+  # https://ftp.mozilla.org/pub/firefox/releases/48.0.2/linux-x86_64/en-US/ 
+  firefox: {desiredCapabilities: {browserName: firefox, version: '48.0.2'}}
+
+# Note: gemini-gui doesn't handle sigint properly currently

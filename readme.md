@@ -121,6 +121,17 @@ ESLint is executed prior to commits and publishing to identify cataloged style a
 
 [selectively disabling the rule]: http://eslint.org/docs/user-guide/configuring#disabling-rules-with-inline-comments
 
+### Screenshot Tests
+
+#### Installation
+In addition to the typical `npm i`, the test browsers must be installed with `npm run -s browser:install`.
+
+#### Validation
+The screenshot tests may be executed with `npm run -s test:screenshot`. For the best experience, execute in a virtual X server: `xvfb-run npm run -s test:screenshot`. Tests may also be executed individually using the GUI.
+
+#### Updating
+Regressions are detected by comparing a previously versioned result. It's expected that updates in presentation will initially be flagged as differing from the versioned result. To update the versioned result, run `npm run -s test:screenshot-gui` or `xvfb-run npm run -s test:screenshot-gui` (preferred), run the tests, and accept the screenshot for each reviewed difference.
+
 ## [Changelog](changelog.md)
 
 ## License

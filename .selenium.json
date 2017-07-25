@@ -1,0 +1,6 @@
+{
+  "drivers": {
+    "chrome": {"version": "2.29"},
+    "firefox": {"version": "0.16.1"}
+  }
+}
