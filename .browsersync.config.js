@@ -2,7 +2,7 @@
 module.exports = {
   files: ['build/*.{css,js}', 'demo/*.{html,css,js,json}'],
   server: {
-    baseDir: './',
+    baseDir: 'demo',
     directory: true
   }
 }
