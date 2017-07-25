@@ -1,3 +1,6 @@
+### v4.5.3
+- Fix: add missing href on edit anchor
+
 ### v4.5.2
 - Fix: LazyLoadTransformer deregistration
 
