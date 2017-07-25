@@ -4,70 +4,50 @@
   <head>
     <meta charset=utf-8>
     <title>EditTransform</title>
-    <link href=../build/wikimedia-page-library-transform.css rel=stylesheet>
     <style>
-      .fixture_body { margin: 4px; border: 1px solid black; padding: 4px; }
-      h2 { margin: 4px; }
-      .content-rtl h2 { text-align: right; }
+      :root {
+        --control-panel-platform-visibility: visibile;
+        --control-panel-layout-direction-visibility: visible;
+        --control-panel-theme-visibility: visible;
+        --control-panel-compatibility-visibility: visibile;
+        --control-panel-page-protection-visibility: visibile;
+      }
+      section { margin: 4px; }
+      h2, h3, h4 { margin: 4px 0; }
+      div {
+        max-width: 400px;
+        margin: 0 auto;
+      }
     </style>
+    <link rel=import href=ControlPanel.html>
   </head>
 
   <body>
-    <template>
-      <div class=fixture_html>
-        <div class=fixture_body>
-          <h2>
-            Edit section (<span class=platform></span>, <span class=direction></span>, <span class=theme></span>,
-              <span class=protection></span>, <span class=compatibility></span>)
-          </h2>
-        </div>
-      </div>
-    </template>
+    <control-panel></control-panel>
 
-    <script src=../build/wikimedia-page-library-transform.js></script>
+    <div>
+      <section>
+        <h2>Edit section 1</h2>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </section>
+      <section>
+        <h3>Edit section 2</h3>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </section>
+      <section>
+        <h4>Edit section 3</h4>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </section>
+    </div>
+
     <script>
       /* global pagelib */
-      const template = document.querySelector('template')
-
       let index = 0
-      for (const platform of Object.keys(pagelib.PlatformTransform.CLASS)) {
-        for (const direction of ['ltr', 'rtl']) {
-          for (const theme of Object.keys(pagelib.ThemeTransform.THEME)) {
-            for (const protection of Object.keys(pagelib.EditTransform.CLASS.PROTECTION)) {
-              const compatibilities = Object.keys(pagelib.CompatibilityTransform.COMPATIBILITY)
-                .concat('NONE')
-              for (const compatibility of compatibilities) {
-                const clone = document.importNode(template.content, true)
-
-                const html = clone.querySelector('.fixture_html')
-                html.classList.add(pagelib.PlatformTransform.CLASS[platform])
-                html.classList.add(`content-${direction}`)
-                html.classList.add(pagelib.ThemeTransform.THEME[theme])
-                const protectionClass = pagelib.EditTransform.CLASS.PROTECTION[protection]
-                if (protectionClass) {
-                  html.classList.add(protectionClass)
-                }
-                const compatibilityClass = pagelib.CompatibilityTransform.COMPATIBILITY[compatibility]
-                if (compatibilityClass) {
-                  html.classList.add(compatibilityClass)
-                }
-
-                clone.querySelector('.platform').textContent = platform
-                clone.querySelector('.direction').textContent = direction
-                clone.querySelector('.theme').textContent = theme
-                clone.querySelector('.protection').textContent = protection
-                clone.querySelector('.compatibility').textContent = compatibility
-
-                const button = pagelib.EditTransform.newEditSectionButton(document, index)
-                const header = clone.querySelector('h2')
-                header.parentNode.insertBefore(button, header)
-                document.querySelector('body').appendChild(clone)
-                ++index
-              }
-            }
-          }
-        }
-      }</script>
+      document.querySelectorAll('h2, h3, h4').forEach(header => {
+        const button = pagelib.EditTransform.newEditSectionButton(document, index)
+        header.parentNode.insertBefore(button, header)
+        ++index
+      })</script>
 
 </body>
 

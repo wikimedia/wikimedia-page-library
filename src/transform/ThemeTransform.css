@@ -13,12 +13,12 @@
   background: #fff;
 }
 
-.pagelib-theme-dark body, .pagelib-theme-dark .fixture_body {
+.pagelib-theme-dark body {
   color: #f8f9fa;
   background: #2e3136;
 }
 
-.pagelib-theme-sepia body, .pagelib-theme-sepia .fixture_body {
+.pagelib-theme-sepia body {
   color: #222;
   background: #f8f1e3;
 }
