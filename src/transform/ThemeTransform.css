@@ -112,6 +112,18 @@
   border-color: #cbc8c1 !important;
 }
 
+.pagelib-theme-dark .content table.mbox-small hr {
+  border-style: solid !important;
+  background: #43464a !important;
+  border-color: #43464a !important;
+}
+
+.pagelib-theme-sepia .content table.mbox-small hr {
+  border-style: solid !important;
+  background: #cbc8c1 !important;
+  border-color: #cbc8c1 !important;
+}
+
 .pagelib-theme-dark .content div.noprint.portal.plainlist > ul {
   background: #27292d !important;
 }
