@@ -103,21 +103,27 @@
 }
 
 .pagelib-theme-dark .content table.mbox-small,
+.pagelib-theme-dark .content table.mbox-small-left,
+.pagelib-theme-dark .content div.quotebox,
 .pagelib-theme-dark .content div.noprint.portal.plainlist {
   border-color: #43464a !important;
 }
 
 .pagelib-theme-sepia .content table.mbox-small,
+.pagelib-theme-sepia .content table.mbox-small-left,
+.pagelib-theme-sepia .content div.quotebox,
 .pagelib-theme-sepia .content div.noprint.portal.plainlist {
   border-color: #cbc8c1 !important;
 }
 
+.pagelib-theme-dark .content table.mbox-small-left hr,
 .pagelib-theme-dark .content table.mbox-small hr {
   border-style: solid !important;
   background: #43464a !important;
   border-color: #43464a !important;
 }
 
+.pagelib-theme-sepia .content table.mbox-small-left hr,
 .pagelib-theme-sepia .content table.mbox-small hr {
   border-style: solid !important;
   background: #cbc8c1 !important;
