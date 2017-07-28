@@ -81,7 +81,6 @@
   background: #27292d !important; 
 }
 
-
 .pagelib-theme-sepia .content table.tracklist th.tlheader.mbox-text {
   background: #f0e6d6 !important; 
 }
@@ -101,6 +100,16 @@
 
 .pagelib-theme-sepia .content div.quotebox {
   background: #f0e6d6 !important;
+}
+
+.pagelib-theme-dark .content table.mbox-small,
+.pagelib-theme-dark .content div.noprint.portal.plainlist {
+  border-color: #43464a !important;
+}
+
+.pagelib-theme-sepia .content table.mbox-small,
+.pagelib-theme-sepia .content div.noprint.portal.plainlist {
+  border-color: #cbc8c1 !important;
 }
 
 .pagelib-theme-dark .content div.noprint.portal.plainlist > ul {
