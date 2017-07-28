@@ -50,22 +50,21 @@
   // Layout the article section data consecutively on a single page.
   // Comment out any files above you aren't interested in testing, then when finished double-check
   // all of them.
-  Promise.all(
-    urls.map(url => fetch(url).then(resp => resp.json()))
-  )
+  Promise.all(urls.map(url => fetch(url).then(resp => resp.json())))
     .then(jsons => jsons.map(json => json.mobileview.sections))
     .then(sections => [].concat(...sections))
-    .then(sections => sections.map(section =>
-      `<div class='content_block'>
-        <h2>${section.line}</h2>
-        <br>
-        ${section.text}
-      </div>`
-    )).then(sections => sections.join('<br><br><br>')).then(text => {
+    .then(sections =>
+      sections.map(section => `<div class='content_block'>
+                                <h2>${section.line}</h2>
+                                <br>${section.text}
+                              </div>`
+      )
+    )
+    .then(sections => sections.join('<br><br><br>'))
+    .then(text => {
       document.querySelector('#content').innerHTML = text
     })
 }())
-
     </script>
 </body>
 </html>
