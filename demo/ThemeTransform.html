@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang=en>
+
+  <head>
+    <meta charset=utf-8>
+    <title>ThemeTransform</title>
+    <style>
+      :root {
+        --control-panel-theme-visibility: visible;
+      }
+      body{
+        padding:20px !important;
+      }
+    </style>
+ 
+    <link href="https://en.wikipedia.org/w/load.php?debug=false&lang=en&only=styles&skin=vector&modules=skins.minerva.base.reset|skins.minerva.content.styles|ext.math.styles|" rel="stylesheet" type="text/css"></link>
+
+    <script src=build/wikimedia-page-library-transform.js></script>
+    <link rel=import href=ControlPanel.html>
+  </head>
+
+  <body>
+    
+    <control-panel></control-panel>
+    <br>
+    <div class='content' id='content'>
+    </div>
+    
+    <script>
+        
+(function() {
+
+  // the files below were saved using the following mobileview parameters:
+  // eslint-disable-next-line max-len
+  // https://en.wikipedia.org/w/api.php?action=mobileview&format=json&noheadings=true&page=Playwright&pilicense=any&prop=sections%7Ctext%7Clastmodified%7Clastmodifiedby%7Clanguagecount%7Cid%7Cprotection%7Ceditable%7Cdisplaytitle%7Cthumb%7Cdescription%7Cimage%7Crevision%7Cnamespace&sectionprop=toclevel%7Cline%7Canchor%7Clevel%7Cnumber%7Cfromtitle%7Cindex&sections=all&thumbwidth=640
+
+  const urls = [
+    'en.Barack_Obama.json',
+    'en.Audioslave.json',
+    'en.Chris_Cornell.json',
+    'en.Gantz.json',
+    'en.Mycenaean_Greek.json',
+    'en.Kill_\'Em_All.json',
+    'en.Manchester_United_F.C..json',
+    'en.John_McCain.json',
+    'en.Playwright.json',
+    'en.Toast.json'
+  ].map(filename => `/DemoArticles/${filename}`)
+
+  // Layout the article section data consecutively on a single page.
+  // Comment out any files above you aren't interested in testing, then when finished double-check
+  // all of them.
+  Promise.all(
+    urls.map(url => fetch(url).then(resp => resp.json()))
+  )
+    .then(jsons => jsons.map(json => json.mobileview.sections))
+    .then(sections => [].concat(...sections))
+    .then(sections => sections.map(section =>
+      `<div class='content_block'>
+        <h2>${section.line}</h2>
+        <br>
+        ${section.text}
+      </div>`
+    )).then(sections => sections.join('<br><br><br>')).then(text => {
+      document.querySelector('#content').innerHTML = text
+    })
+}())
+
+    </script>
+</body>
+</html>
