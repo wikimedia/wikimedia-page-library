@@ -9,7 +9,19 @@
         --control-panel-theme-visibility: visible;
       }
       body{
-        padding:20px !important;
+        padding: 20px !important;
+      }
+      .content_block {
+          margin-bottom: 30px;
+      }
+      #topMenu a {
+        display: block !important;
+      }
+      #topMenu {
+        padding: 10px;
+      }
+      .content_block[id='0'] {
+        margin-top: 100px;
       }
     </style>
  
@@ -23,8 +35,8 @@
     
     <control-panel></control-panel>
     <br>
-    <div class='content' id='content'>
-    </div>
+    <div id='topMenu'></div>
+    <div class='content' id='content'></div>
     
     <script>
         
@@ -47,6 +59,14 @@
     'en.Toast.json'
   ].map(filename => `/DemoArticles/${filename}`)
 
+  const topMenu = document.getElementById('topMenu')
+  urls.forEach(url => {
+    const titleAnchor = document.createElement('a')
+    titleAnchor.href = `#${url}`
+    titleAnchor.innerHTML = url
+    topMenu.appendChild(titleAnchor)
+  })
+
   // Layout the article section data consecutively on a single page.
   // Comment out any files above you aren't interested in testing, then when finished double-check
   // all of them.
@@ -54,15 +74,26 @@
     .then(jsons => jsons.map(json => json.mobileview.sections))
     .then(sections => [].concat(...sections))
     .then(sections =>
-      sections.map(section => `<div class='content_block'>
+      sections.map(section => `<div class='content_block' id='${section.id}'>
                                 <h2>${section.line}</h2>
                                 <br>${section.text}
                               </div>`
       )
     )
-    .then(sections => sections.join('<br><br><br>'))
+    .then(sections => sections.join(''))
     .then(text => {
       document.querySelector('#content').innerHTML = text
+
+      Array.from(document.querySelectorAll('.content_block[id="0"] h2:first-of-type'))
+                .forEach((h2, id) => {
+                  const titleAnchor = document.createElement('a')
+                  const title = urls[parseInt(id, 10)]
+                  titleAnchor.innerHTML = title
+                  titleAnchor.id = title // Used by menu at top for jumping to articles.
+                  titleAnchor.href = '#'
+                  h2.innerHTML = ''
+                  h2.appendChild(titleAnchor)
+                })
     })
 }())
     </script>
