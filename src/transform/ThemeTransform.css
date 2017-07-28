@@ -104,6 +104,9 @@
 
 .pagelib-theme-dark .content table.mbox-small,
 .pagelib-theme-dark .content table.mbox-small-left,
+.pagelib-theme-dark .content table.wikitable,
+.pagelib-theme-dark .content table.wikitable tr th,
+.pagelib-theme-dark .content table.wikitable tr td,
 .pagelib-theme-dark .content div.quotebox,
 .pagelib-theme-dark .content div.noprint.portal.plainlist {
   border-color: #43464a !important;
@@ -111,6 +114,9 @@
 
 .pagelib-theme-sepia .content table.mbox-small,
 .pagelib-theme-sepia .content table.mbox-small-left,
+.pagelib-theme-sepia .content table.wikitable,
+.pagelib-theme-sepia .content table.wikitable tr th,
+.pagelib-theme-sepia .content table.wikitable tr td,
 .pagelib-theme-sepia .content div.quotebox,
 .pagelib-theme-sepia .content div.noprint.portal.plainlist {
   border-color: #cbc8c1 !important;
