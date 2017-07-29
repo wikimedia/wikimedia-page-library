@@ -9,19 +9,27 @@
         --control-panel-theme-visibility: visible;
       }
       body{
-        padding: 20px !important;
+        padding: 20px 20px 20px 320px !important;
       }
       .content_block {
-          margin-bottom: 30px;
+          padding-bottom: 50px;
       }
-      #topMenu a {
+      #demoMenu a {
         display: block !important;
       }
-      #topMenu {
+      #demoMenu {
         padding: 10px;
       }
-      .content_block[id='0'] {
-        margin-top: 100px;
+      #demoTools {
+        background: #ccc;
+        padding: 15px;
+        position: fixed;
+        left: 20px;
+        top: 20px;
+        z-index: 10000;
+      }
+      .demoArticleTitle {
+        color: red;
       }
     </style>
  
@@ -32,10 +40,10 @@
   </head>
 
   <body>
-    
-    <control-panel></control-panel>
-    <br>
-    <div id='topMenu'></div>
+    <div id='demoTools'>
+      <control-panel></control-panel>
+      <div id='demoMenu'></div>
+    </div>
     <div class='content' id='content'></div>
     
     <script>
@@ -46,7 +54,7 @@
   // eslint-disable-next-line max-len
   // https://en.wikipedia.org/w/api.php?action=mobileview&format=json&noheadings=true&page=Playwright&pilicense=any&prop=sections%7Ctext%7Clastmodified%7Clastmodifiedby%7Clanguagecount%7Cid%7Cprotection%7Ceditable%7Cdisplaytitle%7Cthumb%7Cdescription%7Cimage%7Crevision%7Cnamespace&sectionprop=toclevel%7Cline%7Canchor%7Clevel%7Cnumber%7Cfromtitle%7Cindex&sections=all&thumbwidth=640
 
-  const urls = [
+  const fileNames = [
     'en.Barack_Obama.json',
     'en.Audioslave.json',
     'en.Chris_Cornell.json',
@@ -57,14 +65,16 @@
     'en.John_McCain.json',
     'en.Playwright.json',
     'en.Toast.json'
-  ].map(filename => `/DemoArticles/${filename}`)
+  ]
 
-  const topMenu = document.getElementById('topMenu')
-  urls.forEach(url => {
+  const urls = fileNames.map(filename => `/DemoArticles/${filename}`)
+
+  const demoMenu = document.getElementById('demoMenu')
+  fileNames.forEach(url => {
     const titleAnchor = document.createElement('a')
     titleAnchor.href = `#${url}`
     titleAnchor.innerHTML = url
-    topMenu.appendChild(titleAnchor)
+    demoMenu.appendChild(titleAnchor)
   })
 
   // Layout the article section data consecutively on a single page.
@@ -86,13 +96,10 @@
 
       Array.from(document.querySelectorAll('.content_block[id="0"] h2:first-of-type'))
                 .forEach((h2, id) => {
-                  const titleAnchor = document.createElement('a')
-                  const title = urls[parseInt(id, 10)]
-                  titleAnchor.innerHTML = title
-                  titleAnchor.id = title // Used by menu at top for jumping to articles.
-                  titleAnchor.href = '#'
-                  h2.innerHTML = ''
-                  h2.appendChild(titleAnchor)
+                  const title = fileNames[parseInt(id, 10)]
+                  h2.innerHTML = title
+                  h2.classList.add('demoArticleTitle')
+                  h2.id = title // Used by menu at top for jumping to articles.
                 })
     })
 }())
