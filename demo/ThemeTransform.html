@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang=en>
+<!doctype html>
+<html>
 
   <head>
     <meta charset=utf-8>
@@ -7,6 +7,7 @@
     <style>
       :root {
         --control-panel-theme-visibility: visible;
+        --control-panel-page-protection-visibility: visibile;
       }
       body{
         padding: 20px 20px 20px 300px !important;
@@ -14,11 +15,11 @@
       .content_block {
         padding-bottom: 50px;
       }
-      #demoMenu a {
+      #theme_demo_menu a {
         display: block;
         color: black;
       }
-      #demoTools {
+      #theme_demo_tools {
         background: #ccc;
         padding: 15px;
         position: fixed;
@@ -28,7 +29,7 @@
         width: 230px;
         border-radius: 8px;
       }
-      .demoArticleTitle {
+      .theme_demo_article_title {
         color: red;
         font-size: 2.0em;
       }
@@ -41,69 +42,102 @@
   </head>
 
   <body>
-    <div id='demoTools'>
+    <div id='theme_demo_tools'>
       <control-panel></control-panel>
-      <div id='demoMenu'></div>
+      <div id='theme_demo_menu'></div>
     </div>
     <div class='content' id='content'></div>
     
     <script>
-        
-(function() {
+/* eslint-disable require-jsdoc */
 
-  // The json files below were saved using the mobileview parameters in the URL below.
-  // eslint-disable-next-line max-len
-  // https://en.wikipedia.org/w/api.php?action=mobileview&format=json&noheadings=true&page=Playwright&pilicense=any&prop=sections%7Ctext%7Clastmodified%7Clastmodifiedby%7Clanguagecount%7Cid%7Cprotection%7Ceditable%7Cdisplaytitle%7Cthumb%7Cdescription%7Cimage%7Crevision%7Cnamespace&sectionprop=toclevel%7Cline%7Canchor%7Clevel%7Cnumber%7Cfromtitle%7Cindex&sections=all&thumbwidth=640
+const flattenArrayOfArrays = array => [].concat(...array)
 
-  const fileNames = [
-    'en.Barack_Obama.json',
-    'en.Audioslave.json',
-    'en.Chris_Cornell.json',
-    'en.Gantz.json',
-    'en.Mycenaean_Greek.json',
-    'en.Kill_\'Em_All.json',
-    'en.Manchester_United_F.C..json',
-    'en.John_McCain.json',
-    'en.Playwright.json',
-    'en.Toast.json'
-  ]
+const fileNamesFromIndexJSON = json => flattenArrayOfArrays(json.map(
+  langData => langData.titles.map(title => `${langData.lang}.${title}.json`)
+))
 
-  const urls = fileNames.map(filename => `/DemoArticles/${filename}`)
+const anchorsFromFileNames = fileNames => fileNames.map(fileName => {
+  const anchor = document.createElement('a')
+  anchor.href = `#${fileName}`
+  anchor.innerHTML = fileName
+  return anchor
+})
 
-  const demoMenu = document.getElementById('demoMenu')
-  fileNames.forEach(url => {
-    const titleAnchor = document.createElement('a')
-    titleAnchor.href = `#${url}`
-    titleAnchor.innerHTML = url
-    demoMenu.appendChild(titleAnchor)
-  })
+const articleJSONFetchPromisesFromURLs =
+  urls => urls.map(url => fetch(url).then(resp => resp.json()))
 
-  // Layout the article section data consecutively on a single page.
-  // Comment out any files above you aren't interested in testing, then when finished double-check
-  // all of them.
-  Promise.all(urls.map(url => fetch(url).then(resp => resp.json())))
-    .then(jsons => jsons.map(json => json.mobileview.sections))
-    .then(sections => [].concat(...sections))
-    .then(sections =>
-      sections.map(section => `<div class='content_block' id='${section.id}'>
-                                <h2>${section.line}</h2>
-                                <br>${section.text}
-                              </div>`
-      )
-    )
-    .then(sections => sections.join(''))
-    .then(text => {
-      document.querySelector('#content').innerHTML = text
+// 'DemoArticles' json files were saved using the mobileview parameters in the URL below.
+// eslint-disable-next-line max-len
+// https://en.wikipedia.org/w/api.php?action=mobileview&format=json&noheadings=true&page=Playwright&pilicense=any&prop=sections%7Ctext%7Clastmodified%7Clastmodifiedby%7Clanguagecount%7Cid%7Cprotection%7Ceditable%7Cdisplaytitle%7Cthumb%7Cdescription%7Cimage%7Crevision%7Cnamespace&sectionprop=toclevel%7Cline%7Canchor%7Clevel%7Cnumber%7Cfromtitle%7Cindex&sections=all&thumbwidth=640
+const urlsFromFileNames = fileNames => fileNames.map(filename => `/DemoArticles/${filename}`)
 
-      Array.from(document.querySelectorAll('.content_block[id="0"] h2:first-of-type'))
-                .forEach((h2, id) => {
-                  const title = fileNames[parseInt(id, 10)]
-                  h2.innerHTML = title
-                  h2.classList.add('demoArticleTitle')
-                  h2.id = title // Used by menu at top for jumping to articles.
-                })
+const sectionsFromAllArticlesJSONs = jsons => jsons.map(json => json.mobileview.sections)
+
+const sectionsFromAllArticlesSections =
+  allArticlesSections => flattenArrayOfArrays(allArticlesSections)
+
+const enclosedSectionHTMLsFromSections = sections => sections.map(section =>
+  `<div class='content_block' id='${section.id}'>
+      <h2>${section.line}</h2>
+      <br>${section.text}
+    </div>`)
+
+const htmlFromAllSectionHTMLs = allSectionHTMLs => allSectionHTMLs.join('')
+
+const addHTMLToDocument = html => {
+  const contentElement = document.querySelector('#content')
+  contentElement.innerHTML = html
+}
+
+const addSectionTitles = fileNames => {
+  Array.from(document.querySelectorAll('.content_block[id="0"] h2:first-of-type'))
+    .forEach((h2, id) => {
+      const title = fileNames[parseInt(id, 10)]
+      h2.innerHTML = title
+      h2.classList.add('theme_demo_article_title')
+      h2.id = title // Used by menu at top for jumping to articles.
     })
-}())
+}
+
+const addEditPencils = () => {
+  let index = 0
+  document.querySelectorAll('h2, h3, h4, h5, h6').forEach(header => {
+    /* global pagelib */
+    const button = pagelib.EditTransform.newEditSectionButton(document, index)
+    header.parentNode.insertBefore(button, header)
+    ++index
+  })
+}
+
+// Layout the article section data consecutively on a single page. Comment out any files above you 
+// aren't interested in testing, then when finished double-check all of them.
+const addHTMLFromJSONFilesToDocument = fileNames => {
+  Promise.all(articleJSONFetchPromisesFromURLs(urlsFromFileNames(fileNames)))
+    .then(sectionsFromAllArticlesJSONs)
+    .then(sectionsFromAllArticlesSections)
+    .then(enclosedSectionHTMLsFromSections)
+    .then(htmlFromAllSectionHTMLs)
+    .then(addHTMLToDocument)
+    .then(() => addSectionTitles(fileNames))
+    .then(addEditPencils)
+}
+
+const addAnchorsToMenu = anchors => {
+  const themeDemoMenu = document.getElementById('theme_demo_menu')
+  anchors.forEach(anchor => themeDemoMenu.appendChild(anchor))
+}
+
+fetch('./DemoArticles/index.json')
+  .then(response => response.json())
+  .then(fileNamesFromIndexJSON)
+  .then(fileNames => {
+    addHTMLFromJSONFilesToDocument(fileNames)
+    return fileNames
+  })
+  .then(anchorsFromFileNames)
+  .then(addAnchorsToMenu)
+
     </script>
 </body>
 </html>
