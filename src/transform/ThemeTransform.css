@@ -98,13 +98,13 @@ styles with only the things which need tweaking.
 }
 
 /* horizontal rule */
+/* en > Audioslave > 793042679 */
+/* en > Chris Cornell > 793305307 */
 .pagelib-theme-dark .content hr {
   border-style: solid !important;
-  background: #43464a !important;
 }
 .pagelib-theme-sepia .content hr {
   border-style: solid !important;
-  background: #cbc8c1 !important;
 }
 
 /* caption color */
