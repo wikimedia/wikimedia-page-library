@@ -112,11 +112,22 @@ styles with only the things which need tweaking.
   background: #27292d;
 }
 
-/* caption colors */
-.content figcaption, 
-.content .thumbcaption {
-  color: #a2a9b1;
+/* caption color */
+/* en > Barack Obama > 793008506 */ 
+.pagelib-theme-default .content .thumbcaption,
+.pagelib-theme-default .content figcaption {
+  color: #72777d !important;
 }
+.pagelib-theme-dark .content .thumbcaption,
+.pagelib-theme-dark .content figcaption {
+  color: #c8ccd1 !important;
+}
+.pagelib-theme-sepia .content .thumbcaption,
+.pagelib-theme-sepia .content figcaption {
+  color: #646059 !important;
+}
+
+/* caption background */
 /* fr > Team_Bentley > 138755788 */
 .pagelib-theme-dark .content caption {
   background: #43464a !important;
