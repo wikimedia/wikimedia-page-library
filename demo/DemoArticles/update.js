@@ -26,6 +26,13 @@ const fetchAndSaveJSONForArticleRef = articleRef => {
       console.log(`\tJSON saved to '${articleRef.fileName()}'`)
       const articleJSON = JSON.parse(body)
       const formattedArticleJSON = JSON.stringify(articleJSON, null, 2)
+        .replace(/\u00ad/g, '\\u00ad')
+        .replace(/\u200c/g, '\\u200c')
+        .replace(/\u200e/g, '\\u200e') // Replace unescaped LTR and RTL marks.
+        .replace(/\u200f/g, '\\u200f')
+        .replace(/\u202d/g, '\\u202d')
+        .replace(/\u202e/g, '\\u202e')
+        .replace(/\u202f/g, '\\u202f')
       fs.writeFile(
         `./data/${articleRef.fileName()}`,
         formattedArticleJSON, err => { if (err) { throw err } }
