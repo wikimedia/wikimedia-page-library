@@ -65,7 +65,7 @@ const articleRefsFromArticlesJSON =
 const anchorsFromArticleRefs = articleRefs => articleRefs.map(articleRef => {
   const anchor = document.createElement('a')
   anchor.href = `#${articleRef.fileName()}`
-  anchor.innerHTML = articleRef.fileName()
+  anchor.innerHTML = articleRef.displayName()
   return anchor
 })
 
@@ -96,10 +96,12 @@ const addHTMLToDocument = html => {
 const addSectionTitles = articleRefs => {
   Array.from(document.querySelectorAll('.content_block[id="0"] h2:first-of-type'))
     .forEach((h2, id) => {
-      const title = articleRefs[parseInt(id, 10)].fileName()
-      h2.innerHTML = title
+      const numericIndex = parseInt(id, 10)
+      const fileName = articleRefs[numericIndex].fileName()
+      const displayName = articleRefs[numericIndex].displayName()
+      h2.innerHTML = displayName
       h2.classList.add('theme_demo_article_title')
-      h2.id = title
+      h2.id = fileName
     })
 }
 
