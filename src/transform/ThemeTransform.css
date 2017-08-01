@@ -93,3 +93,11 @@
 .content figcaption, .content .thumbcaption {
   color: #a2a9b1;
 }
+
+/* fr > Team_Bentley > 138755788 */
+.pagelib-theme-dark .content caption {
+  background: #43464a !important;
+}
+.pagelib-theme-sepia .content caption {
+  background: #cbc8c1 !important;
+}
