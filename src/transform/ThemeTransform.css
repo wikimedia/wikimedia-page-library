@@ -17,7 +17,6 @@
   color: #f8f9fa;
   background: #2e3136;
 }
-
 .pagelib-theme-sepia body {
   color: #222;
   background: #f8f1e3;
@@ -26,7 +25,6 @@
 .pagelib-theme-dark a {
   color: #69f;
 }
-
 .pagelib-theme-sepia a {
   color: #36c;
 }
@@ -35,11 +33,10 @@
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAGJJREFUKFN1jdENgCAMBYmJn47Bak7DZrhTpc/XIm34OAjXA4qIgHI/dSBbLGTcOKjBryFlinGmjDQGiOF0MQkxI3v5wq6L38qR7SnsAx8ul37igPjAd+o5Oz2MRA+xY4ZSXuaW6wYouOLpAAAAAElFTkSuQmCC);
 }
 
-.pagelib-theme-dark .content table.mbox-small{
+.pagelib-theme-dark .content table.mbox-small {
   color: #f8f9fa !important; 
 }
-
-.pagelib-theme-sepia .content table.mbox-small{
+.pagelib-theme-sepia .content table.mbox-small {
   color: #222 !important; 
 }
 
@@ -56,7 +53,6 @@
   background: #27292d !important;
   color: #f8f9fa !important;
 }
-
 .pagelib-theme-sepia .content table.wikitable th,
 .pagelib-theme-sepia .content table.mbox-small,
 .pagelib-theme-sepia .content table.mbox-small-left,
@@ -68,40 +64,38 @@
   color: #222 !important; 
 }
 
+/* https://en.m.wikipedia.org/wiki/Kill_'Em_All?oldid=793288745 */
 .pagelib-theme-dark .content table.tracklist th.tlheader.mbox-text {
   background: #27292d !important; 
 } 
-
 .pagelib-theme-dark .content table.tracklist th.tlheader,
 .pagelib-theme-dark .content table.tracklist td span {
   background: #27292d !important; 
 }
-
 .pagelib-theme-dark .content table.tracklist td {
   background: #27292d !important; 
 }
-
 .pagelib-theme-sepia .content table.tracklist th.tlheader.mbox-text {
   background: #f0e6d6 !important; 
 }
-
 .pagelib-theme-sepia .content table.tracklist th.tlheader,
 .pagelib-theme-sepia .content table.tracklist td span {
   background: #f0e6d6 !important; 
 }
-
 .pagelib-theme-sepia .content table.tracklist td {
   background: #f0e6d6 !important; 
 }
 
+/* https://en.m.wikipedia.org/wiki/Kill_'Em_All?oldid=793288745 */
 .pagelib-theme-dark .content div.quotebox {
   background: #27292d !important;
 }
-
 .pagelib-theme-sepia .content div.quotebox {
   background: #f0e6d6 !important;
 }
 
+/* https://en.m.wikipedia.org/wiki/Audioslave?oldid=793042679 */
+/* https://en.m.wikipedia.org/wiki/Barack_Obama?oldid=793008506 */
 .pagelib-theme-dark .content table.mbox-small,
 .pagelib-theme-dark .content table.mbox-small-left,
 .pagelib-theme-dark .content table.wikitable,
@@ -111,7 +105,6 @@
 .pagelib-theme-dark .content div.noprint.portal.plainlist {
   border-color: #43464a !important;
 }
-
 .pagelib-theme-sepia .content table.mbox-small,
 .pagelib-theme-sepia .content table.mbox-small-left,
 .pagelib-theme-sepia .content table.wikitable,
@@ -122,13 +115,13 @@
   border-color: #cbc8c1 !important;
 }
 
+/* https://en.m.wikipedia.org/wiki/Audioslave?oldid=793042679 */
 .pagelib-theme-dark .content table.mbox-small-left hr,
 .pagelib-theme-dark .content table.mbox-small hr {
   border-style: solid !important;
   background: #43464a !important;
   border-color: #43464a !important;
 }
-
 .pagelib-theme-sepia .content table.mbox-small-left hr,
 .pagelib-theme-sepia .content table.mbox-small hr {
   border-style: solid !important;
@@ -136,18 +129,18 @@
   border-color: #cbc8c1 !important;
 }
 
+/* https://en.m.wikipedia.org/wiki/Barack_Obama?oldid=793008506 */
 .pagelib-theme-dark .content div.noprint.portal.plainlist > ul {
   background: #27292d !important;
 }
-
 .pagelib-theme-sepia .content div.noprint.portal.plainlist > ul {
   background: #f0e6d6 !important;
 }
 
+/* https://en.m.wikipedia.org/wiki/Mycenaean_Greek?oldid=793038239 */
 .pagelib-theme-dark .content table.infobox td.noprint.selfref {
   background: #27292d !important;
 }
-
 .pagelib-theme-sepia .content table.infobox td.noprint.selfref {
   background: #f0e6d6 !important;
 }
