@@ -9,7 +9,7 @@
         --control-panel-theme-visibility: visible;
         --control-panel-page-protection-visibility: visibile;
       }
-      body{
+      body {
         padding: 20px 20px 20px 300px !important;
       }
       .content_block {
@@ -18,6 +18,8 @@
       #theme_demo_menu a {
         display: block;
         color: black;
+        font-size: 0.75em;
+        white-space: nowrap;
       }
       #theme_demo_tools {
         background: #ccc;
@@ -53,9 +55,8 @@
 
 const flattenArrayOfArrays = array => [].concat(...array)
 
-const fileNamesFromIndexJSON = json => flattenArrayOfArrays(json.map(
-  langData => langData.titles.map(title => `${langData.lang}.${title}.json`)
-))
+const fileNamesFromArticlesJSON =
+  json => json.map(article => `${article.lang}.${article.title}.${article.revision}.json`)
 
 const anchorsFromFileNames = fileNames => fileNames.map(fileName => {
   const anchor = document.createElement('a')
@@ -70,7 +71,7 @@ const articleJSONFetchPromisesFromURLs =
 // 'DemoArticles' json files were saved using the mobileview parameters in the URL below.
 // eslint-disable-next-line max-len
 // https://en.wikipedia.org/w/api.php?action=mobileview&format=json&noheadings=true&page=Playwright&pilicense=any&prop=sections%7Ctext%7Clastmodified%7Clastmodifiedby%7Clanguagecount%7Cid%7Cprotection%7Ceditable%7Cdisplaytitle%7Cthumb%7Cdescription%7Cimage%7Crevision%7Cnamespace&sectionprop=toclevel%7Cline%7Canchor%7Clevel%7Cnumber%7Cfromtitle%7Cindex&sections=all&thumbwidth=640
-const urlsFromFileNames = fileNames => fileNames.map(filename => `/DemoArticles/${filename}`)
+const urlsFromFileNames = fileNames => fileNames.map(filename => `/DemoArticles/data/${filename}`)
 
 const sectionsFromAllArticlesJSONs = jsons => jsons.map(json => json.mobileview.sections)
 
@@ -128,9 +129,9 @@ const addAnchorsToMenu = anchors => {
   anchors.forEach(anchor => themeDemoMenu.appendChild(anchor))
 }
 
-fetch('./DemoArticles/index.json')
+fetch('./DemoArticles/articles.json')
   .then(response => response.json())
-  .then(fileNamesFromIndexJSON)
+  .then(fileNamesFromArticlesJSON)
   .then(fileNames => {
     addHTMLFromJSONFilesToDocument(fileNames)
     return fileNames
