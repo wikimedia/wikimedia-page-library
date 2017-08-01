@@ -112,11 +112,6 @@ styles with only the things which need tweaking.
   background: #27292d;
 }
 
-/* caption colors */
-.content figcaption, 
-.content .thumbcaption {
-  color: #a2a9b1;
-}
 /* fr > Team_Bentley > 138755788 */
 .pagelib-theme-dark .content caption {
   background: #43464a !important;
