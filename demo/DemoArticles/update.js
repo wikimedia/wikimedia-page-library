@@ -3,34 +3,36 @@
 
 const fs = require('fs')
 const request = require('request')
+const INDEX_FILE = './articles.json'
+const ArticleRef = require('./ArticleRef.js').ArticleRef
 
-const articlesData = JSON.parse(fs.readFileSync('./articles.json', 'utf8'))
-
-const fileNameFromArticleData =
-  articleData => `${articleData.lang}.${articleData.title}.${articleData.revision}.json`
-
-const urlFromArticleData =
-  articleData => `https://${articleData.lang}.wikipedia.org/w/api.php?action=mobileview&page=${encodeURI(articleData.title)}&revision=${articleData.revision}&format=json&noheadings=true&prop=sections%7Ctext%7Clastmodified%7Clastmodifiedby%7Clanguagecount%7Cid%7Cprotection%7Ceditable%7Cdisplaytitle%7Cthumb%7Cdescription%7Cimage%7Crevision%7Cnamespace&sectionprop=toclevel%7Cline%7Canchor%7Clevel%7Cnumber%7Cfromtitle%7Cindex&sections=all&thumbwidth=640`
+const articleRefs =
+  JSON
+    .parse(fs.readFileSync(INDEX_FILE, 'utf8'))
+    .map(articleData => new ArticleRef(articleData.lang, articleData.title, articleData.revision))
 
 // eslint-disable-next-line no-console
-console.log(`Fetching JSON for ${articlesData.length} titles...`)
+console.log(`Fetching JSON for ${articleRefs.length} titles...`)
 
-articlesData.forEach(articleData => {
-  const fileName = fileNameFromArticleData(articleData)
-  const url = urlFromArticleData(articleData)
+const fetchAndSaveJSONForArticleRef = articleRef => {
   request({
-    method: 'GET',
-    uri: url,
+    method: 'POST',
+    uri: articleRef.url(),
     encoding: 'utf-8',
     gzip: true
   }, (error, response, body) => {
     if (!error && response.statusCode === 200) {
       // eslint-disable-next-line no-console
-      console.log(`\tJSON saved to '${fileName}'`)
+      console.log(`\tJSON saved to '${articleRef.fileName()}'`)
       const articleJSON = JSON.parse(body)
       const formattedArticleJSON = JSON.stringify(articleJSON, null, 2)
-      fs.writeFile(`./data/${fileName}`, formattedArticleJSON, err => { if (err) { throw err } })
+      fs.writeFile(
+        `./data/${articleRef.fileName()}`,
+        formattedArticleJSON, err => { if (err) { throw err } }
+      )
     }
   }
   )
-})
+}
+
+articleRefs.forEach(fetchAndSaveJSONForArticleRef)

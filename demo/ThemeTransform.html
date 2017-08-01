@@ -39,6 +39,8 @@
     <link href="https://en.wikipedia.org/w/load.php?debug=false&lang=en&only=styles&skin=vector&modules=skins.minerva.base.reset|skins.minerva.content.styles|ext.math.styles|" rel="stylesheet" type="text/css"></link>
 
     <script src=build/wikimedia-page-library-transform.js></script>
+    <script src='./DemoArticles/ArticleRef.js'></script>
+    
     <link rel=import href=ControlPanel.html>
   </head>
 
@@ -54,23 +56,24 @@
 
 const flattenArrayOfArrays = array => [].concat(...array)
 
-const fileNamesFromArticlesJSON =
-  json => json.map(article => `${article.lang}.${article.title}.${article.revision}.json`)
+/* global ArticleRef */
+const articleRefsFromArticlesJSON =
+  json => json.map(
+    articleData => new ArticleRef(articleData.lang, articleData.title, articleData.revision)
+  )
 
-const anchorsFromFileNames = fileNames => fileNames.map(fileName => {
+const anchorsFromArticleRefs = articleRefs => articleRefs.map(articleRef => {
   const anchor = document.createElement('a')
-  anchor.href = `#${fileName}`
-  anchor.innerHTML = fileName
+  anchor.href = `#${articleRef.fileName()}`
+  anchor.innerHTML = articleRef.fileName()
   return anchor
 })
 
 const articleJSONFetchPromisesFromURLs =
   urls => urls.map(url => fetch(url).then(resp => resp.json()))
 
-// 'DemoArticles' json files were saved using the mobileview parameters in the URL below.
-// eslint-disable-next-line max-len
-// https://en.wikipedia.org/w/api.php?action=mobileview&format=json&noheadings=true&page=Playwright&pilicense=any&prop=sections%7Ctext%7Clastmodified%7Clastmodifiedby%7Clanguagecount%7Cid%7Cprotection%7Ceditable%7Cdisplaytitle%7Cthumb%7Cdescription%7Cimage%7Crevision%7Cnamespace&sectionprop=toclevel%7Cline%7Canchor%7Clevel%7Cnumber%7Cfromtitle%7Cindex&sections=all&thumbwidth=640
-const urlsFromFileNames = fileNames => fileNames.map(filename => `/DemoArticles/data/${filename}`)
+const urlsFromArticleRefs =
+  articleRefs => articleRefs.map(articleRef => `/DemoArticles/data/${articleRef.fileName()}`)
 
 const sectionsFromAllArticlesJSONs = jsons => jsons.map(json => json.mobileview.sections)
 
@@ -90,26 +93,24 @@ const addHTMLToDocument = html => {
   contentElement.innerHTML = html
 }
 
-const addSectionTitles = fileNames => {
+const addSectionTitles = articleRefs => {
   Array.from(document.querySelectorAll('.content_block[id="0"] h2:first-of-type'))
     .forEach((h2, id) => {
-      const title = fileNames[parseInt(id, 10)]
+      const title = articleRefs[parseInt(id, 10)].fileName()
       h2.innerHTML = title
       h2.classList.add('theme_demo_article_title')
-      h2.id = title // Used by menu at top for jumping to articles.
+      h2.id = title
     })
 }
 
-// Layout the article section data consecutively on a single page. Comment out any files above you 
-// aren't interested in testing, then when finished double-check all of them.
-const addHTMLFromJSONFilesToDocument = fileNames => {
-  Promise.all(articleJSONFetchPromisesFromURLs(urlsFromFileNames(fileNames)))
+const addHTMLFromJSONFilesToDocument = articleRefs => {
+  Promise.all(articleJSONFetchPromisesFromURLs(urlsFromArticleRefs(articleRefs)))
     .then(sectionsFromAllArticlesJSONs)
     .then(sectionsFromAllArticlesSections)
     .then(enclosedSectionHTMLsFromSections)
     .then(htmlFromAllSectionHTMLs)
     .then(addHTMLToDocument)
-    .then(() => addSectionTitles(fileNames))
+    .then(() => addSectionTitles(articleRefs))
 }
 
 const addAnchorsToMenu = anchors => {
@@ -119,12 +120,12 @@ const addAnchorsToMenu = anchors => {
 
 fetch('./DemoArticles/articles.json')
   .then(response => response.json())
-  .then(fileNamesFromArticlesJSON)
-  .then(fileNames => {
-    addHTMLFromJSONFilesToDocument(fileNames)
-    return fileNames
+  .then(articleRefsFromArticlesJSON)
+  .then(articleRefs => {
+    addHTMLFromJSONFilesToDocument(articleRefs)
+    return articleRefs
   })
-  .then(anchorsFromFileNames)
+  .then(anchorsFromArticleRefs)
   .then(addAnchorsToMenu)
 
     </script>
