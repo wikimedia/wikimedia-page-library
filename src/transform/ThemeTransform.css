@@ -107,11 +107,6 @@ styles with only the things which need tweaking.
   background: #cbc8c1 !important;
 }
 
-/* gallerybox and thumb */
-.pagelib-theme-dark li.gallerybox div.thumb {
-  background: #27292d;
-}
-
 /* caption color */
 /* en > Barack Obama > 793008506 */ 
 .pagelib-theme-default .content .thumbcaption,
