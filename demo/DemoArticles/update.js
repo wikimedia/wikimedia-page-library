@@ -21,6 +21,7 @@ articlesData.forEach(articleData => {
   request({
     method: 'GET',
     uri: url,
+    encoding: 'utf-8',
     gzip: true
   }, (error, response, body) => {
     if (!error && response.statusCode === 200) {
