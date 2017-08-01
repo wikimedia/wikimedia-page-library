@@ -33,60 +33,36 @@
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAGJJREFUKFN1jdENgCAMBYmJn47Bak7DZrhTpc/XIm34OAjXA4qIgHI/dSBbLGTcOKjBryFlinGmjDQGiOF0MQkxI3v5wq6L38qR7SnsAx8ul37igPjAd+o5Oz2MRA+xY4ZSXuaW6wYouOLpAAAAAElFTkSuQmCC);
 }
 
-.pagelib-theme-dark .content table.mbox-small {
-  color: #f8f9fa !important; 
-}
-.pagelib-theme-sepia .content table.mbox-small {
-  color: #222 !important; 
-}
-
-.pagelib-theme-dark .content table.wikitable th,
-.pagelib-theme-dark .content table.mbox-small,
-.pagelib-theme-dark .content table.mbox-small-left,
-.pagelib-theme-dark .content table.infobox,
-.pagelib-theme-dark .content table.infobox.vcard td.toccolours,
-.pagelib-theme-dark .content table.infobox.vcard td div,
-.pagelib-theme-dark .content table.infobox th {
-  /* The infobox background. Some backgrounds need important to override inline styles like
-     https://en.m.wikipedia.org/wiki/Wolverine_(character)?oldid=789987909.
-     https://phabricator.wikimedia.org/diffusion/SMIN/browse/master/resources/skins.minerva.content.styles/hacks.less;2cc9516cde6027234de9881d503ed7161e0e2ace$44 */
+.pagelib-theme-dark .content table,
+.pagelib-theme-dark .content td,
+.pagelib-theme-dark .content tr,
+.pagelib-theme-dark .content th {
   background: #27292d !important;
   color: #f8f9fa !important;
 }
-.pagelib-theme-sepia .content table.wikitable th,
-.pagelib-theme-sepia .content table.mbox-small,
-.pagelib-theme-sepia .content table.mbox-small-left,
-.pagelib-theme-sepia .content table.infobox,
-.pagelib-theme-sepia .content table.infobox.vcard td.toccolours,
-.pagelib-theme-sepia .content table.infobox.vcard td div,
-.pagelib-theme-sepia .content table.infobox th {
+.pagelib-theme-sepia .content table,
+.pagelib-theme-sepia .content td,
+.pagelib-theme-sepia .content tr,
+.pagelib-theme-sepia .content th {
   background: #f0e6d6 !important;
   color: #222 !important; 
 }
 
-/* https://en.m.wikipedia.org/wiki/Kill_'Em_All?oldid=793288745 */
-.pagelib-theme-dark .content table.tracklist th.tlheader.mbox-text {
-  background: #27292d !important; 
-} 
-.pagelib-theme-dark .content table.tracklist th.tlheader,
-.pagelib-theme-dark .content table.tracklist td span {
-  background: #27292d !important; 
+.pagelib-theme-dark .content div,
+.pagelib-theme-dark .content span,
+.pagelib-theme-dark .content ul,
+.pagelib-theme-dark .content li {
+  background: transparent !important;
+  color: #f8f9fa !important;
 }
-.pagelib-theme-dark .content table.tracklist td {
-  background: #27292d !important; 
-}
-.pagelib-theme-sepia .content table.tracklist th.tlheader.mbox-text {
-  background: #f0e6d6 !important; 
-}
-.pagelib-theme-sepia .content table.tracklist th.tlheader,
-.pagelib-theme-sepia .content table.tracklist td span {
-  background: #f0e6d6 !important; 
-}
-.pagelib-theme-sepia .content table.tracklist td {
-  background: #f0e6d6 !important; 
+.pagelib-theme-sepia .content div,
+.pagelib-theme-sepia .content span,
+.pagelib-theme-sepia .content ul,
+.pagelib-theme-sepia .content li {
+  background: transparent !important;
+  color: #222 !important; 
 }
 
-/* https://en.m.wikipedia.org/wiki/Kill_'Em_All?oldid=793288745 */
 .pagelib-theme-dark .content div.quotebox {
   background: #27292d !important;
 }
@@ -94,87 +70,24 @@
   background: #f0e6d6 !important;
 }
 
-/* https://en.m.wikipedia.org/wiki/Audioslave?oldid=793042679 */
-/* https://en.m.wikipedia.org/wiki/Barack_Obama?oldid=793008506 */
-.pagelib-theme-dark .content table.mbox-small,
-.pagelib-theme-dark .content table.mbox-small-left,
-.pagelib-theme-dark .content table.wikitable,
-.pagelib-theme-dark .content table.wikitable tr th,
-.pagelib-theme-dark .content table.wikitable tr td,
-.pagelib-theme-dark .content div.quotebox,
-.pagelib-theme-dark .content div.noprint.portal.plainlist {
+.pagelib-theme-dark .content * {
   border-color: #43464a !important;
 }
-.pagelib-theme-sepia .content table.mbox-small,
-.pagelib-theme-sepia .content table.mbox-small-left,
-.pagelib-theme-sepia .content table.wikitable,
-.pagelib-theme-sepia .content table.wikitable tr th,
-.pagelib-theme-sepia .content table.wikitable tr td,
-.pagelib-theme-sepia .content div.quotebox,
-.pagelib-theme-sepia .content div.noprint.portal.plainlist {
+.pagelib-theme-sepia .content * {
   border-color: #cbc8c1 !important;
 }
 
-/* https://en.m.wikipedia.org/wiki/Audioslave?oldid=793042679 */
-.pagelib-theme-dark .content table.mbox-small-left hr,
-.pagelib-theme-dark .content table.mbox-small hr {
+.pagelib-theme-dark .content hr {
   border-style: solid !important;
   background: #43464a !important;
-  border-color: #43464a !important;
 }
-.pagelib-theme-sepia .content table.mbox-small-left hr,
-.pagelib-theme-sepia .content table.mbox-small hr {
+.pagelib-theme-sepia .content hr {
   border-style: solid !important;
   background: #cbc8c1 !important;
-  border-color: #cbc8c1 !important;
-}
-
-/* https://en.m.wikipedia.org/wiki/Barack_Obama?oldid=793008506 */
-.pagelib-theme-dark .content div.noprint.portal.plainlist > ul {
-  background: #27292d !important;
-}
-.pagelib-theme-sepia .content div.noprint.portal.plainlist > ul {
-  background: #f0e6d6 !important;
-}
-
-/* https://en.m.wikipedia.org/wiki/Mycenaean_Greek?oldid=793038239 */
-.pagelib-theme-dark .content table.infobox td.noprint.selfref {
-  background: #27292d !important;
-}
-.pagelib-theme-sepia .content table.infobox td.noprint.selfref {
-  background: #f0e6d6 !important;
-}
-
-/* Same specificity as in MobileFrontend/less/content/hacks.less */
-.pagelib-theme-dark .content table.infobox tr {
-  /* The infobox row background. Some backgrounds need important to override inline styles like
-     https://en.m.wikipedia.org/wiki/Wolverine_(character)?oldid=789987909. */
-  background: #27292d !important;
-}
-
-.pagelib-theme-sepia .content table.infobox tr {
-  background: #f0e6d6 !important;
 }
 
 .pagelib-theme-dark li.gallerybox div.thumb {
-  border-color: #43464a;
   background: #27292d;
-}
-
-.pagelib-theme-dark .content table td,
-.pagelib-theme-dark .content table th,
-.pagelib-theme-dark .content table.infobox th,
-.pagelib-theme-dark .content table.infobox td {
-  /* The border around infobox columns.
-     https://phabricator.wikimedia.org/diffusion/SMIN/browse/master/resources/skins.minerva.content.styles/hacks.less;2cc9516cde6027234de9881d503ed7161e0e2ace$49 */
-  border-color: #43464a;
-}
-
-.pagelib-theme-sepia .content table td,
-.pagelib-theme-sepia .content table th,
-.pagelib-theme-sepia .content table.infobox th,
-.pagelib-theme-sepia .content table.infobox td {
-  border-color: #cbc8c1;
 }
 
 .content figcaption, .content .thumbcaption {
