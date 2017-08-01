@@ -77,20 +77,20 @@ styles with only the things which need tweaking.
   color: #222 !important; 
 }
 
-/* quotebox */
-.pagelib-theme-dark .content div.quotebox {
-  background: #27292d !important;
-}
-.pagelib-theme-sepia .content div.quotebox {
-  background: #f0e6d6 !important;
-}
-
 /* baseline border color */
 .pagelib-theme-dark .content * {
   border-color: #43464a !important;
 }
 .pagelib-theme-sepia .content * {
   border-color: #cbc8c1 !important;
+}
+
+/* quotebox */
+.pagelib-theme-dark .content div.quotebox {
+  background: #27292d !important;
+}
+.pagelib-theme-sepia .content div.quotebox {
+  background: #f0e6d6 !important;
 }
 
 /* horizontal rule */
@@ -109,7 +109,8 @@ styles with only the things which need tweaking.
 }
 
 /* caption colors */
-.content figcaption, .content .thumbcaption {
+.content figcaption, 
+.content .thumbcaption {
   color: #a2a9b1;
 }
 /* fr > Team_Bentley > 138755788 */
