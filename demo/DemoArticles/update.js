@@ -26,7 +26,9 @@ articlesData.forEach(articleData => {
     if (!error && response.statusCode === 200) {
       // eslint-disable-next-line no-console
       console.log(`\tJSON saved to '${fileName}'`)
-      fs.writeFile(`./data/${fileName}`, body, err => { if (err) { throw err } })
+      const articleJSON = JSON.parse(body)
+      const formattedArticleJSON = JSON.stringify(articleJSON, null, 2)
+      fs.writeFile(`./data/${fileName}`, formattedArticleJSON, err => { if (err) { throw err } })
     }
   }
   )
