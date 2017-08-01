@@ -85,10 +85,14 @@ styles with only the things which need tweaking.
   border-color: #cbc8c1 !important;
 }
 
-/* quotebox */
+/* quotebox and blockquote */
+/* en > Audioslave > 793042679 */
+/* es > Arte > 100819823 */
+.pagelib-theme-dark .content blockquote,
 .pagelib-theme-dark .content div.quotebox {
   background: #27292d !important;
 }
+.pagelib-theme-sepia .content blockquote, 
 .pagelib-theme-sepia .content div.quotebox {
   background: #f0e6d6 !important;
 }
