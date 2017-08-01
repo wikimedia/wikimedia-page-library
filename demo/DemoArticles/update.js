@@ -23,6 +23,17 @@ const escapeLangDirectionMarks = string => string
   .replace(/\u202e/g, '\\u202e')
   .replace(/\u202f/g, '\\u202f')
 
+const saveJSONForArticleRef = (articleJSON, articleRef) => {
+  const formattedArticleJSON = JSON.stringify(articleJSON, null, 2)
+  const fullyEscapedArticleJSON = escapeLangDirectionMarks(formattedArticleJSON)
+  fs.writeFile(
+    `./data/${articleRef.fileName()}`,
+    fullyEscapedArticleJSON, err => { if (err) { throw err } }
+  )
+  // eslint-disable-next-line no-console
+  console.log(`\tJSON saved to '${articleRef.fileName()}'`)
+}
+
 const fetchAndSaveJSONForArticleRef = articleRef => {
   const requestOptions = {
     method: 'POST',
@@ -32,16 +43,7 @@ const fetchAndSaveJSONForArticleRef = articleRef => {
   }
   const responseHandler = (error, response, body) => {
     if (!error && response.statusCode === 200) {
-      // eslint-disable-next-line no-console
-      console.log(`\tJSON saved to '${articleRef.fileName()}'`)
-      const articleJSON = JSON.parse(body)
-      const formattedArticleJSON = JSON.stringify(articleJSON, null, 2)
-      const fullyEscapedArticleJSON =
-        escapeLangDirectionMarks(formattedArticleJSON)
-      fs.writeFile(
-        `./data/${articleRef.fileName()}`,
-        fullyEscapedArticleJSON, err => { if (err) { throw err } }
-      )
+      saveJSONForArticleRef(JSON.parse(body), articleRef)
     }
   }
   request(requestOptions, responseHandler)
