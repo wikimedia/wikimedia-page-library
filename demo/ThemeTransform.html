@@ -7,7 +7,6 @@
     <style>
       :root {
         --control-panel-theme-visibility: visible;
-        --control-panel-page-protection-visibility: visibile;
       }
       body {
         padding: 20px 20px 20px 300px !important;
@@ -101,16 +100,6 @@ const addSectionTitles = fileNames => {
     })
 }
 
-const addEditPencils = () => {
-  let index = 0
-  document.querySelectorAll('h2, h3, h4, h5, h6').forEach(header => {
-    /* global pagelib */
-    const button = pagelib.EditTransform.newEditSectionButton(document, index)
-    header.parentNode.insertBefore(button, header)
-    ++index
-  })
-}
-
 // Layout the article section data consecutively on a single page. Comment out any files above you 
 // aren't interested in testing, then when finished double-check all of them.
 const addHTMLFromJSONFilesToDocument = fileNames => {
@@ -121,7 +110,6 @@ const addHTMLFromJSONFilesToDocument = fileNames => {
     .then(htmlFromAllSectionHTMLs)
     .then(addHTMLToDocument)
     .then(() => addSectionTitles(fileNames))
-    .then(addEditPencils)
 }
 
 const addAnchorsToMenu = anchors => {
