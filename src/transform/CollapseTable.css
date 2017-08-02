@@ -80,7 +80,7 @@ table.infobox caption {
 }
 
 /* The outermost table container. todo: rename. */
-.app_table_container {
+div.app_table_container {
   width: 100%;
   margin-top: 14px;
   margin-bottom: 14px;
@@ -89,14 +89,14 @@ table.infobox caption {
   clear: both;
 }
 
-.pagelib-theme-dark .app_table_container {
-  box-shadow: none;
-  background-color: #202020;
+.pagelib-theme-dark div.app_table_container {
+  box-shadow: none !important;
+  background-color: #222 !important;
 }
 
-.pagelib-theme-sepia .app_table_container {
-  box-shadow: none;
-  background-color: #f0e6d6;
+.pagelib-theme-sepia div.app_table_container {
+  box-shadow: none !important;
+  background-color: #e1dad1 !important;
 }
 
 /* The outermost table container's header. todo: rename. */
@@ -110,12 +110,12 @@ table.infobox caption {
   background-size: 16px 16px;
 }
 
-.pagelib-theme-dark .app_table_collapsed_container {
-  background-color: #27292d;
+.pagelib-theme-dark div.app_table_collapsed_container {
+  background-color: #27292d !important;
 }
 
-.pagelib-theme-sepia .app_table_collapsed_container {
-  background-color: #f0e6d6;
+.pagelib-theme-sepia div.app_table_collapsed_container {
+  background-color: #f0e6d6 !important;
 }
 
 /* The outermost table container header's subcaption text. todo: rename. */
@@ -123,8 +123,8 @@ table.infobox caption {
   color: #808080;
 }
 
-.pagelib-theme-dark .app_span_collapse_text {
-  color: #c8ccd1;
+.pagelib-theme-dark span.app_span_collapse_text {
+  color: #c8ccd1 !important;
 }
 
 /* The outermost table container's footer. todo: rename. */
@@ -140,12 +140,12 @@ table.infobox caption {
   background-size: 16px 16px;
 }
 
-.pagelib-theme-dark .app_table_collapsed_bottom {
-  background-color: #27292d;
+.pagelib-theme-dark div.app_table_collapsed_bottom {
+  background-color: #27292d !important;
 }
 
-.pagelib-theme-sepia .app_table_collapsed_bottom {
-  background-color: #f0e6d6;
+.pagelib-theme-sepia div.app_table_collapsed_bottom {
+  background-color: #f0e6d6 !important;
 }
 
 .app_table_collapse_icon {
