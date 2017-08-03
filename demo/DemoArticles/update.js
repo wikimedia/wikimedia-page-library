@@ -3,11 +3,10 @@
 
 const fs = require('fs')
 const request = require('request')
-const INDEX_FILE = './articles.json'
+const indexJSON = require('./articles.json')
 const ArticleRef = require('./ArticleRef.js').ArticleRef
 
-const articleRefs = JSON
-  .parse(fs.readFileSync(INDEX_FILE, 'utf8'))
+const articleRefs = indexJSON
   .map(articleData => new ArticleRef(articleData.lang, articleData.title, articleData.revision))
 
 // eslint-disable-next-line no-console
