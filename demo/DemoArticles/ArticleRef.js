@@ -1,8 +1,3 @@
-/*
-#!/usr/bin/env node
-*/
-/* eslint-disable require-jsdoc */
-
 class ArticleRef {
   constructor(lang, title, revision) {
     this.lang = lang
