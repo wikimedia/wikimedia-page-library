@@ -53,16 +53,31 @@
     <div class='content' id='content'></div>
     
     <script>
-/* eslint-disable require-jsdoc */
 
+/**
+ * Flattens array of arrays.
+ * @param {!Array<Array>} array
+ * @return {!Array}
+ */
 const flattenArrayOfArrays = array => [].concat(...array)
 
 /* global ArticleRef */
+
+/**
+ * Converts article JSON to ArticleRefs.
+ * @param {!Array<object>} json array of article JSON objects
+ * @return {!Array<ArticleRef>}
+ */
 const articleRefsFromArticlesJSON =
   json => json.map(
     articleData => new ArticleRef(articleData.lang, articleData.title, articleData.revision)
   )
 
+/**
+ * Converts ArticleRefs to anchor elements. 
+ * @param {!Array<ArticleRef>} articleRefs
+ * @return {!Array<HTMLAnchorElement>}
+ */
 const anchorsFromArticleRefs = articleRefs => articleRefs.map(articleRef => {
   const anchor = document.createElement('a')
   anchor.href = `#${articleRef.fileName()}`
@@ -70,30 +85,72 @@ const anchorsFromArticleRefs = articleRefs => articleRefs.map(articleRef => {
   return anchor
 })
 
+/**
+ * Converts article JSON file URLs to fetch promises.
+ * @param {!Array<String>} urls
+ * @return {!Array<Promise>}
+ */
 const articleJSONFetchPromisesFromURLs =
   urls => urls.map(url => fetch(url).then(resp => resp.json()))
 
+/**
+ * Converts ArticleRefs to article JSON file URLs.
+ * @param {!Array<ArticleRefs>} articleRefs
+ * @return {!Array<String>}
+ */
 const urlsFromArticleRefs =
   articleRefs => articleRefs.map(articleRef => `/DemoArticles/data/${articleRef.fileName()}`)
 
+/**
+ * Converts article JSON to article JSON sections.
+ * @param {!Array<object>} jsons
+ * @return {!Array<object>}
+ */
 const sectionsFromAllArticlesJSONs = jsons => jsons.map(json => json.mobileview.sections)
 
+/**
+ * Converts array of arrays of article sections to array of articles' sections (single array with
+ * sections from all articles).
+ * @param {!Array<object>} allArticlesSections
+ * @return {!Array<object>}
+ */
 const sectionsFromAllArticlesSections =
   allArticlesSections => flattenArrayOfArrays(allArticlesSections)
 
+/**
+ * Converts article JSON sections to HTML strings.
+ * @param  {!Array<object>} sections
+ * @return {!Array<String>}
+ */
 const enclosedSectionHTMLsFromSections = sections => sections.map(section =>
   `<div class='content_block' id='${section.id}'>
       <h2>${section.line}</h2>
       <br>${section.text}
     </div>`)
 
+/**
+ * Converts section HTML strings to a single HTML string.
+ * @param {!Array<string>} allSectionHTMLs
+ * @return {!string}
+ */
 const htmlFromAllSectionHTMLs = allSectionHTMLs => allSectionHTMLs.join('')
 
+/**
+ * Attach HTML to document.
+ * @param {!string} html
+ * @return {void}
+ */
 const addHTMLToDocument = html => {
   const contentElement = document.querySelector('#content')
   contentElement.innerHTML = html
 }
 
+/**
+ * Add section titles to HTML already attached to document.
+ * A bit of a hack, but not super critical to proofing themeing changes.
+ * @param {!Array<ArticleRef>} articleRefs
+ * @return {void}
+ */
 const addSectionTitles = articleRefs => {
   Array.from(document.querySelectorAll('.content_block[id="0"] h2:first-of-type'))
     .forEach((h2, id) => {
@@ -104,6 +161,11 @@ const addSectionTitles = articleRefs => {
     })
 }
 
+/**
+ * Wrapper function for logic taking data ArticleRefs and placing it onscreen.
+ * @param {!Array<ArticleRef>} articleRefs
+ * @return {void}
+ */
 const addHTMLFromJSONFilesToDocument = articleRefs => {
   Promise.all(articleJSONFetchPromisesFromURLs(urlsFromArticleRefs(articleRefs)))
     .then(sectionsFromAllArticlesJSONs)
@@ -114,11 +176,19 @@ const addHTMLFromJSONFilesToDocument = articleRefs => {
     .then(() => addSectionTitles(articleRefs))
 }
 
+/**
+ * Attaches anchor elements to the menu.
+ * @param {!Array<HTMLAnchorElement>} anchors
+ * @return {void}
+ */
 const addAnchorsToMenu = anchors => {
   const themeDemoMenu = document.getElementById('theme_demo_menu')
   anchors.forEach(anchor => themeDemoMenu.appendChild(anchor))
 }
 
+/**
+ * Main kick-off grabbing JSON, transforming it and displaying it.
+ */
 fetch('./DemoArticles/articles.json')
   .then(response => response.json())
   .then(articleRefsFromArticlesJSON)
