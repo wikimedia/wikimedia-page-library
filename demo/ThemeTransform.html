@@ -152,7 +152,7 @@ const addHTMLToDocument = html => {
  * @return {void}
  */
 const addSectionTitles = articleRefs => {
-  Array.from(document.querySelectorAll('.content_block[id="0"] h2:first-of-type'))
+  document.querySelectorAll('.content_block[id="0"] h2:first-of-type')
     .forEach((h2, id) => {
       const numericIndex = parseInt(id, 10)
       h2.innerHTML = articleRefs[numericIndex].displayName()
