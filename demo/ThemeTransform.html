@@ -146,18 +146,17 @@ const addHTMLToDocument = html => {
 }
 
 /**
- * Add section titles to HTML already attached to document.
+ * Add article titles to HTML already attached to document.
  * A bit of a hack, but not super critical to proofing themeing changes.
  * @param {!Array<ArticleRef>} articleRefs
  * @return {void}
  */
-const addSectionTitles = articleRefs => {
+const addArticleTitles = articleRefs => {
   document.querySelectorAll('.content_block[id="0"] h2:first-of-type')
     .forEach((h2, id) => {
-      const numericIndex = parseInt(id, 10)
-      h2.innerHTML = articleRefs[numericIndex].displayName()
+      h2.innerHTML = articleRefs[id].displayName()
       h2.classList.add('theme_demo_article_title')
-      h2.id = articleRefs[numericIndex].fileName()
+      h2.id = articleRefs[id].fileName()
     })
 }
 
@@ -173,7 +172,7 @@ const addHTMLFromJSONFilesToDocument = articleRefs => {
     .then(enclosedSectionHTMLsFromSections)
     .then(htmlFromAllSectionHTMLs)
     .then(addHTMLToDocument)
-    .then(() => addSectionTitles(articleRefs))
+    .then(() => addArticleTitles(articleRefs))
 }
 
 /**
