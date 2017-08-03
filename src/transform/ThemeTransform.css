@@ -65,6 +65,7 @@ styles with only the things which need tweaking.
 .pagelib-theme-dark .content div,
 .pagelib-theme-dark .content span,
 .pagelib-theme-dark .content ul,
+.pagelib-theme-dark .content ol,
 .pagelib-theme-dark .content li {
   background-color: inherit !important;
   color: #f8f9fa !important;
@@ -72,6 +73,7 @@ styles with only the things which need tweaking.
 .pagelib-theme-sepia .content div,
 .pagelib-theme-sepia .content span,
 .pagelib-theme-sepia .content ul,
+.pagelib-theme-sepia .content ol,
 .pagelib-theme-sepia .content li {
   background-color: inherit !important;
   color: #222 !important; 
