@@ -5,9 +5,27 @@ const fs = require('fs')
 const request = require('request')
 const indexJSON = require('./articles.json')
 const ArticleRef = require('./ArticleRef.js').ArticleRef
+const ArticleRefSourceType = require('./ArticleRef.js').ArticleRefSourceType
 
-const articleRefs = indexJSON
-  .map(articleData => new ArticleRef(articleData.lang, articleData.title, articleData.revision))
+// TODO: DRY up with flattenArrayOfArrays in ThemeTransform.html
+const flattenArrayOfArrays = array => [].concat(...array)
+
+const articleRefs = flattenArrayOfArrays(
+  indexJSON.map(articleData => [
+    new ArticleRef(
+      articleData.lang,
+      articleData.title,
+      articleData.revision,
+      ArticleRefSourceType.mobileView
+    ),
+    new ArticleRef(
+      articleData.lang,
+      articleData.title,
+      articleData.revision,
+      ArticleRefSourceType.mobileContentService
+    )
+  ])
+)
 
 // eslint-disable-next-line no-console
 console.log(`Fetching JSON for ${articleRefs.length} titles...`)
@@ -35,7 +53,7 @@ const saveJSONForArticleRef = (articleJSON, articleRef) => {
 
 const fetchAndSaveJSONForArticleRef = articleRef => {
   const requestOptions = {
-    method: 'POST',
+    method: 'GET',
     uri: articleRef.url(),
     encoding: 'utf-8',
     gzip: true
