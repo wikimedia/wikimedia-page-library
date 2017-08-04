@@ -61,17 +61,28 @@
  */
 const flattenArrayOfArrays = array => [].concat(...array)
 
-/* global ArticleRef */
+/* global ArticleRef, ArticleRefSourceType */
 
 /**
  * Converts article JSON to ArticleRefs.
  * @param {!Array<object>} json array of article JSON objects
  * @return {!Array<ArticleRef>}
  */
-const articleRefsFromArticlesJSON =
-  json => json.map(
-    articleData => new ArticleRef(articleData.lang, articleData.title, articleData.revision)
-  )
+const articleRefsFromArticlesJSON = json => flattenArrayOfArrays(
+  json.map(articleData => [
+    new ArticleRef(
+      articleData.lang,
+      articleData.title,
+      articleData.revision,
+      ArticleRefSourceType.mobileView
+    ),
+    new ArticleRef(articleData.lang,
+      articleData.title,
+      articleData.revision,
+      ArticleRefSourceType.mobileContentService
+    )
+  ])
+)
 
 /**
  * Converts ArticleRefs to anchor elements. 
@@ -104,9 +115,19 @@ const articleJSONURLsFromArticleRefs =
 /**
  * Converts article JSON to article JSON sections.
  * @param {!Array<object>} jsons
+ * @param {!Array<ArticleRefs>} articleRefs
  * @return {!Array<object>}
  */
-const sectionsFromAllArticlesJSONs = jsons => jsons.map(json => json.mobileview.sections)
+const sectionsFromAllArticlesJSONs = (jsons, articleRefs) => jsons.map((json, index) => {
+  switch (articleRefs[index].sourceType) {
+  case ArticleRefSourceType.mobileView:
+    return json.mobileview.sections
+  case ArticleRefSourceType.mobileContentService:
+    return [json.lead.sections[0]].concat(json.remaining.sections)
+  default:
+    return []
+  }
+})
 
 /**
  * Converts array of arrays of article sections to array of articles' sections (single array with
@@ -167,7 +188,7 @@ const addArticleTitles = articleRefs => {
  */
 const addHTMLFromJSONFilesToDocument = articleRefs => {
   Promise.all(articleJSONFetchPromisesFromURLs(articleJSONURLsFromArticleRefs(articleRefs)))
-    .then(sectionsFromAllArticlesJSONs)
+    .then(jsons => sectionsFromAllArticlesJSONs(jsons, articleRefs))
     .then(sectionsFromAllArticlesSections)
     .then(enclosedSectionHTMLsFromSections)
     .then(htmlFromAllSectionHTMLs)
