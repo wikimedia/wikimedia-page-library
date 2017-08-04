@@ -110,14 +110,6 @@ div.app_table_container {
   background-size: 16px 16px;
 }
 
-.pagelib-theme-dark div.app_table_collapsed_container {
-  background-color: #27292d !important;
-}
-
-.pagelib-theme-sepia div.app_table_collapsed_container {
-  background-color: #f0e6d6 !important;
-}
-
 /* The outermost table container header's subcaption text. todo: rename. */
 .app_span_collapse_text {
   color: #808080;
@@ -140,10 +132,12 @@ div.app_table_container {
   background-size: 16px 16px;
 }
 
+.pagelib-theme-dark div.app_table_collapsed_container,
 .pagelib-theme-dark div.app_table_collapsed_bottom {
   background-color: #27292d !important;
 }
 
+.pagelib-theme-sepia div.app_table_collapsed_container,
 .pagelib-theme-sepia div.app_table_collapsed_bottom {
   background-color: #f0e6d6 !important;
 }
