@@ -6,9 +6,7 @@ const request = require('request')
 const indexJSON = require('./articles.json')
 const ArticleRef = require('./ArticleRef.js').ArticleRef
 const ArticleRefSourceType = require('./ArticleRef.js').ArticleRefSourceType
-
-// TODO: DRY up with flattenArrayOfArrays in ThemeTransform.html
-const flattenArrayOfArrays = array => [].concat(...array)
+const flattenArrayOfArrays = require('../DemoUtilities.js').flattenArrayOfArrays
 
 const articleRefs = flattenArrayOfArrays(
   indexJSON.map(articleData => [

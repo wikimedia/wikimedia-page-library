@@ -42,6 +42,7 @@
 
     <script src=build/wikimedia-page-library-transform.js></script>
     <script src='./DemoArticles/ArticleRef.js'></script>
+    <script src='./DemoUtilities.js'></script>
     
     <link rel=import href=ControlPanel.html>
   </head>
@@ -55,14 +56,7 @@
     
     <script>
 
-/**
- * Flattens array of arrays.
- * @param {!Array<Array>} array
- * @return {!Array}
- */
-const flattenArrayOfArrays = array => [].concat(...array)
-
-/* global ArticleRef, ArticleRefSourceType */
+/* global ArticleRef, ArticleRefSourceType, flattenArrayOfArrays */
 
 /**
  * Converts article JSON to ArticleRefs.
