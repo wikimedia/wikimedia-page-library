@@ -16,7 +16,7 @@ const ArticleRefSourceType = {
 const displayNameForArticleRefSourceType = type => {
   switch (type) {
   case ArticleRefSourceType.mobileView:
-    return 'MOBILEVIEW'
+    return 'MV'
   case ArticleRefSourceType.mobileContentService:
     return 'MCS'
   default:
@@ -55,7 +55,7 @@ class ArticleRef {
    * @return {!string}
    */
   displayName() {
-    return `"${this.lang} > ${this.title} > ${displayNameForArticleRefSourceType(this.sourceType)}"`
+    return `${this.lang} > ${this.title} > ${displayNameForArticleRefSourceType(this.sourceType)}`
   }
   /**
    * URL string used to fetch JSON for this article revision.
