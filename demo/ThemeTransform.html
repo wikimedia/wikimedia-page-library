@@ -98,7 +98,7 @@ const articleJSONFetchPromisesFromURLs =
  * @param {!Array<ArticleRefs>} articleRefs
  * @return {!Array<String>}
  */
-const urlsFromArticleRefs =
+const articleJSONURLsFromArticleRefs =
   articleRefs => articleRefs.map(articleRef => `/DemoArticles/data/${articleRef.fileName()}`)
 
 /**
@@ -166,7 +166,7 @@ const addArticleTitles = articleRefs => {
  * @return {void}
  */
 const addHTMLFromJSONFilesToDocument = articleRefs => {
-  Promise.all(articleJSONFetchPromisesFromURLs(urlsFromArticleRefs(articleRefs)))
+  Promise.all(articleJSONFetchPromisesFromURLs(articleJSONURLsFromArticleRefs(articleRefs)))
     .then(sectionsFromAllArticlesJSONs)
     .then(sectionsFromAllArticlesSections)
     .then(enclosedSectionHTMLsFromSections)
