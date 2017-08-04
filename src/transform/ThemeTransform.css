@@ -119,18 +119,19 @@ styles with only the things which need tweaking.
 
 /* images */
 /* compatibility transform */
-.pagelib-theme-dark.pagelib-compatibility-filter img.mwe-math-fallback-image-inline {
+.pagelib-theme-dark.pagelib-compatibility-filter .content img.mwe-math-fallback-image-inline {
   background: #ccc;
   padding: 2px;
 }
 /* en > Quadratic equation > 793685454 */
-/* en > Barack Obama > 793008506 */
-.pagelib-theme-dark img.mwe-math-fallback-image-inline {
+.pagelib-theme-dark .content img.mwe-math-fallback-image-inline {
   -webkit-filter: invert(100%);
   filter: invert(100%);
 }
+/* en > Barack Obama > 793008506 */
+/* en > Quadratic equation > 793685454 */
 .pagelib-theme-dark .content img[src$='.svg.png'],
-.pagelib-theme-dark img.pagelib-theme-image-no-background.pagelib-theme-image-nontabular:not(.mwe-math-fallback-image-inline),
-.pagelib-theme-dark .infobox .image img.pagelib-theme-image-no-background:not(.mwe-math-fallback-image-inline) {
+.pagelib-theme-dark .content img.pagelib-theme-image-no-background.pagelib-theme-image-nontabular:not(.mwe-math-fallback-image-inline),
+.pagelib-theme-dark .content .infobox .image img.pagelib-theme-image-no-background:not(.mwe-math-fallback-image-inline) {
   background: #fff;
 }
