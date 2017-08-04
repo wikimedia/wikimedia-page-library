@@ -16,9 +16,9 @@ const ArticleRefSourceType = {
 const displayNameForArticleRefSourceType = type => {
   switch (type) {
   case ArticleRefSourceType.mobileView:
-    return 'mobileView'
+    return 'MOBILEVIEW'
   case ArticleRefSourceType.mobileContentService:
-    return 'mobileContentService'
+    return 'MCS'
   default:
     return ''
   }
