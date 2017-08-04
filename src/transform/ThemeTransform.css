@@ -117,17 +117,19 @@ styles with only the things which need tweaking.
   background: #cbc8c1 !important;
 }
 
+/* images */
 /* compatibility transform */
 .pagelib-theme-dark.pagelib-compatibility-filter img.mwe-math-fallback-image-inline {
   background: #ccc;
   padding: 2px;
 }
-
-/* images */
+/* en > Quadratic equation > 793685454 */
+/* en > Barack Obama > 793008506 */
 .pagelib-theme-dark img.mwe-math-fallback-image-inline {
   -webkit-filter: invert(100%);
   filter: invert(100%);
 }
+.pagelib-theme-dark .content img[src$='.svg.png'],
 .pagelib-theme-dark img.pagelib-theme-image-no-background.pagelib-theme-image-nontabular:not(.mwe-math-fallback-image-inline),
 .pagelib-theme-dark .infobox .image img.pagelib-theme-image-no-background:not(.mwe-math-fallback-image-inline) {
   background: #fff;
