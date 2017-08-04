@@ -5,22 +5,6 @@ particularly difficult to theme otherwise. We can build on top of, so to speak, 
 styles with only the things which need tweaking.
 */
 
-/* compatibility transform */
-.pagelib-theme-dark.pagelib-compatibility-filter img.mwe-math-fallback-image-inline {
-  background: #ccc;
-  padding: 2px;
-}
-
-/* images */
-.pagelib-theme-dark img.mwe-math-fallback-image-inline {
-  -webkit-filter: invert(100%);
-  filter: invert(100%);
-}
-.pagelib-theme-dark img.pagelib-theme-image-no-background.pagelib-theme-image-nontabular:not(.mwe-math-fallback-image-inline),
-.pagelib-theme-dark .infobox .image img.pagelib-theme-image-no-background:not(.mwe-math-fallback-image-inline) {
-  background: #fff;
-}
-
 /* baseline body */
 .pagelib-theme-dark body {
   color: #f8f9fa;
@@ -131,4 +115,20 @@ styles with only the things which need tweaking.
 }
 .pagelib-theme-sepia .content caption {
   background: #cbc8c1 !important;
+}
+
+/* compatibility transform */
+.pagelib-theme-dark.pagelib-compatibility-filter img.mwe-math-fallback-image-inline {
+  background: #ccc;
+  padding: 2px;
+}
+
+/* images */
+.pagelib-theme-dark img.mwe-math-fallback-image-inline {
+  -webkit-filter: invert(100%);
+  filter: invert(100%);
+}
+.pagelib-theme-dark img.pagelib-theme-image-no-background.pagelib-theme-image-nontabular:not(.mwe-math-fallback-image-inline),
+.pagelib-theme-dark .infobox .image img.pagelib-theme-image-no-background:not(.mwe-math-fallback-image-inline) {
+  background: #fff;
 }
