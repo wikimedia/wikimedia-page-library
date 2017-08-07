@@ -12,15 +12,15 @@ const cssBundle = (options = {}) => {
   const buffer = []
   return {
     transform(code, id) {
-      if (!options.fileSuffixPattern.test(id)) { return }
-      const relativeFilePath = id.substring(id.match(options.fileSuffixPattern).index)
+      if (!options.inputFilesSuffixPattern.test(id)) { return }
+      const relativeFilePath = id.substring(id.match(options.inputFilesSuffixPattern).index)
       buffer.push(`/* --- CSS from '${relativeFilePath}' --- */ \n\n ${code}`)
       return ''
     },
     onwrite(opts) {
       const output =
         `/* --- Wikimedia Page Library CSS bundle --- */\n\n\n${buffer.join('\n\n\n\n\n')}`
-      fs.writeFile(options.destination, output, err => { if (err) { throw err } })
+      fs.writeFile(options.outputFile, output, err => { if (err) { throw err } })
     }
   }
 }
@@ -34,13 +34,13 @@ export default {
   plugins: [
     cssBundle({
       // Grab files ending in '/src/transform/<TRANSFORM_NAME>.css'
-      fileSuffixPattern: /\/src\/transform.*\.css$/,
-      destination: './build/wikimedia-page-library-transform.css'
+      inputFilesSuffixPattern: /\/src\/transform.*\.css$/,
+      outputFile: './build/wikimedia-page-library-transform.css'
     }),
     cssBundle({
       // Grab files ending in '/src/override/<TRANSFORM_NAME>.css'
-      fileSuffixPattern: /\/src\/override.*\.css$/,
-      destination: './build/wikimedia-page-library-override.css'
+      inputFilesSuffixPattern: /\/src\/override.*\.css$/,
+      outputFile: './build/wikimedia-page-library-override.css'
     }),
     babel({
       plugins: ['external-helpers']
