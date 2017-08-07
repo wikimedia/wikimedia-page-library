@@ -1,29 +1,7 @@
 import babel from 'rollup-plugin-babel'
 import pkg from './package.json'
 
-const fs = require('fs')
-
-/**
- * Rollup plug-in bundling CSS from multiple transform files into one file.
- * @param  {callback} options Rollup plug-in options func
- * @return {void}
- */
-const cssBundle = (options = {}) => {
-  const buffer = []
-  return {
-    transform(code, id) {
-      if (!options.inputFilesSuffixPattern.test(id)) { return }
-      const relativeFilePath = id.substring(id.match(options.inputFilesSuffixPattern).index)
-      buffer.push(`/* --- CSS from '${relativeFilePath}' --- */ \n\n ${code}`)
-      return ''
-    },
-    onwrite(opts) {
-      const output =
-        `/* --- Wikimedia Page Library CSS bundle --- */\n\n\n${buffer.join('\n\n\n\n\n')}`
-      fs.writeFile(options.outputFile, output, err => { if (err) { throw err } })
-    }
-  }
-}
+const cssBundler = require('./rollup.cssBundler.js').cssBundler
 
 export default {
   entry: 'src/index.js',
@@ -32,12 +10,12 @@ export default {
   moduleName: 'pagelib',
   sourceMap: true,
   plugins: [
-    cssBundle({
+    cssBundler({
       // Grab files ending in '/src/transform/<TRANSFORM_NAME>.css'
       inputFilesSuffixPattern: /\/src\/transform.*\.css$/,
       outputFile: './build/wikimedia-page-library-transform.css'
     }),
-    cssBundle({
+    cssBundler({
       // Grab files ending in '/src/override/<TRANSFORM_NAME>.css'
       inputFilesSuffixPattern: /\/src\/override.*\.css$/,
       outputFile: './build/wikimedia-page-library-override.css'
