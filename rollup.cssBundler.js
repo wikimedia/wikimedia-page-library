@@ -10,6 +10,7 @@ const fs = require('fs')
 /**
  * Custom rollup plug-in bundling CSS from multiple transform files into one file. Also adds
  * comments to respective sections for quick reminders where each chunck of CSS comes from.
+ * Based on https://www.npmjs.com/package/rollup-plugin-css-porter
  * @param  {!RollupPluginOptions} options Rollup plug-in options
  * @return {void}
  */
