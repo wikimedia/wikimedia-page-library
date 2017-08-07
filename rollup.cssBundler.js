@@ -14,17 +14,20 @@ const fs = require('fs')
  * @return {void}
  */
 const cssBundler = (options = {}) => {
-  const buffer = []
+  const buffer = {}
   return {
     transform(code, id) {
       if (!options.inputFilesSuffixPattern.test(id)) { return }
-      const relativeFilePath = id.substring(id.match(options.inputFilesSuffixPattern).index)
-      buffer.push(`/* --- CSS from '${relativeFilePath}' --- */ \n\n ${code}`)
+      if (!Object.prototype.hasOwnProperty.call(buffer, id) || buffer[id] !== code) {
+        const relativeFilePath = id.substring(id.match(options.inputFilesSuffixPattern).index)
+        buffer[id] = `/* --- CSS from '${relativeFilePath}' --- */ \n\n ${code}`
+      }
       return ''
     },
     onwrite(opts) {
+      const css = Object.keys(buffer).map(key => buffer[key]).join('\n\n\n\n\n')
       const output =
-        `/* --- Wikimedia Page Library CSS bundle --- */\n\n\n${buffer.join('\n\n\n\n\n')}`
+        `/* --- Wikimedia Page Library CSS bundle --- */\n\n\n${css}`
       fs.writeFile(options.outputFile, output, err => { if (err) { throw err } })
     }
   }
