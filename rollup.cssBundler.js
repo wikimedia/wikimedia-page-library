@@ -15,21 +15,56 @@ const fs = require('fs')
  * @return {void}
  */
 const cssBundler = (options = {}) => {
+
+  /**
+   * Checks if the path is for a file we are interested in.
+   * @param  {!string} path
+   * @return {!boolean}
+   */
+  const pathHasRequiredSuffix = path => options.inputFilesSuffixPattern.test(path)
+
+  /**
+   * Gets portion of file path defined by inputFilesSuffixPattern.
+   * @param  {!string} path
+   * @return {!string}
+   */
+  const relativePath = path => path.substring(path.match(options.inputFilesSuffixPattern).index)
+
+  // Buffer for accumulating CSS from files.
   const buffer = {}
+
+  /**
+   * Checks if CSS has already been added to buffer.
+   * Needed because of some oddity in the way rollup plugins are passed strings. They appear to 
+   * add strings multiple times without this. Unsure why.
+   * @param  {!string} css
+   * @param  {!string} key
+   * @return {!boolean}
+   */
+  const bufferNeedsCSSForKey =
+    (css, key) => Boolean(!Object.prototype.hasOwnProperty.call(buffer, key) || buffer[key] !== css)
+
+  /**
+   * Gets all accumulated CSS from the buffer.
+   * @return {!string}
+   */
+  const allBufferCSS = () => Object.keys(buffer).map(key => buffer[key]).join('\n\n\n\n\n')
+
   return {
-    transform(code, id) {
-      if (!options.inputFilesSuffixPattern.test(id)) { return }
-      if (!Object.prototype.hasOwnProperty.call(buffer, id) || buffer[id] !== code) {
-        const relativeFilePath = id.substring(id.match(options.inputFilesSuffixPattern).index)
-        buffer[id] = `/* --- CSS from '${relativeFilePath}' --- */ \n\n ${code}`
+    transform(css, path) {
+      if (!pathHasRequiredSuffix(path)) { return }
+      const key = relativePath(path)
+      if (bufferNeedsCSSForKey(css, key)) {
+        buffer[key] = `/* --- CSS from '${key}' --- */ \n\n ${css}`
       }
       return ''
     },
     onwrite(opts) {
-      const css = Object.keys(buffer).map(key => buffer[key]).join('\n\n\n\n\n')
-      const output =
-        `/* --- Wikimedia Page Library CSS bundle --- */\n\n\n${css}`
-      fs.writeFile(options.outputFile, output, err => { if (err) { throw err } })
+      fs.writeFile(
+        options.outputFile,
+        `/* --- Wikimedia Page Library CSS bundle --- */\n\n\n${allBufferCSS()}`,
+        err => { if (err) { throw err } }
+      )
     }
   }
 }
