@@ -57,9 +57,14 @@ const fetchAndSaveJSONForArticleRef = articleRef => {
     gzip: true
   }
   const responseHandler = (error, response, body) => {
-    if (!error && response.statusCode === 200) {
-      saveJSONForArticleRef(JSON.parse(body), articleRef)
+    if (error) { throw error }
+    const statusCode = response.statusCode
+    if (statusCode !== 200) {
+      throw new Error(
+        `Couldn't get '${articleRef.fileName()}' article data. Response statusCode '${statusCode}'.`
+      )
     }
+    saveJSONForArticleRef(JSON.parse(body), articleRef)
   }
   request(requestOptions, responseHandler)
 }
