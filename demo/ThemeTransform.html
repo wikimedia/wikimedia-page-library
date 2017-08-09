@@ -92,31 +92,6 @@ const anchorsFromArticleRefs = articleRefs => articleRefs.map(articleRef => {
 })
 
 /**
- * Converts article JSON file URLs to fetch promises.
- * @param {!Array<String>} urls
- * @return {!Array<Promise>}
- */
-const articleJSONFetchPromisesFromURLs =
-  urls => urls.map(url => fetch(url).then(resp => resp.json()))
-
-/**
- * Converts ArticleRefs to article JSON file URLs.
- * @param {!Array<ArticleRefs>} articleRefs
- * @return {!Array<String>}
- */
-const articleJSONURLsFromArticleRefs =
-  articleRefs => articleRefs.map(articleRef => `/DemoArticles/data/${articleRef.fileName()}`)
-
-/**
- * Converts array of JSON article objects to array of JSON article section arrays.
- * @param {!Array<object>} jsons
- * @param {!Array<ArticleRefs>} articleRefs
- * @return {!Array<object>}
- */
-const sectionsFromAllArticlesJSONs = (jsons, articleRefs) =>
-  jsons.map((json, index) => articleRefs[index].sectionsArrayFromArticleJSON(json))
-
-/**
  * Converts array of arrays of article sections to array of articles' sections (single array with
  * sections from all articles).
  * @param {!Array<object>} allArticlesSections
@@ -168,14 +143,25 @@ const addArticleTitles = articleRefs => {
     })
 }
 
+const DEMO_ARTICLES_PATH = './DemoArticles/'
+const DEMO_ARTICLES_INDEX_PATH = `${DEMO_ARTICLES_PATH}articles.json`
+const DEMO_ARTICLES_DATA_PATH = `${DEMO_ARTICLES_PATH}data/`
+
+/**
+ * Promises for fetching article section JSON arrays from local data files for ArticleRefs.
+ * @param {!Array<ArticleRef>} articleRefs
+ * @return {!Array<Promise>}
+ */
+const sectionsJSONFetchesForArticleRefs = articleRefs =>
+  articleRefs.map(articleRef => articleRef.fetchSectionsJSON(DEMO_ARTICLES_DATA_PATH))
+
 /**
  * Wrapper function for logic taking data ArticleRefs and placing it onscreen.
  * @param {!Array<ArticleRef>} articleRefs
  * @return {void}
  */
 const addHTMLFromJSONFilesToDocument = articleRefs => {
-  Promise.all(articleJSONFetchPromisesFromURLs(articleJSONURLsFromArticleRefs(articleRefs)))
-    .then(jsons => sectionsFromAllArticlesJSONs(jsons, articleRefs))
+  Promise.all(sectionsJSONFetchesForArticleRefs(articleRefs))
     .then(sectionsFromAllArticlesSections)
     .then(enclosedSectionHTMLsFromSections)
     .then(htmlFromAllSectionHTMLs)
@@ -196,7 +182,7 @@ const addAnchorsToMenu = anchors => {
 /**
  * Main kick-off grabbing JSON, transforming it and displaying it.
  */
-fetch('./DemoArticles/articles.json')
+fetch(DEMO_ARTICLES_INDEX_PATH)
   .then(response => response.json())
   .then(articleRefsFromArticlesJSON)
   .then(articleRefs => {

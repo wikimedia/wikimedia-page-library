@@ -42,6 +42,7 @@ class ArticleRef {
     this.revision = revision
     this.sourceType = sourceType
   }
+
   /**
    * String which can be used to for serialization.
    * @return {!string}
@@ -49,6 +50,7 @@ class ArticleRef {
   fileName() {
     return `${this.lang}.${this.title}.${this.revision}.${this.sourceType}.json`
   }
+
   /**
    * String which can be used for display name.
    * @return {!string}
@@ -56,6 +58,7 @@ class ArticleRef {
   displayName() {
     return `${this.lang} > ${this.title} > ${displayNameForArticleRefSourceType(this.sourceType)}`
   }
+
   /**
    * URL string used to fetch JSON for this article revision.
    * @return {!string}
@@ -70,20 +73,32 @@ class ArticleRef {
       return ''
     }
   }
+
   /**
    * Extracts array of article sections from article JSON.
-   * @param {!object} articleJSON
+   * @param {!object} json
    * @return {!Array<object>}
    */
-  sectionsArrayFromArticleJSON(articleJSON) {
+  sectionsArrayFromJSON(json) {
     switch (this.sourceType) {
     case ArticleRefSourceType.mobileView:
-      return articleJSON.mobileview.sections
+      return json.mobileview.sections
     case ArticleRefSourceType.mobileContentService:
-      return [articleJSON.lead.sections[0]].concat(articleJSON.remaining.sections)
+      return [json.lead.sections[0]].concat(json.remaining.sections)
     default:
       return []
     }
+  }
+
+  /**
+   * Fetch promise resolving to array of section JSON from local data file.
+   * @param {!string} dataFilePath
+   * @return {!Promise}
+   */
+  fetchSectionsJSON(dataFilePath) {
+    return fetch(`${dataFilePath}${this.fileName()}`)
+      .then(resp => resp.json())
+      .then(json => this.sectionsArrayFromJSON(json))
   }
 }
 
