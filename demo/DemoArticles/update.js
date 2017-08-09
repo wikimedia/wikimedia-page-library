@@ -37,6 +37,9 @@ const escapeLangDirectionMarks = string => string
   .replace(/\u202d/g, '\\u202d')
   .replace(/\u202e/g, '\\u202e')
   .replace(/\u202f/g, '\\u202f')
+  .replace(/\u202f/g, '\\u202f')
+  .replace(/\u2061/g, '\\u2061')
+  .replace(/\ufeff/g, '\\ufeff')
 
 const saveJSONForArticleRef = (articleJSON, articleRef) => {
   const formattedArticleJSON = JSON.stringify(articleJSON, null, 2)
