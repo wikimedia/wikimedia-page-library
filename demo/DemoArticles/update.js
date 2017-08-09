@@ -8,6 +8,8 @@ const ArticleRef = require('./ArticleRef.js').ArticleRef
 const ArticleRefSourceType = require('./ArticleRef.js').ArticleRefSourceType
 const flattenArrayOfArrays = require('../DemoUtilities.js').flattenArrayOfArrays
 
+const DATA_PATH = './data/'
+
 const articleRefs = flattenArrayOfArrays(
   indexJSON.map(articleData => [
     new ArticleRef(
@@ -45,7 +47,7 @@ const saveJSONForArticleRef = (articleJSON, articleRef) => {
   const formattedArticleJSON = JSON.stringify(articleJSON, null, 2)
   const fullyEscapedArticleJSON = escapeLangDirectionMarks(formattedArticleJSON)
   fs.writeFile(
-    `./data/${articleRef.fileName()}`,
+    `${DATA_PATH}${articleRef.fileName()}`,
     fullyEscapedArticleJSON, err => { if (err) { throw err } }
   )
   // eslint-disable-next-line no-console
