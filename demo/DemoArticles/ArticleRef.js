@@ -32,7 +32,7 @@ class ArticleRef {
    * Constructor
    * @param {!string} lang
    * @param {!string} title
-   * @param {number} revision
+   * @param {!number} revision
    * @param {!ArticleRefSourceType} sourceType
    * @return {!object}
    */
