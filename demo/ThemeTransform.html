@@ -108,21 +108,13 @@ const articleJSONURLsFromArticleRefs =
   articleRefs => articleRefs.map(articleRef => `/DemoArticles/data/${articleRef.fileName()}`)
 
 /**
- * Converts article JSON to article JSON sections.
+ * Converts array of JSON article objects to array of JSON article section arrays.
  * @param {!Array<object>} jsons
  * @param {!Array<ArticleRefs>} articleRefs
  * @return {!Array<object>}
  */
-const sectionsFromAllArticlesJSONs = (jsons, articleRefs) => jsons.map((json, index) => {
-  switch (articleRefs[index].sourceType) {
-  case ArticleRefSourceType.mobileView:
-    return json.mobileview.sections
-  case ArticleRefSourceType.mobileContentService:
-    return [json.lead.sections[0]].concat(json.remaining.sections)
-  default:
-    return []
-  }
-})
+const sectionsFromAllArticlesJSONs = (jsons, articleRefs) =>
+  jsons.map((json, index) => articleRefs[index].sectionsArrayFromArticleJSON(json))
 
 /**
  * Converts array of arrays of article sections to array of articles' sections (single array with

@@ -70,6 +70,21 @@ class ArticleRef {
       return ''
     }
   }
+  /**
+   * Extracts array of article sections from article JSON.
+   * @param {!object} articleJSON
+   * @return {!Array<object>}
+   */
+  sectionsArrayFromArticleJSON(articleJSON) {
+    switch (this.sourceType) {
+    case ArticleRefSourceType.mobileView:
+      return articleJSON.mobileview.sections
+    case ArticleRefSourceType.mobileContentService:
+      return [articleJSON.lead.sections[0]].concat(articleJSON.remaining.sections)
+    default:
+      return []
+    }
+  }
 }
 
 module.exports = {
