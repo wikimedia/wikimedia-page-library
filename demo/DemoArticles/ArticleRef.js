@@ -26,7 +26,6 @@ const displayNameForArticleRefSourceType = type => {
 
 /**
  * Model for article data in ./articles.json
- * @type {object}
  */
 class ArticleRef {
   /**
