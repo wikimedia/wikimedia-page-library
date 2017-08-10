@@ -8,4 +8,8 @@ bits which we don't want to ship with the page lib build product.
  * @param {!Array<Array>} array
  * @return {!Array}
  */
-const flattenArrayOfArrays = array => [].concat(...array) // eslint-disable-line no-unused-vars
+const flattenArrayOfArrays = array => [].concat(...array)
+
+module.exports = {
+  flattenArrayOfArrays
+}

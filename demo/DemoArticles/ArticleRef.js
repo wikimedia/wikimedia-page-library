@@ -27,7 +27,7 @@ const displayNameForArticleRefSourceType = type => {
 /**
  * Model for article data in ./articles.json
  */
-class ArticleRef { // eslint-disable-line no-unused-vars
+class ArticleRef {
   /**
    * Constructor
    * @param {!string} lang
@@ -100,4 +100,9 @@ class ArticleRef { // eslint-disable-line no-unused-vars
       .then(resp => resp.json())
       .then(json => this.sectionsArrayFromJSON(json))
   }
+}
+
+module.exports = {
+  ArticleRef,
+  ArticleRefSourceType
 }
