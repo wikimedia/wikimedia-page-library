@@ -152,22 +152,8 @@ const DEMO_ARTICLES_DATA_PATH = `${DEMO_ARTICLES_PATH}data/`
  * @param {!Array<ArticleRef>} articleRefs
  * @return {!Array<Promise>}
  */
-const sectionsJSONFetchesForArticleRefs = articleRefs =>
+const fetchSectionsJSONForArticleRefs = articleRefs =>
   articleRefs.map(articleRef => articleRef.fetchSectionsJSON(DEMO_ARTICLES_DATA_PATH))
-
-/**
- * Wrapper function for logic taking data ArticleRefs and placing it onscreen.
- * @param {!Array<ArticleRef>} articleRefs
- * @return {void}
- */
-const addHTMLFromJSONFilesToDocument = articleRefs => {
-  Promise.all(sectionsJSONFetchesForArticleRefs(articleRefs))
-    .then(sectionsFromAllArticlesSections)
-    .then(enclosedSectionHTMLsFromSections)
-    .then(htmlFromAllSectionHTMLs)
-    .then(addHTMLToDocument)
-    .then(() => addArticleTitles(articleRefs))
-}
 
 /**
  * Attaches anchor elements to the menu.
@@ -185,13 +171,15 @@ const addAnchorsToMenu = anchors => {
 fetch(DEMO_ARTICLES_INDEX_PATH)
   .then(response => response.json())
   .then(articleRefsFromArticlesJSON)
-  .then(articleRefs => {
-    addHTMLFromJSONFilesToDocument(articleRefs)
-    return articleRefs
-  })
-  .then(anchorsFromArticleRefs)
-  .then(addAnchorsToMenu)
-
+  .then(articleRefs => Promise.all(fetchSectionsJSONForArticleRefs(articleRefs))
+    .then(sectionsFromAllArticlesSections)
+    .then(enclosedSectionHTMLsFromSections)
+    .then(htmlFromAllSectionHTMLs)
+    .then(addHTMLToDocument)
+    .then(() => addArticleTitles(articleRefs))
+    .then(() => anchorsFromArticleRefs(articleRefs))
+    .then(addAnchorsToMenu)
+  )
     </script>
 </body>
 </html>
