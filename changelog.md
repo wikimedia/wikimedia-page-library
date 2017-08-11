@@ -1,3 +1,10 @@
+### v4.5.5
+- Fix: dark and sepia themes fixes for various elements including those having inline style colors
+- Chore: add theme demo. To add articles to theme demo update `articles.json` then run `update.js`
+
+### v4.5.4
+- Chore: trim read more data client
+
 ### v4.5.3
 - Fix: add missing href on edit anchor
 
