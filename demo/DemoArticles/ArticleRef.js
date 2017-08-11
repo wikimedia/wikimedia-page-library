@@ -48,7 +48,9 @@ class ArticleRef {
    * @return {!string}
    */
   fileName() {
-    return `${this.lang}.${this.title}.${this.revision}.${this.sourceType}.json`
+    return `${this.lang}.${this.title}.${this.revision}.${
+      displayNameForArticleRefSourceType(this.sourceType)
+    }.json`
   }
 
   /**
