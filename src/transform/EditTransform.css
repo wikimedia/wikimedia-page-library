@@ -86,5 +86,5 @@ a.pagelib_edit_section_link {
 .pagelib-platform-ios h4.section_heading span.pagelib_edit_section_link_container,
 .pagelib-platform-ios h5.section_heading span.pagelib_edit_section_link_container,
 .pagelib-platform-ios h6.section_heading span.pagelib_edit_section_link_container {
-    display: none !important;
+    display: none;
 }
