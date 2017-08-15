@@ -1,5 +1,5 @@
-### v4.6.0
-- New: hide edit pencils on iOS on H3, H4, H5 and H6
+### v4.5.6
+- Fix: hide edit pencils on iOS on H3, H4, H5 and H6
 
 ### v4.5.5
 - Fix: dark and sepia themes fixes for various elements including those having inline style colors
