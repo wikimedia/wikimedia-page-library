@@ -22,11 +22,12 @@ const updateBottomPaddingToAllowReadMoreToScrollToTop = window => {
  * @return {void}
  */
 const updateLeftAndRightMargin = (margin, document) => {
-  const elements = Polyfill.querySelectorAll(document, `
-    #pagelib_footer_container_menu_heading,
-    #pagelib_footer_container_readmore,
-    #pagelib_footer_container_legal
-  `)
+  const selectors = [
+    '#pagelib_footer_container_menu_heading',
+    '#pagelib_footer_container_readmore',
+    '#pagelib_footer_container_legal'
+  ]
+  const elements = Polyfill.querySelectorAll(document, selectors.join())
   elements.forEach(element => {
     element.style.marginLeft = `${margin}px`
     element.style.marginRight = `${margin}px`
