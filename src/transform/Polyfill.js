@@ -22,8 +22,12 @@ const matchesSelector = (el, selector) => {
  * @param {!string} selector
  * @return {!Array.<Element>}
  */
-const querySelectorAll = (element, selector) =>
-  Array.prototype.slice.call(element.querySelectorAll(selector))
+const querySelectorAll = (element, selector) => {
+  if (!element || !element.querySelectorAll) {
+    return []
+  }
+  return Array.prototype.slice.call(element.querySelectorAll(selector))
+}
 
 // https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#Polyfill
 // Required by Android API 16 AOSP Nexus S emulator.
