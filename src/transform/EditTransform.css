@@ -81,3 +81,10 @@ a.pagelib_edit_section_link {
 .pagelib-platform-android.pagelib-theme-dark.pagelib-compatibility-filter a.pagelib_edit_section_link:active:before {
   background-color: #111;
 }
+
+.pagelib-platform-ios h3.section_heading span.pagelib_edit_section_link_container,
+.pagelib-platform-ios h4.section_heading span.pagelib_edit_section_link_container,
+.pagelib-platform-ios h5.section_heading span.pagelib_edit_section_link_container,
+.pagelib-platform-ios h6.section_heading span.pagelib_edit_section_link_container {
+    display: none;
+}
