@@ -28,7 +28,7 @@
   display: table;
   width: 100%;
   border-collapse: collapse;
-  line-height:22px;
+  line-height:3em;
 }
 
 .pagelib-theme-dark #pagelib_footer_container_menu_items {
