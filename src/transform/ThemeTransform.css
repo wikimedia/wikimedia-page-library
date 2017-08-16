@@ -46,7 +46,8 @@ styles with only the things which need tweaking.
 }
 
 /* baseline div, span, ul, li */
-.pagelib-theme-dark .content div,
+/* en > Pantone > 792312384 */
+.pagelib-theme-dark .content :not(.color_swatch) > div,
 .pagelib-theme-dark .content span,
 .pagelib-theme-dark .content ul,
 .pagelib-theme-dark .content ol,
@@ -54,7 +55,7 @@ styles with only the things which need tweaking.
   background-color: inherit !important;
   color: #f8f9fa !important;
 }
-.pagelib-theme-sepia .content div,
+.pagelib-theme-sepia .content :not(.color_swatch) > div,
 .pagelib-theme-sepia .content span,
 .pagelib-theme-sepia .content ul,
 .pagelib-theme-sepia .content ol,
