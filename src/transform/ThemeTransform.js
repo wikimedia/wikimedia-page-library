@@ -2,11 +2,12 @@ import './ThemeTransform.css'
 import ElementUtilities from './ElementUtilities'
 import Polyfill from './Polyfill'
 
-// Elements marked with either of these classes indicate certain ancestry constraints that are
+// Elements marked with these classes indicate certain ancestry constraints that are
 // difficult to describe as CSS selectors.
 const CONSTRAINT = {
   IMAGE_NO_BACKGROUND: 'pagelib-theme-image-no-background',
-  IMAGE_NONTABULAR: 'pagelib-theme-image-nontabular'
+  IMAGE_NONTABULAR: 'pagelib-theme-image-nontabular',
+  DIV_INSIDE_COLOR_SWATCH_DIV: 'pagelib-theme-div-color-swatch'
 }
 
 // Theme to CSS classes.
@@ -48,6 +49,9 @@ const classifyElements = element => {
     if (!ElementUtilities.isNestedInTable(image)) {
       image.classList.add(CONSTRAINT.IMAGE_NONTABULAR)
     }
+  })
+  Polyfill.querySelectorAll(element, 'div.color_swatch div').forEach(div => {
+    div.classList.add(CONSTRAINT.DIV_INSIDE_COLOR_SWATCH_DIV)
   })
 }
 
