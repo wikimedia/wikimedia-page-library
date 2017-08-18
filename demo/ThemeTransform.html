@@ -56,7 +56,7 @@
     
     <script>
 
-/* global ArticleRef, ArticleRefSourceType, flattenArrayOfArrays */
+/* global ArticleRef, ArticleRefSourceType, flattenArrayOfArrays, pagelib */
 
 /**
  * Converts article JSON to ArticleRefs.
@@ -179,6 +179,9 @@ fetch(DEMO_ARTICLES_INDEX_PATH)
     .then(() => addArticleTitles(articleRefs))
     .then(() => anchorsFromArticleRefs(articleRefs))
     .then(addAnchorsToMenu)
+    .then(() => {
+      pagelib.ThemeTransform.classifyElements(document)
+    })
   )
     </script>
 </body>
