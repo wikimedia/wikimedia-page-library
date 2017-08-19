@@ -23,7 +23,7 @@ import './FooterReadMore.css'
  * @return {void}
  */
 
-const SAVE_BUTTON_ID_PREFIX = 'readmore:save:'
+const SAVE_BUTTON_ID_PREFIX = 'pagelib_footer_read_more_save_'
 
 /**
  * Removes parenthetical enclosures from string.
