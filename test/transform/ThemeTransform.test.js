@@ -49,21 +49,5 @@ describe('ThemeTransform', () => {
       const clazz = pagelib.ThemeTransform.CONSTRAINT.IMAGE_NO_BACKGROUND
       assert.ok(document.querySelector('img').classList.contains(clazz))
     })
-
-    it('tabular', () => {
-      const document = domino.createDocument('<table><tr><td><img src=/></td></tr></table>')
-      pagelib.ThemeTransform.classifyElements(document.documentElement)
-
-      const clazz = pagelib.ThemeTransform.CONSTRAINT.IMAGE_NONTABULAR
-      assert.ok(!document.querySelector('img').classList.contains(clazz))
-    })
-
-    it('nontabular', () => {
-      const document = domino.createDocument('<img src=/>')
-      pagelib.ThemeTransform.classifyElements(document.documentElement)
-
-      const clazz = pagelib.ThemeTransform.CONSTRAINT.IMAGE_NONTABULAR
-      assert.ok(document.querySelector('img').classList.contains(clazz))
-    })
   })
 })

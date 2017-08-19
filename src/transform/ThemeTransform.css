@@ -46,8 +46,7 @@ styles with only the things which need tweaking.
 }
 
 /* baseline div, span, ul, li */
-/* en > Pantone > 792312384 */
-.pagelib-theme-dark .content div:not(.pagelib-theme-div-color-swatch),
+.pagelib-theme-dark .content div:not(.pagelib-theme-div-do-not-apply-baseline),
 .pagelib-theme-dark .content span,
 .pagelib-theme-dark .content ul,
 .pagelib-theme-dark .content ol,
@@ -55,7 +54,7 @@ styles with only the things which need tweaking.
   background-color: inherit !important;
   color: #f8f9fa !important;
 }
-.pagelib-theme-sepia .content div:not(.pagelib-theme-div-color-swatch),
+.pagelib-theme-sepia .content div:not(.pagelib-theme-div-do-not-apply-baseline),
 .pagelib-theme-sepia .content span,
 .pagelib-theme-sepia .content ul,
 .pagelib-theme-sepia .content ol,
@@ -131,11 +130,9 @@ styles with only the things which need tweaking.
 }
 /* en > Barack Obama > 793008506 */
 /* en > Quadratic equation > 793685454 */
-.pagelib-theme-sepia .content img[src$='.svg.png'],
-.pagelib-theme-sepia .content img.pagelib-theme-image-no-background.pagelib-theme-image-nontabular:not(.mwe-math-fallback-image-inline),
+.pagelib-theme-sepia .content img.pagelib-theme-image-no-background:not(.mwe-math-fallback-image-inline),
 .pagelib-theme-sepia .content .infobox .image img.pagelib-theme-image-no-background:not(.mwe-math-fallback-image-inline),
-.pagelib-theme-dark .content img[src$='.svg.png'],
-.pagelib-theme-dark .content img.pagelib-theme-image-no-background.pagelib-theme-image-nontabular:not(.mwe-math-fallback-image-inline),
+.pagelib-theme-dark .content img.pagelib-theme-image-no-background:not(.mwe-math-fallback-image-inline),
 .pagelib-theme-dark .content .infobox .image img.pagelib-theme-image-no-background:not(.mwe-math-fallback-image-inline) {
   background: #fff;
 }
