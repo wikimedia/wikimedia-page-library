@@ -224,7 +224,7 @@ const readMoreQueryURL = (title, count, baseURL) =>
  */
 const fetchErrorHandler = statusText => {
   // TODO: figure out if we want to hide the 'Read more' header in cases when fetch fails.
-  // console.log(`statusText = ${statusText}`);
+  console.log(`statusText = ${statusText}`) // eslint-disable-line no-console
 }
 
 /**
