@@ -20,6 +20,12 @@
         /* Mimic the constraints of a physical screen by preventing box shadows from spilling out. */
         overflow: hidden;
       }
+      .pagelib-platform-ios .label_text_saved::before {
+        content: 'Saved for later'
+      }
+      .pagelib-platform-ios .label_text_unsaved::before {
+        content: 'Save for later'
+      }
     </style>
     <script src=build/wikimedia-page-library-transform.js></script>
     <link rel=import href=ControlPanel.html>
@@ -35,7 +41,8 @@
       const container = document.querySelector('div')
 
       // eslint-disable-next-line require-jsdoc, no-confusing-arrow
-      const saveLabel = saved => saved ? 'Saved' :  'Save for later'
+      const saveLabel = saved =>
+        `<span class=${saved ? 'label_text_saved' : 'label_text_unsaved'}></span>`
       const configuration = {
         baseURL: '',
         title: 'Ice cream',
@@ -56,7 +63,7 @@
           }
         },
         license: {
-          template: 'Content is available under $1 unless otherwise noted',
+          template: 'Content is available under $1 unless otherwise noted.',
           substitution: 'CC BY-SA 3.0',
           substitutionClickCallback: () => {
             window.location.href = 'https://creativecommons.org/licenses/by-sa/3.0/'

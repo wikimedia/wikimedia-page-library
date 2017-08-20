@@ -1,6 +1,7 @@
 ### v4.5.7
 - Fix: catch failed read more request Errors
 - Update: footer wordmark
+- Update: improve read more save page button presentation abilities
 
 ### v4.5.6
 - Fix: hide edit pencils on iOS on H3, H4, H5 and H6
