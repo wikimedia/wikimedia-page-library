@@ -1,3 +1,6 @@
+### v4.5.7
+- Fix: dark and sepia theming on articles which contain color swatches and sports uniforms
+
 ### v4.5.6
 - Fix: hide edit pencils on iOS on H3, H4, H5 and H6
 
