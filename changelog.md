@@ -1,5 +1,6 @@
 ### v4.5.7
 - Fix: catch failed read more request Errors
+- Fix: read more footer save button RTL layout
 - Update: footer wordmark
 - Update: improve read more save page button presentation abilities
 
