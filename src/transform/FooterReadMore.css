@@ -6,7 +6,7 @@
   border-radius: 2px;
   box-shadow: 0px 2px 4px rgba(200, 204, 209, 0.5);
   display: block;
-  min-height: 6em;
+  min-height: 70px;
 }
 
 .pagelib-theme-dark .pagelib_footer_readmore_page {
@@ -32,6 +32,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  min-height: 1.38em;
 }
 
 .pagelib-theme-dark .pagelib_footer_readmore_page_title {
@@ -45,7 +46,6 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  line-height: 3em;
 }
 
 .pagelib-theme-sepia .pagelib_footer_readmore_page_description {
