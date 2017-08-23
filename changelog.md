@@ -1,3 +1,6 @@
+### v4.5.7
+- Fix: add a few css properties to read more part of the footer
+
 ### v4.5.6
 - Fix: hide edit pencils on iOS on H3, H4, H5 and H6
 

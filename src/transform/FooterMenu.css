@@ -25,6 +25,7 @@ html[dir='rtl'] .pagelib_footer_menu_item {
 
 .pagelib_footer_menu_item_title {
   color: black;
+  min-height: 1.38em;
 }
 
 .pagelib-theme-dark .pagelib_footer_menu_item_title {
