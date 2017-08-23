@@ -1,8 +1,11 @@
-### v4.5.7
+### v4.5.8
 - Fix: catch failed read more request Errors
-- Fix: read more footer save button RTL layout
+- Fix: dark and sepia theming on articles which contain color swatches and sports uniforms
 - Update: footer wordmark
 - Update: improve read more save page button presentation abilities
+
+### v4.5.7
+- Fix: add a few css properties to read more part of the footer
 
 ### v4.5.6
 - Fix: hide edit pencils on iOS on H3, H4, H5 and H6

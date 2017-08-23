@@ -10,8 +10,8 @@
     "revision": "793038239",
     "lastmodified": "2017-07-30T07:01:45Z",
     "lastmodifier": {
-      "name": "Marcocapelle",
-      "gender": "male"
+      "user": "Marcocapelle",
+      "gender": "unknown"
     },
     "displaytitle": "Mycenaean Greek",
     "normalizedtitle": "Mycenaean Greek",
@@ -21,12 +21,12 @@
     "editable": true,
     "languagecount": 30,
     "image": {
-      "file": "Homeric Greece-en.svg",
+      "file": "Homeric_Greece-en.svg",
       "urls": {
-        "320": "//upload.wikimedia.org/wikipedia/commons/thumb/1/17/Homeric_Greece-en.svg/320px-Homeric_Greece-en.svg.png",
-        "640": "//upload.wikimedia.org/wikipedia/commons/thumb/1/17/Homeric_Greece-en.svg/640px-Homeric_Greece-en.svg.png",
-        "800": "//upload.wikimedia.org/wikipedia/commons/thumb/1/17/Homeric_Greece-en.svg/800px-Homeric_Greece-en.svg.png",
-        "1024": "//upload.wikimedia.org/wikipedia/commons/thumb/1/17/Homeric_Greece-en.svg/1024px-Homeric_Greece-en.svg.png"
+        "320": "http://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Homeric_Greece-en.svg/320px-Homeric_Greece-en.svg.png",
+        "640": "http://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Homeric_Greece-en.svg/640px-Homeric_Greece-en.svg.png",
+        "800": "http://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Homeric_Greece-en.svg/800px-Homeric_Greece-en.svg.png",
+        "1024": "http://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Homeric_Greece-en.svg/1024px-Homeric_Greece-en.svg.png"
       }
     },
     "hatnotes": [

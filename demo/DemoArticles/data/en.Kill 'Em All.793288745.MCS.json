@@ -3,9 +3,9 @@
     "ns": 0,
     "id": 209213,
     "revision": "793288745",
-    "lastmodified": "2017-07-31T20:41:58Z",
+    "lastmodified": "2017-08-10T02:48:35Z",
     "lastmodifier": {
-      "name": "Little Bizarre Dio",
+      "user": "4TheWynne",
       "gender": "unknown"
     },
     "displaytitle": "<i>Kill 'Em All</i>",
@@ -16,12 +16,12 @@
     "editable": true,
     "languagecount": 48,
     "image": {
-      "file": "Metallica - Kill 'Em All cover.jpg",
+      "file": "Metallica_-_Kill_'Em_All_cover.jpg",
       "urls": {
-        "320": "//upload.wikimedia.org/wikipedia/en/5/5c/Metallica_-_Kill_%27Em_All_cover.jpg",
-        "640": "//upload.wikimedia.org/wikipedia/en/5/5c/Metallica_-_Kill_%27Em_All_cover.jpg",
-        "800": "//upload.wikimedia.org/wikipedia/en/5/5c/Metallica_-_Kill_%27Em_All_cover.jpg",
-        "1024": "//upload.wikimedia.org/wikipedia/en/5/5c/Metallica_-_Kill_%27Em_All_cover.jpg"
+        "320": "http://upload.wikimedia.org/wikipedia/en/5/5c/Metallica_-_Kill_%27Em_All_cover.jpg",
+        "640": "http://upload.wikimedia.org/wikipedia/en/5/5c/Metallica_-_Kill_%27Em_All_cover.jpg",
+        "800": "http://upload.wikimedia.org/wikipedia/en/5/5c/Metallica_-_Kill_%27Em_All_cover.jpg",
+        "1024": "http://upload.wikimedia.org/wikipedia/en/5/5c/Metallica_-_Kill_%27Em_All_cover.jpg"
       }
     },
     "hatnotes": [],

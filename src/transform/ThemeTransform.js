@@ -2,11 +2,11 @@ import './ThemeTransform.css'
 import ElementUtilities from './ElementUtilities'
 import Polyfill from './Polyfill'
 
-// Elements marked with either of these classes indicate certain ancestry constraints that are
+// Elements marked with these classes indicate certain ancestry constraints that are
 // difficult to describe as CSS selectors.
 const CONSTRAINT = {
-  IMAGE_NO_BACKGROUND: 'pagelib-theme-image-no-background',
-  IMAGE_NONTABULAR: 'pagelib-theme-image-nontabular'
+  IMAGE_PRESUMES_WHITE_BACKGROUND: 'pagelib-theme-image-presumes-white-background',
+  DIV_DO_NOT_APPLY_BASELINE: 'pagelib-theme-div-do-not-apply-baseline'
 }
 
 // Theme to CSS classes.
@@ -33,6 +33,30 @@ const setTheme = (document, theme) => {
   }
 }
 
+/* en > Away colours > 793128975 */
+/* en > Manchester United F.C. > 793244653 */
+/**
+ * Determines whether white background should be added to image.
+ * @param  {!HTMLImageElement} image
+ * @return {!boolean}
+ */
+const imagePresumesWhiteBackground = image => {
+  const src = image.src
+  if (src.endsWith('.svg.png')) {
+    return !(
+      src.endsWith('Kit_body.svg.png') ||
+      src.endsWith('Kit_socks_long.svg.png') ||
+      src.endsWith('Kit_shorts.svg.png') ||
+      src.endsWith('Kit_right_arm.svg.png') ||
+      src.endsWith('Kit_left_arm.svg.png')
+    )
+  }
+  if (image.classList.contains('mwe-math-fallback-image-inline')) {
+    return false
+  }
+  return !ElementUtilities.closestInlineStyle(image, 'background')
+}
+
 /**
  * Annotate elements with CSS classes that can be used by CSS rules. The classes themselves are not
  * theme-dependent so classification only need only occur once after the content is loaded, not
@@ -41,14 +65,18 @@ const setTheme = (document, theme) => {
  * @return {void}
  */
 const classifyElements = element => {
-  Polyfill.querySelectorAll(element, 'img').forEach(image => {
-    if (!ElementUtilities.closestInlineStyle(image, 'background')) {
-      image.classList.add(CONSTRAINT.IMAGE_NO_BACKGROUND)
-    }
-    if (!ElementUtilities.isNestedInTable(image)) {
-      image.classList.add(CONSTRAINT.IMAGE_NONTABULAR)
-    }
-  })
+  Polyfill.querySelectorAll(element, 'img')
+    .filter(imagePresumesWhiteBackground)
+    .forEach(image => {
+      image.classList.add(CONSTRAINT.IMAGE_PRESUMES_WHITE_BACKGROUND)
+    })
+  /* en > Away colours > 793128975 */
+  /* en > Manchester United F.C. > 793244653 */
+  /* en > Pantone > 792312384 */
+  Polyfill.querySelectorAll(element, 'div.color_swatch div, div[style*="position: absolute"]')
+    .forEach(div => {
+      div.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE)
+    })
 }
 
 export default {

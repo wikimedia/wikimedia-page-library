@@ -3,24 +3,25 @@
     "ns": 0,
     "id": 72951,
     "revision": "45469504",
-    "lastmodified": "2017-08-01T08:18:15Z",
+    "lastmodified": "2017-08-14T02:48:47Z",
     "lastmodifier": {
-      "name": "萌得不能再萌",
+      "user": "程大力",
       "gender": "unknown"
     },
     "displaytitle": "俄亥俄州",
+    "normalizedtitle": "俄亥俄州",
     "wikibase_item": "Q1397",
     "description": "美國州份",
     "protection": {},
     "editable": true,
     "languagecount": 173,
     "image": {
-      "file": "Flag of Ohio.svg",
+      "file": "Flag_of_Ohio.svg",
       "urls": {
-        "320": "//upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Flag_of_Ohio.svg/320px-Flag_of_Ohio.svg.png",
-        "640": "//upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Flag_of_Ohio.svg/640px-Flag_of_Ohio.svg.png",
-        "800": "//upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Flag_of_Ohio.svg/800px-Flag_of_Ohio.svg.png",
-        "1024": "//upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Flag_of_Ohio.svg/1024px-Flag_of_Ohio.svg.png"
+        "320": "http://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Flag_of_Ohio.svg/320px-Flag_of_Ohio.svg.png",
+        "640": "http://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Flag_of_Ohio.svg/640px-Flag_of_Ohio.svg.png",
+        "800": "http://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Flag_of_Ohio.svg/800px-Flag_of_Ohio.svg.png",
+        "1024": "http://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Flag_of_Ohio.svg/1024px-Flag_of_Ohio.svg.png"
       }
     },
     "hatnotes": [],
