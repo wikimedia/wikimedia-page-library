@@ -1,6 +1,9 @@
-### v4.5.7
+### v4.5.8
 - Fix: catch failed read more request Errors
 - Update: footer wordmark
+
+### v4.5.7
+- Fix: add a few css properties to read more part of the footer
 
 ### v4.5.6
 - Fix: hide edit pencils on iOS on H3, H4, H5 and H6
