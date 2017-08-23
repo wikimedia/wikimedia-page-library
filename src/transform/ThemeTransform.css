@@ -130,9 +130,7 @@ styles with only the things which need tweaking.
 }
 /* en > Barack Obama > 793008506 */
 /* en > Quadratic equation > 793685454 */
-.pagelib-theme-sepia .content img.pagelib-theme-image-no-background:not(.mwe-math-fallback-image-inline),
-.pagelib-theme-sepia .content .infobox .image img.pagelib-theme-image-no-background:not(.mwe-math-fallback-image-inline),
-.pagelib-theme-dark .content img.pagelib-theme-image-no-background:not(.mwe-math-fallback-image-inline),
-.pagelib-theme-dark .content .infobox .image img.pagelib-theme-image-no-background:not(.mwe-math-fallback-image-inline) {
+.pagelib-theme-sepia .content img.pagelib-theme-image-presumes-white-background,
+.pagelib-theme-dark .content img.pagelib-theme-image-presumes-white-background {
   background: #fff;
 }

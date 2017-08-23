@@ -30,7 +30,7 @@ describe('ThemeTransform', () => {
       const document = domino.createDocument('<img style="background: red" src=/>')
       pagelib.ThemeTransform.classifyElements(document.documentElement)
 
-      const clazz = pagelib.ThemeTransform.CONSTRAINT.IMAGE_NO_BACKGROUND
+      const clazz = pagelib.ThemeTransform.CONSTRAINT.IMAGE_PRESUMES_WHITE_BACKGROUND
       assert.ok(!document.querySelector('img').classList.contains(clazz))
     })
 
@@ -38,7 +38,7 @@ describe('ThemeTransform', () => {
       const document = domino.createDocument('<div style="background: red"><img src=/></div>')
       pagelib.ThemeTransform.classifyElements(document.documentElement)
 
-      const clazz = pagelib.ThemeTransform.CONSTRAINT.IMAGE_NO_BACKGROUND
+      const clazz = pagelib.ThemeTransform.CONSTRAINT.IMAGE_PRESUMES_WHITE_BACKGROUND
       assert.ok(!document.querySelector('img').classList.contains(clazz))
     })
 
@@ -46,7 +46,7 @@ describe('ThemeTransform', () => {
       const document = domino.createDocument('<img src=/>')
       pagelib.ThemeTransform.classifyElements(document.documentElement)
 
-      const clazz = pagelib.ThemeTransform.CONSTRAINT.IMAGE_NO_BACKGROUND
+      const clazz = pagelib.ThemeTransform.CONSTRAINT.IMAGE_PRESUMES_WHITE_BACKGROUND
       assert.ok(document.querySelector('img').classList.contains(clazz))
     })
   })

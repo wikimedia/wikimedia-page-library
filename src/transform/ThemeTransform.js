@@ -5,7 +5,7 @@ import Polyfill from './Polyfill'
 // Elements marked with these classes indicate certain ancestry constraints that are
 // difficult to describe as CSS selectors.
 const CONSTRAINT = {
-  IMAGE_NO_BACKGROUND: 'pagelib-theme-image-no-background',
+  IMAGE_PRESUMES_WHITE_BACKGROUND: 'pagelib-theme-image-presumes-white-background',
   DIV_DO_NOT_APPLY_BASELINE: 'pagelib-theme-div-do-not-apply-baseline'
 }
 
@@ -40,7 +40,7 @@ const setTheme = (document, theme) => {
  * @param  {!HTMLImageElement} image
  * @return {!boolean}
  */
-const imageNeedsWhiteBackground = image => {
+const imagePresumesWhiteBackground = image => {
   const src = image.src
   if (src.endsWith('.svg.png')) {
     return !(
@@ -50,6 +50,9 @@ const imageNeedsWhiteBackground = image => {
       src.endsWith('Kit_right_arm.svg.png') ||
       src.endsWith('Kit_left_arm.svg.png')
     )
+  }
+  if (image.classList.contains('mwe-math-fallback-image-inline')) {
+    return false
   }
   return !ElementUtilities.closestInlineStyle(image, 'background')
 }
@@ -63,9 +66,9 @@ const imageNeedsWhiteBackground = image => {
  */
 const classifyElements = element => {
   Polyfill.querySelectorAll(element, 'img')
-    .filter(imageNeedsWhiteBackground)
+    .filter(imagePresumesWhiteBackground)
     .forEach(image => {
-      image.classList.add(CONSTRAINT.IMAGE_NO_BACKGROUND)
+      image.classList.add(CONSTRAINT.IMAGE_PRESUMES_WHITE_BACKGROUND)
     })
   /* en > Away colours > 793128975 */
   /* en > Manchester United F.C. > 793244653 */
