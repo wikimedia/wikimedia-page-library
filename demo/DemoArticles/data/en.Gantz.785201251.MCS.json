@@ -8,12 +8,13 @@
       }
     ],
     "revision": "785201251",
-    "lastmodified": "2017-06-12T05:31:17Z",
+    "lastmodified": "2017-08-10T09:46:54Z",
     "lastmodifier": {
-      "name": "Jon Kolbert",
+      "user": "Jon Kolbert",
       "gender": "unknown"
     },
     "displaytitle": "<i>Gantz</i>",
+    "normalizedtitle": "Gantz",
     "wikibase_item": "Q1057617",
     "description": "manga",
     "protection": {},
@@ -22,10 +23,10 @@
     "image": {
       "file": "Gantzvol1.jpg",
       "urls": {
-        "320": "//upload.wikimedia.org/wikipedia/en/f/fb/Gantzvol1.jpg",
-        "640": "//upload.wikimedia.org/wikipedia/en/f/fb/Gantzvol1.jpg",
-        "800": "//upload.wikimedia.org/wikipedia/en/f/fb/Gantzvol1.jpg",
-        "1024": "//upload.wikimedia.org/wikipedia/en/f/fb/Gantzvol1.jpg"
+        "320": "http://upload.wikimedia.org/wikipedia/en/f/fb/Gantzvol1.jpg",
+        "640": "http://upload.wikimedia.org/wikipedia/en/f/fb/Gantzvol1.jpg",
+        "800": "http://upload.wikimedia.org/wikipedia/en/f/fb/Gantzvol1.jpg",
+        "1024": "http://upload.wikimedia.org/wikipedia/en/f/fb/Gantzvol1.jpg"
       }
     },
     "hatnotes": [

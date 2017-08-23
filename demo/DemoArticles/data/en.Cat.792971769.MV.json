@@ -112,7 +112,7 @@
         "fromtitle": "Cat",
         "anchor": "Diseases",
         "id": 8,
-        "text": "<div role=\"note\" class=\"hatnote navigation-not-searchable\">Main article: <a href=\"/wiki/Feline_diseases\" title=\"Feline diseases\">Feline diseases</a></div>\n<p>Cats can suffer from a wide range of health problems, including infectious diseases, parasites, injuries, and chronic disease. <a href=\"/wiki/Feline_vaccination\" title=\"Feline vaccination\">Vaccinations</a> are available for many of these diseases, and domestic cats are regularly given treatments to eliminate parasites such as worms and fleas.<sup id=\"cite_ref-118\" class=\"reference\"><a href=\"#cite_note-118\">[118]</a></sup></p>"
+        "text": "<div role=\"note\" class=\"hatnote navigation-not-searchable\">Main article: <a href=\"/wiki/Feline_diseases\" class=\"mw-redirect\" title=\"Feline diseases\">Feline diseases</a></div>\n<p>Cats can suffer from a wide range of health problems, including infectious diseases, parasites, injuries, and chronic disease. <a href=\"/wiki/Feline_vaccination\" title=\"Feline vaccination\">Vaccinations</a> are available for many of these diseases, and domestic cats are regularly given treatments to eliminate parasites such as worms and fleas.<sup id=\"cite_ref-118\" class=\"reference\"><a href=\"#cite_note-118\">[118]</a></sup></p>"
       },
       {
         "toclevel": 3,

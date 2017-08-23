@@ -3,9 +3,9 @@
     "ns": 0,
     "id": 534366,
     "revision": "793008506",
-    "lastmodified": "2017-07-30T02:07:24Z",
+    "lastmodified": "2017-08-14T14:02:01Z",
     "lastmodifier": {
-      "name": "SadBis",
+      "user": "Afernand74",
       "gender": "unknown"
     },
     "displaytitle": "Barack Obama",
@@ -23,12 +23,12 @@
     "editable": false,
     "languagecount": 223,
     "image": {
-      "file": "President Barack Obama.jpg",
+      "file": "President_Barack_Obama.jpg",
       "urls": {
-        "320": "//upload.wikimedia.org/wikipedia/commons/thumb/8/8d/President_Barack_Obama.jpg/320px-President_Barack_Obama.jpg",
-        "640": "//upload.wikimedia.org/wikipedia/commons/thumb/8/8d/President_Barack_Obama.jpg/640px-President_Barack_Obama.jpg",
-        "800": "//upload.wikimedia.org/wikipedia/commons/thumb/8/8d/President_Barack_Obama.jpg/800px-President_Barack_Obama.jpg",
-        "1024": "//upload.wikimedia.org/wikipedia/commons/thumb/8/8d/President_Barack_Obama.jpg/1024px-President_Barack_Obama.jpg"
+        "320": "http://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/President_Barack_Obama.jpg/320px-President_Barack_Obama.jpg",
+        "640": "http://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/President_Barack_Obama.jpg/640px-President_Barack_Obama.jpg",
+        "800": "http://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/President_Barack_Obama.jpg/800px-President_Barack_Obama.jpg",
+        "1024": "http://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/President_Barack_Obama.jpg/820px-President_Barack_Obama.jpg"
       }
     },
     "pronunciation": {
