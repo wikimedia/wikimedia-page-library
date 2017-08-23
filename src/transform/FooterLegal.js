@@ -16,6 +16,7 @@ import './FooterLegal.css'
  */
 const add = (content, licenseString, licenseSubstitutionString, containerID,
   licenseLinkClickHandler) => {
+  // todo: don't manipulate the selector. The client can make this an ID if they want it to be.
   const container = content.querySelector(`#${containerID}`)
   const licenseStringHalves = licenseString.split('$1')
 

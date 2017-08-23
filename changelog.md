@@ -1,3 +1,7 @@
+### v4.5.8
+- Fix: catch failed read more request Errors
+- Update: footer wordmark
+
 ### v4.5.7
 - Fix: add a few css properties to read more part of the footer
 
