@@ -1,3 +1,6 @@
+### v4.5.10
+- Fix: some parts of football uniforms not being classified as presuming white background
+
 ### v4.5.9
 - Fix: collapse table theming - increase specificity of collapse table theme selectors
 
