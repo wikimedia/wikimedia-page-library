@@ -51,6 +51,7 @@
   <body>
     <div id='theme_demo_tools'>
       <control-panel></control-panel>
+      <input type='checkbox' id='collapse_tables_checkbox'> <label for=collapse_tables_checkbox>Collapse tables</label>
       <div id='theme_demo_menu'></div>
     </div>
     <div class='content' id='content'></div>
@@ -184,6 +185,14 @@ fetch(DEMO_ARTICLES_INDEX_PATH)
       pagelib.ThemeTransform.classifyElements(document)
     })
   )
+
+// todo: when we refactor ControlPanel.html to maybe use iframe also add an item for toggling table
+// collapsing.
+document.getElementById('collapse_tables_checkbox').addEventListener('click', () => {
+  pagelib.CollapseTable.collapseTables(window, document, 'page title', false,
+    'info box title', 'other title', 'footer title', null)
+})
+
     </script>
 </body>
 </html>
