@@ -1,3 +1,6 @@
+### v4.5.9
+- Fix: collapse table theming - increase specificity of collapse table theme selectors
+
 ### v4.5.8
 - Fix: catch failed read more request Errors
 - Update: footer wordmark
