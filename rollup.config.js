@@ -1,6 +1,7 @@
 import babel from 'rollup-plugin-babel'
-import css from 'rollup-plugin-css-porter'
 import pkg from './package.json'
+
+const cssBundler = require('./rollup.cssBundler.js').cssBundler
 
 export default {
   entry: 'src/index.js',
@@ -9,14 +10,15 @@ export default {
   moduleName: 'pagelib',
   sourceMap: true,
   plugins: [
-    css({
-      minified: false,
-      include: 'src/transform/**.css'
+    cssBundler({
+      // Grab files ending in '/src/transform/<TRANSFORM_NAME>.css'
+      inputFilesSuffixPattern: /\/src\/transform.*\.css$/,
+      outputFile: './build/wikimedia-page-library-transform.css'
     }),
-    css({
-      minified: false,
-      include: 'src/override/**.css',
-      dest: 'build/wikimedia-page-library-override.css'
+    cssBundler({
+      // Grab files ending in '/src/override/<TRANSFORM_NAME>.css'
+      inputFilesSuffixPattern: /\/src\/override.*\.css$/,
+      outputFile: './build/wikimedia-page-library-override.css'
     }),
     babel({
       plugins: ['external-helpers']

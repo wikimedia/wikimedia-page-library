@@ -1,3 +1,27 @@
+### v4.5.10
+- Fix: some parts of football uniforms not being classified as presuming white background
+
+### v4.5.9
+- Fix: collapse table theming - increase specificity of collapse table theme selectors
+
+### v4.5.8
+- Fix: catch failed read more request Errors
+- Update: footer wordmark
+- Fix: dark and sepia theming on articles which contain color swatches and sports uniforms
+
+### v4.5.7
+- Fix: add a few css properties to read more part of the footer
+
+### v4.5.6
+- Fix: hide edit pencils on iOS on H3, H4, H5 and H6
+
+### v4.5.5
+- Fix: dark and sepia themes fixes for various elements including those having inline style colors
+- Chore: add theme demo. To add articles to theme demo update `articles.json` then run `update.js`
+
+### v4.5.4
+- Chore: trim read more data client
+
 ### v4.5.3
 - Fix: add missing href on edit anchor
 

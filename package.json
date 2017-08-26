@@ -1,6 +1,6 @@
 {
   "name": "wikimedia-page-library",
-  "version": "4.5.4",
+  "version": "4.5.10",
   "description": "Cross-platform JavaScript and CSS library for Wikimedia apps",
   "keywords": [
     "Wikipedia",
@@ -62,7 +62,6 @@
     "pre-commit": "1.2.2",
     "rollup": "0.43.0",
     "rollup-plugin-babel": "2.7.1",
-    "rollup-plugin-css-porter": "0.1.2",
     "rollup-watch": "4.3.1"
   },
   "license": "Apache-2.0"

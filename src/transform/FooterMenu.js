@@ -208,7 +208,7 @@ const setHeading = (headingString, headingID, document) => {
 }
 
 export default {
-  MenuItemType,
+  MenuItemType, // todo: rename to just ItemType?
   setHeading,
   maybeAddItem
 }

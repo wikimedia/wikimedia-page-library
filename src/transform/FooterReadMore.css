@@ -6,6 +6,7 @@
   border-radius: 2px;
   box-shadow: 0px 2px 4px rgba(200, 204, 209, 0.5);
   display: block;
+  min-height: 70px;
 }
 
 .pagelib-theme-dark .pagelib_footer_readmore_page {
@@ -31,6 +32,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  min-height: 1.38em;
 }
 
 .pagelib-theme-dark .pagelib_footer_readmore_page_title {
@@ -78,7 +80,7 @@
   background-size: 12px 17px;
   background-repeat: no-repeat;
   font-size: .9em;
-  font-weight: 500; 
+  font-weight: 500;
   display: table-cell;
   vertical-align: middle;
 }

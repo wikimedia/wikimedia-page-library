@@ -23,7 +23,7 @@ import './FooterReadMore.css'
  * @return {void}
  */
 
-const SAVE_BUTTON_ID_PREFIX = 'readmore:save:'
+const SAVE_BUTTON_ID_PREFIX = 'pagelib_footer_read_more_save_'
 
 /**
  * Removes parenthetical enclosures from string.
@@ -224,7 +224,7 @@ const readMoreQueryURL = (title, count, baseURL) =>
  */
 const fetchErrorHandler = statusText => {
   // TODO: figure out if we want to hide the 'Read more' header in cases when fetch fails.
-  // console.log(`statusText = ${statusText}`);
+  console.log(`statusText = ${statusText}`) // eslint-disable-line no-console
 }
 
 /**
@@ -259,7 +259,11 @@ const fetchReadMore = (title, count, containerID, baseURL, showReadMorePagesHand
     }
   }
   xhr.onerror = () => fetchErrorHandler(xhr.statusText)
-  xhr.send()
+  try {
+    xhr.send()
+  } catch (error) {
+    fetchErrorHandler(error.toString())
+  }
 }
 
 /**
