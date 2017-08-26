@@ -129,7 +129,7 @@ const documentFragmentForReadMorePage = (readMorePage, index, saveButtonClickHan
     innerDivContainer.appendChild(descriptionEl)
   }
 
-  const saveButton = document.createElement('span')
+  const saveButton = document.createElement('div')
   saveButton.id = `${SAVE_BUTTON_ID_PREFIX}${encodeURI(readMorePage.title)}`
   saveButton.className = 'pagelib_footer_readmore_page_save'
 
