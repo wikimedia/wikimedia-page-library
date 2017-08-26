@@ -1,3 +1,9 @@
+### v4.5.10
+- Fix: some parts of football uniforms not being classified as presuming white background
+
+### v4.5.9
+- Fix: collapse table theming - increase specificity of collapse table theme selectors
+
 ### v4.5.8
 - Fix: catch failed read more request Errors
 - Fix: dark and sepia theming on articles which contain color swatches and sports uniforms
