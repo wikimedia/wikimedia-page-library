@@ -4,6 +4,8 @@
   <head>
     <meta charset=utf-8>
     <title>ThemeTransform</title>
+    <link href="https://en.wikipedia.org/w/load.php?debug=true&lang=en&modules=skins.minerva.base.reset|skins.minerva.content.styles|ext.cite.style|ext.math.styles|ext.timeline.styles|mediawiki.page.gallery.styles|mediawiki.skinning.content.parsoid&only=styles&version=&*" rel="stylesheet" type="text/css"></link>
+    <link href=../build/wikimedia-page-library-transform.css rel=stylesheet>
     <style>
       :root {
         --control-panel-theme-visibility: visible;
@@ -38,13 +40,12 @@
         font-size: 2.0em;
       }
     </style>
- 
-    <link href="https://en.wikipedia.org/w/load.php?debug=true&lang=en&modules=skins.minerva.base.reset|skins.minerva.content.styles|ext.cite.style|ext.math.styles|ext.timeline.styles|mediawiki.page.gallery.styles|mediawiki.skinning.content.parsoid&only=styles&version=&*" rel="stylesheet" type="text/css"></link>
 
+    <script src=https://polygit.org/components/webcomponentsjs/webcomponents-loader.js></script>
     <script src=build/wikimedia-page-library-transform.js></script>
     <script src='./DemoArticles/ArticleRef.js'></script>
     <script src='./DemoUtilities.js'></script>
-    
+
     <link rel=import href=ControlPanel.html>
   </head>
 
