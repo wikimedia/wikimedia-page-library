@@ -132,6 +132,15 @@ const documentFragmentForReadMorePage = (readMorePage, index, saveButtonClickHan
   const saveButton = document.createElement('div')
   saveButton.id = `${SAVE_BUTTON_ID_PREFIX}${encodeURI(readMorePage.title)}`
   saveButton.className = 'pagelib_footer_readmore_page_save'
+
+  const saveButtonIcon = document.createElement('span')
+  saveButtonIcon.className = 'pagelib_footer_read_more_page_save_icon'
+  saveButton.appendChild(saveButtonIcon)
+
+  const saveButtonText = document.createElement('span')
+  saveButtonText.className = 'pagelib_footer_read_more_page_save_text'
+  saveButton.appendChild(saveButtonText)
+
   saveButton.addEventListener('click', event => {
     event.stopPropagation()
     event.preventDefault()
@@ -273,10 +282,11 @@ const fetchReadMore = (title, count, containerID, baseURL, showReadMorePagesHand
  * @return {void}
  */
 const updateSaveButtonBookmarkIcon = (button, isSaved) => {
+  const icon = button.querySelector('.pagelib_footer_read_more_page_save_icon')
   const unfilledClass = 'pagelib_footer_readmore_bookmark_unfilled'
   const filledClass = 'pagelib_footer_readmore_bookmark_filled'
-  button.classList.remove(filledClass, unfilledClass)
-  button.classList.add(isSaved ? filledClass : unfilledClass)
+  icon.classList.remove(filledClass, unfilledClass)
+  icon.classList.add(isSaved ? filledClass : unfilledClass)
 }
 
 /**
@@ -286,11 +296,11 @@ const updateSaveButtonBookmarkIcon = (button, isSaved) => {
  * @param {!boolean} isSaved
  * @param {!Document} document
  * @return {void}
-*/
+ */
 const updateSaveButtonForTitle = (title, text, isSaved, document) => {
-  const saveButton = document.getElementById(`${SAVE_BUTTON_ID_PREFIX}${title}`)
-  saveButton.innerText = text
-  saveButton.title = text
+  const saveButton = document.querySelector(`#${SAVE_BUTTON_ID_PREFIX}${title}`)
+  const buttonTitle = saveButton.querySelector('.pagelib_footer_read_more_page_save_text')
+  buttonTitle.innerHTML = text
   updateSaveButtonBookmarkIcon(saveButton, isSaved)
 }
 

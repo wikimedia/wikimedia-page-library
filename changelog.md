@@ -6,8 +6,9 @@
 
 ### v4.5.8
 - Fix: catch failed read more request Errors
-- Update: footer wordmark
 - Fix: dark and sepia theming on articles which contain color swatches and sports uniforms
+- Update: footer wordmark
+- Update: improve read more save page button presentation abilities
 
 ### v4.5.7
 - Fix: add a few css properties to read more part of the footer
