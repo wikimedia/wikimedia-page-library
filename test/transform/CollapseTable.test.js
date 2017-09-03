@@ -100,17 +100,17 @@ describe('CollapseTable', () => {
 
         it('the header class list toggles when clicked', function Test() {
           this.header.click()
-          assert.ok(this.header.classList.contains('app_table_collapsed_open'))
-          assert.ok(!this.header.classList.contains('app_table_collapse_close'))
-          assert.ok(!this.header.classList.contains('app_table_collapse_icon'))
+          assert.ok(this.header.classList.contains('pagelib_collapse_table_expanded'))
+          assert.ok(!this.header.classList.contains('pagelib_collapse_table_collapsed'))
+          assert.ok(!this.header.classList.contains('pagelib_collapse_table_icon'))
         })
 
         it('the header class list toggles back when clicked twice', function Test() {
           this.header.click()
           this.header.click()
-          assert.ok(!this.header.classList.contains('app_table_collapsed_open'))
-          assert.ok(this.header.classList.contains('app_table_collapse_close'))
-          assert.ok(this.header.classList.contains('app_table_collapse_icon'))
+          assert.ok(!this.header.classList.contains('pagelib_collapse_table_expanded'))
+          assert.ok(this.header.classList.contains('pagelib_collapse_table_collapsed'))
+          assert.ok(this.header.classList.contains('pagelib_collapse_table_icon'))
         })
 
         it('the caption is shown when clicked', function Test() {
@@ -208,12 +208,12 @@ describe('CollapseTable', () => {
 
     it('the div is a container', () => {
       const div = newCollapsedHeaderDiv(domino.createDocument())
-      assert.ok(div.classList.contains('app_table_collapsed_container'))
+      assert.ok(div.classList.contains('pagelib_collapse_table_collapsed_container'))
     })
 
     it('the div is expanded', () => {
       const div = newCollapsedHeaderDiv(domino.createDocument())
-      assert.ok(div.classList.contains('app_table_collapsed_open'))
+      assert.ok(div.classList.contains('pagelib_collapse_table_expanded'))
     })
 
     it('when contents is undefined, the div has no contents', () => {
@@ -237,12 +237,12 @@ describe('CollapseTable', () => {
 
     it('the div is a footer div', () => {
       const div = newCollapsedFooterDiv(domino.createDocument())
-      assert.ok(div.classList.contains('app_table_collapsed_bottom'))
+      assert.ok(div.classList.contains('pagelib_collapse_table_collapsed_bottom'))
     })
 
     it('the div has an icon', () => {
       const div = newCollapsedFooterDiv(domino.createDocument())
-      assert.ok(div.classList.contains('app_table_collapse_icon'))
+      assert.ok(div.classList.contains('pagelib_collapse_table_icon'))
     })
 
     it('when contents is undefined, the div has no contents', () => {
@@ -335,7 +335,8 @@ describe('CollapseTable', () => {
       })
 
       it('and it\'s already inside of a container, nothing is done', function Test() {
-        this.window.document.querySelector('table').parentNode.classList.add('app_table_container')
+        this.window.document.querySelector('table')
+          .parentNode.classList.add('pagelib_collapse_table_container')
         collapseTables(this.window, this.window.document, 'pageTitle')
         this.assertTableIsExpanded()
       })
@@ -380,17 +381,17 @@ describe('CollapseTable', () => {
         it('table is wrapped in a container', function Test() {
           collapseTables(this.window, this.window.document, 'pageTitle')
           const table = this.window.document.querySelector('table')
-          assert.ok(table.parentNode.classList.contains('app_table_container'))
+          assert.ok(table.parentNode.classList.contains('pagelib_collapse_table_container'))
         })
 
         it('table has a header', function Test() {
           collapseTables(this.window, this.window.document, 'pageTitle')
-          assert.ok(this.window.document.querySelector('.app_table_collapsed_open'))
+          assert.ok(this.window.document.querySelector('.pagelib_collapse_table_expanded'))
         })
 
         it('table has a footer', function Test() {
           collapseTables(this.window, this.window.document, 'pageTitle')
-          assert.ok(this.window.document.querySelector('.app_table_collapsed_bottom'))
+          assert.ok(this.window.document.querySelector('.pagelib_collapse_table_collapsed_bottom'))
         })
 
         it('table expands when header is clicked', function Test() {
@@ -440,13 +441,13 @@ describe('CollapseTable', () => {
 
         it('table header is unused', function Test() {
           collapseTables(this.window, this.window.document)
-          const header = this.window.document.querySelector('.app_table_collapsed_open')
+          const header = this.window.document.querySelector('.pagelib_collapse_table_expanded')
           assert.ok(!header)
         })
 
         it('and page title is specified, table header is used', function Test() {
           collapseTables(this.window, this.window.document, 'pageTitle')
-          const header = this.window.document.querySelector('.app_table_collapsed_open')
+          const header = this.window.document.querySelector('.pagelib_collapse_table_expanded')
           assert.ok(header.innerHTML.includes('text'))
         })
 
@@ -457,33 +458,35 @@ describe('CollapseTable', () => {
 
           it('and page title is specified, header is used', function Test() {
             collapseTables(this.window, this.window.document, 'pageTitle')
-            const header = this.window.document.querySelector('.app_table_collapsed_open')
+            const header = this.window.document.querySelector('.pagelib_collapse_table_expanded')
             assert.ok(header.innerHTML.includes('text'))
           })
 
           it('and infobox title is specified, infobox title is used', function Test() {
             collapseTables(this.window, this.window.document, 'pageTitle', null, 'infoboxTitle')
-            const header = this.window.document.querySelector('.app_table_collapsed_open')
+            const header = this.window.document.querySelector('.pagelib_collapse_table_expanded')
             assert.ok(header.innerHTML.includes('infoboxTitle'))
           })
         })
 
         it('and non-infobox title is specified, non-infobox title is used', function Test() {
           collapseTables(this.window, this.window.document, 'pageTitle', null, null, 'otherTitle')
-          const header = this.window.document.querySelector('.app_table_collapsed_open')
+          const header = this.window.document.querySelector('.pagelib_collapse_table_expanded')
           assert.ok(header.innerHTML.includes('otherTitle'))
         })
 
         it('footer title is unused', function Test() {
           collapseTables(this.window, this.window.document, 'pageTitle')
-          const footer = this.window.document.querySelector('.app_table_collapsed_bottom')
+          const footer =
+            this.window.document.querySelector('.pagelib_collapse_table_collapsed_bottom')
           assert.ok(!footer.innerHTML)
         })
 
         it('and footer title is specified, footer title is used', function Test() {
           collapseTables(this.window, this.window.document, 'pageTitle', null, null, null,
             'footerTitle')
-          const footer = this.window.document.querySelector('.app_table_collapsed_bottom')
+          const footer =
+            this.window.document.querySelector('.pagelib_collapse_table_collapsed_bottom')
           assert.deepEqual(footer.innerHTML, 'footerTitle')
         })
       })
@@ -506,7 +509,8 @@ describe('CollapseTable', () => {
 
   describe('expandCollapsedTableIfItContainsElement()', () => {
     // eslint-disable-next-line max-len
-    const expandCollapsedTableIfItContainsElement = pagelib.CollapseTable.expandCollapsedTableIfItContainsElement
+    const expandCollapsedTableIfItContainsElement =
+      pagelib.CollapseTable.expandCollapsedTableIfItContainsElement
 
     it('when element is undefined, nothing is done', () => {
       const element = undefined
@@ -523,8 +527,8 @@ describe('CollapseTable', () => {
       describe('and element is within a collapse table container that has children', () => {
         it('and table is already expanded, nothing is done', () => {
           const html = `
-            <div class=app_table_container>
-              <div class=app_table_collapse_close></div>
+            <div class=pagelib_collapse_table_container>
+              <div class=pagelib_collapse_table_collapsed></div>
             </div>`
           const element = domino.createDocument(html).querySelector('div div')
           element.addEventListener('click', assert.fail)
@@ -533,8 +537,8 @@ describe('CollapseTable', () => {
 
         it('and table is collapsed, the table is expanded', done => {
           const html = `
-            <div class=app_table_container>
-              <div class=app_table_collapsed_open></div>
+            <div class=pagelib_collapse_table_container>
+              <div class=pagelib_collapse_table_expanded></div>
             </div>`
           const element = domino.createDocument(html).querySelector('div div')
           element.addEventListener('click', () => done())

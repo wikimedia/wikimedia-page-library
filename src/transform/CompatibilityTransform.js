@@ -1,5 +1,5 @@
 const COMPATIBILITY = {
-  FILTER: 'pagelib-compatibility-filter'
+  FILTER: 'pagelib_compatibility_filter'
 }
 
 /**

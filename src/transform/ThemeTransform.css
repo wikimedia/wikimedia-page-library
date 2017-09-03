@@ -6,131 +6,131 @@ styles with only the things which need tweaking.
 */
 
 /* baseline body */
-.pagelib-theme-dark body {
+.pagelib_theme_dark body {
   color: #f8f9fa;
   background: #2e3136;
 }
-.pagelib-theme-sepia body {
+.pagelib_theme_sepia body {
   color: #222;
   background: #f8f1e3;
 }
 
 /* baseline anchor */
-.pagelib-theme-dark a {
+.pagelib_theme_dark a {
   color: #69f;
 }
-.pagelib-theme-sepia a {
+.pagelib_theme_sepia a {
   color: #36c;
 }
 
 /* external anchor */
-.pagelib-theme-dark a.external, 
-.pagelib-theme-sepia a.external {
+.pagelib_theme_dark a.external, 
+.pagelib_theme_sepia a.external {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAGJJREFUKFN1jdENgCAMBYmJn47Bak7DZrhTpc/XIm34OAjXA4qIgHI/dSBbLGTcOKjBryFlinGmjDQGiOF0MQkxI3v5wq6L38qR7SnsAx8ul37igPjAd+o5Oz2MRA+xY4ZSXuaW6wYouOLpAAAAAElFTkSuQmCC);
 }
 
 /* baseline table */
-.pagelib-theme-dark .content table,
-.pagelib-theme-dark .content td,
-.pagelib-theme-dark .content tr,
-.pagelib-theme-dark .content th {
+.pagelib_theme_dark .content table,
+.pagelib_theme_dark .content td,
+.pagelib_theme_dark .content tr,
+.pagelib_theme_dark .content th {
   background: #27292d !important;
   color: #f8f9fa !important;
 }
-.pagelib-theme-sepia .content table,
-.pagelib-theme-sepia .content td,
-.pagelib-theme-sepia .content tr,
-.pagelib-theme-sepia .content th {
+.pagelib_theme_sepia .content table,
+.pagelib_theme_sepia .content td,
+.pagelib_theme_sepia .content tr,
+.pagelib_theme_sepia .content th {
   background: #f0e6d6 !important;
   color: #222 !important; 
 }
 
 /* baseline div, span, ul, li */
-.pagelib-theme-dark .content div:not(.pagelib-theme-div-do-not-apply-baseline),
-.pagelib-theme-dark .content span,
-.pagelib-theme-dark .content ul,
-.pagelib-theme-dark .content ol,
-.pagelib-theme-dark .content li {
+.pagelib_theme_dark .content div:not(.pagelib_theme_div_do_not_apply_baseline),
+.pagelib_theme_dark .content span,
+.pagelib_theme_dark .content ul,
+.pagelib_theme_dark .content ol,
+.pagelib_theme_dark .content li {
   background-color: inherit !important;
   color: #f8f9fa !important;
 }
-.pagelib-theme-sepia .content div:not(.pagelib-theme-div-do-not-apply-baseline),
-.pagelib-theme-sepia .content span,
-.pagelib-theme-sepia .content ul,
-.pagelib-theme-sepia .content ol,
-.pagelib-theme-sepia .content li {
+.pagelib_theme_sepia .content div:not(.pagelib_theme_div_do_not_apply_baseline),
+.pagelib_theme_sepia .content span,
+.pagelib_theme_sepia .content ul,
+.pagelib_theme_sepia .content ol,
+.pagelib_theme_sepia .content li {
   background-color: inherit !important;
   color: #222 !important; 
 }
 
 /* baseline border color */
-.pagelib-theme-dark .content * {
+.pagelib_theme_dark .content * {
   border-color: #43464a !important;
 }
-.pagelib-theme-sepia .content * {
+.pagelib_theme_sepia .content * {
   border-color: #cbc8c1 !important;
 }
 
 /* quotebox and blockquote */
 /* en > Audioslave > 793042679 */
 /* es > Arte > 100819823 */
-.pagelib-theme-dark .content blockquote,
-.pagelib-theme-dark .content div.quotebox {
+.pagelib_theme_dark .content blockquote,
+.pagelib_theme_dark .content div.quotebox {
   background: #27292d !important;
 }
-.pagelib-theme-sepia .content blockquote, 
-.pagelib-theme-sepia .content div.quotebox {
+.pagelib_theme_sepia .content blockquote, 
+.pagelib_theme_sepia .content div.quotebox {
   background: #f0e6d6 !important;
 }
 
 /* horizontal rule */
 /* en > Audioslave > 793042679 */
 /* en > Chris Cornell > 793305307 */
-.pagelib-theme-dark .content hr {
+.pagelib_theme_dark .content hr {
   border-style: solid !important;
 }
-.pagelib-theme-sepia .content hr {
+.pagelib_theme_sepia .content hr {
   border-style: solid !important;
 }
 
 /* caption color */
 /* en > Barack Obama > 793008506 */ 
-.pagelib-theme-default .content .thumbcaption,
-.pagelib-theme-default .content figcaption {
+.pagelib_theme_default .content .thumbcaption,
+.pagelib_theme_default .content figcaption {
   color: #72777d !important;
 }
-.pagelib-theme-dark .content .thumbcaption,
-.pagelib-theme-dark .content figcaption {
+.pagelib_theme_dark .content .thumbcaption,
+.pagelib_theme_dark .content figcaption {
   color: #c8ccd1 !important;
 }
-.pagelib-theme-sepia .content .thumbcaption,
-.pagelib-theme-sepia .content figcaption {
+.pagelib_theme_sepia .content .thumbcaption,
+.pagelib_theme_sepia .content figcaption {
   color: #646059 !important;
 }
 
 /* caption background */
 /* fr > Team_Bentley > 138755788 */
-.pagelib-theme-dark .content caption {
+.pagelib_theme_dark .content caption {
   background: #43464a !important;
 }
-.pagelib-theme-sepia .content caption {
+.pagelib_theme_sepia .content caption {
   background: #cbc8c1 !important;
 }
 
 /* images */
 /* compatibility transform */
-.pagelib-theme-dark.pagelib-compatibility-filter .content img.mwe-math-fallback-image-inline {
+.pagelib_theme_dark.pagelib_compatibility_filter .content img.mwe-math-fallback-image-inline {
   background: #ccc;
   padding: 2px;
 }
 /* en > Quadratic equation > 793685454 */
-.pagelib-theme-dark .content img.mwe-math-fallback-image-inline {
+.pagelib_theme_dark .content img.mwe-math-fallback-image-inline {
   -webkit-filter: invert(100%);
   filter: invert(100%);
 }
 /* en > Barack Obama > 793008506 */
 /* en > Quadratic equation > 793685454 */
-.pagelib-theme-sepia .content img.pagelib-theme-image-presumes-white-background,
-.pagelib-theme-dark .content img.pagelib-theme-image-presumes-white-background {
+.pagelib_theme_sepia .content img.pagelib_theme_image_presumes_white_background,
+.pagelib_theme_dark .content img.pagelib_theme_image_presumes_white_background {
   background: #fff;
 }

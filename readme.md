@@ -40,7 +40,7 @@ Directory names should be lowercase. Filenames should be singular.
 ### Naming
 - JS function names use camelCase
 - JS module names use PascalCase
-- CSS class names use shish-kebab-case; `pagelib-class-name-element-state` (note: class name omits the word "Transform").
+- CSS class names use snake_case; `pagelib_class_name_element_state` (note: class name omits the word "Transform").
 
 ### Design
 - [Colors](https://phabricator.wikimedia.org/source/wikimedia-ui-base/browse/master/wikimedia-ui-base.css) adhere to the [Wikimedia UI Style Guide](https://wikimedia.github.io/WikimediaUI-Style-Guide/).

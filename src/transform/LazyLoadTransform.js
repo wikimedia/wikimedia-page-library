@@ -6,12 +6,12 @@ import Polyfill from './Polyfill'
 // CSS classes used to identify and present lazily loaded images. Placeholders are members of
 // PLACEHOLDER_CLASS and one state class: pending, loading, or error. Images are members of either
 // loading or loaded state classes. Class names should match those in LazyLoadTransform.css.
-const PLACEHOLDER_CLASS = 'pagelib-lazy-load-placeholder'
-const PLACEHOLDER_PENDING_CLASS = 'pagelib-lazy-load-placeholder-pending' // Download pending.
-const PLACEHOLDER_LOADING_CLASS = 'pagelib-lazy-load-placeholder-loading' // Download started.
-const PLACEHOLDER_ERROR_CLASS = 'pagelib-lazy-load-placeholder-error' // Download failure.
-const IMAGE_LOADING_CLASS = 'pagelib-lazy-load-image-loading' // Download started.
-const IMAGE_LOADED_CLASS = 'pagelib-lazy-load-image-loaded' // Download completed.
+const PLACEHOLDER_CLASS = 'pagelib_lazy_load_placeholder'
+const PLACEHOLDER_PENDING_CLASS = 'pagelib_lazy_load_placeholder_pending' // Download pending.
+const PLACEHOLDER_LOADING_CLASS = 'pagelib_lazy_load_placeholder_loading' // Download started.
+const PLACEHOLDER_ERROR_CLASS = 'pagelib_lazy_load_placeholder_error' // Download failure.
+const IMAGE_LOADING_CLASS = 'pagelib_lazy_load_image_loading' // Download started.
+const IMAGE_LOADED_CLASS = 'pagelib_lazy_load_image_loaded' // Download completed.
 
 // Attributes copied from images to placeholders via data-* attributes for later restoration. The
 // image's classes and dimensions are also set on the placeholder.
