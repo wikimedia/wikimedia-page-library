@@ -12,7 +12,7 @@
     width: 100% !important;
     max-width: 100% !important;
   }
-  .wideImageOverride.pagelib-lazy-load-placeholder {
+  .wideImageOverride.pagelib_lazy_load_placeholder {
     /* This is necessary to avoid collapsed flexbox behavior on .thumbinner on Android KitKat 4.4.2
        (API 19), e.g. Verizon Samsung Galaxy Note II (SCH-I605).
        https://stackoverflow.com/a/23754080/970346
@@ -26,7 +26,7 @@
       width: 60% !important;
       max-width: 60% !important;
     }
-    .wideImageOverride.pagelib-lazy-load-placeholder {
+    .wideImageOverride.pagelib_lazy_load_placeholder {
       min-width: 60%;
     }
   }
@@ -37,7 +37,7 @@
     width: 50% !important;
     max-width: 50% !important;
   }
-  .wideImageOverride.pagelib-lazy-load-placeholder {
+  .wideImageOverride.pagelib_lazy_load_placeholder {
     min-width: 50%;
   }
 }
