@@ -119,7 +119,7 @@ styles with only the things which need tweaking.
 
 /* images */
 /* compatibility transform */
-.pagelib-theme-dark.pagelib-compatibility-filter .content img.mwe-math-fallback-image-inline {
+.pagelib-theme-dark.pagelib_compatibility_filter .content img.mwe-math-fallback-image-inline {
   background: #ccc;
   padding: 2px;
 }
