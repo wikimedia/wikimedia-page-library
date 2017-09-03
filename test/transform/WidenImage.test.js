@@ -52,10 +52,10 @@ describe('WidenImage', () => {
       assert.ok(images.length === 6)
     })
 
-    it('widened image has wideImageOverride class added to its classList', () => {
+    it('widened image has pagelib_widen_image_override class added to its classList', () => {
       const image = document.querySelector('.imageWhichShouldWiden')
       maybeWidenImage(image)
-      assert.ok(image.classList.contains('wideImageOverride'))
+      assert.ok(image.classList.contains('pagelib_widen_image_override'))
     })
 
     it('widened image ancestors make room for widened image', () => {
@@ -90,7 +90,7 @@ describe('WidenImage', () => {
 
     it('two images from the fixture are actually widened', () => {
       const images = Array.from(document.getElementsByTagName('img')).filter(image =>
-        maybeWidenImage(image) && image.classList.contains('wideImageOverride'))
+        maybeWidenImage(image) && image.classList.contains('pagelib_widen_image_override'))
       assert.ok(images.length === 2)
     })
   })

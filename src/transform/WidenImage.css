@@ -1,4 +1,4 @@
-.wideImageOverride {
+.pagelib_widen_image_override {
   /* Center images. */
   display: block;
   margin-left: auto;
@@ -8,11 +8,11 @@
 }
 
 @media (orientation: portrait) {
-  img.wideImageOverride {
+  img.pagelib_widen_image_override {
     width: 100% !important;
     max-width: 100% !important;
   }
-  .wideImageOverride.pagelib_lazy_load_placeholder {
+  .pagelib_widen_image_override.pagelib_lazy_load_placeholder {
     /* This is necessary to avoid collapsed flexbox behavior on .thumbinner on Android KitKat 4.4.2
        (API 19), e.g. Verizon Samsung Galaxy Note II (SCH-I605).
        https://stackoverflow.com/a/23754080/970346
@@ -22,22 +22,22 @@
 
   /* Tablet override */
   @media (min-device-width: 768px) {
-    img.wideImageOverride {
+    img.pagelib_widen_image_override {
       width: 60% !important;
       max-width: 60% !important;
     }
-    .wideImageOverride.pagelib_lazy_load_placeholder {
+    .pagelib_widen_image_override.pagelib_lazy_load_placeholder {
       min-width: 60%;
     }
   }
 }
 
 @media (orientation: landscape) {
-  img.wideImageOverride {
+  img.pagelib_widen_image_override {
     width: 50% !important;
     max-width: 50% !important;
   }
-  .wideImageOverride.pagelib_lazy_load_placeholder {
+  .pagelib_widen_image_override.pagelib_lazy_load_placeholder {
     min-width: 50%;
   }
 }

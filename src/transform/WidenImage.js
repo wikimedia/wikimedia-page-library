@@ -2,10 +2,10 @@ import './WidenImage.css'
 import elementUtilities from './ElementUtilities'
 
 /**
- * To widen an image element a css class called 'wideImageOverride' is applied to the image element,
- * however, ancestors of the image element can prevent the widening from taking effect. This method
- * makes minimal adjustments to ancestors of the image element being widened so the image widening
- * can take effect.
+ * To widen an image element a css class called 'pagelib_widen_image_override' is applied to the
+ * image element, however, ancestors of the image element can prevent the widening from taking
+ * effect. This method makes minimal adjustments to ancestors of the image element being widened so
+ * the image widening can take effect.
  * @param  {!HTMLElement} el Element whose ancestors will be widened
  * @return {void}
  */
@@ -70,7 +70,7 @@ const shouldWidenImage = image => {
  */
 const widenImage = image => {
   widenAncestors(image)
-  image.classList.add('wideImageOverride')
+  image.classList.add('pagelib_widen_image_override')
 }
 
 /**
