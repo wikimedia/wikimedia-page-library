@@ -81,9 +81,9 @@ const toggleCollapseClickCallback = function(footerDivClickCallback) {
   const collapsed = table.style.display !== 'none'
   if (collapsed) {
     table.style.display = 'none'
-    header.classList.remove('app_table_collapse_close') // todo: use app_table_collapsed_collapsed
-    header.classList.remove('app_table_collapse_icon') // todo: use app_table_collapsed_icon
-    header.classList.add('app_table_collapsed_open') // todo: use app_table_collapsed_expanded
+    header.classList.remove('pagelib_collapse_table_collapsed')
+    header.classList.remove('pagelib_collapse_table_icon')
+    header.classList.add('pagelib_collapse_table_expanded')
     if (caption) {
       caption.style.visibility = 'visible'
     }
@@ -94,9 +94,9 @@ const toggleCollapseClickCallback = function(footerDivClickCallback) {
     }
   } else {
     table.style.display = 'block'
-    header.classList.remove('app_table_collapsed_open') // todo: use app_table_collapsed_expanded
-    header.classList.add('app_table_collapse_close') // todo: use app_table_collapsed_collapsed
-    header.classList.add('app_table_collapse_icon') // todo: use app_table_collapsed_icon
+    header.classList.remove('pagelib_collapse_table_expanded')
+    header.classList.add('pagelib_collapse_table_collapsed')
+    header.classList.add('pagelib_collapse_table_icon')
     if (caption) {
       caption.style.visibility = 'hidden'
     }
@@ -128,8 +128,8 @@ const isInfobox = element => element.classList.contains('infobox')
  */
 const newCollapsedHeaderDiv = (document, content) => {
   const div = document.createElement('div')
-  div.classList.add('app_table_collapsed_container')
-  div.classList.add('app_table_collapsed_open')
+  div.classList.add('pagelib_collapse_table_collapsed_container')
+  div.classList.add('pagelib_collapse_table_expanded')
   div.innerHTML = content || ''
   return div
 }
@@ -141,8 +141,8 @@ const newCollapsedHeaderDiv = (document, content) => {
  */
 const newCollapsedFooterDiv = (document, content) => {
   const div = document.createElement('div')
-  div.classList.add('app_table_collapsed_bottom')
-  div.classList.add('app_table_collapse_icon') // todo: use collapsed everywhere
+  div.classList.add('pagelib_collapse_table_collapsed_bottom')
+  div.classList.add('pagelib_collapse_table_icon')
   div.innerHTML = content || ''
   return div
 }
@@ -155,7 +155,7 @@ const newCollapsedFooterDiv = (document, content) => {
 const newCaption = (title, headerText) => {
   let caption = `<strong>${title}</strong>`
 
-  caption += '<span class=app_span_collapse_text>'
+  caption += '<span class=pagelib_collapse_table_collapse_text>'
   if (headerText.length > 0) {
     caption += `: ${headerText[0]}`
   }
@@ -189,7 +189,7 @@ const collapseTables = (window, content, pageTitle, isMainPage, infoboxTitle, ot
   for (let i = 0; i < tables.length; ++i) {
     const table = tables[i]
 
-    if (elementUtilities.findClosestAncestor(table, '.app_table_container')
+    if (elementUtilities.findClosestAncestor(table, '.pagelib_collapse_table_container')
       || !shouldTableBeCollapsed(table)) {
       continue
     }
@@ -204,7 +204,7 @@ const collapseTables = (window, content, pageTitle, isMainPage, infoboxTitle, ot
     // create the container div that will contain both the original table
     // and the collapsed version.
     const containerDiv = window.document.createElement('div')
-    containerDiv.className = 'app_table_container'
+    containerDiv.className = 'pagelib_collapse_table_container'
     table.parentNode.insertBefore(containerDiv, table)
     table.parentNode.removeChild(table)
 
@@ -258,11 +258,11 @@ const collapseTables = (window, content, pageTitle, isMainPage, infoboxTitle, ot
 */
 const expandCollapsedTableIfItContainsElement = element => {
   if (element) {
-    const containerSelector = '[class*="app_table_container"]'
+    const containerSelector = '[class*="pagelib_collapse_table_container"]'
     const container = elementUtilities.findClosestAncestor(element, containerSelector)
     if (container) {
       const collapsedDiv = container.firstElementChild
-      if (collapsedDiv && collapsedDiv.classList.contains('app_table_collapsed_open')) {
+      if (collapsedDiv && collapsedDiv.classList.contains('pagelib_collapse_table_expanded')) {
         collapsedDiv.click()
       }
     }
