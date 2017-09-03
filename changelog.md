@@ -1,3 +1,6 @@
+### v4.5.11
+- Fix: use 'pagelib_' prefix and snake_case consistently for transform CSS class naming
+
 ### v4.5.10
 - Fix: some parts of football uniforms not being classified as presuming white background
 
