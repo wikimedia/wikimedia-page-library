@@ -2,11 +2,11 @@
   background-color: #eaecf0;
 }
 
-.pagelib-theme-dark .pagelib_footer_container {
+.pagelib_theme_dark .pagelib_footer_container {
   background-color: #222;
 }
 
-.pagelib-theme-sepia .pagelib_footer_container {
+.pagelib_theme_sepia .pagelib_footer_container {
   background-color: #e1dad1;
 }
 
@@ -30,10 +30,10 @@
   border-collapse: collapse;
 }
 
-.pagelib-theme-dark #pagelib_footer_container_menu_items {
+.pagelib_theme_dark #pagelib_footer_container_menu_items {
   background-color: #43464a;
 }
 
-.pagelib-theme-sepia #pagelib_footer_container_menu_items {
+.pagelib_theme_sepia #pagelib_footer_container_menu_items {
   background-color: #cbc8c1;
 }

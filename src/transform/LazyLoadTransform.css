@@ -49,7 +49,7 @@
 .pagelib_lazy_load_placeholder_pending {
   background-color: #eaecf0;
 }
-.pagelib-theme-dark .pagelib_lazy_load_placeholder_pending {
+.pagelib_theme_dark .pagelib_lazy_load_placeholder_pending {
   background-color: #72777d;
 }
 
@@ -58,7 +58,7 @@
   -webkit-animation: pagelib_lazy_load_placeholder_pulse 1s infinite;
   animation: pagelib_lazy_load_placeholder_pulse 1s infinite;
 }
-.pagelib-theme-dark .pagelib_lazy_load_placeholder_loading {
+.pagelib_theme_dark .pagelib_lazy_load_placeholder_loading {
   -webkit-animation: pagelib_lazy_load_placeholder_pulse_dark 1s infinite;
   animation: pagelib_lazy_load_placeholder_pulse_dark 1s infinite;
 }
@@ -67,7 +67,7 @@
 .pagelib_lazy_load_placeholder_error {
   background-color: #c8ccd1;
 }
-.pagelib-theme-dark .pagelib_lazy_load_placeholder_error {
+.pagelib_theme_dark .pagelib_lazy_load_placeholder_error {
   background-color: #54595d;
 }
 

@@ -5,13 +5,13 @@ import Polyfill from './Polyfill'
 // Elements marked with these classes indicate certain ancestry constraints that are
 // difficult to describe as CSS selectors.
 const CONSTRAINT = {
-  IMAGE_PRESUMES_WHITE_BACKGROUND: 'pagelib-theme-image-presumes-white-background',
-  DIV_DO_NOT_APPLY_BASELINE: 'pagelib-theme-div-do-not-apply-baseline'
+  IMAGE_PRESUMES_WHITE_BACKGROUND: 'pagelib_theme_image_presumes_white_background',
+  DIV_DO_NOT_APPLY_BASELINE: 'pagelib_theme_div_do_not_apply_baseline'
 }
 
 // Theme to CSS classes.
 const THEME = {
-  DEFAULT: 'pagelib-theme-default', DARK: 'pagelib-theme-dark', SEPIA: 'pagelib-theme-sepia'
+  DEFAULT: 'pagelib_theme_default', DARK: 'pagelib_theme_dark', SEPIA: 'pagelib_theme_sepia'
 }
 
 /**
