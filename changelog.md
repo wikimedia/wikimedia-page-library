@@ -1,3 +1,6 @@
+### v4.6.0
+- New: add a link to a talk page as a footer menu item
+
 ### v4.5.11
 - Fix: use 'pagelib_' prefix and snake_case consistently for transform CSS class naming
 
