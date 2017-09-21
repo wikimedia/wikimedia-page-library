@@ -95,6 +95,8 @@ class MenuItem {
       return 'pagelib_footer_menu_icon_disambiguation'
     case MenuItemType.coordinate:
       return 'pagelib_footer_menu_icon_coordinate'
+    case MenuItemType.browser:
+      return 'pagelib_footer_menu_icon_browser'
     default:
       return ''
     }
