@@ -17,7 +17,7 @@ import './FooterLegal.css'
  * @param {?string} licenseSubstitutionString
  * @param {!string} containerID
  * @param {!FooterLegalClickCallback} licenseLinkClickHandler
- * @param {?string} viewInBrowserString
+ * @param {!string} viewInBrowserString
  * @param {!FooterBrowserClickCallback} browserLinkClickHandler
  * @return {void}
  */

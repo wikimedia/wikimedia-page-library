@@ -29,7 +29,7 @@ export default class {
    * @param {!string} license
    * @param {!string} licenseSubstitutionString
    * @param {!FooterLegalClickCallback} licenseLinkClickHandler
-   * @param {?string} viewInBrowserString
+   * @param {!string} viewInBrowserString
    * @param {!FooterBrowserClickCallback} browserLinkClickHandler
    * @param {!TitlesShownHandler} titlesShownHandler
    * @param {!SaveButtonClickHandler} saveButtonClickHandler
