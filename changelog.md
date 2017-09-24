@@ -1,3 +1,6 @@
+### v4.7.0
+- New: add a footer link to view the article in browser
+
 ### v4.6.0
 - New: add a link to a talk page as a footer menu item
 
