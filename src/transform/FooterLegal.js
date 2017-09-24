@@ -38,9 +38,9 @@ const add = (content, licenseString, licenseSubstitutionString, containerID,
       ${licenseStringHalves[1]}
       <br>
       <div class="pagelib_footer_browser">
-      <a class='pagelib_footer_browser_link'>
-      ${viewInBrowserString}
-      </a>
+        <a class='pagelib_footer_browser_link'>
+          ${viewInBrowserString}
+        </a>
       </div>
     </span>
   </div>`
