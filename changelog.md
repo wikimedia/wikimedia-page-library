@@ -1,3 +1,6 @@
+### v4.7.1
+- Fix: override image ancestor inline heights (found in Parsoid HTML) with `height: 'auto'`
+
 ### v4.7.0
 - New: add a footer link to view the article in browser
 

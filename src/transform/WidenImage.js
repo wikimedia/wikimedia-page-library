@@ -16,6 +16,9 @@ const widenAncestors = el => {
     if (parentElement.style.width) {
       parentElement.style.width = '100%'
     }
+    if (parentElement.style.height) {
+      parentElement.style.height = 'auto'
+    }
     if (parentElement.style.maxWidth) {
       parentElement.style.maxWidth = '100%'
     }
