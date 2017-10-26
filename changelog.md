@@ -1,3 +1,6 @@
+### v4.7.2
+- Fix: add missing talk page menu type
+
 ### v4.7.1
 - Fix: override image ancestor inline heights (found in Parsoid HTML) with `height: 'auto'`
 
