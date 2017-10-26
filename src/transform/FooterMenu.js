@@ -56,7 +56,8 @@ const MenuItemType = {
   lastEdited: 2,
   pageIssues: 3,
   disambiguation: 4,
-  coordinate: 5
+  coordinate: 5,
+  talkPage: 6
 }
 
 /**
