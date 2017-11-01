@@ -31,14 +31,14 @@ styles with only the things which need tweaking.
 
 /* baseline table */
 .pagelib_theme_dark .content table,
-.pagelib_theme_dark .content td,
+.pagelib_theme_dark .content td:not(.pagelib_theme_div_do_not_apply_baseline),
 .pagelib_theme_dark .content tr,
 .pagelib_theme_dark .content th {
   background: #27292d !important;
   color: #f8f9fa !important;
 }
 .pagelib_theme_sepia .content table,
-.pagelib_theme_sepia .content td,
+.pagelib_theme_sepia .content td:not(.pagelib_theme_div_do_not_apply_baseline),
 .pagelib_theme_sepia .content tr,
 .pagelib_theme_sepia .content th {
   background: #f0e6d6 !important;
@@ -53,7 +53,7 @@ styles with only the things which need tweaking.
 .pagelib_theme_dark .content li {
   background-color: inherit !important;
   color: #f8f9fa !important;
-  border-color: #cbc8c1 !important
+  border-color: #43464a !important;
 }
 .pagelib_theme_sepia .content div:not(.pagelib_theme_div_do_not_apply_baseline),
 .pagelib_theme_sepia .content span:not(.pagelib_theme_div_do_not_apply_baseline),
@@ -62,18 +62,17 @@ styles with only the things which need tweaking.
 .pagelib_theme_sepia .content li {
   background-color: inherit !important;
   color: #222 !important;
-}
-
-/* baseline border color */
-.pagelib_theme_dark .content * {
-  border-color: #43464a !important;
-}
-.pagelib_theme_sepia .content * {
   border-color: #cbc8c1 !important;
 }
 
-.pagelib_theme_dark .content div:not(.pagelib_theme_div_do_not_apply_baseline){
+/* baseline border color */
+.pagelib_theme_dark .content code,
+.pagelib_theme_dark .content table {
   border-color: #43464a !important;
+}
+.pagelib_theme_sepia .content code,
+.pagelib_theme_sepia .content table {
+  border-color: #cbc8c1 !important;
 }
 
 /* quotebox and blockquote */
