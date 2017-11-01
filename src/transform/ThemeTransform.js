@@ -78,6 +78,11 @@ const classifyElements = element => {
     .forEach(div => {
       div.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE)
     })
+
+  Polyfill.querySelectorAll(element, 'div[role="img"] div')
+    .forEach(div => {
+      div.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE)
+    })
 }
 
 export default {
