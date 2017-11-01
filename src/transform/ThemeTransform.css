@@ -47,15 +47,16 @@ styles with only the things which need tweaking.
 
 /* baseline div, span, ul, li */
 .pagelib_theme_dark .content div:not(.pagelib_theme_div_do_not_apply_baseline),
-.pagelib_theme_dark .content span,
+.pagelib_theme_dark .content span:not(.pagelib_theme_div_do_not_apply_baseline),
 .pagelib_theme_dark .content ul,
 .pagelib_theme_dark .content ol,
 .pagelib_theme_dark .content li {
   background-color: inherit !important;
   color: #f8f9fa !important;
+  border-color: #cbc8c1 !important
 }
 .pagelib_theme_sepia .content div:not(.pagelib_theme_div_do_not_apply_baseline),
-.pagelib_theme_sepia .content span,
+.pagelib_theme_sepia .content span:not(.pagelib_theme_div_do_not_apply_baseline),
 .pagelib_theme_sepia .content ul,
 .pagelib_theme_sepia .content ol,
 .pagelib_theme_sepia .content li {
@@ -69,6 +70,10 @@ styles with only the things which need tweaking.
 }
 .pagelib_theme_sepia .content * {
   border-color: #cbc8c1 !important;
+}
+
+.pagelib_theme_dark .content div:not(.pagelib_theme_div_do_not_apply_baseline){
+  border-color: #43464a !important;
 }
 
 /* quotebox and blockquote */
