@@ -138,7 +138,3 @@ styles with only the things which need tweaking.
 .pagelib_theme_dark .content img.pagelib_theme_image_presumes_white_background {
   background: #fff;
 }
-
-.pagelib_theme_sepia .barbox {
-  background-color: inherit !important;
-}

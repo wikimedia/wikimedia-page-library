@@ -84,7 +84,32 @@ const classifyElements = element => {
       div.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE)
     })
 
-  Polyfill.querySelectorAll(element, 'div[style*="background-color:"], span[style*="background-color:"], td[style*="background:"], div.barbox td div[style*="background:"], span[style*="position: absolute"], div.thumbinner div')
+  Polyfill.querySelectorAll(element, 'div[style*="background-color:"]')
+    .forEach(div => {
+      div.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE)
+    })
+
+  Polyfill.querySelectorAll(element, 'span[style*="background-color:"]')
+    .forEach(div => {
+      div.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE)
+    })
+
+  Polyfill.querySelectorAll(element, 'td[style*="background:"]')
+    .forEach(div => {
+      div.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE)
+    })
+
+  Polyfill.querySelectorAll(element, 'div.barbox td div[style*="background:"]')
+    .forEach(div => {
+      div.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE)
+    })
+
+  Polyfill.querySelectorAll(element, 'span[style*="position: absolute"]')
+    .forEach(div => {
+      div.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE)
+    })
+
+  Polyfill.querySelectorAll(element, 'div.thumbinner div')
     .forEach(div => {
       div.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE)
     })
