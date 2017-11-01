@@ -83,6 +83,11 @@ const classifyElements = element => {
     .forEach(div => {
       div.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE)
     })
+
+  Polyfill.querySelectorAll(element, 'div[style*="background-color:"], span[style*="background-color:"]')
+    .forEach(div => {
+      div.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE)
+    })
 }
 
 export default {
