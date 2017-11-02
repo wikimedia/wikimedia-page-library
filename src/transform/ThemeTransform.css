@@ -67,11 +67,15 @@ styles with only the things which need tweaking.
 
 /* baseline border color */
 .pagelib_theme_dark .content code,
-.pagelib_theme_dark .content table {
+.pagelib_theme_dark .content table,
+.pagelib_theme_dark table.infobox th,
+.pagelib_theme_dark table.infobox td {
   border-color: #43464a !important;
 }
 .pagelib_theme_sepia .content code,
-.pagelib_theme_sepia .content table {
+.pagelib_theme_sepia .content table,
+.pagelib_theme_sepia table.infobox th,
+.pagelib_theme_sepia table.infobox td {
   border-color: #cbc8c1 !important;
 }
 
