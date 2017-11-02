@@ -81,7 +81,7 @@ const classifyElements = element => {
     'div[role="img"] div',
     'div[style*="background-color:"]',
     'span[style*="background-color:"]',
-    'td[style*="background:"]',
+    'td[style*="font-size:0px; background:"]',
     'div.barbox td div[style*="background:"]',
     'span[style*="position: absolute"]',
     'div.thumbinner div'
