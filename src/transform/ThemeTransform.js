@@ -71,48 +71,23 @@ const classifyElements = element => {
     .forEach(image => {
       image.classList.add(CONSTRAINT.IMAGE_PRESUMES_WHITE_BACKGROUND)
     })
+
   /* en > Away colours > 793128975 */
   /* en > Manchester United F.C. > 793244653 */
   /* en > Pantone > 792312384 */
-  Polyfill.querySelectorAll(element, 'div.color_swatch div, div[style*="position: absolute"]')
-    .forEach(div => {
-      div.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE)
-    })
-
-  Polyfill.querySelectorAll(element, 'div[role="img"] div')
-    .forEach(div => {
-      div.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE)
-    })
-
-  Polyfill.querySelectorAll(element, 'div[style*="background-color:"]')
-    .forEach(div => {
-      div.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE)
-    })
-
-  Polyfill.querySelectorAll(element, 'span[style*="background-color:"]')
-    .forEach(div => {
-      div.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE)
-    })
-
-  Polyfill.querySelectorAll(element, 'td[style*="background:"]')
-    .forEach(div => {
-      div.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE)
-    })
-
-  Polyfill.querySelectorAll(element, 'div.barbox td div[style*="background:"]')
-    .forEach(div => {
-      div.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE)
-    })
-
-  Polyfill.querySelectorAll(element, 'span[style*="position: absolute"]')
-    .forEach(div => {
-      div.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE)
-    })
-
-  Polyfill.querySelectorAll(element, 'div.thumbinner div')
-    .forEach(div => {
-      div.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE)
-    })
+  const selector = [
+    'div.color_swatch div',
+    'div[style*="position: absolute"]',
+    'div[role="img"] div',
+    'div[style*="background-color:"]',
+    'span[style*="background-color:"]',
+    'td[style*="background:"]',
+    'div.barbox td div[style*="background:"]',
+    'span[style*="position: absolute"]',
+    'div.thumbinner div'
+  ].join()
+  Polyfill.querySelectorAll(element, selector).forEach(element =>
+    element.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE))
 }
 
 export default {
