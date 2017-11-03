@@ -16,7 +16,8 @@ const getTableHeader = (element, pageTitle) => {
   const thArray = []
   const headers = Polyfill.querySelectorAll(element, 'th')
   if (headers) {
-    headers.forEach(header => {
+    for (let i = 0; i < headers.length; ++i) {
+      const header = headers[i]
       const anchors = Polyfill.querySelectorAll(header, 'a')
       if (anchors.length < 3) {
         // Also ignore it if it's identical to the page title.
@@ -25,7 +26,11 @@ const getTableHeader = (element, pageTitle) => {
           thArray.push(header.textContent)
         }
       }
-    })
+      if (thArray.length === 2) {
+        // 'newCaption' only ever uses the first 2 items.
+        break
+      }
+    }
   }
   return thArray
 }
