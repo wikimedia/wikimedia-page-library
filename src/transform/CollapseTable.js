@@ -15,21 +15,19 @@ const SECTION_TOGGLED_EVENT_TYPE = 'section-toggled'
 const getTableHeader = (element, pageTitle) => {
   const thArray = []
   const headers = Polyfill.querySelectorAll(element, 'th')
-  if (headers) {
-    for (let i = 0; i < headers.length; ++i) {
-      const header = headers[i]
-      const anchors = Polyfill.querySelectorAll(header, 'a')
-      if (anchors.length < 3) {
-        // Also ignore it if it's identical to the page title.
-        if ((header.textContent && header.textContent.length) > 0
-          && header.textContent !== pageTitle && header.innerHTML !== pageTitle) {
-          thArray.push(header.textContent)
-        }
+  for (let i = 0; i < headers.length; ++i) {
+    const header = headers[i]
+    const anchors = Polyfill.querySelectorAll(header, 'a')
+    if (anchors.length < 3) {
+      // Also ignore it if it's identical to the page title.
+      if ((header.textContent && header.textContent.length) > 0
+        && header.textContent !== pageTitle && header.innerHTML !== pageTitle) {
+        thArray.push(header.textContent)
       }
-      if (thArray.length === 2) {
-        // 'newCaption' only ever uses the first 2 items.
-        break
-      }
+    }
+    if (thArray.length === 2) {
+      // 'newCaption' only ever uses the first 2 items.
+      break
     }
   }
   return thArray
