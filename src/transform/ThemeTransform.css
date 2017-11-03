@@ -1,4 +1,4 @@
-/* 
+/*
 The styles referred to as 'baseline' in the comments below are critical because they ensure
 a theme colors are more universally applied even by elements colored via inline styles. These are
 particularly difficult to theme otherwise. We can build on top of, so to speak, these baseline
@@ -24,50 +24,60 @@ styles with only the things which need tweaking.
 }
 
 /* external anchor */
-.pagelib_theme_dark a.external, 
+.pagelib_theme_dark a.external,
 .pagelib_theme_sepia a.external {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAGJJREFUKFN1jdENgCAMBYmJn47Bak7DZrhTpc/XIm34OAjXA4qIgHI/dSBbLGTcOKjBryFlinGmjDQGiOF0MQkxI3v5wq6L38qR7SnsAx8ul37igPjAd+o5Oz2MRA+xY4ZSXuaW6wYouOLpAAAAAElFTkSuQmCC);
 }
 
 /* baseline table */
 .pagelib_theme_dark .content table,
-.pagelib_theme_dark .content td,
+.pagelib_theme_dark .content td:not(.pagelib_theme_div_do_not_apply_baseline),
 .pagelib_theme_dark .content tr,
 .pagelib_theme_dark .content th {
   background: #27292d !important;
   color: #f8f9fa !important;
 }
 .pagelib_theme_sepia .content table,
-.pagelib_theme_sepia .content td,
+.pagelib_theme_sepia .content td:not(.pagelib_theme_div_do_not_apply_baseline),
 .pagelib_theme_sepia .content tr,
 .pagelib_theme_sepia .content th {
   background: #f0e6d6 !important;
-  color: #222 !important; 
+  color: #222 !important;
 }
 
 /* baseline div, span, ul, li */
 .pagelib_theme_dark .content div:not(.pagelib_theme_div_do_not_apply_baseline),
-.pagelib_theme_dark .content span,
+.pagelib_theme_dark .content span:not(.pagelib_theme_div_do_not_apply_baseline),
 .pagelib_theme_dark .content ul,
 .pagelib_theme_dark .content ol,
 .pagelib_theme_dark .content li {
   background-color: inherit !important;
   color: #f8f9fa !important;
+  border-color: #43464a !important;
 }
 .pagelib_theme_sepia .content div:not(.pagelib_theme_div_do_not_apply_baseline),
-.pagelib_theme_sepia .content span,
+.pagelib_theme_sepia .content span:not(.pagelib_theme_div_do_not_apply_baseline),
 .pagelib_theme_sepia .content ul,
 .pagelib_theme_sepia .content ol,
 .pagelib_theme_sepia .content li {
   background-color: inherit !important;
-  color: #222 !important; 
+  color: #222 !important;
+  border-color: #cbc8c1 !important;
 }
 
 /* baseline border color */
-.pagelib_theme_dark .content * {
+.pagelib_theme_dark .content code,
+.pagelib_theme_dark .content table,
+.pagelib_theme_dark table.infobox th,
+.pagelib_theme_dark table.infobox td,
+.pagelib_theme_dark .content hr {
   border-color: #43464a !important;
 }
-.pagelib_theme_sepia .content * {
+.pagelib_theme_sepia .content code,
+.pagelib_theme_sepia .content table,
+.pagelib_theme_sepia table.infobox th,
+.pagelib_theme_sepia table.infobox td,
+.pagelib_theme_sepia .content hr {
   border-color: #cbc8c1 !important;
 }
 
@@ -78,7 +88,7 @@ styles with only the things which need tweaking.
 .pagelib_theme_dark .content div.quotebox {
   background: #27292d !important;
 }
-.pagelib_theme_sepia .content blockquote, 
+.pagelib_theme_sepia .content blockquote,
 .pagelib_theme_sepia .content div.quotebox {
   background: #f0e6d6 !important;
 }
@@ -94,7 +104,7 @@ styles with only the things which need tweaking.
 }
 
 /* caption color */
-/* en > Barack Obama > 793008506 */ 
+/* en > Barack Obama > 793008506 */
 .pagelib_theme_default .content .thumbcaption,
 .pagelib_theme_default .content figcaption {
   color: #72777d !important;
