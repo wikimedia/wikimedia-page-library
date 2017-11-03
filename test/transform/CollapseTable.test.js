@@ -45,10 +45,10 @@ describe('CollapseTable', () => {
             assert.deepEqual(actual, [])
           })
 
-          it('and no page title, shouldn\'t find header', () => {
+          it('and no page title, should find header', () => {
             const doc = domino.createDocument('<table><tr><th><a>text</a></th></tr></table>')
             const actual = getTableHeader(doc.querySelector('table'))
-            assert.deepEqual(actual, [])
+            assert.deepEqual(actual, ['text'])
           })
         })
       })
@@ -439,10 +439,10 @@ describe('CollapseTable', () => {
           this.window.document.querySelector('table').parentNode.children[2].click()
         })
 
-        it('table header is unused', function Test() {
+        it('table header is used', function Test() {
           collapseTables(this.window, this.window.document)
           const header = this.window.document.querySelector('.pagelib_collapse_table_expanded')
-          assert.ok(!header)
+          assert.ok(header)
         })
 
         it('and page title is specified, table header is used', function Test() {
