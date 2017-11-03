@@ -1,3 +1,6 @@
+### v4.7.3
+- Fix: remove unneeded recursion in table collapse transform
+
 ### v4.7.2
 - Fix: add missing talk page menu type
 
