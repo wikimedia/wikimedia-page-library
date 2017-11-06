@@ -74,6 +74,8 @@ const classifyElements = element => {
   /* en > Away colours > 793128975 */
   /* en > Manchester United F.C. > 793244653 */
   /* en > Pantone > 792312384 */
+  /* en > Wikipedia:Graphs_and_charts > 801754530 */
+  /* en > PepsiCo > 799739023 */
   const selector = [
     'div.color_swatch div',
     'div[style*="position: absolute"]',
