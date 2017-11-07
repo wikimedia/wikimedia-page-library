@@ -79,7 +79,6 @@ const classifyElements = element => {
   const selector = [
     'div.color_swatch div',
     'div[style*="position: absolute"]',
-    'table.infobox div[role*="img"] div[style*="background-color"]',
     'div.barbox table div[style*="background:"]',
     'div.chart div[style*="background-color"]',
     'div.chart ul li span[style*="background-color"]',
