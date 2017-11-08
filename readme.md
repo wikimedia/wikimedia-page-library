@@ -136,7 +136,7 @@ https://babeljs.io/docs/usage/caveats/#polyfills
 `npm run -s build:watch` will monitor and automatically rebuild the JavaScript and CSS bundles when files change. When used with NPM linking, this allows the app to always pull the latest local changes.
 
 ### Demo
-Demos are viewable by running `npm run -s dev` which also updates the browser instantly for changes. Note: these demos only run in Chrome and Chromium presently.
+Demos are viewable by running `npm run -s dev` which also updates the browser instantly for changes.
 
 #### Adding new demo article
 1. Add new article in `DemoArticles/articles.json`
