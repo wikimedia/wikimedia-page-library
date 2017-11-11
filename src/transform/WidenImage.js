@@ -25,6 +25,12 @@ const widenAncestors = el => {
     if (parentElement.style.float) {
       parentElement.style.float = 'none'
     }
+    // Override 'display: flex' when present so that the image can fully widen. This seems to be an
+    // issue only on Android and with mobileview HTML. See, e.g., the first image in:
+    // https://en.m.wikipedia.org/wiki/Picasso%27s_Blue_Period?oldid=806483472
+    if (parentElement.style.display) {
+      parentElement.style.display = 'block'
+    }
   }
 }
 
