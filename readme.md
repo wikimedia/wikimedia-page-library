@@ -139,7 +139,7 @@ https://babeljs.io/docs/usage/caveats/#polyfills
 Demos are viewable by running `npm run -s dev` which also updates the browser instantly for changes.
 
 #### Adding new demo article
-Note: These are only used by the theme transform.
+Note: These are only used by the theme transform demo.
 1. Add new article in `DemoArticles/articles.json`
 2. Run `./update.js` in `DemoArticles/`
 3. Commit `articles.json` and the two new article fetches (ignore the changes to the existing files - sometimes changes to existing data files happens when structural html or timestamp changes occur upstream)
