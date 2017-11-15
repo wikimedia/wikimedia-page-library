@@ -1,3 +1,6 @@
+### v4.7.4
+- Fix: fix some of the graphs and charts issues for dark and sepia themes
+
 ### v4.7.3
 - Fix: remove unneeded recursion in table collapse transform
 

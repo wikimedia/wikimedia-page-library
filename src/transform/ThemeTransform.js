@@ -74,10 +74,18 @@ const classifyElements = element => {
   /* en > Away colours > 793128975 */
   /* en > Manchester United F.C. > 793244653 */
   /* en > Pantone > 792312384 */
-  Polyfill.querySelectorAll(element, 'div.color_swatch div, div[style*="position: absolute"]')
-    .forEach(div => {
-      div.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE)
-    })
+  /* en > Wikipedia:Graphs_and_charts > 801754530 */
+  /* en > PepsiCo > 807406166 */
+  const selector = [
+    'div.color_swatch div',
+    'div[style*="position: absolute"]',
+    'div.barbox table div[style*="background:"]',
+    'div.chart div[style*="background-color"]',
+    'div.chart ul li span[style*="background-color"]',
+    'span.legend-color'
+  ].join()
+  Polyfill.querySelectorAll(element, selector).forEach(element =>
+    element.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE))
 }
 
 export default {
