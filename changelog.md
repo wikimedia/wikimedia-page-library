@@ -1,3 +1,6 @@
+### v4.7.5
+- Fix: fix themes for code highlighting
+
 ### v4.7.4
 - Fix: fix some of the graphs and charts issues for dark and sepia themes
 
