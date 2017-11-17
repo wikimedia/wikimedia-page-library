@@ -134,3 +134,9 @@ styles with only the things which need tweaking.
 .pagelib_theme_dark .content img.pagelib_theme_image_presumes_white_background {
   background: #fff;
 }
+
+/* code syntax highlighting */
+/* en > Lua_(programming_language) > 809310207 */
+.pagelib_theme_dark .content div.mw-highlight pre span.nf {
+  color: #69f;
+}
