@@ -76,13 +76,15 @@ const classifyElements = element => {
   /* en > Pantone > 792312384 */
   /* en > Wikipedia:Graphs_and_charts > 801754530 */
   /* en > PepsiCo > 807406166 */
+  /* en > Lua_(programming_language) > 809310207 */
   const selector = [
     'div.color_swatch div',
     'div[style*="position: absolute"]',
     'div.barbox table div[style*="background:"]',
     'div.chart div[style*="background-color"]',
     'div.chart ul li span[style*="background-color"]',
-    'span.legend-color'
+    'span.legend-color',
+    'div.mw-highlight pre span'
   ].join()
   Polyfill.querySelectorAll(element, selector).forEach(element =>
     element.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE))
