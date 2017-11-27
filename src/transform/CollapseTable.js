@@ -41,11 +41,11 @@ const getTableHeader = (element, pageTitle) => {
 
 /**
  * @param {!Element} container div
- * @param {?Element} trigger that caused the event
- * @param {?FooterDivClickCallback} callback
+ * @param {?Element} trigger element that was clicked or tapped
+ * @param {?FooterDivClickCallback} footerDivClickCallback
  * @return {boolean} true if collapsed, false if expanded.
  */
-const toggleCollapsedForContainer = function(container, trigger, callback) {
+const toggleCollapsedForContainer = function(container, trigger, footerDivClickCallback) {
   const header = container.children[0]
   const table = container.children[1]
   const footer = container.children[2]
@@ -61,8 +61,8 @@ const toggleCollapsedForContainer = function(container, trigger, callback) {
     }
     footer.style.display = 'none'
     // if they clicked the bottom div, then scroll back up to the top of the table.
-    if (trigger === footer && callback) {
-      callback(container)
+    if (trigger === footer && footerDivClickCallback) {
+      footerDivClickCallback(container)
     }
   } else {
     table.style.display = 'block'
