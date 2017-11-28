@@ -1,15 +1,22 @@
 # wikimedia-page-library
-Library for common JavaScript transforms and CSS used by both the Android and iOS Wikipedia apps. Please report issues on [Phabricator].
-
-[Phabricator]: https://phabricator.wikimedia.org/tag/wikimedia-page-library/
+A library for common JavaScript transforms and CSS used by both the Android and iOS Wikipedia apps. Please report issues on [Phabricator].
 
 ## Background
 Presently we are consolidating duplicate Android and iOS Wikipedia app implementations of certain JavaScript transformations, such as image widening. **wikimedia-page-library** is where we are placing these consolidated JavaScript transform implementations.
 
 ### What wikimedia-page-library is for
 - JavaScript transforms common to **both** the Android and iOS Wikipedia apps.
+- Transform-specific CSS.
+- Minimal CSS overrides that complement service output but for one reason or another is impractical to change elsewhere.
 
 ### What wikimedia-page-library is not for
+
+- Style-only changes wanted by all clients. These should probably live in [Common.css].
+- Template or extension-specific style or HTML changes wanted by all clients.
+- Style or HTML changes wanted by all apps. In the long term these should probably live in Parsoid or a Parsoid-based service such as the [Mobile Content Service] or Page Content Service.
+
+[Common.css]: https://en.wikipedia.org/wiki/MediaWiki:Common.css
+[Mobile Content Service]: https://www.mediawiki.org/wiki/Wikimedia_Apps/Team/RESTBase_services_for_apps
 
 ### What wikimedia-page-library delivers
 - **wikimedia-page-library-transform.js** bundle of all transform JS
@@ -156,6 +163,9 @@ ESLint is executed prior to commits and publishing to identify cataloged style a
 
 [selectively disabling the rule]: http://eslint.org/docs/user-guide/configuring#disabling-rules-with-inline-comments
 
+## Contributing
+Please see our [Phabricator] workboard for contribution ideas. We're currently consolidating existing code in the Android and iOS clients. Pull requests are welcome but please signal on Phabricator tasks before starting work to avoid unnecessary churn.
+
 ## [Changelog](changelog.md)
 
 ## License
@@ -166,3 +176,5 @@ Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
   http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
+[Phabricator]: https://phabricator.wikimedia.org/tag/wikimedia-page-library/
