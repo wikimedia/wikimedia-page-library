@@ -1,3 +1,6 @@
+### v4.7.6
+- New: adjustTables allows for setting up tables for expand / collapse behavior without initially collapsing them
+
 ### v4.7.5
 - Fix: fix themes for code highlighting
 

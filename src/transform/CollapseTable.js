@@ -40,15 +40,12 @@ const getTableHeader = (element, pageTitle) => {
  */
 
 /**
- * Ex: toggleCollapseClickCallback.bind(el, (container) => {
- *       window.scrollTo(0, container.offsetTop - transformer.getDecorOffset())
- *     })
- * @this HTMLElement
+ * @param {!Element} container div
+ * @param {?Element} trigger element that was clicked or tapped
  * @param {?FooterDivClickCallback} footerDivClickCallback
  * @return {boolean} true if collapsed, false if expanded.
  */
-const toggleCollapseClickCallback = function(footerDivClickCallback) {
-  const container = this.parentNode
+const toggleCollapsedForContainer = function(container, trigger, footerDivClickCallback) {
   const header = container.children[0]
   const table = container.children[1]
   const footer = container.children[2]
@@ -64,7 +61,7 @@ const toggleCollapseClickCallback = function(footerDivClickCallback) {
     }
     footer.style.display = 'none'
     // if they clicked the bottom div, then scroll back up to the top of the table.
-    if (this === footer && footerDivClickCallback) {
+    if (trigger === footer && footerDivClickCallback) {
       footerDivClickCallback(container)
     }
   } else {
@@ -78,6 +75,19 @@ const toggleCollapseClickCallback = function(footerDivClickCallback) {
     footer.style.display = 'block'
   }
   return collapsed
+}
+
+/**
+ * Ex: toggleCollapseClickCallback.bind(el, (container) => {
+ *       window.scrollTo(0, container.offsetTop - transformer.getDecorOffset())
+ *     })
+ * @this HTMLElement
+ * @param {?FooterDivClickCallback} footerDivClickCallback
+ * @return {boolean} true if collapsed, false if expanded.
+ */
+const toggleCollapseClickCallback = function(footerDivClickCallback) {
+  const container = this.parentNode
+  return toggleCollapsedForContainer(container, this, footerDivClickCallback)
 }
 
 /**
@@ -150,14 +160,15 @@ const newCaption = (title, headerText) => {
  * @param {!Element} content
  * @param {?string} pageTitle
  * @param {?boolean} isMainPage
+ * @param {?boolean} isInitiallyCollapsed
  * @param {?string} infoboxTitle
  * @param {?string} otherTitle
  * @param {?string} footerTitle
  * @param {?FooterDivClickCallback} footerDivClickCallback
  * @return {void}
  */
-const collapseTables = (window, content, pageTitle, isMainPage, infoboxTitle, otherTitle,
-  footerTitle, footerDivClickCallback) => {
+const adjustTables = (window, content, pageTitle, isMainPage, isInitiallyCollapsed,
+  infoboxTitle, otherTitle, footerTitle, footerDivClickCallback) => {
   if (isMainPage) { return }
 
   const tables = content.querySelectorAll('table')
@@ -217,7 +228,28 @@ const collapseTables = (window, content, pageTitle, isMainPage, infoboxTitle, ot
         footerDivClickCallback)()
       dispatchSectionToggledEvent(collapsed)
     }
+
+    if (!isInitiallyCollapsed) {
+      toggleCollapsedForContainer(containerDiv)
+    }
   }
+}
+
+/**
+ * @param {!Window} window
+ * @param {!Element} content
+ * @param {?string} pageTitle
+ * @param {?boolean} isMainPage
+ * @param {?string} infoboxTitle
+ * @param {?string} otherTitle
+ * @param {?string} footerTitle
+ * @param {?FooterDivClickCallback} footerDivClickCallback
+ * @return {void}
+ */
+const collapseTables = (window, content, pageTitle, isMainPage, infoboxTitle, otherTitle,
+  footerTitle, footerDivClickCallback) => {
+  adjustTables(window, content, pageTitle, isMainPage, true, infoboxTitle, otherTitle,
+    footerTitle, footerDivClickCallback)
 }
 
 /**
@@ -248,6 +280,7 @@ export default {
   SECTION_TOGGLED_EVENT_TYPE,
   toggleCollapseClickCallback,
   collapseTables,
+  adjustTables,
   expandCollapsedTableIfItContainsElement,
   test: {
     getTableHeader,
