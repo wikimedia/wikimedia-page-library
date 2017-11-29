@@ -14,9 +14,13 @@ styles with only the things which need tweaking.
   color: #222;
   background: #f8f1e3;
 }
+.pagelib_theme_black body {
+  color: #f8f9fa;
+  background: #000;
+}
 
 /* baseline anchor */
-.pagelib_theme_dark a {
+.pagelib_theme_dark a, .pagelib_theme_black a {
   color: #69f;
 }
 .pagelib_theme_sepia a {
@@ -25,7 +29,8 @@ styles with only the things which need tweaking.
 
 /* external anchor */
 .pagelib_theme_dark a.external,
-.pagelib_theme_sepia a.external {
+.pagelib_theme_sepia a.external,
+.pagelib_theme_black a.external {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAadEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjEwMPRyoQAAAGJJREFUKFN1jdENgCAMBYmJn47Bak7DZrhTpc/XIm34OAjXA4qIgHI/dSBbLGTcOKjBryFlinGmjDQGiOF0MQkxI3v5wq6L38qR7SnsAx8ul37igPjAd+o5Oz2MRA+xY4ZSXuaW6wYouOLpAAAAAElFTkSuQmCC);
 }
 
@@ -43,6 +48,13 @@ styles with only the things which need tweaking.
 .pagelib_theme_sepia .content th {
   background: #f0e6d6 !important;
   color: #222 !important;
+}
+.pagelib_theme_black .content table,
+.pagelib_theme_black .content td,
+.pagelib_theme_black .content tr,
+.pagelib_theme_black .content th {
+  background: #000 !important;
+  color: #f8f9fa !important;
 }
 
 /* baseline div, span, ul, li */
@@ -62,6 +74,14 @@ styles with only the things which need tweaking.
   background-color: inherit !important;
   color: #222 !important;
 }
+.pagelib_theme_black .content div:not(.pagelib_theme_div_do_not_apply_baseline),
+.pagelib_theme_black .content span:not(.pagelib_theme_div_do_not_apply_baseline),
+.pagelib_theme_black .content ul,
+.pagelib_theme_black .content ol,
+.pagelib_theme_black .content li {
+  background-color: inherit !important;
+  color: #f8f9fa !important;
+}
 
 /* baseline border color */
 .pagelib_theme_dark .content * {
@@ -69,6 +89,9 @@ styles with only the things which need tweaking.
 }
 .pagelib_theme_sepia .content * {
   border-color: #cbc8c1 !important;
+}
+.pagelib_theme_black .content * {
+  border-color: #43464a !important;
 }
 
 /* quotebox and blockquote */
@@ -82,11 +105,16 @@ styles with only the things which need tweaking.
 .pagelib_theme_sepia .content div.quotebox {
   background: #f0e6d6 !important;
 }
+.pagelib_theme_black .content blockquote,
+.pagelib_theme_black .content div.quotebox {
+  background: #000 !important;
+}
 
 /* horizontal rule */
 /* en > Audioslave > 793042679 */
 /* en > Chris Cornell > 793305307 */
-.pagelib_theme_dark .content hr {
+.pagelib_theme_dark .content hr,
+.pagelib_theme_black .content hr {
   border-style: solid !important;
 }
 .pagelib_theme_sepia .content hr {
@@ -107,6 +135,10 @@ styles with only the things which need tweaking.
 .pagelib_theme_sepia .content figcaption {
   color: #646059 !important;
 }
+.pagelib_theme_black .content .thumbcaption,
+.pagelib_theme_black .content figcaption {
+  color: #c8ccd1 !important;
+}
 
 /* caption background */
 /* fr > Team_Bentley > 138755788 */
@@ -116,22 +148,28 @@ styles with only the things which need tweaking.
 .pagelib_theme_sepia .content caption {
   background: #cbc8c1 !important;
 }
+.pagelib_theme_black .content caption {
+  background: #2e3136 !important;
+}
 
 /* images */
 /* compatibility transform */
-.pagelib_theme_dark.pagelib_compatibility_filter .content img.mwe-math-fallback-image-inline {
+.pagelib_theme_dark.pagelib_compatibility_filter .content img.mwe-math-fallback-image-inline,
+.pagelib_theme_black.pagelib_compatibility_filter .content img.mwe-math-fallback-image-inline {
   background: #ccc;
   padding: 2px;
 }
 /* en > Quadratic equation > 793685454 */
-.pagelib_theme_dark .content img.mwe-math-fallback-image-inline {
+.pagelib_theme_dark .content img.mwe-math-fallback-image-inline,
+.pagelib_theme_black .content img.mwe-math-fallback-image-inline {
   -webkit-filter: invert(100%);
   filter: invert(100%);
 }
 /* en > Barack Obama > 793008506 */
 /* en > Quadratic equation > 793685454 */
 .pagelib_theme_sepia .content img.pagelib_theme_image_presumes_white_background,
-.pagelib_theme_dark .content img.pagelib_theme_image_presumes_white_background {
+.pagelib_theme_dark .content img.pagelib_theme_image_presumes_white_background,
+.pagelib_theme_black .content img.pagelib_theme_image_presumes_white_background {
   background: #fff;
 }
 
