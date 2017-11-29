@@ -10,6 +10,10 @@
   background-color: #e1dad1;
 }
 
+.pagelib_theme_black .pagelib_footer_container {
+  background-color: #000;
+}
+
 .pagelib_footer_container_heading {
   padding-top: 35px;
   font-size: 0.95em;
@@ -30,7 +34,8 @@
   border-collapse: collapse;
 }
 
-.pagelib_theme_dark #pagelib_footer_container_menu_items {
+.pagelib_theme_dark #pagelib_footer_container_menu_items,
+.pagelib_theme_black #pagelib_footer_container_menu_items {
   background-color: #43464a;
 }
 
