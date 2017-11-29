@@ -88,7 +88,8 @@ div.pagelib_collapse_table_container {
   clear: both;
 }
 
-.pagelib_theme_dark .content div.pagelib_collapse_table_container {
+.pagelib_theme_dark .content div.pagelib_collapse_table_container,
+.pagelib_theme_black .content div.pagelib_collapse_table_container {
   box-shadow: none !important;
   background-color: #222 !important;
 }
@@ -113,7 +114,8 @@ div.pagelib_collapse_table_container {
   color: #808080;
 }
 
-.pagelib_theme_dark .content span.pagelib_collapse_table_collapse_text {
+.pagelib_theme_dark .content span.pagelib_collapse_table_collapse_text,
+.pagelib_theme_black .content span.pagelib_collapse_table_collapse_text {
   color: #c8ccd1 !important;
 }
 
@@ -138,6 +140,11 @@ div.pagelib_collapse_table_container {
 .pagelib_theme_sepia .content div.pagelib_collapse_table_collapsed_container,
 .pagelib_theme_sepia .content div.pagelib_collapse_table_collapsed_bottom {
   background-color: #f0e6d6 !important;
+}
+
+.pagelib_theme_black .content div.pagelib_collapse_table_collapsed_container,
+.pagelib_theme_black .content div.pagelib_collapse_table_collapsed_bottom {
+  background-color: #000 !important;
 }
 
 .pagelib_collapse_table_icon {
