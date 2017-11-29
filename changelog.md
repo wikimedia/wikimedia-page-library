@@ -1,3 +1,6 @@
+### v4.7.7
+- New: add "black" theme, which features a fully-black background to optimize for AMOLED displays.
+
 ### v4.7.6
 - New: adjustTables allows for setting up tables for expand / collapse behavior without initially collapsing them
 
