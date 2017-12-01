@@ -28,7 +28,7 @@
 
       const div = lazyDocument.createElement('div')
       for (const data of DemoImageData) {
-        const image = data.newImage(document)
+        const image = data.newImage(lazyDocument)
         pagelib.WidenImage.maybeWidenImage(image)
         div.appendChild(image)
       }

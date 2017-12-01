@@ -1,3 +1,6 @@
+### v4.7.8
+- Fix: lazy loading race condition in demos
+
 ### v4.7.7
 - New: add "black" theme, which features a fully-black background to optimize for AMOLED displays.
 
