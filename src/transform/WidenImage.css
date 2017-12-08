@@ -9,7 +9,7 @@
 
 @media (orientation: portrait) {
   img.pagelib_widen_image_override {
-    width: 100% !important;
+    min-width: 100% !important;
     max-width: 100% !important;
   }
   .pagelib_widen_image_override.pagelib_lazy_load_placeholder {
@@ -23,7 +23,7 @@
   /* Tablet override */
   @media (min-device-width: 768px) {
     img.pagelib_widen_image_override {
-      width: 60% !important;
+      min-width: 60% !important;
       max-width: 60% !important;
     }
     .pagelib_widen_image_override.pagelib_lazy_load_placeholder {
@@ -34,7 +34,7 @@
 
 @media (orientation: landscape) {
   img.pagelib_widen_image_override {
-    width: 50% !important;
+    min-width: 50% !important;
     max-width: 50% !important;
   }
   .pagelib_widen_image_override.pagelib_lazy_load_placeholder {

@@ -10,6 +10,8 @@ bits which we don't want to ship with the page lib build product.
  */
 const flattenArrayOfArrays = array => [].concat(...array)
 
-module.exports = {
-  flattenArrayOfArrays
+if (window.module) {
+  module.exports = {
+    flattenArrayOfArrays
+  }
 }

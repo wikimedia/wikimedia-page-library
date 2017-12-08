@@ -104,7 +104,9 @@ class ArticleRef {
   }
 }
 
-module.exports = {
-  ArticleRef,
-  ArticleRefSourceType
+if (window.module) {
+  module.exports = {
+    ArticleRef,
+    ArticleRefSourceType
+  }
 }

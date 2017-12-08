@@ -126,9 +126,10 @@ const htmlFromAllSectionHTMLs = allSectionHTMLs => allSectionHTMLs.join('')
  * @param {!string} html
  * @return {void}
  */
-const addHTMLToDocument = html => {
+const addHTMLToDocument = element => {
   const contentElement = document.querySelector('#content')
-  contentElement.innerHTML = html
+  console.log(element)
+  contentElement.appendChild(element)
 }
 
 /**
@@ -168,6 +169,11 @@ const addAnchorsToMenu = anchors => {
   anchors.forEach(anchor => themeDemoMenu.appendChild(anchor))
 }
 
+const lazyDocument = document.implementation.createHTMLDocument()
+const div = lazyDocument.createElement('div')
+const transformer = new pagelib.LazyLoadTransformer(window, .1)
+
+
 /**
  * Main kick-off grabbing JSON, transforming it and displaying it.
  */
@@ -178,12 +184,16 @@ fetch(DEMO_ARTICLES_INDEX_PATH)
     .then(sectionsFromAllArticlesSections)
     .then(enclosedSectionHTMLsFromSections)
     .then(htmlFromAllSectionHTMLs)
-    .then(addHTMLToDocument)
+    .then(html => { div.innerHTML = html })
+    .then(blah => div.querySelectorAll('img').forEach(image => pagelib.WidenImage.maybeWidenImage(image)))
+    .then(blah => transformer.convertImagesToPlaceholders(div))
+    .then(blah => addHTMLToDocument(div))
     .then(() => addArticleTitles(articleRefs))
     .then(() => anchorsFromArticleRefs(articleRefs))
     .then(addAnchorsToMenu)
     .then(() => {
       pagelib.ThemeTransform.classifyElements(document)
+      transformer.loadPlaceholders()
     })
   )
 

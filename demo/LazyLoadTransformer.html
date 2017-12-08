@@ -25,7 +25,7 @@
       /* global pagelib, DemoImageData */
       const lazyDocument = document.implementation.createHTMLDocument()
 
-      const div = lazyDocument.createElement('div')
+      const div = lazyDocument.createDocumentFragment()
       for (const data of DemoImageData) {
         const image = data.newImage(lazyDocument)
         div.appendChild(image)
