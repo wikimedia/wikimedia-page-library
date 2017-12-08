@@ -22,7 +22,7 @@ const ancestorsToWiden = element => {
 
 /**
  * Sets style value.
- * @param {HTMLElement.style} style
+ * @param {CSSStyleDeclaration} style
  * @param {!string} key
  * @param {*} value
  * @return {void}
@@ -33,7 +33,7 @@ const updateStyleValue = (style, key, value) => {
 
 /**
  * Sets style value only if value for given key already exists.
- * @param {HTMLElement.style} style
+ * @param {CSSStyleDeclaration} style
  * @param {!string} key
  * @param {*} value
  * @return {void}
