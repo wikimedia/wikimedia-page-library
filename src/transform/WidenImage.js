@@ -39,11 +39,10 @@ const updateStyleValue = (style, key, value) => {
  * @return {void}
  */
 const updateExistingStyleValue = (style, key, value) => {
-  const existingValue = style[key]
-  if (!existingValue) {
-    return
+  const valueExists = Boolean(style[key])
+  if (valueExists) {
+    updateStyleValue(style, key, value)
   }
-  updateStyleValue(style, key, value)
 }
 
 /**
@@ -162,6 +161,7 @@ export default {
   maybeWidenImage,
   test: {
     shouldWidenImage,
+    updateExistingStyleValue,
     widenAncestors
   }
 }

@@ -1,4 +1,5 @@
 import assert from 'assert'
+import domino from 'domino'
 import fixtureIO from '../utilities/FixtureIO'
 import pagelib from '../../build/wikimedia-page-library-transform'
 import styleMocking from '../utilities/StyleMocking'
@@ -6,6 +7,7 @@ import styleMocking from '../utilities/StyleMocking'
 const maybeWidenImage = pagelib.WidenImage.maybeWidenImage
 const shouldWidenImage = pagelib.WidenImage.test.shouldWidenImage
 const widenAncestors = pagelib.WidenImage.test.widenAncestors
+const updateExistingStyleValue = pagelib.WidenImage.test.updateExistingStyleValue
 
 let document
 
@@ -92,6 +94,39 @@ describe('WidenImage', () => {
       const images = Array.from(document.getElementsByTagName('img')).filter(image =>
         maybeWidenImage(image) && image.classList.contains('pagelib_widen_image_override'))
       assert.ok(images.length === 2)
+    })
+  })
+
+  describe('updateExistingStyleValue()', () => {
+    it('updates existing style values', () => {
+      const doc = domino.createDocument()
+      const element = doc.createElement('div')
+      styleMocking.mockStylesInElement(element, {
+        width: '50%',
+        maxWidth: '50%',
+        float: 'right'
+      })
+      updateExistingStyleValue(element.style, 'width', '100%')
+      updateExistingStyleValue(element.style, 'maxWidth', '25%')
+      updateExistingStyleValue(element.style, 'float', 'left')
+      styleMocking.verifyStylesInElement(element, {
+        width: '100%',
+        maxWidth: '25%',
+        float: 'left'
+      })
+    })
+
+    it('does not update unset style values', () => {
+      const doc = domino.createDocument()
+      const element = doc.createElement('div')
+      element.style.width = ''
+      element.style.float = undefined
+      updateExistingStyleValue(element.style, 'width', '100%')
+      updateExistingStyleValue(element.style, 'float', 'left')
+      updateExistingStyleValue(element.style, 'maxWidth', '25%')
+      assert.ok(element.style.width === undefined)
+      assert.ok(element.style.float === undefined)
+      assert.ok(element.style.maxWidth === undefined)
     })
   })
 })
