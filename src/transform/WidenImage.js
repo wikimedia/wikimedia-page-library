@@ -46,15 +46,15 @@ const updateExistingStyleValue = (style, key, value) => {
 }
 
 /**
- * Array of arrays of image widening CSS key/value pairs.
- * @type {Array}
+ * Image widening CSS key/value pairs.
+ * @type {Object}
  */
-const styleWideningKeysAndValues = [
-  ['width', '100%'],
-  ['height', 'auto'],
-  ['maxWidth', '100%'],
-  ['float', 'none']
-]
+const styleWideningKeysAndValues = {
+  width: '100%',
+  height: 'auto',
+  maxWidth: '100%',
+  float: 'none'
+}
 
 /**
  * Perform widening on an element. Certain style properties are updated, but only if existing values
@@ -63,8 +63,8 @@ const styleWideningKeysAndValues = [
  * @return {void}
  */
 const widenElementByUpdatingExistingStyles = element => {
-  styleWideningKeysAndValues
-    .forEach(keyAndValue => updateExistingStyleValue(element.style, ...keyAndValue))
+  Object.keys(styleWideningKeysAndValues)
+    .forEach(key => updateExistingStyleValue(element.style, key, styleWideningKeysAndValues[key]))
 }
 
 /**
@@ -73,8 +73,8 @@ const widenElementByUpdatingExistingStyles = element => {
  * @return {void}
  */
 const widenElementByUpdatingStyles = element => {
-  styleWideningKeysAndValues
-    .forEach(keyAndValue => updateStyleValue(element.style, ...keyAndValue))
+  Object.keys(styleWideningKeysAndValues)
+    .forEach(key => updateStyleValue(element.style, key, styleWideningKeysAndValues[key]))
 }
 
 /**
