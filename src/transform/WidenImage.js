@@ -69,6 +69,16 @@ const widenElementByUpdatingExistingStyles = element => {
 }
 
 /**
+ * Perform widening on an element.
+ * @param  {!HTMLElement} element
+ * @return {void}
+ */
+const widenElementByUpdatingStyles = element => {
+  styleWideningKeysAndValues
+    .forEach(keyAndValue => updateStyleValue(element.style, ...keyAndValue))
+}
+
+/**
  * To widen an image element a css class called 'pagelib_widen_image_override' is applied to the
  * image element, however, ancestors of the image element can prevent the widening from taking
  * effect. This method makes minimal adjustments to ancestors of the image element being widened so
@@ -78,6 +88,13 @@ const widenElementByUpdatingExistingStyles = element => {
  */
 const widenAncestors = element => {
   ancestorsToWiden(element).forEach(widenElementByUpdatingExistingStyles)
+
+  // Without forcing widening on the parent anchor, lazy image loading placeholders
+  // aren't correctly widened on iOS for some reason.
+  const parentAnchor = elementUtilities.findClosestAncestor(element, 'a.image')
+  if (parentAnchor) {
+    widenElementByUpdatingStyles(parentAnchor)
+  }
 }
 
 /**
