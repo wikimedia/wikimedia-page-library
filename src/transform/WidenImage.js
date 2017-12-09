@@ -160,6 +160,7 @@ const maybeWidenImage = image => {
 export default {
   maybeWidenImage,
   test: {
+    ancestorsToWiden,
     shouldWidenImage,
     updateExistingStyleValue,
     widenAncestors

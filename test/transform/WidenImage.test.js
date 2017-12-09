@@ -8,6 +8,7 @@ const maybeWidenImage = pagelib.WidenImage.maybeWidenImage
 const shouldWidenImage = pagelib.WidenImage.test.shouldWidenImage
 const widenAncestors = pagelib.WidenImage.test.widenAncestors
 const updateExistingStyleValue = pagelib.WidenImage.test.updateExistingStyleValue
+const ancestorsToWiden = pagelib.WidenImage.test.ancestorsToWiden
 
 let document
 
@@ -127,6 +128,17 @@ describe('WidenImage', () => {
       assert.ok(element.style.width === undefined)
       assert.ok(element.style.float === undefined)
       assert.ok(element.style.maxWidth === undefined)
+    })
+  })
+
+  describe('ancestorsToWiden()', () => {
+    it('ancestors which need widening for image inside width constrained elements', () => {
+      const image = document.getElementById('imageInWidthConstrainedAncestors')
+      const ancestors = ancestorsToWiden(image)
+      assert.ok(ancestors.length === 3)
+      assert.ok(ancestors[0].id === 'widthConstrainedAncestor1')
+      assert.ok(ancestors[1].id === 'widthConstrainedAncestor2')
+      assert.ok(ancestors[2].id === 'widthConstrainedAncestor3')
     })
   })
 })
