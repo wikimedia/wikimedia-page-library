@@ -9,6 +9,9 @@ const shouldWidenImage = pagelib.WidenImage.test.shouldWidenImage
 const widenAncestors = pagelib.WidenImage.test.widenAncestors
 const updateExistingStyleValue = pagelib.WidenImage.test.updateExistingStyleValue
 const ancestorsToWiden = pagelib.WidenImage.test.ancestorsToWiden
+const widenElementByUpdatingStyles = pagelib.WidenImage.test.widenElementByUpdatingStyles
+const widenElementByUpdatingExistingStyles =
+  pagelib.WidenImage.test.widenElementByUpdatingExistingStyles
 
 let document
 
@@ -139,6 +142,44 @@ describe('WidenImage', () => {
       assert.ok(ancestors[0].id === 'widthConstrainedAncestor1')
       assert.ok(ancestors[1].id === 'widthConstrainedAncestor2')
       assert.ok(ancestors[2].id === 'widthConstrainedAncestor3')
+    })
+  })
+
+  describe('widenElementByUpdatingStyles()', () => {
+    it('styles updated whether they exist or not', () => {
+      const element = document.querySelector('#widthConstrainedAncestor1')
+      assert.ok(element.style.width === undefined)
+      assert.ok(element.style.height === undefined)
+      styleMocking.mockStylesInElement(element, {
+        maxWidth: '50%',
+        float: 'right'
+      })
+      widenElementByUpdatingStyles(element)
+      styleMocking.verifyStylesInElement(element, {
+        width: '100%',
+        height: 'auto',
+        maxWidth: '100%',
+        float: 'none'
+      })
+    })
+  })
+
+  describe('widenElementByUpdatingExistingStyles()', () => {
+    it('only existing styles updated', () => {
+      const element = document.querySelector('#widthConstrainedAncestor1')
+      assert.ok(element.style.width === undefined)
+      assert.ok(element.style.height === undefined)
+      styleMocking.mockStylesInElement(element, {
+        maxWidth: '50%',
+        float: 'right'
+      })
+      widenElementByUpdatingExistingStyles(element)
+      styleMocking.verifyStylesInElement(element, {
+        width: undefined,
+        height: undefined,
+        maxWidth: '100%',
+        float: 'none'
+      })
     })
   })
 })

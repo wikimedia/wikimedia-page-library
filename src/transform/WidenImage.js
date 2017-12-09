@@ -163,6 +163,8 @@ export default {
     ancestorsToWiden,
     shouldWidenImage,
     updateExistingStyleValue,
-    widenAncestors
+    widenAncestors,
+    widenElementByUpdatingExistingStyles,
+    widenElementByUpdatingStyles
   }
 }
