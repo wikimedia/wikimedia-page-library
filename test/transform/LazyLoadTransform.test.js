@@ -104,7 +104,8 @@ describe('LazyLoadTransform', () => {
       describe('and dimensions are unspecified', function Test() {
         beforeEach(() => {
           const html = `<img class=classes style='width: 300em; height: 400em' width=100 height=200
-            src=/src srcset=/srcset alt=text>`
+            src=/src srcset=/srcset alt=text data-file-width=1 data-file-height=2
+            data-image-gallery=true>`
           this.document = domino.createDocument(html)
           const images = LazyLoadTransform.queryLazyLoadableImages(this.document.documentElement)
           this.image = images[0]
@@ -121,6 +122,12 @@ describe('LazyLoadTransform', () => {
           it('width', () => assert.ok(this.placeholder.getAttribute('data-width') === '100'))
           it('height', () => assert.ok(this.placeholder.getAttribute('data-height') === '200'))
           it('alt', () => assert.ok(this.placeholder.getAttribute('data-alt') === 'text'))
+          it('data-file-width',
+            () => assert.ok(this.placeholder.getAttribute('data-data-file-width') === '1'))
+          it('data-file-height',
+            () => assert.ok(this.placeholder.getAttribute('data-data-file-height') === '2'))
+          it('data-image-gallery',
+            () => assert.ok(this.placeholder.getAttribute('data-data-image-gallery') === 'true'))
         })
 
         it('the placeholder is a pending class member', () =>
@@ -150,7 +157,8 @@ describe('LazyLoadTransform', () => {
         const html = `
           <span class='classes pagelib_lazy_load_placeholder pagelib_lazy_load_placeholder_pending'
             style='width: 300em' data-class=classes data-style='width: 300em; height 400em'
-            data-src=/src data-srcset=/srcset data-width=100 data-height=200 data-alt=text>
+            data-src=/src data-srcset=/srcset data-width=100 data-height=200 data-alt=text
+            data-data-file-width=1 data-data-file-height=2 data-data-image-gallery=true>
             <span style='padding-top: 133.3333%'></span>
           </span>`
         this.document = domino.createDocument(html)
@@ -167,6 +175,10 @@ describe('LazyLoadTransform', () => {
         it('width', () => assert.ok(this.image.getAttribute('width') === '100'))
         it('height', () => assert.ok(this.image.getAttribute('height') === '200'))
         it('alt', () => assert.ok(this.image.getAttribute('alt') === 'text'))
+        it('data-file-width', () => assert.ok(this.image.getAttribute('data-file-width') === '1'))
+        it('data-file-height', () => assert.ok(this.image.getAttribute('data-file-height') === '2'))
+        it('data-image-gallery',
+          () => assert.ok(this.image.getAttribute('data-image-gallery') === 'true'))
       })
 
       it('the placeholder is still in the DOM', () =>
