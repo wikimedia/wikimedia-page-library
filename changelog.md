@@ -1,3 +1,6 @@
+### v4.7.9
+- Fix: encoding of titles when updating Read More save buttons
+
 ### v4.7.8
 - Fix: lazy loading race condition in demos
 - Fix: image widening not always working on iOS when used with lazy loading
