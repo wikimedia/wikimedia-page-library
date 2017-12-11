@@ -1,6 +1,7 @@
 ### v4.7.8
 - Fix: lazy loading race condition in demos
 - Fix: image widening not always working on iOS when used with lazy loading
+- Fix: "black" theme collapsed table outline color
 
 ### v4.7.7
 - New: add "black" theme, which features a fully-black background to optimize for AMOLED displays.
