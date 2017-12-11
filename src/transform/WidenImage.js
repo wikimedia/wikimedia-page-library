@@ -22,7 +22,7 @@ const ancestorsToWiden = element => {
 
 /**
  * Sets style value.
- * @param {CSSStyleDeclaration} style
+ * @param {!CSSStyleDeclaration} style
  * @param {!string} key
  * @param {*} value
  * @return {void}
