@@ -2,29 +2,97 @@ import './WidenImage.css'
 import elementUtilities from './ElementUtilities'
 
 /**
+ * Gets array of ancestors of element which need widening.
+ * @param  {!HTMLElement} element
+ * @return {!Array.<HTMLElement>} Zero length array is returned if no elements should be widened.
+ */
+const ancestorsToWiden = element => {
+  const widenThese = []
+  let el = element
+  while (el.parentNode) {
+    el = el.parentNode
+    // No need to walk above 'content_block'.
+    if (el.classList.contains('content_block')) {
+      break
+    }
+    widenThese.push(el)
+  }
+  return widenThese
+}
+
+/**
+ * Sets style value.
+ * @param {!CSSStyleDeclaration} style
+ * @param {!string} key
+ * @param {*} value
+ * @return {void}
+ */
+const updateStyleValue = (style, key, value) => {
+  style[key] = value
+}
+
+/**
+ * Sets style value only if value for given key already exists.
+ * @param {CSSStyleDeclaration} style
+ * @param {!string} key
+ * @param {*} value
+ * @return {void}
+ */
+const updateExistingStyleValue = (style, key, value) => {
+  const valueExists = Boolean(style[key])
+  if (valueExists) {
+    updateStyleValue(style, key, value)
+  }
+}
+
+/**
+ * Image widening CSS key/value pairs.
+ * @type {Object}
+ */
+const styleWideningKeysAndValues = {
+  width: '100%',
+  height: 'auto',
+  maxWidth: '100%',
+  float: 'none'
+}
+
+/**
+ * Perform widening on an element. Certain style properties are updated, but only if existing values
+ * for these properties already exist.
+ * @param  {!HTMLElement} element
+ * @return {void}
+ */
+const widenElementByUpdatingExistingStyles = element => {
+  Object.keys(styleWideningKeysAndValues)
+    .forEach(key => updateExistingStyleValue(element.style, key, styleWideningKeysAndValues[key]))
+}
+
+/**
+ * Perform widening on an element.
+ * @param  {!HTMLElement} element
+ * @return {void}
+ */
+const widenElementByUpdatingStyles = element => {
+  Object.keys(styleWideningKeysAndValues)
+    .forEach(key => updateStyleValue(element.style, key, styleWideningKeysAndValues[key]))
+}
+
+/**
  * To widen an image element a css class called 'pagelib_widen_image_override' is applied to the
  * image element, however, ancestors of the image element can prevent the widening from taking
  * effect. This method makes minimal adjustments to ancestors of the image element being widened so
  * the image widening can take effect.
- * @param  {!HTMLElement} el Element whose ancestors will be widened
+ * @param  {!HTMLElement} element Element whose ancestors will be widened
  * @return {void}
  */
-const widenAncestors = el => {
-  for (let parentElement = el.parentElement;
-    parentElement && !parentElement.classList.contains('content_block');
-    parentElement = parentElement.parentElement) {
-    if (parentElement.style.width) {
-      parentElement.style.width = '100%'
-    }
-    if (parentElement.style.height) {
-      parentElement.style.height = 'auto'
-    }
-    if (parentElement.style.maxWidth) {
-      parentElement.style.maxWidth = '100%'
-    }
-    if (parentElement.style.float) {
-      parentElement.style.float = 'none'
-    }
+const widenAncestors = element => {
+  ancestorsToWiden(element).forEach(widenElementByUpdatingExistingStyles)
+
+  // Without forcing widening on the parent anchor, lazy image loading placeholders
+  // aren't correctly widened on iOS for some reason.
+  const parentAnchor = elementUtilities.findClosestAncestor(element, 'a.image')
+  if (parentAnchor) {
+    widenElementByUpdatingStyles(parentAnchor)
   }
 }
 
@@ -92,7 +160,11 @@ const maybeWidenImage = image => {
 export default {
   maybeWidenImage,
   test: {
+    ancestorsToWiden,
     shouldWidenImage,
-    widenAncestors
+    updateExistingStyleValue,
+    widenAncestors,
+    widenElementByUpdatingExistingStyles,
+    widenElementByUpdatingStyles
   }
 }
