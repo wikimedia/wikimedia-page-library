@@ -1,3 +1,6 @@
+### v4.7.10
+- Fix: follow-up "black" theme tweaks
+
 ### v4.7.9
 - Fix: encoding of titles when updating Read More save buttons
 
