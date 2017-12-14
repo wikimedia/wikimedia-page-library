@@ -1,3 +1,6 @@
+### v4.7.11
+- Fix: more follow-up "black" theme tweaks
+
 ### v4.7.10
 - Fix: follow-up "black" theme tweaks
 
