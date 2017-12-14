@@ -53,7 +53,7 @@ styles with only the things which need tweaking.
 .pagelib_theme_black .content td,
 .pagelib_theme_black .content tr,
 .pagelib_theme_black .content th {
-  background: #27292d !important;
+  background: #222 !important;
   color: #f8f9fa !important;
 }
 

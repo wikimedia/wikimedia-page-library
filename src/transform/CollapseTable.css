@@ -95,7 +95,7 @@ div.pagelib_collapse_table_container {
 
 .pagelib_theme_black .content div.pagelib_collapse_table_container {
   box-shadow: none !important;
-  background-color: #43464A !important;
+  background-color: #222 !important;
 }
 
 .pagelib_theme_sepia .content div.pagelib_collapse_table_container {
@@ -148,7 +148,7 @@ div.pagelib_collapse_table_container {
 
 .pagelib_theme_black .content div.pagelib_collapse_table_collapsed_container,
 .pagelib_theme_black .content div.pagelib_collapse_table_collapsed_bottom {
-  background-color: #27292d !important;
+  background-color: #222 !important;
 }
 
 .pagelib_collapse_table_icon {
