@@ -1,3 +1,5 @@
+- Fix: image maps were missing the usemap attribute after the lazy image load transform
+
 ### v4.7.11
 - Fix: more follow-up "black" theme tweaks
 
