@@ -17,7 +17,7 @@ const IMAGE_LOADED_CLASS = 'pagelib_lazy_load_image_loaded' // Download complete
 // image's classes and dimensions are also set on the placeholder.
 // The 3 data-* items are used by iOS.
 const COPY_ATTRIBUTES = ['class', 'style', 'src', 'srcset', 'width', 'height', 'alt',
-  'data-file-width', 'data-file-height', 'data-image-gallery'
+  'usemap', 'data-file-width', 'data-file-height', 'data-image-gallery'
 ]
 
 // Small images, especially icons, are quickly downloaded and may appear in many places. Lazily
