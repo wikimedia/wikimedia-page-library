@@ -12,7 +12,7 @@ const ancestorsToWiden = element => {
   while (el.parentNode) {
     el = el.parentNode
     // No need to walk above 'content_block'.
-    if (el.classList.contains('content_block')) {
+    if (el.classList && el.classList.contains('content_block')) {
       break
     }
     widenThese.push(el)
@@ -28,6 +28,9 @@ const ancestorsToWiden = element => {
  * @return {void}
  */
 const updateStyleValue = (style, key, value) => {
+  if (!style || !key) {
+    return
+  }
   style[key] = value
 }
 
@@ -39,7 +42,7 @@ const updateStyleValue = (style, key, value) => {
  * @return {void}
  */
 const updateExistingStyleValue = (style, key, value) => {
-  const valueExists = Boolean(style[key])
+  const valueExists = style && key && Boolean(style[key])
   if (valueExists) {
     updateStyleValue(style, key, value)
   }

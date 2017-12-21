@@ -289,6 +289,9 @@ const updateSaveButtonBookmarkIcon = (button, isSaved) => {
 */
 const updateSaveButtonForTitle = (title, text, isSaved, document) => {
   const saveButton = document.getElementById(`${SAVE_BUTTON_ID_PREFIX}${encodeURI(title)}`)
+  if (!saveButton) {
+    return
+  }
   saveButton.innerText = text
   saveButton.title = text
   updateSaveButtonBookmarkIcon(saveButton, isSaved)
