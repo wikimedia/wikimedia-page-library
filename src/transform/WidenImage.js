@@ -9,8 +9,8 @@ import elementUtilities from './ElementUtilities'
 const ancestorsToWiden = element => {
   const widenThese = []
   let el = element
-  while (el.parentNode) {
-    el = el.parentNode
+  while (el.parentElement) {
+    el = el.parentElement
     // No need to walk above 'content_block'.
     if (el.classList.contains('content_block')) {
       break
