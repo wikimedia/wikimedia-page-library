@@ -281,6 +281,7 @@ const updateSaveButtonBookmarkIcon = (button, isSaved) => {
 
 /**
  * Updates save button text and bookmark icon for saved state.
+ * Safe to call even for titles for which there is not currently a 'Read more' item.
  * @param {!string} title
  * @param {!string} text
  * @param {!boolean} isSaved
@@ -289,6 +290,9 @@ const updateSaveButtonBookmarkIcon = (button, isSaved) => {
 */
 const updateSaveButtonForTitle = (title, text, isSaved, document) => {
   const saveButton = document.getElementById(`${SAVE_BUTTON_ID_PREFIX}${encodeURI(title)}`)
+  if (!saveButton) {
+    return
+  }
   saveButton.innerText = text
   saveButton.title = text
   updateSaveButtonBookmarkIcon(saveButton, isSaved)
