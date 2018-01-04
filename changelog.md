@@ -1,4 +1,7 @@
+### v4.7.12
 - Fix: image maps were missing the usemap attribute after the lazy image load transform
+- Fix: occassional console error when updating read more save buttons
+- Fix: bug with determining image widening ancestors on certain signpost pages
 
 ### v4.7.11
 - Fix: more follow-up "black" theme tweaks
