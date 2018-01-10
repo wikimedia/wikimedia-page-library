@@ -14,9 +14,9 @@ const collectPageIssues = (document, element) => {
     Polyfill.querySelectorAll(element, 'table.ambox:not(.ambox-multiple_issues):not(.ambox-notice)')
   // Get the tables into a fragment so we can remove some elements without triggering a layout
   const fragment = document.createDocumentFragment()
-  const appendTableToFragment =
+  const cloneTableIntoFragment =
     table => fragment.appendChild(table.cloneNode(true)) // eslint-disable-line require-jsdoc
-  tables.forEach(appendTableToFragment)
+  tables.forEach(cloneTableIntoFragment)
   // Remove some elements we don't want when "textContent" or "innerHTML" are used
   Polyfill.querySelectorAll(fragment, '.hide-when-compact, .collapsed').forEach(el => el.remove())
   return Polyfill.querySelectorAll(fragment, 'td[class*=mbox-text] > *[class*=mbox-text]')
