@@ -68,7 +68,7 @@ class MenuItem {
   }
 
   /**
-   * Extracts array of page issues from element.
+   * Extracts array of page issues, disambiguation titles, etc from element.
    * @typedef {function} PayloadExtractor
    * @param {!Document} document
    * @param {?Element} element
