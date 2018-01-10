@@ -77,6 +77,34 @@ describe('CollectionUtilities', () => {
       const element = document.querySelector('div#content_block_1')
       assert.deepEqual(CollectionUtilities.collectDisambiguationTitles(element), [])
     })
+    it('redlink titles ignored', () => {
+      document = domino.createDocument(`
+        <div id=content_block_0>
+          <div role="note" class="hatnote navigation-not-searchable">
+            This article includes a <a href="/wiki/SampleRedlink" redlink=1>sample redlink</a> and
+            one <a href="/wiki/NonRedlink">non-redlink</a>.
+          </div>
+        </div>
+      `)
+      const element = document.querySelector('div#content_block_0')
+      assert.deepEqual(CollectionUtilities.collectDisambiguationTitles(element), [
+        '/wiki/NonRedlink'
+      ])
+    })
+    it('empty href titles ignored', () => {
+      document = domino.createDocument(`
+        <div id=content_block_0>
+          <div role="note" class="hatnote navigation-not-searchable">
+            This article includes a <a href="">sample empty href</a> and
+            one <a href="/wiki/NonEmptyHref">non-empty href</a>.
+          </div>
+        </div>
+      `)
+      const element = document.querySelector('div#content_block_0')
+      assert.deepEqual(CollectionUtilities.collectDisambiguationTitles(element), [
+        '/wiki/NonEmptyHref'
+      ])
+    })
   })
   describe('.collectDisambiguationHTML()', () => {
     it('find disambiguation titles', () => {
