@@ -105,6 +105,20 @@ describe('CollectionUtilities', () => {
         '/wiki/NonEmptyHref'
       ])
     })
+    it('missing href titles ignored', () => {
+      document = domino.createDocument(`
+        <div id=content_block_0>
+          <div role="note" class="hatnote navigation-not-searchable">
+            This article includes a <a>sample missing href</a> and
+            one <a href="/wiki/NonMissingHref">non-missing href</a>.
+          </div>
+        </div>
+      `)
+      const element = document.querySelector('div#content_block_0')
+      assert.deepEqual(CollectionUtilities.collectDisambiguationTitles(element), [
+        '/wiki/NonMissingHref'
+      ])
+    })
   })
   describe('.collectDisambiguationHTML()', () => {
     it('find disambiguation titles', () => {
