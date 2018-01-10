@@ -9,6 +9,7 @@
 import ThemeTransform from './ThemeTransform'
 
 import CollapseTable from './CollapseTable'
+import CollectionUtilities from './CollectionUtilities'
 import CompatibilityTransform from './CompatibilityTransform'
 import DimImagesTransform from './DimImagesTransform'
 import EditTransform from './EditTransform'
@@ -30,6 +31,7 @@ import WidenImage from './WidenImage'
 export default {
   // todo: rename CollapseTableTransform.
   CollapseTable,
+  CollectionUtilities,
   CompatibilityTransform,
   DimImagesTransform,
   EditTransform,
