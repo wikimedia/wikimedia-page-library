@@ -1,3 +1,6 @@
+### v4.8.0
+- New: CollectionUtilities methods for gathering page issues and disambiguation information
+
 ### v4.7.12
 - Fix: image maps were missing the usemap attribute after the lazy image load transform
 - Fix: occassional console error when updating read more save buttons
