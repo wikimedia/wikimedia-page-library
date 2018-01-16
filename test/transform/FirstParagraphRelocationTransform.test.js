@@ -61,6 +61,14 @@ describe('FirstParagraphRelocationTransform', () => {
       const elementIDs = getElementsToMove(goodP).map(el => el.id)
       assert.deepEqual(elementIDs, [ 'p2' ])
     })
+    it('grabs accepted p and text node before next p', () => {
+      const document = domino.createDocument(`
+        <p id="p1">AAA</p><p id="p2">BBB</p>TEXT NODE TEXT<p id="nextP">DDD</p>
+      `)
+      const goodP = document.getElementById('p2')
+      const elementIDs = getElementsToMove(goodP).map(el => el.textContent)
+      assert.deepEqual(elementIDs, [ 'BBB', 'TEXT NODE TEXT'])
+    })
   })
   describe('getFirstGoodParagraph()', () => {
     it('ignore p in table', () => {
