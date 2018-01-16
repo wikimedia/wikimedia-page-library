@@ -25,9 +25,9 @@ const isParagraphEligible = paragraphElement => {
 /**
  * Everything we want to move up (everything between `goodParagraphElement` and the next paragraph).
  * @param  {!HTMLParagraphElement} goodParagraphElement
- * @return {!Array.<Element>}
+ * @return {!Array.<Node>} Array of text nodes, elements, etc...
  */
-const getElementsToMove = goodParagraphElement => {
+const getNodesToMove = goodParagraphElement => {
   let didHitP = false
   let didHitNextP = false
   const shouldElementMoveUp = element => { // eslint-disable-line require-jsdoc
@@ -71,7 +71,7 @@ const moveFirstGoodParagraphUp = (document, containerID, afterElement) => {
   // A light-weight fragment to hold everything we want to move up.
   const fragment = document.createDocumentFragment()
   // DocumentFragment's `appendChild` attaches the element to the fragment AND removes it from DOM.
-  getElementsToMove(firstGoodParagraph).forEach(element => fragment.appendChild(element))
+  getNodesToMove(firstGoodParagraph).forEach(element => fragment.appendChild(element))
 
   const container = document.getElementById(containerID)
   const insertBeforeThisElement = !afterElement ? container.firstChild : afterElement.nextSibling
@@ -87,7 +87,7 @@ export default {
   moveFirstGoodParagraphUp,
   test: {
     isParagraphEligible,
-    getElementsToMove,
+    getNodesToMove,
     getFirstGoodParagraph
   }
 }

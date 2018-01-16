@@ -5,7 +5,7 @@ import pagelib from '../../build/wikimedia-page-library-transform'
 
 const moveFirstGoodParagraphUp = pagelib.FirstParagraphRelocationTransform.moveFirstGoodParagraphUp
 const isParagraphEligible = pagelib.FirstParagraphRelocationTransform.test.isParagraphEligible
-const getElementsToMove = pagelib.FirstParagraphRelocationTransform.test.getElementsToMove
+const getNodesToMove = pagelib.FirstParagraphRelocationTransform.test.getNodesToMove
 const getFirstGoodParagraph =
   pagelib.FirstParagraphRelocationTransform.test.getFirstGoodParagraph
 
@@ -45,20 +45,20 @@ describe('FirstParagraphRelocationTransform', () => {
       assert.equal(isParagraphEligible(pWithCoordinates), true)
     })
   })
-  describe('getElementsToMove()', () => {
+  describe('getNodesToMove()', () => {
     it('grabs accepted p and other elements before next p', () => {
       const document = domino.createDocument(`<p id="p1"></p><p id="p2">This p has a bunch of stuff
       in it. It's so great. I could read it again and again.</p><span id="span1">Other good stuff 1
       </span><span id="span2">Other good stuff 2</span><p id="nextP">Next P stuff</p>`)
       const goodP = document.getElementById('p2')
-      const elementIDs = getElementsToMove(goodP).map(el => el.id)
+      const elementIDs = getNodesToMove(goodP).map(el => el.id)
       assert.deepEqual(elementIDs, [ 'p2', 'span1', 'span2' ])
     })
     it('grabs accepted p and nothing else if next element is a p', () => {
       const document = domino.createDocument(`<p id="p1"></p><p id="p2">This p has a bunch of stuff
       in it. It's so great. I could read it again and again.</p><p id="nextP">Next P stuff</p>`)
       const goodP = document.getElementById('p2')
-      const elementIDs = getElementsToMove(goodP).map(el => el.id)
+      const elementIDs = getNodesToMove(goodP).map(el => el.id)
       assert.deepEqual(elementIDs, [ 'p2' ])
     })
     it('grabs accepted p and text node before next p', () => {
@@ -66,7 +66,7 @@ describe('FirstParagraphRelocationTransform', () => {
         <p id="p1">AAA</p><p id="p2">BBB</p>TEXT NODE TEXT<p id="nextP">DDD</p>
       `)
       const goodP = document.getElementById('p2')
-      const elementIDs = getElementsToMove(goodP).map(el => el.textContent)
+      const elementIDs = getNodesToMove(goodP).map(el => el.textContent)
       assert.deepEqual(elementIDs, [ 'BBB', 'TEXT NODE TEXT'])
     })
   })
