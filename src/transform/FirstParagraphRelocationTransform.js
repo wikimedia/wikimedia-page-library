@@ -3,7 +3,7 @@ import Polyfill from './Polyfill'
 /**
  * Determine if paragraph is the one we are interested in.
  * @param  {!HTMLParagraphElement}  paragraphElement
- * @return {boolean}
+ * @return {!boolean}
  */
 const isParagraphEligible = paragraphElement => {
   // Ignore 'coordinates' which are presently hidden. See enwiki 'Bolton Field' and 'Sharya Forest
