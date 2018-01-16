@@ -23,23 +23,19 @@ const isParagraphEligible = paragraphElement => {
 }
 
 /**
- * Everything we want to move up (everything between `goodParagraphElement` and the next paragraph).
+ * Nodes we want to move up. This includes the `goodParagraphElement` and everything up to (but not
+ * including) the next paragraph.
  * @param  {!HTMLParagraphElement} goodParagraphElement
  * @return {!Array.<Node>} Array of text nodes, elements, etc...
  */
 const getNodesToMove = goodParagraphElement => {
-  let didHitP = false
-  let didHitNextP = false
-  const shouldElementMoveUp = element => { // eslint-disable-line require-jsdoc
-    if (didHitP && element.tagName === 'P') {
-      didHitNextP = true
-    } else if (element.isEqualNode(goodParagraphElement)) {
-      didHitP = true
-    }
-    return didHitP && !didHitNextP
-  }
-  return Array.prototype.slice.call(goodParagraphElement.parentNode.childNodes)
-    .filter(shouldElementMoveUp)
+  const nodesToMove = []
+  let node = goodParagraphElement
+  do {
+    nodesToMove.push(node)
+    node = node.nextSibling
+  } while (node && !(node.nodeType === 1 && node.tagName === 'P'))
+  return nodesToMove
 }
 
 /**
