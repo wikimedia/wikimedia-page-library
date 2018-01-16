@@ -1,3 +1,6 @@
+### v4.9.0
+- New: consolidated 1st paragraph relocation transform
+
 ### v4.8.0
 - New: CollectionUtilities methods for gathering page issues and disambiguation information
 
