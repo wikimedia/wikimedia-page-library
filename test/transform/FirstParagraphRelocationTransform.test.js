@@ -107,6 +107,27 @@ describe('FirstParagraphRelocationTransform', () => {
       const goodP = getFirstGoodParagraph(document, 'container')
       assert.equal(goodP.id, 'p3')
     })
+    it('return nothing when only any empty p is present', () => {
+      const document = domino.createDocument(`
+        <div id="container">
+          <span>Span stuff bla bla
+            <p id="p1"></p>
+          </span>
+        </div>`)
+      const goodP = getFirstGoodParagraph(document, 'container')
+      assert.equal(goodP, undefined)
+    })
+    it('return nothing container is not present', () => {
+      const document = domino.createDocument(`
+        <div id="containerABC">
+          <p id="p2">
+            This p has a bunch of stuff in it. It's so great. I could read it again and again. But
+            it's in a TABLE!
+          </p>
+        </div>`)
+      const goodP = getFirstGoodParagraph(document, 'container')
+      assert.equal(goodP, undefined)
+    })
   })
   describe('moveFirstGoodParagraphUp()', () => {
 
