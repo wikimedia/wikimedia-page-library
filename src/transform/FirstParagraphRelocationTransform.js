@@ -5,7 +5,7 @@ import Polyfill from './Polyfill'
  * @param  {!HTMLParagraphElement}  paragraphElement
  * @return {boolean}
  */
-const isParagraphGood = paragraphElement => {
+const isParagraphEligible = paragraphElement => {
   // Ignore 'coordinates' which are presently hidden. See enwiki 'Bolton Field' and 'Sharya Forest
   // Museum Railway'. Not counting coordinates towards the min 'good' textContent length heuristic
   // has dual effect of p's containing only coordinates being rejected, and p's containing
@@ -49,7 +49,7 @@ const getElementsToMove = goodParagraphElement => {
  * @return {?HTMLParagraphElement}
  */
 const getFirstGoodParagraph = (document, containerID) =>
-  Polyfill.querySelectorAll(document, `#${containerID} > p`).find(isParagraphGood)
+  Polyfill.querySelectorAll(document, `#${containerID} > p`).find(isParagraphEligible)
 
 /**
  * Instead of moving the infobox down beneath the first P tag, move the first 'good' looking P tag
@@ -85,7 +85,7 @@ const moveFirstGoodParagraphUp = (document, containerID, afterElement) => {
 export default {
   moveFirstGoodParagraphUp,
   test: {
-    isParagraphGood,
+    isParagraphEligible,
     getElementsToMove,
     getFirstGoodParagraph
   }

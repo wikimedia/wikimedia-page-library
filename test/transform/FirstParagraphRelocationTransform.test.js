@@ -4,22 +4,22 @@ import fixtureIO from '../utilities/FixtureIO'
 import pagelib from '../../build/wikimedia-page-library-transform'
 
 const moveFirstGoodParagraphUp = pagelib.FirstParagraphRelocationTransform.moveFirstGoodParagraphUp
-const isParagraphGood = pagelib.FirstParagraphRelocationTransform.test.isParagraphGood
+const isParagraphEligible = pagelib.FirstParagraphRelocationTransform.test.isParagraphEligible
 const getElementsToMove = pagelib.FirstParagraphRelocationTransform.test.getElementsToMove
 const getFirstGoodParagraph =
   pagelib.FirstParagraphRelocationTransform.test.getFirstGoodParagraph
 
 describe('FirstParagraphRelocationTransform', () => {
-  describe('isParagraphGood()', () => {
+  describe('isParagraphEligible()', () => {
     const document = domino.createDocument(`<p id="p1"></p><p id="p2">This p has a bunch of
     stuff in it. It's so great. I could read it again and again.</p>`)
     it('accept p with lots of text', () => {
       const goodP = document.getElementById('p2')
-      assert.equal(isParagraphGood(goodP), true)
+      assert.equal(isParagraphEligible(goodP), true)
     })
     it('reject p with no text', () => {
       const emptyP = document.getElementById('p1')
-      assert.equal(isParagraphGood(emptyP), false)
+      assert.equal(isParagraphEligible(emptyP), false)
     })
     it('reject p with only coordinates', () => {
       const document = domino.createDocument(`
@@ -30,7 +30,7 @@ describe('FirstParagraphRelocationTransform', () => {
       </p>
       `)
       const pWithCoordinates = document.getElementById('p1')
-      assert.equal(isParagraphGood(pWithCoordinates), false)
+      assert.equal(isParagraphEligible(pWithCoordinates), false)
     })
     it('accept p with coordinates but also lots of text', () => {
       const document = domino.createDocument(`
@@ -42,7 +42,7 @@ describe('FirstParagraphRelocationTransform', () => {
         </p>
       `)
       const pWithCoordinates = document.getElementById('p1')
-      assert.equal(isParagraphGood(pWithCoordinates), true)
+      assert.equal(isParagraphEligible(pWithCoordinates), true)
     })
   })
   describe('getElementsToMove()', () => {
