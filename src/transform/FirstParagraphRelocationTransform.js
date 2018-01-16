@@ -16,9 +16,9 @@ const isParagraphEligible = paragraphElement => {
   // Ensures the paragraph has at least a little text. Otherwise silly things like a empty P or P
   // which only contains a BR tag will get pulled up. See enwiki 'Hawaii', 'United States',
   // 'Academy (educational institution)', 'Lovászpatona'
-  const minLength = 50
+  const minLength = 49
   const lengthExceedsMinLength =
-    paragraphElement.textContent.length - coordTextLength >= minLength
+    paragraphElement.textContent.length - coordTextLength > minLength
   return lengthExceedsMinLength
 }
 
