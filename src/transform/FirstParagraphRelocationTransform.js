@@ -38,7 +38,8 @@ const getElementsToMove = goodParagraphElement => {
     }
     return didHitP && !didHitNextP
   }
-  return Array.from(goodParagraphElement.parentNode.childNodes).filter(shouldElementMoveUp)
+  return Array.prototype.slice.call(goodParagraphElement.parentNode.childNodes)
+    .filter(shouldElementMoveUp)
 }
 
 /**
