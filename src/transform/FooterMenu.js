@@ -1,11 +1,5 @@
 import './FooterMenu.css'
-import Polyfill from './Polyfill'
-
-/**
- * @typedef {function} FooterMenuItemPayloadExtractor
- * @param {!Document} document
- * @return {!Array.<string>} Important - should return empty array if no payload strings.
- */
+import CollectionUtilities from './CollectionUtilities'
 
 /**
  * @typedef {function} FooterMenuItemClickCallback
@@ -16,36 +10,6 @@ import Polyfill from './Polyfill'
 /**
  * @typedef {number} MenuItemType
  */
-
-// eslint-disable-next-line valid-jsdoc
-/**
- * Extracts array of no-html page issues strings from document.
- * @type {FooterMenuItemPayloadExtractor}
- */
-const pageIssuesStringsArray = document => {
-  const tables = Polyfill.querySelectorAll(document,
-    'div#content_block_0 table.ambox:not(.ambox-multiple_issues):not(.ambox-notice)'
-  )
-  // Get the tables into a fragment so we can remove some elements without triggering a layout
-  const fragment = document.createDocumentFragment()
-  for (let i = 0; i < tables.length; i++) {
-    fragment.appendChild(tables[i].cloneNode(true))
-  }
-  // Remove some element so their text doesn't appear when we use "innerText"
-  Polyfill.querySelectorAll(fragment, '.hide-when-compact, .collapsed').forEach(el => el.remove())
-  // Get the innerText
-  return Polyfill.querySelectorAll(fragment, 'td[class$=mbox-text]').map(el => el.innerText)
-}
-
-// eslint-disable-next-line valid-jsdoc
-/**
- * Extracts array of disambiguation page urls from document.
- * @type {FooterMenuItemPayloadExtractor}
- */
-const disambiguationTitlesArray = document =>
-  Polyfill.querySelectorAll(document,
-    'div#content_block_0 div.hatnote a[href]:not([href=""]):not([redlink="1"])'
-  ).map(el => el.href)
 
 /**
  * Type representing kinds of menu items.
@@ -104,15 +68,24 @@ class MenuItem {
   }
 
   /**
+   * Extracts array of page issues, disambiguation titles, etc from element.
+   * @typedef {function} PayloadExtractor
+   * @param {!Document} document
+   * @param {?Element} element
+   * @return {!Array.<string>} Return empty array if nothing is extracted
+   */
+
+  /**
    * Returns reference to function for extracting payload when this menu item is tapped.
-   * @return {?FooterMenuItemPayloadExtractor}
+   * @return {?PayloadExtractor}
    */
   payloadExtractor() {
     switch (this.itemType) {
     case MenuItemType.pageIssues:
-      return pageIssuesStringsArray
+      return CollectionUtilities.collectPageIssuesText
     case MenuItemType.disambiguation:
-      return disambiguationTitlesArray
+      // Adapt 'collectDisambiguationTitles' method signature to conform to PayloadExtractor type.
+      return (_, element) => CollectionUtilities.collectDisambiguationTitles(element)
     default:
       return undefined
     }
@@ -188,7 +161,7 @@ const maybeAddItem = (title, subtitle, itemType, containerID, clickHandler, docu
   // Items are not added if they have a payload extractor which fails to extract anything.
   const extractor = item.payloadExtractor()
   if (extractor) {
-    item.payload = extractor(document)
+    item.payload = extractor(document, document.querySelector('div#content_block_0'))
     if (item.payload.length === 0) {
       return
     }
