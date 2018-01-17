@@ -99,7 +99,7 @@ describe('LeadIntroductionTransform', () => {
           <span>Span stuff bla bla
             <p id="p1"></p>
             <p id="p2">
-              This p has a bunch of stuff in it. It is so great. But it's in a TABLE!
+              This p has a bunch of stuff in it. It is so great.
             </p>
             <p id="nextP">Next P stuff</p>
           </span>
@@ -124,7 +124,7 @@ describe('LeadIntroductionTransform', () => {
       const document = domino.createDocument(`
         <div id="containerABC">
           <p id="p2">
-            This p has a bunch of stuff in it. It is so great. But it's in a TABLE!
+            This p has a bunch of stuff in it. It is so great.
           </p>
         </div>`)
       const goodP = getEligibleParagraph(document, 'container')
