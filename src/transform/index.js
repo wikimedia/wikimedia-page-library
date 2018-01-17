@@ -15,7 +15,7 @@ import DimImagesTransform from './DimImagesTransform'
 import EditTransform from './EditTransform'
 import ElementGeometry from './ElementGeometry'
 import ElementUtilities from './ElementUtilities'
-import FirstParagraphRelocationTransform from './FirstParagraphRelocationTransform'
+import LeadIntroductionTransform from './LeadIntroductionTransform'
 import FooterContainer from './FooterContainer'
 import FooterLegal from './FooterLegal'
 import FooterMenu from './FooterMenu'
@@ -38,7 +38,7 @@ export default {
   EditTransform,
   // todo: rename Footer.ContainerTransform, Footer.LegalTransform, Footer.MenuTransform,
   //       Footer.ReadMoreTransform.
-  FirstParagraphRelocationTransform,
+  LeadIntroductionTransform,
   FooterContainer,
   FooterLegal,
   FooterMenu,

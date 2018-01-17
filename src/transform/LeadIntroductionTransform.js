@@ -7,9 +7,10 @@ import Polyfill from './Polyfill'
  */
 const isParagraphEligible = paragraphElement => {
   // Ignore 'coordinates' which are presently hidden. See enwiki 'Bolton Field' and 'Sharya Forest
-  // Museum Railway'. Not counting coordinates towards the min 'good' textContent length heuristic
-  // has dual effect of p's containing only coordinates being rejected, and p's containing
-  // coordinates but also other elements meeting the min 'good' textContent length being accepted.
+  // Museum Railway'. Not counting coordinates towards the eligible P min textContent length
+  // heuristic has dual effect of P's containing only coordinates being rejected, and P's containing
+  // coordinates but also other elements meeting the eligible P min textContent length being
+  // accepted.
   const coordElement = paragraphElement.querySelector('[id="coordinates"]')
   const coordTextLength = !coordElement ? 0 : coordElement.textContent.length
 
@@ -23,14 +24,14 @@ const isParagraphEligible = paragraphElement => {
 }
 
 /**
- * Nodes we want to move up. This includes the `goodParagraphElement` and everything up to (but not
+ * Nodes we want to move up. This includes the `eligibleParagraph` and everything up to (but not
  * including) the next paragraph.
- * @param  {!HTMLParagraphElement} goodParagraphElement
+ * @param  {!HTMLParagraphElement} eligibleParagraph
  * @return {!Array.<Node>} Array of text nodes, elements, etc...
  */
-const getNodesToMove = goodParagraphElement => {
+const extractLeadIntroductionNodes = eligibleParagraph => {
   const nodesToMove = []
-  let node = goodParagraphElement
+  let node = eligibleParagraph
   do {
     nodesToMove.push(node)
     node = node.nextSibling
@@ -39,17 +40,17 @@ const getNodesToMove = goodParagraphElement => {
 }
 
 /**
- * Locate first 'good' paragraph. We don't want paragraphs from somewhere in the middle of a table,
- * so only paragraphs which are direct children of `containerID` element are considered. 
+ * Locate first eligible paragraph. We don't want paragraphs from somewhere in the middle of a
+ * table, so only paragraphs which are direct children of `containerID` element are considered. 
  * @param  {!Document} document
  * @param  {!string} containerID ID of the section under examination.
  * @return {?HTMLParagraphElement}
  */
-const getFirstGoodParagraph = (document, containerID) =>
+const getEligibleParagraph = (document, containerID) =>
   Polyfill.querySelectorAll(document, `#${containerID} > p`).find(isParagraphEligible)
 
 /**
- * Instead of moving the infobox down beneath the first P tag, move the first 'good' looking P tag
+ * Instead of moving the infobox down beneath the first P tag, move the first eligible P tag
  * (and related elements) up. This ensures some text will appear above infoboxes, tables, images
  * etc. This method does not do a 'mainpage' check - do so before calling it.
  * @param  {!Document} document
@@ -58,16 +59,16 @@ const getFirstGoodParagraph = (document, containerID) =>
  * paragraph will be move to top of `containerID` element.
  * @return {void}
  */
-const moveFirstGoodParagraphUp = (document, containerID, afterElement) => {
-  const firstGoodParagraph = getFirstGoodParagraph(document, containerID)
-  if (!firstGoodParagraph) {
+const moveLeadIntroductionUp = (document, containerID, afterElement) => {
+  const eligibleParagraph = getEligibleParagraph(document, containerID)
+  if (!eligibleParagraph) {
     return
   }
 
   // A light-weight fragment to hold everything we want to move up.
   const fragment = document.createDocumentFragment()
   // DocumentFragment's `appendChild` attaches the element to the fragment AND removes it from DOM.
-  getNodesToMove(firstGoodParagraph).forEach(element => fragment.appendChild(element))
+  extractLeadIntroductionNodes(eligibleParagraph).forEach(element => fragment.appendChild(element))
 
   const container = document.getElementById(containerID)
   const insertBeforeThisElement = !afterElement ? container.firstChild : afterElement.nextSibling
@@ -80,10 +81,10 @@ const moveFirstGoodParagraphUp = (document, containerID, afterElement) => {
 }
 
 export default {
-  moveFirstGoodParagraphUp,
+  moveLeadIntroductionUp,
   test: {
     isParagraphEligible,
-    getNodesToMove,
-    getFirstGoodParagraph
+    extractLeadIntroductionNodes,
+    getEligibleParagraph
   }
 }

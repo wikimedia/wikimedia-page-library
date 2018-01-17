@@ -3,13 +3,14 @@ import domino from 'domino'
 import fixtureIO from '../utilities/FixtureIO'
 import pagelib from '../../build/wikimedia-page-library-transform'
 
-const moveFirstGoodParagraphUp = pagelib.FirstParagraphRelocationTransform.moveFirstGoodParagraphUp
-const isParagraphEligible = pagelib.FirstParagraphRelocationTransform.test.isParagraphEligible
-const getNodesToMove = pagelib.FirstParagraphRelocationTransform.test.getNodesToMove
-const getFirstGoodParagraph =
-  pagelib.FirstParagraphRelocationTransform.test.getFirstGoodParagraph
+const moveLeadIntroductionUp = pagelib.LeadIntroductionTransform.moveLeadIntroductionUp
+const isParagraphEligible = pagelib.LeadIntroductionTransform.test.isParagraphEligible
+const extractLeadIntroductionNodes =
+  pagelib.LeadIntroductionTransform.test.extractLeadIntroductionNodes
+const getEligibleParagraph =
+  pagelib.LeadIntroductionTransform.test.getEligibleParagraph
 
-describe('FirstParagraphRelocationTransform', () => {
+describe('LeadIntroductionTransform', () => {
   describe('isParagraphEligible()', () => {
     it('accept p with lots of text', () => {
       const document = domino.createDocument(
@@ -49,20 +50,20 @@ describe('FirstParagraphRelocationTransform', () => {
       assert.equal(isParagraphEligible(pWithCoordinates), true)
     })
   })
-  describe('getNodesToMove()', () => {
+  describe('extractLeadIntroductionNodes()', () => {
     it('grabs accepted p and other elements before next p', () => {
       const document = domino.createDocument(`<p id="p1"></p><p id="p2">This p has a bunch of stuff
       in it. It is so great.</p><span id="span1">Other good stuff 1
       </span><span id="span2">Other good stuff 2</span><p id="nextP">Next P stuff</p>`)
       const goodP = document.getElementById('p2')
-      const elementIDs = getNodesToMove(goodP).map(el => el.id)
+      const elementIDs = extractLeadIntroductionNodes(goodP).map(el => el.id)
       assert.deepEqual(elementIDs, [ 'p2', 'span1', 'span2' ])
     })
     it('grabs accepted p and nothing else if next element is a p', () => {
       const document = domino.createDocument(`<p id="p1"></p><p id="p2">This p has a bunch of stuff
       in it. It is so great.</p><p id="nextP">Next P stuff</p>`)
       const goodP = document.getElementById('p2')
-      const elementIDs = getNodesToMove(goodP).map(el => el.id)
+      const elementIDs = extractLeadIntroductionNodes(goodP).map(el => el.id)
       assert.deepEqual(elementIDs, [ 'p2' ])
     })
     it('grabs accepted p and text node before next p', () => {
@@ -70,11 +71,11 @@ describe('FirstParagraphRelocationTransform', () => {
         <p id="p1">AAA</p><p id="p2">BBB</p>TEXT NODE TEXT<p id="nextP">DDD</p>
       `)
       const goodP = document.getElementById('p2')
-      const elementIDs = getNodesToMove(goodP).map(el => el.textContent)
+      const elementIDs = extractLeadIntroductionNodes(goodP).map(el => el.textContent)
       assert.deepEqual(elementIDs, [ 'BBB', 'TEXT NODE TEXT'])
     })
   })
-  describe('getFirstGoodParagraph()', () => {
+  describe('getEligibleParagraph()', () => {
     it('ignore p in table', () => {
       const document = domino.createDocument(`
         <div id="container">
@@ -89,7 +90,7 @@ describe('FirstParagraphRelocationTransform', () => {
             This p has a bunch of stuff in it. It is so great.
           </p>
         </div>`)
-      const goodP = getFirstGoodParagraph(document, 'container')
+      const goodP = getEligibleParagraph(document, 'container')
       assert.equal(goodP.id, 'p3')
     })
     it('ignore p if not direct child of containerID element', () => {
@@ -106,7 +107,7 @@ describe('FirstParagraphRelocationTransform', () => {
             This p has a bunch of stuff in it. It is so great.
           </p>
         </div>`)
-      const goodP = getFirstGoodParagraph(document, 'container')
+      const goodP = getEligibleParagraph(document, 'container')
       assert.equal(goodP.id, 'p3')
     })
     it('return nothing when only any empty p is present', () => {
@@ -116,7 +117,7 @@ describe('FirstParagraphRelocationTransform', () => {
             <p id="p1"></p>
           </span>
         </div>`)
-      const goodP = getFirstGoodParagraph(document, 'container')
+      const goodP = getEligibleParagraph(document, 'container')
       assert.equal(goodP, undefined)
     })
     it('return nothing container is not present', () => {
@@ -126,11 +127,11 @@ describe('FirstParagraphRelocationTransform', () => {
             This p has a bunch of stuff in it. It is so great. But it's in a TABLE!
           </p>
         </div>`)
-      const goodP = getFirstGoodParagraph(document, 'container')
+      const goodP = getEligibleParagraph(document, 'container')
       assert.equal(goodP, undefined)
     })
   })
-  describe('moveFirstGoodParagraphUp()', () => {
+  describe('moveLeadIntroductionUp()', () => {
 
     // eslint-disable-next-line require-jsdoc
     const getChildTagNames = element => Array.from(element.children).map(el => el.tagName)
@@ -139,7 +140,7 @@ describe('FirstParagraphRelocationTransform', () => {
       const document = fixtureIO.documentFromFixtureFile('FirstParagraphRelocation-Obama.html')
       const soughtP = document.querySelector('#content_block_0 > p:nth-of-type(1)')
       // Before: [ 'HR', 'DIV', 'TABLE', 'P', 'P', 'P', 'P', 'DIV' ]
-      moveFirstGoodParagraphUp(document, 'content_block_0', null)
+      moveLeadIntroductionUp(document, 'content_block_0', null)
       assert.deepEqual(
         getChildTagNames(document.getElementById('content_block_0')),
         [ 'P', 'HR', 'DIV', 'TABLE', 'P', 'P', 'P', 'DIV' ]
@@ -151,7 +152,7 @@ describe('FirstParagraphRelocationTransform', () => {
       const document = fixtureIO.documentFromFixtureFile('FirstParagraphRelocation-Planet.html')
       const soughtP = document.querySelector('#content_block_0 > p:nth-of-type(1)')
       // Before: [ 'HR', 'DIV', 'TABLE', 'P', 'UL', 'P', 'P', 'P', 'P', 'P' ]
-      moveFirstGoodParagraphUp(document, 'content_block_0', null)
+      moveLeadIntroductionUp(document, 'content_block_0', null)
       assert.deepEqual(
         getChildTagNames(document.getElementById('content_block_0')),
         [ 'P', 'UL', 'HR', 'DIV', 'TABLE', 'P', 'P', 'P', 'P', 'P' ]
@@ -163,7 +164,7 @@ describe('FirstParagraphRelocationTransform', () => {
       const document = fixtureIO.documentFromFixtureFile('FirstParagraphRelocation-Sharya.html')
       const soughtP = document.querySelector('#content_block_0 > p:nth-of-type(1)')
       // Before: [ 'HR', 'TABLE', 'P', 'P' ]
-      moveFirstGoodParagraphUp(document, 'content_block_0', null)
+      moveLeadIntroductionUp(document, 'content_block_0', null)
       assert.deepEqual(
         getChildTagNames(document.getElementById('content_block_0')),
         [ 'P', 'HR', 'TABLE', 'P' ]
@@ -175,7 +176,7 @@ describe('FirstParagraphRelocationTransform', () => {
       const document = fixtureIO.documentFromFixtureFile('FirstParagraphRelocation-Bolton.html')
       const soughtP = document.querySelector('#content_block_0 > p:nth-of-type(2)')
       // Before: [ 'HR', 'P', 'TABLE', 'P', 'P', 'P' ]
-      moveFirstGoodParagraphUp(document, 'content_block_0', null)
+      moveLeadIntroductionUp(document, 'content_block_0', null)
       assert.deepEqual(
         getChildTagNames(document.getElementById('content_block_0')),
         [ 'P', 'HR', 'P', 'TABLE', 'P', 'P' ]
