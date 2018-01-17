@@ -11,13 +11,17 @@ const getFirstGoodParagraph =
 
 describe('FirstParagraphRelocationTransform', () => {
   describe('isParagraphEligible()', () => {
-    const document = domino.createDocument(`<p id="p1"></p><p id="p2">This p has a bunch of
-    stuff in it. It's so great. I could read it again and again.</p>`)
     it('accept p with lots of text', () => {
+      const document = domino.createDocument(
+        '<p id="p1"></p><p id="p2">This p has a bunch of stuff in it. It is so great.</p>'
+      )
       const goodP = document.getElementById('p2')
       assert.equal(isParagraphEligible(goodP), true)
     })
     it('reject p with no text', () => {
+      const document = domino.createDocument(
+        '<p id="p1"></p><p id="p2">This p has a bunch of stuff in it. It is so great.</p>'
+      )
       const emptyP = document.getElementById('p1')
       assert.equal(isParagraphEligible(emptyP), false)
     })
@@ -38,7 +42,7 @@ describe('FirstParagraphRelocationTransform', () => {
           <span id="coordinates">
             Coordinates: 39°54′04″N 083°08′13″W / 39.90111°N 83.13694°W / 39.90111; -83.13694
           </span>
-          This p has a bunch of stuff in it. It's so great. I could read it again and again.
+          This p has a bunch of stuff in it. It is so great.
         </p>
       `)
       const pWithCoordinates = document.getElementById('p1')
@@ -48,7 +52,7 @@ describe('FirstParagraphRelocationTransform', () => {
   describe('getNodesToMove()', () => {
     it('grabs accepted p and other elements before next p', () => {
       const document = domino.createDocument(`<p id="p1"></p><p id="p2">This p has a bunch of stuff
-      in it. It's so great. I could read it again and again.</p><span id="span1">Other good stuff 1
+      in it. It is so great.</p><span id="span1">Other good stuff 1
       </span><span id="span2">Other good stuff 2</span><p id="nextP">Next P stuff</p>`)
       const goodP = document.getElementById('p2')
       const elementIDs = getNodesToMove(goodP).map(el => el.id)
@@ -56,7 +60,7 @@ describe('FirstParagraphRelocationTransform', () => {
     })
     it('grabs accepted p and nothing else if next element is a p', () => {
       const document = domino.createDocument(`<p id="p1"></p><p id="p2">This p has a bunch of stuff
-      in it. It's so great. I could read it again and again.</p><p id="nextP">Next P stuff</p>`)
+      in it. It is so great.</p><p id="nextP">Next P stuff</p>`)
       const goodP = document.getElementById('p2')
       const elementIDs = getNodesToMove(goodP).map(el => el.id)
       assert.deepEqual(elementIDs, [ 'p2' ])
@@ -77,13 +81,12 @@ describe('FirstParagraphRelocationTransform', () => {
           <table><tr><td>Table stuff bla bla
             <p id="p1"></p>
             <p id="p2">
-              This p has a bunch of stuff in it. It's so great. I could read it again and again. But
-              it's in a TABLE!
+              This p has a bunch of stuff in it. It is so great. But it's in a TABLE!
             </p>
             <p id="nextP">Next P stuff</p>
           </td></tr></table>
           <p id="p3">
-            This p has a bunch of stuff in it. It's so great. I could read it again and again.
+            This p has a bunch of stuff in it. It is so great.
           </p>
         </div>`)
       const goodP = getFirstGoodParagraph(document, 'container')
@@ -95,13 +98,12 @@ describe('FirstParagraphRelocationTransform', () => {
           <span>Span stuff bla bla
             <p id="p1"></p>
             <p id="p2">
-              This p has a bunch of stuff in it. It's so great. I could read it again and again. But
-              it's in a TABLE!
+              This p has a bunch of stuff in it. It is so great. But it's in a TABLE!
             </p>
             <p id="nextP">Next P stuff</p>
           </span>
           <p id="p3">
-            This p has a bunch of stuff in it. It's so great. I could read it again and again.
+            This p has a bunch of stuff in it. It is so great.
           </p>
         </div>`)
       const goodP = getFirstGoodParagraph(document, 'container')
@@ -121,8 +123,7 @@ describe('FirstParagraphRelocationTransform', () => {
       const document = domino.createDocument(`
         <div id="containerABC">
           <p id="p2">
-            This p has a bunch of stuff in it. It's so great. I could read it again and again. But
-            it's in a TABLE!
+            This p has a bunch of stuff in it. It is so great. But it's in a TABLE!
           </p>
         </div>`)
       const goodP = getFirstGoodParagraph(document, 'container')
