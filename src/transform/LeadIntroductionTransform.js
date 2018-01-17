@@ -30,13 +30,13 @@ const isParagraphEligible = paragraphElement => {
  * @return {!Array.<Node>} Array of text nodes, elements, etc...
  */
 const extractLeadIntroductionNodes = eligibleParagraph => {
-  const nodesToMove = []
+  const introNodes = []
   let node = eligibleParagraph
   do {
-    nodesToMove.push(node)
+    introNodes.push(node)
     node = node.nextSibling
   } while (node && !(node.nodeType === 1 && node.tagName === 'P'))
-  return nodesToMove
+  return introNodes
 }
 
 /**
