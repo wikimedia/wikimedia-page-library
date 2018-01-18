@@ -5,6 +5,23 @@ import elementUtilities from './ElementUtilities'
 const SECTION_TOGGLED_EVENT_TYPE = 'section-toggled'
 
 /**
+ * Extracts header text.
+ * @param {!Document} document
+ * @param {!Element} header
+ * @return {?string}
+ */
+const extractHeaderText = (document, header) => {
+  // Clone header into fragment. This is done so we can remove some elements we don't want
+  // represented when "textContent" is used. Because we've cloned the header into a fragment, we are
+  // free to strip out anything we want without worrying about affecting the visible document.
+  const fragment = document.createDocumentFragment()
+  fragment.appendChild(header.cloneNode(true)) // eslint-disable-line require-jsdoc
+  Polyfill.querySelectorAll(fragment, '.geo, .coordinates, sup.reference')
+    .forEach(el => el.remove())
+  return fragment.textContent
+}
+
+/**
  * Find an array of table header (TH) contents. If there are no TH elements in
  * the table or the header's link matches pageTitle, an empty array is returned.
  * @param {!Document} document
@@ -20,16 +37,7 @@ const getTableHeaderTextArray = (document, element, pageTitle) => {
     const header = headers[i]
     const anchors = Polyfill.querySelectorAll(header, 'a')
     if (anchors.length < 3) {
-      // Clone header into fragment. This is done so we can remove some elements we don't want
-      // represented when "textContent" is used. Because we've cloned the header into a fragment, we
-      // are free to strip out anything we want without worrying about affecting the visible
-      // document.
-      const fragment = document.createDocumentFragment()
-      fragment.appendChild(header.cloneNode(true)) // eslint-disable-line require-jsdoc
-      Polyfill.querySelectorAll(fragment, '.geo, .coordinates, sup.reference')
-        .forEach(el => el.remove())
-      const headerText = fragment.textContent
-
+      const headerText = extractHeaderText(document, header)
       // Also ignore it if it's identical to the page title.
       if ((headerText && headerText.length) > 0
         && headerText !== pageTitle && header.innerHTML !== pageTitle) {
