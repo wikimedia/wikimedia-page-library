@@ -3,6 +3,104 @@ import domino from 'domino'
 import pagelib from '../../build/wikimedia-page-library-transform'
 
 describe('CollapseTable', () => {
+
+  describe('isHeaderEligible()', () => {
+    const isHeaderEligible = pagelib.CollapseTable.test.isHeaderEligible
+    it('when too many links, should not be eligible', () => {
+      const doc = domino.createDocument('<table><tr><th><a></a><a></a><a></a></th></tr></table>')
+      const header = doc.querySelector('th')
+      const isEligible = isHeaderEligible(header)
+      assert.equal(isEligible, false)
+    })
+    it('when 2 links, should be eligible', () => {
+      const doc = domino.createDocument('<table><tr><th><a></a><a></a></th></tr></table>')
+      const header = doc.querySelector('th')
+      const isEligible = isHeaderEligible(header)
+      assert.equal(isEligible, true)
+    })
+    it('when 1 link, should be eligible', () => {
+      const doc = domino.createDocument('<table><tr><th><a></a></th></tr></table>')
+      const header = doc.querySelector('th')
+      const isEligible = isHeaderEligible(header)
+      assert.equal(isEligible, true)
+    })
+    it('when emtpy, should be eligible', () => {
+      // headers are eligible if empty, but `extractEligibleHeaderText` is responsible for rejecting
+      // them.
+      const doc = domino.createDocument('<table><tr><th></th></tr></table>')
+      const header = doc.querySelector('th')
+      const isEligible = isHeaderEligible(header)
+      assert.equal(isEligible, true)
+    })
+  })
+
+  describe('isHeaderTextEligible()', () => {
+    const isHeaderTextEligible = pagelib.CollapseTable.test.isHeaderTextEligible
+    it('text equal to page title is rejected', () => {
+      const doc = domino.createDocument('<table><tr><th>SampleTitle</th></tr></table>')
+      const headerText = doc.querySelector('th').textContent
+      const isEligible = isHeaderTextEligible(headerText, 'SampleTitle')
+      assert.equal(isEligible, false)
+    })
+    it('undefined text is rejected', () => {
+      const doc = domino.createDocument('<table><tr><th></th></tr></table>')
+      const headerText = doc.querySelector('th').textContent
+      const isEligible = isHeaderTextEligible(headerText, 'SampleTitle')
+      assert.equal(isEligible, false)
+    })
+    it('actual text not equal to page title is accepted', () => {
+      const doc = domino.createDocument('<table><tr><th>Some text</th></tr></table>')
+      const headerText = doc.querySelector('th').textContent
+      const isEligible = isHeaderTextEligible(headerText, 'SampleTitle')
+      assert.equal(isEligible, true)
+    })
+  })
+
+  describe('extractEligibleHeaderText()', () => {
+    const extractEligibleHeaderText = pagelib.CollapseTable.test.extractEligibleHeaderText
+
+    it('extracted text is trimmed', () => {
+      const doc = domino.createDocument('<table><tr><th> Some text </th></tr></table>')
+      const header = doc.querySelector('th')
+      const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
+      assert.equal(text, 'Some text')
+    })
+    it('empty header returns null', () => {
+      const doc = domino.createDocument('<table><tr><th></th></tr></table>')
+      const header = doc.querySelector('th')
+      const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
+      assert.equal(text, null)
+    })
+    it('whitespace header returns null', () => {
+      const doc = domino.createDocument('<table><tr><th>    </th></tr></table>')
+      const header = doc.querySelector('th')
+      const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
+      assert.equal(text, null)
+    })
+    it('extracted text excludes ref links', () => {
+      const doc = domino.createDocument(
+        '<table><tr><th>Some text <sup class=reference>[1]</sup></th></tr></table>'
+      )
+      const header = doc.querySelector('th')
+      const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
+      assert.equal(text, 'Some text')
+    })
+    it('extracted text excludes coordinates', () => {
+      const doc = domino.createDocument(`
+        <table><tr>
+          <th>
+            Some text
+            <span class=geo>0.001,0.002</span>
+            <span class=coordinates>0.001,0.002</span>
+          </th>
+        </tr></table>
+      `)
+      const header = doc.querySelector('th')
+      const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
+      assert.equal(text, 'Some text')
+    })
+  })
+
   describe('getTableHeaderTextArray()', () => {
     const getTableHeaderTextArray = pagelib.CollapseTable.test.getTableHeaderTextArray
 

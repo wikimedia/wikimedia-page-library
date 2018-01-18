@@ -12,12 +12,25 @@ const SECTION_TOGGLED_EVENT_TYPE = 'section-toggled'
 const isHeaderEligible = header => Polyfill.querySelectorAll(header, 'a').length < 3
 
 /**
- * Extracts header text.
+ * Determine eligibility of extracted text.
+ * @param {!string} headerText
+ * @param {?string} pageTitle
+ * @return {!boolean}
+ */
+const isHeaderTextEligible =
+  (headerText, pageTitle) => headerText && headerText !== pageTitle
+
+/**
+ * Extracts any header text determined to be eligible.
  * @param {!Document} document
  * @param {!Element} header
+ * @param {?string} pageTitle
  * @return {?string}
  */
-const extractHeaderText = (document, header) => {
+const extractEligibleHeaderText = (document, header, pageTitle) => {
+  if (!isHeaderEligible(header)) {
+    return null
+  }
   // Clone header into fragment. This is done so we can remove some elements we don't want
   // represented when "textContent" is used. Because we've cloned the header into a fragment, we are
   // free to strip out anything we want without worrying about affecting the visible document.
@@ -25,7 +38,12 @@ const extractHeaderText = (document, header) => {
   fragment.appendChild(header.cloneNode(true))
   Polyfill.querySelectorAll(fragment, '.geo, .coordinates, sup.reference')
     .forEach(el => el.remove())
-  return fragment.textContent.trim()
+
+  const headerText = fragment.textContent ? fragment.textContent.trim() : null
+  if (isHeaderTextEligible(headerText, pageTitle)) {
+    return headerText
+  }
+  return null
 }
 
 /**
@@ -41,17 +59,12 @@ const getTableHeaderTextArray = (document, element, pageTitle) => {
   const headerTextArray = []
   const headers = Polyfill.querySelectorAll(element, 'th')
   for (let i = 0; i < headers.length; ++i) {
-    const header = headers[i]
-    if (isHeaderEligible(header)) {
-      const headerText = extractHeaderText(document, header)
-      // Also ignore it if it's identical to the page title.
-      if ((headerText && headerText.length) > 0
-        && headerText !== pageTitle && header.innerHTML !== pageTitle) {
-        headerTextArray.push(headerText)
-      }
+    const headerText = extractEligibleHeaderText(document, headers[i], pageTitle)
+    if (headerText) {
+      headerTextArray.push(headerText)
     }
+    // 'newCaptionFragment' only ever uses the first 2 items.
     if (headerTextArray.length === 2) {
-      // 'newCaptionFragment' only ever uses the first 2 items.
       break
     }
   }
@@ -314,8 +327,11 @@ export default {
   adjustTables,
   expandCollapsedTableIfItContainsElement,
   test: {
+    extractEligibleHeaderText,
     getTableHeaderTextArray,
     shouldTableBeCollapsed,
+    isHeaderEligible,
+    isHeaderTextEligible,
     isInfobox,
     newCollapsedHeaderDiv,
     newCollapsedFooterDiv,
