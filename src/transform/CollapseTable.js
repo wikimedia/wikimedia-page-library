@@ -13,7 +13,7 @@ const SECTION_TOGGLED_EVENT_TYPE = 'section-toggled'
  *                            contents of the header exactly, it will be omitted.
  * @return {!Array<string>}
  */
-const getTableHeader = (document, element, pageTitle) => {
+const getTableHeaderTextArray = (document, element, pageTitle) => {
   const thArray = []
   const headers = Polyfill.querySelectorAll(element, 'th')
   for (let i = 0; i < headers.length; ++i) {
@@ -191,12 +191,11 @@ const adjustTables = (window, document, pageTitle, isMainPage, isInitiallyCollap
       continue
     }
 
-    // todo: this is actually an array
-    const headerText = getTableHeader(document, table, pageTitle)
-    if (!headerText.length && !isInfobox(table)) {
+    const headerTextArray = getTableHeaderTextArray(document, table, pageTitle)
+    if (!headerTextArray.length && !isInfobox(table)) {
       continue
     }
-    const caption = newCaption(isInfobox(table) ? infoboxTitle : otherTitle, headerText)
+    const caption = newCaption(isInfobox(table) ? infoboxTitle : otherTitle, headerTextArray)
 
     // create the container div that will contain both the original table
     // and the collapsed version.
@@ -294,7 +293,7 @@ export default {
   adjustTables,
   expandCollapsedTableIfItContainsElement,
   test: {
-    getTableHeader,
+    getTableHeaderTextArray,
     shouldTableBeCollapsed,
     isInfobox,
     newCollapsedHeaderDiv,
