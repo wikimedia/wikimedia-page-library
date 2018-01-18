@@ -22,7 +22,7 @@ const extractHeaderText = (document, header) => {
   // represented when "textContent" is used. Because we've cloned the header into a fragment, we are
   // free to strip out anything we want without worrying about affecting the visible document.
   const fragment = document.createDocumentFragment()
-  fragment.appendChild(header.cloneNode(true)) // eslint-disable-line require-jsdoc
+  fragment.appendChild(header.cloneNode(true))
   Polyfill.querySelectorAll(fragment, '.geo, .coordinates, sup.reference')
     .forEach(el => el.remove())
   return fragment.textContent.trim()
