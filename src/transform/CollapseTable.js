@@ -38,7 +38,7 @@ const extractHeaderText = (document, header) => {
  * @return {!Array<string>}
  */
 const getTableHeaderTextArray = (document, element, pageTitle) => {
-  const thArray = []
+  const headerTextArray = []
   const headers = Polyfill.querySelectorAll(element, 'th')
   for (let i = 0; i < headers.length; ++i) {
     const header = headers[i]
@@ -47,15 +47,15 @@ const getTableHeaderTextArray = (document, element, pageTitle) => {
       // Also ignore it if it's identical to the page title.
       if ((headerText && headerText.length) > 0
         && headerText !== pageTitle && header.innerHTML !== pageTitle) {
-        thArray.push(headerText)
+        headerTextArray.push(headerText)
       }
     }
-    if (thArray.length === 2) {
+    if (headerTextArray.length === 2) {
       // 'newCaption' only ever uses the first 2 items.
       break
     }
   }
-  return thArray
+  return headerTextArray
 }
 
 /**
