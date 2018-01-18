@@ -25,7 +25,7 @@ const extractHeaderText = (document, header) => {
   fragment.appendChild(header.cloneNode(true)) // eslint-disable-line require-jsdoc
   Polyfill.querySelectorAll(fragment, '.geo, .coordinates, sup.reference')
     .forEach(el => el.remove())
-  return fragment.textContent
+  return fragment.textContent.trim()
 }
 
 /**
@@ -51,7 +51,7 @@ const getTableHeaderTextArray = (document, element, pageTitle) => {
       }
     }
     if (headerTextArray.length === 2) {
-      // 'newCaption' only ever uses the first 2 items.
+      // 'newCaptionFragment' only ever uses the first 2 items.
       break
     }
   }
@@ -133,14 +133,14 @@ const isInfobox = element => element.classList.contains('infobox')
 
 /**
  * @param {!Document} document
- * @param {?string} content HTML string.
+ * @param {!DocumentFragment} content
  * @return {!HTMLDivElement}
  */
 const newCollapsedHeaderDiv = (document, content) => {
   const div = document.createElement('div')
   div.classList.add('pagelib_collapse_table_collapsed_container')
   div.classList.add('pagelib_collapse_table_expanded')
-  div.innerHTML = content || ''
+  div.appendChild(content)
   return div
 }
 
@@ -158,26 +158,32 @@ const newCollapsedFooterDiv = (document, content) => {
 }
 
 /**
+ * @param {!Document} document
  * @param {!string} title
  * @param {!Array.<string>} headerText
- * @return {!string} HTML string.
+ * @return {!DocumentFragment}
  */
-const newCaption = (title, headerText) => {
-  let caption = `<strong>${title}</strong>`
+const newCaptionFragment = (document, title, headerText) => {
+  const fragment = document.createDocumentFragment()
 
-  caption += '<span class=pagelib_collapse_table_collapse_text>'
+  const strong = document.createElement('strong')
+  strong.innerHTML = title
+  fragment.appendChild(strong)
+
+  const span = document.createElement('span')
+  span.classList.add('pagelib_collapse_table_collapse_text')
   if (headerText.length > 0) {
-    caption += `: ${headerText[0]}`
+    span.appendChild(document.createTextNode(`: ${headerText[0]}`))
   }
   if (headerText.length > 1) {
-    caption += `, ${headerText[1]}`
+    span.appendChild(document.createTextNode(`, ${headerText[1]}`))
   }
   if (headerText.length > 0) {
-    caption += ' …'
+    span.appendChild(document.createTextNode(' …'))
   }
-  caption += '</span>'
+  fragment.appendChild(span)
 
-  return caption
+  return fragment
 }
 
 /**
@@ -209,7 +215,8 @@ const adjustTables = (window, document, pageTitle, isMainPage, isInitiallyCollap
     if (!headerTextArray.length && !isInfobox(table)) {
       continue
     }
-    const caption = newCaption(isInfobox(table) ? infoboxTitle : otherTitle, headerTextArray)
+    const captionFragment =
+      newCaptionFragment(document, isInfobox(table) ? infoboxTitle : otherTitle, headerTextArray)
 
     // create the container div that will contain both the original table
     // and the collapsed version.
@@ -223,7 +230,7 @@ const adjustTables = (window, document, pageTitle, isMainPage, isInitiallyCollap
     table.style.marginTop = '0px'
     table.style.marginBottom = '0px'
 
-    const collapsedHeaderDiv = newCollapsedHeaderDiv(document, caption)
+    const collapsedHeaderDiv = newCollapsedHeaderDiv(document, captionFragment)
     collapsedHeaderDiv.style.display = 'block'
 
     const collapsedFooterDiv = newCollapsedFooterDiv(document, footerTitle)
@@ -312,6 +319,6 @@ export default {
     isInfobox,
     newCollapsedHeaderDiv,
     newCollapsedFooterDiv,
-    newCaption
+    newCaptionFragment
   }
 }

@@ -202,27 +202,39 @@ describe('CollapseTable', () => {
     const newCollapsedHeaderDiv = pagelib.CollapseTable.test.newCollapsedHeaderDiv
 
     it('the div is created', () => {
-      const div = newCollapsedHeaderDiv(domino.createDocument())
+      const doc = domino.createDocument()
+      const frag = doc.createDocumentFragment()
+      const div = newCollapsedHeaderDiv(doc, frag)
       assert.ok(div instanceof domino.impl.HTMLDivElement)
     })
 
     it('the div is a container', () => {
-      const div = newCollapsedHeaderDiv(domino.createDocument())
+      const doc = domino.createDocument()
+      const frag = doc.createDocumentFragment()
+      const div = newCollapsedHeaderDiv(doc, frag)
       assert.ok(div.classList.contains('pagelib_collapse_table_collapsed_container'))
     })
 
     it('the div is expanded', () => {
-      const div = newCollapsedHeaderDiv(domino.createDocument())
+      const doc = domino.createDocument()
+      const frag = doc.createDocumentFragment()
+      const div = newCollapsedHeaderDiv(doc, frag)
       assert.ok(div.classList.contains('pagelib_collapse_table_expanded'))
     })
 
     it('when contents is undefined, the div has no contents', () => {
-      const div = newCollapsedHeaderDiv(domino.createDocument())
+      const doc = domino.createDocument()
+      const frag = doc.createDocumentFragment()
+      const div = newCollapsedHeaderDiv(doc, frag)
       assert.ok(!div.innerHTML)
     })
 
     it('when contents are defined, the div has contents', () => {
-      const div = newCollapsedHeaderDiv(domino.createDocument(), 'contents')
+      const doc = domino.createDocument()
+      const frag = doc.createDocumentFragment()
+      const text = doc.createTextNode('contents')
+      frag.appendChild(text)
+      const div = newCollapsedHeaderDiv(doc, frag)
       assert.deepEqual(div.innerHTML, 'contents')
     })
   })
@@ -256,54 +268,53 @@ describe('CollapseTable', () => {
     })
   })
 
-  describe('newCaption()', () => {
-    const newCaption = pagelib.CollapseTable.test.newCaption
+  describe('newCaptionFragment()', () => {
+    const newCaptionFragment = pagelib.CollapseTable.test.newCaptionFragment
 
     describe('when no header text', () => {
-      const caption = newCaption('title', [])
-
+      const caption = newCaptionFragment(domino.createDocument(), 'title', [])
       it('the title is present', () => {
-        assert.ok(caption.includes('title'))
+        assert.ok(caption.textContent.includes('title'))
       })
 
       it('no additional text is shown', () => {
-        assert.ok(!caption.includes(','))
+        assert.ok(!caption.textContent.includes(','))
       })
     })
 
     describe('when a one element header text', () => {
-      const caption = newCaption('title', ['0'])
+      const caption = newCaptionFragment(domino.createDocument(), 'title', ['0'])
 
       it('the title is present', () => {
-        assert.ok(caption.includes('title'))
+        assert.ok(caption.textContent.includes('title'))
       })
 
       it('the first entry is shown', () => {
-        assert.ok(caption.includes('0'))
+        assert.ok(caption.textContent.includes('0'))
       })
 
       it('an ellipsis is shown', () => {
-        assert.ok(caption.includes('…'))
+        assert.ok(caption.textContent.includes('…'))
       })
     })
 
     describe('when a two element header text', () => {
-      const caption = newCaption('title', ['0', '1'])
+      const caption = newCaptionFragment(domino.createDocument(), 'title', ['0', '1'])
 
       it('the title is present', () => {
-        assert.ok(caption.includes('title'))
+        assert.ok(caption.textContent.includes('title'))
       })
 
       it('the first entry is shown', () => {
-        assert.ok(caption.includes('0'))
+        assert.ok(caption.textContent.includes('0'))
       })
 
       it('an ellipsis is shown', () => {
-        assert.ok(caption.includes('…'))
+        assert.ok(caption.textContent.includes('…'))
       })
 
       it('the second entry is shown', () => {
-        assert.ok(caption.includes('1'))
+        assert.ok(caption.textContent.includes('1'))
       })
     })
   })
