@@ -7,22 +7,33 @@ const SECTION_TOGGLED_EVENT_TYPE = 'section-toggled'
 /**
  * Find an array of table header (TH) contents. If there are no TH elements in
  * the table or the header's link matches pageTitle, an empty array is returned.
+ * @param {!Document} document
  * @param {!Element} element
  * @param {?string} pageTitle Unencoded page title; if this title matches the
  *                            contents of the header exactly, it will be omitted.
  * @return {!Array<string>}
  */
-const getTableHeader = (element, pageTitle) => {
+const getTableHeader = (document, element, pageTitle) => {
   const thArray = []
   const headers = Polyfill.querySelectorAll(element, 'th')
   for (let i = 0; i < headers.length; ++i) {
     const header = headers[i]
     const anchors = Polyfill.querySelectorAll(header, 'a')
     if (anchors.length < 3) {
+      // Clone header into fragment. This is done so we can remove some elements we don't want
+      // represented when "textContent" is used. Because we've cloned the header into a fragment, we
+      // are free to strip out anything we want without worrying about affecting the visible
+      // document.
+      const fragment = document.createDocumentFragment()
+      fragment.appendChild(header.cloneNode(true)) // eslint-disable-line require-jsdoc
+      Polyfill.querySelectorAll(fragment, '.geo, .coordinates, sup.reference')
+        .forEach(el => el.remove())
+      const headerText = fragment.textContent
+
       // Also ignore it if it's identical to the page title.
-      if ((header.textContent && header.textContent.length) > 0
-        && header.textContent !== pageTitle && header.innerHTML !== pageTitle) {
-        thArray.push(header.textContent)
+      if ((headerText && headerText.length) > 0
+        && headerText !== pageTitle && header.innerHTML !== pageTitle) {
+        thArray.push(headerText)
       }
     }
     if (thArray.length === 2) {
@@ -181,7 +192,7 @@ const adjustTables = (window, content, pageTitle, isMainPage, isInitiallyCollaps
     }
 
     // todo: this is actually an array
-    const headerText = getTableHeader(table, pageTitle)
+    const headerText = getTableHeader(content, table, pageTitle)
     if (!headerText.length && !isInfobox(table)) {
       continue
     }
