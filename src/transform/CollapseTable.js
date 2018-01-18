@@ -5,6 +5,13 @@ import elementUtilities from './ElementUtilities'
 const SECTION_TOGGLED_EVENT_TYPE = 'section-toggled'
 
 /**
+ * Determine if we want to extract text from this header.
+ * @param {!Element} header
+ * @return {!boolean}
+ */
+const isHeaderEligible = header => Polyfill.querySelectorAll(header, 'a').length < 3
+
+/**
  * Extracts header text.
  * @param {!Document} document
  * @param {!Element} header
@@ -35,8 +42,7 @@ const getTableHeaderTextArray = (document, element, pageTitle) => {
   const headers = Polyfill.querySelectorAll(element, 'th')
   for (let i = 0; i < headers.length; ++i) {
     const header = headers[i]
-    const anchors = Polyfill.querySelectorAll(header, 'a')
-    if (anchors.length < 3) {
+    if (isHeaderEligible(header)) {
       const headerText = extractHeaderText(document, header)
       // Also ignore it if it's identical to the page title.
       if ((headerText && headerText.length) > 0
