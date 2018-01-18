@@ -168,7 +168,7 @@ const newCaption = (title, headerText) => {
 
 /**
  * @param {!Window} window
- * @param {!Element} content
+ * @param {!Document} document
  * @param {?string} pageTitle
  * @param {?boolean} isMainPage
  * @param {?boolean} isInitiallyCollapsed
@@ -178,11 +178,11 @@ const newCaption = (title, headerText) => {
  * @param {?FooterDivClickCallback} footerDivClickCallback
  * @return {void}
  */
-const adjustTables = (window, content, pageTitle, isMainPage, isInitiallyCollapsed,
+const adjustTables = (window, document, pageTitle, isMainPage, isInitiallyCollapsed,
   infoboxTitle, otherTitle, footerTitle, footerDivClickCallback) => {
   if (isMainPage) { return }
 
-  const tables = content.querySelectorAll('table')
+  const tables = document.querySelectorAll('table')
   for (let i = 0; i < tables.length; ++i) {
     const table = tables[i]
 
@@ -192,7 +192,7 @@ const adjustTables = (window, content, pageTitle, isMainPage, isInitiallyCollaps
     }
 
     // todo: this is actually an array
-    const headerText = getTableHeader(content, table, pageTitle)
+    const headerText = getTableHeader(document, table, pageTitle)
     if (!headerText.length && !isInfobox(table)) {
       continue
     }
@@ -200,7 +200,7 @@ const adjustTables = (window, content, pageTitle, isMainPage, isInitiallyCollaps
 
     // create the container div that will contain both the original table
     // and the collapsed version.
-    const containerDiv = window.document.createElement('div')
+    const containerDiv = document.createElement('div')
     containerDiv.className = 'pagelib_collapse_table_container'
     table.parentNode.insertBefore(containerDiv, table)
     table.parentNode.removeChild(table)
@@ -210,10 +210,10 @@ const adjustTables = (window, content, pageTitle, isMainPage, isInitiallyCollaps
     table.style.marginTop = '0px'
     table.style.marginBottom = '0px'
 
-    const collapsedHeaderDiv = newCollapsedHeaderDiv(window.document, caption)
+    const collapsedHeaderDiv = newCollapsedHeaderDiv(document, caption)
     collapsedHeaderDiv.style.display = 'block'
 
-    const collapsedFooterDiv = newCollapsedFooterDiv(window.document, footerTitle)
+    const collapsedFooterDiv = newCollapsedFooterDiv(document, footerTitle)
     collapsedFooterDiv.style.display = 'none'
 
     // add our stuff to the container
@@ -248,7 +248,7 @@ const adjustTables = (window, content, pageTitle, isMainPage, isInitiallyCollaps
 
 /**
  * @param {!Window} window
- * @param {!Element} content
+ * @param {!Document} document
  * @param {?string} pageTitle
  * @param {?boolean} isMainPage
  * @param {?string} infoboxTitle
@@ -257,9 +257,9 @@ const adjustTables = (window, content, pageTitle, isMainPage, isInitiallyCollaps
  * @param {?FooterDivClickCallback} footerDivClickCallback
  * @return {void}
  */
-const collapseTables = (window, content, pageTitle, isMainPage, infoboxTitle, otherTitle,
+const collapseTables = (window, document, pageTitle, isMainPage, infoboxTitle, otherTitle,
   footerTitle, footerDivClickCallback) => {
-  adjustTables(window, content, pageTitle, isMainPage, true, infoboxTitle, otherTitle,
+  adjustTables(window, document, pageTitle, isMainPage, true, infoboxTitle, otherTitle,
     footerTitle, footerDivClickCallback)
 }
 
