@@ -202,7 +202,7 @@ const newCaptionFragment = (document, title, headerText) => {
 /**
  * @param {!Window} window
  * @param {!Document} document
- * @param {?string} pageTitle
+ * @param {?string} pageTitle use title for this not `display title` (which can contain tags)
  * @param {?boolean} isMainPage
  * @param {?boolean} isInitiallyCollapsed
  * @param {?string} infoboxTitle
@@ -282,7 +282,7 @@ const adjustTables = (window, document, pageTitle, isMainPage, isInitiallyCollap
 /**
  * @param {!Window} window
  * @param {!Document} document
- * @param {?string} pageTitle
+ * @param {?string} pageTitle use title for this not `display title` (which can contain tags)
  * @param {?boolean} isMainPage
  * @param {?string} infoboxTitle
  * @param {?string} otherTitle
