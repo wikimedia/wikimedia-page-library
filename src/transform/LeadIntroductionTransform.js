@@ -1,5 +1,7 @@
 import Polyfill from './Polyfill'
 
+const ELEMENT_NODE = 1
+
 /**
  * Determine if paragraph is the one we are interested in.
  * @param  {!HTMLParagraphElement}  paragraphElement
@@ -35,7 +37,7 @@ const extractLeadIntroductionNodes = eligibleParagraph => {
   do {
     introNodes.push(node)
     node = node.nextSibling
-  } while (node && !(node.nodeType === 1 && node.tagName === 'P'))
+  } while (node && !(node.nodeType === ELEMENT_NODE && node.tagName === 'P'))
   return introNodes
 }
 
