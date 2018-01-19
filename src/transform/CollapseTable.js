@@ -15,7 +15,7 @@ const isHeaderEligible = header => Polyfill.querySelectorAll(header, 'a').length
 
 /**
  * Determine eligibility of extracted text.
- * @param {!string} headerText
+ * @param {?string} headerText
  * @param {?string} pageTitle
  * @return {!boolean}
  */
