@@ -3,6 +3,8 @@ import Polyfill from './Polyfill'
 import elementUtilities from './ElementUtilities'
 
 const SECTION_TOGGLED_EVENT_TYPE = 'section-toggled'
+const ELEMENT_NODE = 1
+const TEXT_NODE = 3
 
 /**
  * Determine if we want to extract text from this header.
@@ -21,6 +23,26 @@ const isHeaderTextEligible =
   (headerText, pageTitle) => headerText && headerText !== pageTitle
 
 /**
+ * Determines whether a node has text which is non-comment, non-whitespace and non-zero length.
+ * Needed because some table headers have multiple text bearing child nodes and we need a way to
+ * find the first one. The following articles are examples:
+ *   'enwiki > Ramon Magsaysay High School, Manila'
+ *   'dewiki > Hornburg (Mansfelder Land)'
+ * @param  {!node} node
+ * @return {!boolean}
+ */
+const nodeHasNonWhitespaceTextContent = node => {
+  if (node.nodeType === TEXT_NODE || node.nodeType === ELEMENT_NODE) {
+    const text = node.textContent
+    if (!text) {
+      return false
+    }
+    return text.trim().length > 0
+  }
+  return false
+}
+
+/**
  * Extracts any header text determined to be eligible.
  * @param {!Document} document
  * @param {!Element} header
@@ -28,14 +50,22 @@ const isHeaderTextEligible =
  * @return {?string}
  */
 const extractEligibleHeaderText = (document, header, pageTitle) => {
-  if (!isHeaderEligible(header)) {
+  if (!isHeaderEligible(header) || !header.childNodes) {
     return null
   }
+
+  const firstHeaderChildNodeWithTextContent = Array.prototype.slice.call(header.childNodes)
+    .find(nodeHasNonWhitespaceTextContent)
+
+  if (!firstHeaderChildNodeWithTextContent) {
+    return null
+  }
+
   // Clone header into fragment. This is done so we can remove some elements we don't want
   // represented when "textContent" is used. Because we've cloned the header into a fragment, we are
   // free to strip out anything we want without worrying about affecting the visible document.
   const fragment = document.createDocumentFragment()
-  fragment.appendChild(header.cloneNode(true))
+  fragment.appendChild(firstHeaderChildNodeWithTextContent.cloneNode(true))
   Polyfill.querySelectorAll(fragment, '.geo, .coordinates, sup.reference')
     .forEach(el => el.remove())
 
@@ -335,6 +365,7 @@ export default {
     isInfobox,
     newCollapsedHeaderDiv,
     newCollapsedFooterDiv,
-    newCaptionFragment
+    newCaptionFragment,
+    nodeHasNonWhitespaceTextContent
   }
 }

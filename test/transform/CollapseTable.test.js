@@ -4,6 +4,35 @@ import pagelib from '../../build/wikimedia-page-library-transform'
 
 describe('CollapseTable', () => {
 
+  describe('nodeHasNonWhitespaceTextContent()', () => {
+    const nodeHasNonWhitespaceTextContent =
+      pagelib.CollapseTable.test.nodeHasNonWhitespaceTextContent
+    it('node with only comment is rejected', () => {
+      const doc = domino.createDocument('<table><tr><th><!--Comment--></th></tr></table>')
+      const header = doc.querySelector('th')
+      const foundText = nodeHasNonWhitespaceTextContent(header)
+      assert.equal(foundText, false)
+    })
+    it('node with only whitespace is rejected', () => {
+      const doc = domino.createDocument('<table><tr><th>   </th></tr></table>')
+      const header = doc.querySelector('th')
+      const foundText = nodeHasNonWhitespaceTextContent(header)
+      assert.equal(foundText, false)
+    })
+    it('node with only comment and whitespace is rejected', () => {
+      const doc = domino.createDocument('<table><tr><th>   <!--Comment-->   </th></tr></table>')
+      const header = doc.querySelector('th')
+      const foundText = nodeHasNonWhitespaceTextContent(header)
+      assert.equal(foundText, false)
+    })
+    it('node with no text is rejected', () => {
+      const doc = domino.createDocument('<table><tr><th></th></tr></table>')
+      const header = doc.querySelector('th')
+      const foundText = nodeHasNonWhitespaceTextContent(header)
+      assert.equal(foundText, false)
+    })
+  })
+
   describe('isHeaderEligible()', () => {
     const isHeaderEligible = pagelib.CollapseTable.test.isHeaderEligible
     it('when too many links, should not be eligible', () => {
