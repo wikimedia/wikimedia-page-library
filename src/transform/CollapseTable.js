@@ -3,44 +3,21 @@ import Polyfill from './Polyfill'
 import elementUtilities from './ElementUtilities'
 
 const SECTION_TOGGLED_EVENT_TYPE = 'section-toggled'
-const ELEMENT_NODE = 1
-const TEXT_NODE = 3
 
 /**
  * Determine if we want to extract text from this header.
  * @param {!Element} header
  * @return {!boolean}
  */
-const isHeaderEligible = header => Polyfill.querySelectorAll(header, 'a').length < 3
+const isHeaderEligible =
+  header => header.childNodes && Polyfill.querySelectorAll(header, 'a').length < 3
 
 /**
  * Determine eligibility of extracted text.
  * @param {?string} headerText
- * @param {?string} pageTitle
  * @return {!boolean}
  */
-const isHeaderTextEligible =
-  (headerText, pageTitle) => headerText && headerText !== pageTitle
-
-/**
- * Determines whether a node has text which is non-comment, non-whitespace and non-zero length.
- * Needed because some table headers have multiple text bearing child nodes and we need a way to
- * find the first one. The following articles are examples:
- *   'enwiki > Ramon Magsaysay High School, Manila'
- *   'dewiki > Hornburg (Mansfelder Land)'
- * @param  {!node} node
- * @return {!boolean}
- */
-const nodeHasNonWhitespaceTextContent = node => {
-  if (node.nodeType === TEXT_NODE || node.nodeType === ELEMENT_NODE) {
-    const text = node.textContent
-    if (!text) {
-      return false
-    }
-    return text.trim().length > 0
-  }
-  return false
-}
+const isHeaderTextEligible = headerText => headerText && headerText.trim().length > 0
 
 /**
  * Extracts any header text determined to be eligible.
@@ -50,14 +27,7 @@ const nodeHasNonWhitespaceTextContent = node => {
  * @return {?string}
  */
 const extractEligibleHeaderText = (document, header, pageTitle) => {
-  if (!isHeaderEligible(header) || !header.childNodes) {
-    return null
-  }
-
-  const firstHeaderChildNodeWithTextContent = Array.prototype.slice.call(header.childNodes)
-    .find(nodeHasNonWhitespaceTextContent)
-
-  if (!firstHeaderChildNodeWithTextContent) {
+  if (!isHeaderEligible(header)) {
     return null
   }
 
@@ -65,13 +35,24 @@ const extractEligibleHeaderText = (document, header, pageTitle) => {
   // represented when "textContent" is used. Because we've cloned the header into a fragment, we are
   // free to strip out anything we want without worrying about affecting the visible document.
   const fragment = document.createDocumentFragment()
-  fragment.appendChild(firstHeaderChildNodeWithTextContent.cloneNode(true))
-  Polyfill.querySelectorAll(fragment, '.geo, .coordinates, sup.reference')
+  fragment.appendChild(header.cloneNode(true))
+  const fragmentHeader = fragment.querySelector('th')
+
+  Polyfill.querySelectorAll(fragmentHeader, '.geo, .coordinates, sup.reference')
     .forEach(el => el.remove())
 
-  const headerText = fragment.textContent ? fragment.textContent.trim() : null
-  if (isHeaderTextEligible(headerText, pageTitle)) {
-    return headerText
+  if (pageTitle) {
+    // eslint-disable-next-line require-jsdoc
+    const nodeTextContentStartsWithPageTitle = node =>
+      pageTitle.indexOf(node.textContent.trim()) === 0
+    Array.prototype.slice.call(fragmentHeader.childNodes)
+      .filter(nodeTextContentStartsWithPageTitle)
+      .forEach(node => node.remove())
+  }
+
+  const headerText = fragmentHeader.textContent
+  if (isHeaderTextEligible(headerText)) {
+    return headerText.trim()
   }
   return null
 }
@@ -365,7 +346,6 @@ export default {
     isInfobox,
     newCollapsedHeaderDiv,
     newCollapsedFooterDiv,
-    newCaptionFragment,
-    nodeHasNonWhitespaceTextContent
+    newCaptionFragment
   }
 }

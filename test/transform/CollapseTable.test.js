@@ -4,35 +4,6 @@ import pagelib from '../../build/wikimedia-page-library-transform'
 
 describe('CollapseTable', () => {
 
-  describe('nodeHasNonWhitespaceTextContent()', () => {
-    const nodeHasNonWhitespaceTextContent =
-      pagelib.CollapseTable.test.nodeHasNonWhitespaceTextContent
-    it('node with only comment is rejected', () => {
-      const doc = domino.createDocument('<table><tr><th><!--Comment--></th></tr></table>')
-      const header = doc.querySelector('th')
-      const foundText = nodeHasNonWhitespaceTextContent(header)
-      assert.equal(foundText, false)
-    })
-    it('node with only whitespace is rejected', () => {
-      const doc = domino.createDocument('<table><tr><th>   </th></tr></table>')
-      const header = doc.querySelector('th')
-      const foundText = nodeHasNonWhitespaceTextContent(header)
-      assert.equal(foundText, false)
-    })
-    it('node with only comment and whitespace is rejected', () => {
-      const doc = domino.createDocument('<table><tr><th>   <!--Comment-->   </th></tr></table>')
-      const header = doc.querySelector('th')
-      const foundText = nodeHasNonWhitespaceTextContent(header)
-      assert.equal(foundText, false)
-    })
-    it('node with no text is rejected', () => {
-      const doc = domino.createDocument('<table><tr><th></th></tr></table>')
-      const header = doc.querySelector('th')
-      const foundText = nodeHasNonWhitespaceTextContent(header)
-      assert.equal(foundText, false)
-    })
-  })
-
   describe('isHeaderEligible()', () => {
     const isHeaderEligible = pagelib.CollapseTable.test.isHeaderEligible
     it('when too many links, should not be eligible', () => {
@@ -65,23 +36,41 @@ describe('CollapseTable', () => {
 
   describe('isHeaderTextEligible()', () => {
     const isHeaderTextEligible = pagelib.CollapseTable.test.isHeaderTextEligible
-    it('text equal to page title is rejected', () => {
-      const doc = domino.createDocument('<table><tr><th>SampleTitle</th></tr></table>')
-      const headerText = doc.querySelector('th').textContent
-      const isEligible = isHeaderTextEligible(headerText, 'SampleTitle')
-      assert.equal(isEligible, false)
-    })
     it('undefined text is rejected', () => {
       const doc = domino.createDocument('<table><tr><th></th></tr></table>')
       const headerText = doc.querySelector('th').textContent
-      const isEligible = isHeaderTextEligible(headerText, 'SampleTitle')
+      const isEligible = isHeaderTextEligible(headerText)
       assert.equal(isEligible, false)
     })
     it('actual text not equal to page title is accepted', () => {
       const doc = domino.createDocument('<table><tr><th>Some text</th></tr></table>')
       const headerText = doc.querySelector('th').textContent
-      const isEligible = isHeaderTextEligible(headerText, 'SampleTitle')
+      const isEligible = isHeaderTextEligible(headerText)
       assert.equal(isEligible, true)
+    })
+    it('node with only comment is rejected', () => {
+      const doc = domino.createDocument('<table><tr><th><!--Comment--></th></tr></table>')
+      const headerText = doc.querySelector('th').textContent
+      const isEligible = isHeaderTextEligible(headerText)
+      assert.equal(isEligible, false)
+    })
+    it('node with only whitespace is rejected', () => {
+      const doc = domino.createDocument('<table><tr><th>   </th></tr></table>')
+      const headerText = doc.querySelector('th').textContent
+      const isEligible = isHeaderTextEligible(headerText)
+      assert.equal(isEligible, false)
+    })
+    it('node with only comment and whitespace is rejected', () => {
+      const doc = domino.createDocument('<table><tr><th>   <!--Comment-->   </th></tr></table>')
+      const headerText = doc.querySelector('th').textContent
+      const isEligible = isHeaderTextEligible(headerText)
+      assert.equal(isEligible, false)
+    })
+    it('node with no text is rejected', () => {
+      const doc = domino.createDocument('<table><tr><th></th></tr></table>')
+      const headerText = doc.querySelector('th').textContent
+      const isEligible = isHeaderTextEligible(headerText)
+      assert.equal(isEligible, false)
     })
   })
 
@@ -102,6 +91,12 @@ describe('CollapseTable', () => {
     })
     it('whitespace header returns null', () => {
       const doc = domino.createDocument('<table><tr><th>    </th></tr></table>')
+      const header = doc.querySelector('th')
+      const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
+      assert.equal(text, null)
+    })
+    it('text equal to page title returns null', () => {
+      const doc = domino.createDocument('<table><tr><th>SampleTitle</th></tr></table>')
       const header = doc.querySelector('th')
       const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
       assert.equal(text, null)
@@ -128,6 +123,24 @@ describe('CollapseTable', () => {
       const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
       assert.equal(text, 'Some text')
     })
+    it('extracted text skips element if page title starts with element textContent', () => {
+      // 'dewiki > Hornburg (Mansfelder Land)'
+      // 'enwiki > Ramon Magsaysay High School, Manila'
+      const doc =
+        domino.createDocument('<table><tr><th>SampleTitle <i>Some text</i></th></tr></table>')
+      const header = doc.querySelector('th')
+      const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
+      assert.equal(text, 'Some text')
+    })
+    it('extracted text does not skip element if page title does not start with element textContent',
+      () => {
+        // 'enwiki > Barack Obama'
+        const doc =
+          domino.createDocument('<table><tr><th>44th <a>President</a></th></tr></table>')
+        const header = doc.querySelector('th')
+        const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
+        assert.equal(text, '44th President')
+      })
   })
 
   describe('getTableHeaderTextArray()', () => {
