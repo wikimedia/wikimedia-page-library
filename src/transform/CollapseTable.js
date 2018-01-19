@@ -71,7 +71,7 @@ const getTableHeaderTextArray = (document, element, pageTitle) => {
   const headers = Polyfill.querySelectorAll(element, 'th')
   for (let i = 0; i < headers.length; ++i) {
     const headerText = extractEligibleHeaderText(document, headers[i], pageTitle)
-    if (headerText) {
+    if (headerText && headerTextArray.indexOf(headerText) === -1) {
       headerTextArray.push(headerText)
     }
     // 'newCaptionFragment' only ever uses the first 2 items.

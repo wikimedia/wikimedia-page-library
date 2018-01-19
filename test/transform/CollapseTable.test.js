@@ -172,6 +172,12 @@ describe('CollapseTable', () => {
           assert.deepEqual(actual, [])
         })
 
+        it('and two headers have identical text', () => {
+          const doc = domino.createDocument('<table><tr><th>type</th><th>type</th></tr></table>')
+          const actual = getTableHeaderTextArray(doc, doc.querySelector('table'), 'pageTitle')
+          assert.deepEqual(actual, ['type'])
+        })
+
         describe('and link is nonempty', () => {
           it('and doesn\'t match page title, should find header', () => {
             const doc = domino.createDocument('<table><tr><th><a>text</a></th></tr></table>')
