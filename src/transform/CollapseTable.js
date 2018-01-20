@@ -42,9 +42,12 @@ const extractEligibleHeaderText = (document, header, pageTitle) => {
     .forEach(el => el.remove())
 
   if (pageTitle) {
-    // eslint-disable-next-line require-jsdoc
-    const nodeTextContentStartsWithPageTitle = node =>
-      pageTitle.indexOf(node.textContent.trim()) === 0
+    const nodeTextContentStartsWithPageTitle = node => { // eslint-disable-line require-jsdoc
+      // Make the comparison ignore whitespace, punctuation and dashes, etc.
+      const alphaNumericTitle = pageTitle.replace(/[\W_]+/g, '')
+      const alphaNumericText = node.textContent.replace(/[\W_]+/g, '')
+      return alphaNumericTitle.indexOf(alphaNumericText) === 0
+    }
     Array.prototype.slice.call(fragmentHeader.childNodes)
       .filter(nodeTextContentStartsWithPageTitle)
       .forEach(node => node.remove())

@@ -101,6 +101,13 @@ describe('CollapseTable', () => {
       const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
       assert.equal(text, null)
     })
+    it('text equal to page title returns null ignoring non-alphaNumeric characters', () => {
+      // 'enwiki > Brussels-Chapel railway station'
+      const doc = domino.createDocument('<table><tr><th>SampleTitle</th></tr></table>')
+      const header = doc.querySelector('th')
+      const text = extractEligibleHeaderText(doc, header, 'Sample-Title')
+      assert.equal(text, null)
+    })
     it('extracted text excludes ref links', () => {
       const doc = domino.createDocument(
         '<table><tr><th>Some text <sup class=reference>[1]</sup></th></tr></table>'
