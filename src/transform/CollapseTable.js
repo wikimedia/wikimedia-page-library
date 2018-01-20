@@ -19,8 +19,9 @@ const isHeaderEligible =
  * @param {?string} headerText
  * @return {!boolean}
  */
-const isHeaderTextEligible = headerText =>
-  headerText && headerText.trim().length > 0 && headerText.replace(/[\s0-9]/g, '').length > 0
+const isHeaderTextEligible = headerText => !(
+  !headerText || headerText.trim().length === 0 || headerText.replace(/[\s0-9]/g, '').length === 0
+)
 
 /**
  * Is node's textContent too similar to pageTitle. Checks if the node's textContent is found at the
