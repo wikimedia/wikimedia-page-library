@@ -3,6 +3,8 @@ import Polyfill from './Polyfill'
 import elementUtilities from './ElementUtilities'
 
 const SECTION_TOGGLED_EVENT_TYPE = 'section-toggled'
+const ELEMENT_NODE = 1
+const TEXT_NODE = 3
 
 /**
  * Determine if we want to extract text from this header.
@@ -38,7 +40,7 @@ const extractEligibleHeaderText = (document, header, pageTitle) => {
   fragment.appendChild(header.cloneNode(true))
   const fragmentHeader = fragment.querySelector('th')
 
-  Polyfill.querySelectorAll(fragmentHeader, '.geo, .coordinates, sup.reference')
+  Polyfill.querySelectorAll(fragmentHeader, '.geo, .coordinates, sup.reference, li')
     .forEach(el => el.remove())
 
   if (pageTitle) {
@@ -48,7 +50,12 @@ const extractEligibleHeaderText = (document, header, pageTitle) => {
       const alphaNumericText = node.textContent.replace(/[\W_]+/g, '')
       return alphaNumericTitle.indexOf(alphaNumericText) === 0
     }
+    // eslint-disable-next-line require-jsdoc
+    const nodeTypeIsElementOrText = node =>
+      node.nodeType === ELEMENT_NODE || node.nodeType === TEXT_NODE
+
     Array.prototype.slice.call(fragmentHeader.childNodes)
+      .filter(nodeTypeIsElementOrText)
       .filter(nodeTextContentStartsWithPageTitle)
       .forEach(node => node.remove())
   }
