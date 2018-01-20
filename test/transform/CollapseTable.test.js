@@ -183,6 +183,38 @@ describe('CollapseTable', () => {
       })
   })
 
+  describe('nodeTextContentSimilarToPageTitle()', () => {
+    const nodeTextContentSimilarToPageTitle =
+      pagelib.CollapseTable.test.nodeTextContentSimilarToPageTitle
+
+    describe('TH node textContent and page title considered similar', () => {
+      describe('when page title starts with textContent', () => {
+        // 'enwiki > Brussels-Chapel railway station'
+        it('exactly', () => {
+          const doc = domino.createDocument('<table><tr><th>Brussels</th></tr></table>')
+          const th = doc.querySelector('th')
+          const pageTitle = 'Brussels Railway'
+          const isSimilar = nodeTextContentSimilarToPageTitle(th, pageTitle)
+          assert.equal(isSimilar, true)
+        })
+        it('and whitespace ignored', () => {
+          const doc = domino.createDocument('<table><tr><th> Brussels </th></tr></table>')
+          const th = doc.querySelector('th')
+          const pageTitle = 'Brussels Railway'
+          const isSimilar = nodeTextContentSimilarToPageTitle(th, pageTitle)
+          assert.equal(isSimilar, true)
+        })
+        it('and non-alphaNumeric text ignored', () => {
+          const doc = domino.createDocument('<table><tr><th>Brussels</th></tr></table>')
+          const th = doc.querySelector('th')
+          const pageTitle = 'Brussels-Railway'
+          const isSimilar = nodeTextContentSimilarToPageTitle(th, pageTitle)
+          assert.equal(isSimilar, true)
+        })
+      })
+    })
+  })
+
   describe('getTableHeaderTextArray()', () => {
     const getTableHeaderTextArray = pagelib.CollapseTable.test.getTableHeaderTextArray
 

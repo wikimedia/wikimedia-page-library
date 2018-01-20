@@ -22,6 +22,27 @@ const isHeaderEligible =
 const isHeaderTextEligible = headerText => headerText && headerText.trim().length > 0
 
 /**
+ * Is node's textContent too similar to pageTitle. Checks if the node's textContent is found at the
+ * beginning of pageTitle, but the comparison ignores whitespace, punctuation and dashes, etc.
+ * @param  {!node} node
+ * @param  {!string} pageTitle
+ * @return {[type]}
+ */
+const nodeTextContentSimilarToPageTitle = (node, pageTitle) => {
+  const alphaNumericTitle = pageTitle.replace(/[\W_]+/g, '')
+  const alphaNumericText = node.textContent.replace(/[\W_]+/g, '')
+  return alphaNumericTitle.indexOf(alphaNumericText) === 0
+}
+
+/**
+ * Determines if a node is an element or text node.
+ * @param  {!node} node
+ * @return {!boolean}
+ */
+const nodeTypeIsElementOrText = node =>
+  node.nodeType === ELEMENT_NODE || node.nodeType === TEXT_NODE
+
+/**
  * Extracts any header text determined to be eligible.
  * @param {!Document} document
  * @param {!Element} header
@@ -32,7 +53,6 @@ const extractEligibleHeaderText = (document, header, pageTitle) => {
   if (!isHeaderEligible(header)) {
     return null
   }
-
   // Clone header into fragment. This is done so we can remove some elements we don't want
   // represented when "textContent" is used. Because we've cloned the header into a fragment, we are
   // free to strip out anything we want without worrying about affecting the visible document.
@@ -44,19 +64,9 @@ const extractEligibleHeaderText = (document, header, pageTitle) => {
     .forEach(el => el.remove())
 
   if (pageTitle) {
-    const nodeTextContentStartsWithPageTitle = node => { // eslint-disable-line require-jsdoc
-      // Make the comparison ignore whitespace, punctuation and dashes, etc.
-      const alphaNumericTitle = pageTitle.replace(/[\W_]+/g, '')
-      const alphaNumericText = node.textContent.replace(/[\W_]+/g, '')
-      return alphaNumericTitle.indexOf(alphaNumericText) === 0
-    }
-    // eslint-disable-next-line require-jsdoc
-    const nodeTypeIsElementOrText = node =>
-      node.nodeType === ELEMENT_NODE || node.nodeType === TEXT_NODE
-
     Array.prototype.slice.call(fragmentHeader.childNodes)
       .filter(nodeTypeIsElementOrText)
-      .filter(nodeTextContentStartsWithPageTitle)
+      .filter(node => nodeTextContentSimilarToPageTitle(node, pageTitle))
       .forEach(node => node.remove())
   }
 
@@ -356,6 +366,7 @@ export default {
     isInfobox,
     newCollapsedHeaderDiv,
     newCollapsedFooterDiv,
-    newCaptionFragment
+    newCaptionFragment,
+    nodeTextContentSimilarToPageTitle
   }
 }
