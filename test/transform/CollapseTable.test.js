@@ -72,6 +72,19 @@ describe('CollapseTable', () => {
       const isEligible = isHeaderTextEligible(headerText)
       assert.equal(isEligible, false)
     })
+    it('node with only numbers is rejected', () => {
+      // 'enwiki > Lyublinsko-Dmitrovskaya line'
+      const doc = domino.createDocument('<table><tr><th>123</th></tr></table>')
+      const headerText = doc.querySelector('th').textContent
+      const isEligible = isHeaderTextEligible(headerText)
+      assert.equal(isEligible, false)
+    })
+    it('node with only numbers and whitespace is rejected', () => {
+      const doc = domino.createDocument('<table><tr><th> 123 </th></tr></table>')
+      const headerText = doc.querySelector('th').textContent
+      const isEligible = isHeaderTextEligible(headerText)
+      assert.equal(isEligible, false)
+    })
   })
 
   describe('extractEligibleHeaderText()', () => {
