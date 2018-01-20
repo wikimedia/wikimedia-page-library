@@ -34,6 +34,24 @@ describe('CollapseTable', () => {
     })
   })
 
+  describe('stringWithNormalizeSpaces()', () => {
+    // 'enwiki > Bonar Bridge'
+    const stringWithNormalizeSpaces = pagelib.CollapseTable.test.stringWithNormalizeSpaces
+    it('leading and trailing whitespace is trimmed', () => {
+      assert.equal(stringWithNormalizeSpaces(' hi '), 'hi')
+    })
+    it('non-leading/trailing non-breaking spaces converted to breaking spaces', () => {
+      assert.equal(stringWithNormalizeSpaces(
+        domino.createDocument('hi&nbsp;hi').childNodes[0].textContent
+      ), 'hi hi')
+    })
+    it('leading and trailing non-breaking spaces trimmed', () => {
+      assert.equal(stringWithNormalizeSpaces(
+        domino.createDocument('&nbsp;hi hi&nbsp;').childNodes[0].textContent
+      ), 'hi hi')
+    })
+  })
+
   describe('isHeaderTextEligible()', () => {
     const isHeaderTextEligible = pagelib.CollapseTable.test.isHeaderTextEligible
     it('undefined text is rejected', () => {

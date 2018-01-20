@@ -28,7 +28,7 @@ const isHeaderTextEligible = headerText => !(
  * beginning of pageTitle, but the comparison ignores whitespace, punctuation and dashes, etc.
  * @param  {!node} node
  * @param  {!string} pageTitle
- * @return {[type]}
+ * @return {!boolean}
  */
 const nodeTextContentSimilarToPageTitle = (node, pageTitle) => {
   const alphaNumericTitle = pageTitle.replace(/[\W_]+/g, '')
@@ -43,6 +43,14 @@ const nodeTextContentSimilarToPageTitle = (node, pageTitle) => {
  */
 const nodeTypeIsElementOrText = node =>
   node.nodeType === ELEMENT_NODE || node.nodeType === TEXT_NODE
+
+/**
+ * Removes leading and trailing whitespace and normalizes other spaces - i.e. ensures non-breaking
+ * spaces are replaced with regular breaking spaces. 
+ * @param  {!string} string
+ * @return {!string}
+ */
+const stringWithNormalizeSpaces = string => string.trim().replace(/\s/g, ' ')
 
 /**
  * Extracts any header text determined to be eligible.
@@ -74,7 +82,7 @@ const extractEligibleHeaderText = (document, header, pageTitle) => {
 
   const headerText = fragmentHeader.textContent
   if (isHeaderTextEligible(headerText)) {
-    return headerText.trim()
+    return stringWithNormalizeSpaces(headerText)
   }
   return null
 }
@@ -369,6 +377,7 @@ export default {
     newCollapsedHeaderDiv,
     newCollapsedFooterDiv,
     newCaptionFragment,
-    nodeTextContentSimilarToPageTitle
+    nodeTextContentSimilarToPageTitle,
+    stringWithNormalizeSpaces
   }
 }
