@@ -50,7 +50,7 @@ const nodeTypeIsElementOrText = node =>
  * @param  {!string} string
  * @return {!string}
  */
-const stringWithNormalizeSpaces = string => string.trim().replace(/\s/g, ' ')
+const stringWithNormalizedSpaces = string => string.trim().replace(/\s/g, ' ')
 
 /**
  * Extracts any header text determined to be eligible.
@@ -82,7 +82,7 @@ const extractEligibleHeaderText = (document, header, pageTitle) => {
 
   const headerText = fragmentHeader.textContent
   if (isHeaderTextEligible(headerText)) {
-    return stringWithNormalizeSpaces(headerText)
+    return stringWithNormalizedSpaces(headerText)
   }
   return null
 }
@@ -378,6 +378,6 @@ export default {
     newCollapsedFooterDiv,
     newCaptionFragment,
     nodeTextContentSimilarToPageTitle,
-    stringWithNormalizeSpaces
+    stringWithNormalizedSpaces
   }
 }

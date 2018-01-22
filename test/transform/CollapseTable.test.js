@@ -34,19 +34,19 @@ describe('CollapseTable', () => {
     })
   })
 
-  describe('stringWithNormalizeSpaces()', () => {
+  describe('stringWithNormalizedSpaces()', () => {
     // 'enwiki > Bonar Bridge'
-    const stringWithNormalizeSpaces = pagelib.CollapseTable.test.stringWithNormalizeSpaces
+    const stringWithNormalizedSpaces = pagelib.CollapseTable.test.stringWithNormalizedSpaces
     it('leading and trailing whitespace is trimmed', () => {
-      assert.equal(stringWithNormalizeSpaces(' hi '), 'hi')
+      assert.equal(stringWithNormalizedSpaces(' hi '), 'hi')
     })
     it('non-leading/trailing non-breaking spaces converted to breaking spaces', () => {
-      assert.equal(stringWithNormalizeSpaces(
+      assert.equal(stringWithNormalizedSpaces(
         domino.createDocument('hi&nbsp;hi').childNodes[0].textContent
       ), 'hi hi')
     })
     it('leading and trailing non-breaking spaces trimmed', () => {
-      assert.equal(stringWithNormalizeSpaces(
+      assert.equal(stringWithNormalizedSpaces(
         domino.createDocument('&nbsp;hi hi&nbsp;').childNodes[0].textContent
       ), 'hi hi')
     })
