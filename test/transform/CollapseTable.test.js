@@ -132,13 +132,13 @@ describe('CollapseTable', () => {
       const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
       assert.equal(text, null)
     })
-    it('text equal to page title returns null ignoring non-alphaNumeric characters', () => {
-      // 'enwiki > Brussels-Chapel railway station'
-      const doc = domino.createDocument('<table><tr><th>SampleTitle</th></tr></table>')
-      const header = doc.querySelector('th')
-      const text = extractEligibleHeaderText(doc, header, 'Sample-Title')
-      assert.equal(text, null)
-    })
+    // it('text equal to page title returns null ignoring non-alphaNumeric characters', () => {
+    //   // 'enwiki > Brussels-Chapel railway station'
+    //   const doc = domino.createDocument('<table><tr><th>SampleTitle</th></tr></table>')
+    //   const header = doc.querySelector('th')
+    //   const text = extractEligibleHeaderText(doc, header, 'Sample-Title')
+    //   assert.equal(text, null)
+    // })
     it('extracted text excludes ref links', () => {
       const doc = domino.createDocument(
         '<table><tr><th>Some text <sup class=reference>[1]</sup></th></tr></table>'
@@ -214,34 +214,75 @@ describe('CollapseTable', () => {
       })
   })
 
-  describe('nodeTextContentSimilarToPageTitle()', () => {
-    const nodeTextContentSimilarToPageTitle =
-      pagelib.CollapseTable.test.nodeTextContentSimilarToPageTitle
+  describe('isNodeTextContentSimilarToPageTitle()', () => {
+    const isNodeTextContentSimilarToPageTitle =
+      pagelib.CollapseTable.test.isNodeTextContentSimilarToPageTitle
 
     describe('TH node textContent and page title considered similar', () => {
       describe('when page title starts with textContent', () => {
+        it('full exact match', () => {
+          const doc = domino.createDocument('<table><tr><th>Brussels</th></tr></table>')
+          const th = doc.querySelector('th')
+          const pageTitle = 'Brussels'
+          const isSimilar = isNodeTextContentSimilarToPageTitle(th, pageTitle)
+          assert.equal(isSimilar, true)
+        })
         // 'enwiki > Brussels-Chapel railway station'
-        it('exactly', () => {
+        // 'enwiki > Matthew H. Clark'
+        // 'enwiki > Adolf Ehrnrooth'
+        it('starting exact match', () => {
           const doc = domino.createDocument('<table><tr><th>Brussels</th></tr></table>')
           const th = doc.querySelector('th')
           const pageTitle = 'Brussels Railway'
-          const isSimilar = nodeTextContentSimilarToPageTitle(th, pageTitle)
+          const isSimilar = isNodeTextContentSimilarToPageTitle(th, pageTitle)
           assert.equal(isSimilar, true)
         })
         it('and whitespace ignored', () => {
           const doc = domino.createDocument('<table><tr><th> Brussels </th></tr></table>')
           const th = doc.querySelector('th')
           const pageTitle = 'Brussels Railway'
-          const isSimilar = nodeTextContentSimilarToPageTitle(th, pageTitle)
+          const isSimilar = isNodeTextContentSimilarToPageTitle(th, pageTitle)
           assert.equal(isSimilar, true)
         })
         it('and non-alphaNumeric text ignored', () => {
           const doc = domino.createDocument('<table><tr><th>Brussels</th></tr></table>')
           const th = doc.querySelector('th')
           const pageTitle = 'Brussels-Railway'
-          const isSimilar = nodeTextContentSimilarToPageTitle(th, pageTitle)
+          const isSimilar = isNodeTextContentSimilarToPageTitle(th, pageTitle)
           assert.equal(isSimilar, true)
         })
+      })
+    })
+  })
+
+  describe('firstWordFromString()', () => {
+    const firstWordFromString = pagelib.CollapseTable.test.firstWordFromString
+    describe('gets first word', () => {
+      it('from sentence', () => {
+        assert.equal(firstWordFromString('food is good'), 'food')
+      })
+      it('from word', () => {
+        assert.equal(firstWordFromString('food'), 'food')
+      })
+      it('from word followed by dash', () => {
+        assert.equal(firstWordFromString('food-'), 'food')
+      })
+      it('from word followed by punctuation', () => {
+        assert.equal(firstWordFromString('food.'), 'food')
+      })
+    })
+    describe('gets null', () => {
+      it('from zero length string', () => {
+        assert.equal(firstWordFromString(''), null)
+      })
+      it('from whitespace string', () => {
+        assert.equal(firstWordFromString(' '), null)
+      })
+      it('from punctuation string', () => {
+        assert.equal(firstWordFromString('.'), null)
+      })
+      it('from dash string', () => {
+        assert.equal(firstWordFromString('-'), null)
       })
     })
   })

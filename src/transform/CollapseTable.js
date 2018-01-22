@@ -24,16 +24,35 @@ const isHeaderTextEligible = headerText => !(
 )
 
 /**
- * Is node's textContent too similar to pageTitle. Checks if the node's textContent is found at the
- * beginning of pageTitle, but the comparison ignores whitespace, punctuation and dashes, etc.
+ * Extracts first word from string. Returns null if for any reason it is unable to do so.
+ * @param  {!string} string
+ * @return {?string}
+ */
+const firstWordFromString = string => {
+  // 'If the global flag (g) is not set, Element zero of the array contains the entire match,
+  // while elements 1 through n contain any submatches.'
+  const matches = string.match(/\b(\w+)\b/) // Only need first match so not using 'g' option.
+  if (!matches || matches.length === 0) {
+    return null
+  }
+  return matches[0]
+}
+
+/**
+ * Is node's textContent too similar to pageTitle. Checks if the first word of the node's
+ * textContent is found at the beginning of pageTitle.
  * @param  {!node} node
  * @param  {!string} pageTitle
  * @return {!boolean}
  */
-const nodeTextContentSimilarToPageTitle = (node, pageTitle) => {
-  const alphaNumericTitle = pageTitle.replace(/[\W_]+/g, '')
-  const alphaNumericText = node.textContent.replace(/[\W_]+/g, '')
-  return alphaNumericTitle.indexOf(alphaNumericText) === 0
+const isNodeTextContentSimilarToPageTitle = (node, pageTitle) => {
+  const firstPageTitleWord = firstWordFromString(pageTitle)
+  const firstNodeTextContentWord = firstWordFromString(node.textContent)
+  // Don't claim similarity if 1st words were not extracted.
+  if (!firstPageTitleWord || !firstNodeTextContentWord) {
+    return false
+  }
+  return firstPageTitleWord.toLowerCase() === firstNodeTextContentWord.toLowerCase()
 }
 
 /**
@@ -76,7 +95,7 @@ const extractEligibleHeaderText = (document, header, pageTitle) => {
   if (pageTitle) {
     Array.prototype.slice.call(fragmentHeader.childNodes)
       .filter(nodeTypeIsElementOrText)
-      .filter(node => nodeTextContentSimilarToPageTitle(node, pageTitle))
+      .filter(node => isNodeTextContentSimilarToPageTitle(node, pageTitle))
       .forEach(node => node.remove())
   }
 
@@ -369,6 +388,7 @@ export default {
   expandCollapsedTableIfItContainsElement,
   test: {
     extractEligibleHeaderText,
+    firstWordFromString,
     getTableHeaderTextArray,
     shouldTableBeCollapsed,
     isHeaderEligible,
@@ -377,7 +397,7 @@ export default {
     newCollapsedHeaderDiv,
     newCollapsedFooterDiv,
     newCaptionFragment,
-    nodeTextContentSimilarToPageTitle,
+    isNodeTextContentSimilarToPageTitle,
     stringWithNormalizedSpaces
   }
 }
