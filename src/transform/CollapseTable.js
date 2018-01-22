@@ -31,8 +31,8 @@ const firstWordFromString = string => {
   // 'If the global flag (g) is not set, Element zero of the array contains the entire match,
   // while elements 1 through n contain any submatches.'
   const matches = string.match(/\w+/) // Only need first match so not using 'g' option.
-  if (!matches || matches.length === 0) {
-    return null
+  if (!matches) {
+    return undefined
   }
   return matches[0]
 }
