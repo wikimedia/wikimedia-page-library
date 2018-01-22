@@ -143,10 +143,10 @@ const getTableHeaderTextArray = (document, element, pageTitle) => {
     const headerText = extractEligibleHeaderText(document, headers[i], pageTitle)
     if (headerText && headerTextArray.indexOf(headerText) === -1) {
       headerTextArray.push(headerText)
-    }
-    // 'newCaptionFragment' only ever uses the first 2 items.
-    if (headerTextArray.length === 2) {
-      break
+      // 'newCaptionFragment' only ever uses the first 2 items.
+      if (headerTextArray.length === 2) {
+        break
+      }
     }
   }
   return headerTextArray
