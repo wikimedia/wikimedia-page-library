@@ -19,9 +19,8 @@ const isHeaderEligible =
  * @param {?string} headerText
  * @return {!boolean}
  */
-const isHeaderTextEligible = headerText => !(
-  !headerText || headerText.trim().length === 0 || headerText.replace(/[\s0-9]/g, '').length === 0
-)
+const isHeaderTextEligible = headerText =>
+  headerText && headerText.replace(/[\s0-9]/g, '').length > 0
 
 /**
  * Extracts first word from string. Returns null if for any reason it is unable to do so.
