@@ -88,7 +88,7 @@ const extractEligibleHeaderText = (document, header, pageTitle) => {
   fragment.appendChild(header.cloneNode(true))
   const fragmentHeader = fragment.querySelector('th')
 
-  Polyfill.querySelectorAll(fragmentHeader, '.geo, .coordinates, sup.reference, li')
+  Polyfill.querySelectorAll(fragmentHeader, '.geo, .coordinates, sup.reference, ol, ul')
     .forEach(el => el.remove())
 
   if (pageTitle) {
