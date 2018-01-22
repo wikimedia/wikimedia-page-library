@@ -107,6 +107,27 @@ const extractEligibleHeaderText = (document, header, pageTitle) => {
 }
 
 /**
+ * Used to sort array of Elements so those containing 'scope' attribute are moved to front of
+ * array. Relative order between 'scope' elements is preserved. Relative order between non 'scope'
+ * elements is preserved.
+ * @param  {!Element} a
+ * @param  {!Element} b
+ * @return {!boolean}
+ */
+const elementScopeComparator = (a, b) => {
+  const aHasScope = a.hasAttribute('scope')
+  const bHasScope = b.hasAttribute('scope')
+  if (aHasScope && bHasScope) {
+    return 0
+  } else if (aHasScope) {
+    return -1
+  } else if (bHasScope) {
+    return 1
+  }
+  return 0
+}
+
+/**
  * Find an array of table header (TH) contents. If there are no TH elements in
  * the table or the header's link matches pageTitle, an empty array is returned.
  * @param {!Document} document
@@ -118,6 +139,7 @@ const extractEligibleHeaderText = (document, header, pageTitle) => {
 const getTableHeaderTextArray = (document, element, pageTitle) => {
   const headerTextArray = []
   const headers = Polyfill.querySelectorAll(element, 'th')
+  headers.sort(elementScopeComparator)
   for (let i = 0; i < headers.length; ++i) {
     const headerText = extractEligibleHeaderText(document, headers[i], pageTitle)
     if (headerText && headerTextArray.indexOf(headerText) === -1) {
@@ -387,6 +409,7 @@ export default {
   adjustTables,
   expandCollapsedTableIfItContainsElement,
   test: {
+    elementScopeComparator,
     extractEligibleHeaderText,
     firstWordFromString,
     getTableHeaderTextArray,

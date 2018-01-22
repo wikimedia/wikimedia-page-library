@@ -1,6 +1,7 @@
 import assert from 'assert'
 import domino from 'domino'
 import pagelib from '../../build/wikimedia-page-library-transform'
+const Polyfill = pagelib.test.Polyfill
 
 describe('CollapseTable', () => {
 
@@ -809,7 +810,6 @@ describe('CollapseTable', () => {
   })
 
   describe('expandCollapsedTableIfItContainsElement()', () => {
-    // eslint-disable-next-line max-len
     const expandCollapsedTableIfItContainsElement =
       pagelib.CollapseTable.expandCollapsedTableIfItContainsElement
 
@@ -846,6 +846,28 @@ describe('CollapseTable', () => {
           expandCollapsedTableIfItContainsElement(element)
         })
       })
+    })
+  })
+
+  describe('elementScopeComparator()', () => {
+    const elementScopeComparator = pagelib.CollapseTable.test.elementScopeComparator
+    it('elements sorted favoring those having scope with relative order preserved', () => {
+      // 'enwiki > Charled H. Bartlett'
+      const doc = domino.createDocument(`
+        <table>
+        <th id=0>header 0</th>
+        <th id=1>header 1</th>
+        <th scope=row id=2>header 2</th>
+        <th scope=row id=3>header 3</th>
+        <th id=4>header 4</th>
+        <th id=5>header 5</th>
+        <th scope=row id=6>header 6</th>
+        <th scope=row id=7>header 7</th>
+        </table>
+      `)
+      const headers = Polyfill.querySelectorAll(doc, 'th')
+      headers.sort(elementScopeComparator)
+      assert.deepEqual(headers.map(el => el.id), ['2', '3', '6', '7', '0', '1', '4', '5'])
     })
   })
 })
