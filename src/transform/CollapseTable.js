@@ -40,7 +40,7 @@ const firstWordFromString = string => {
 /**
  * Is node's textContent too similar to pageTitle. Checks if the first word of the node's
  * textContent is found at the beginning of pageTitle.
- * @param  {!node} node
+ * @param  {!Node} node
  * @param  {!string} pageTitle
  * @return {!boolean}
  */
@@ -56,7 +56,7 @@ const isNodeTextContentSimilarToPageTitle = (node, pageTitle) => {
 
 /**
  * Determines if a node is an element or text node.
- * @param  {!node} node
+ * @param  {!Node} node
  * @return {!boolean}
  */
 const nodeTypeIsElementOrText = node =>
