@@ -118,9 +118,11 @@ const elementScopeComparator = (a, b) => {
   const bHasScope = b.hasAttribute('scope')
   if (aHasScope && bHasScope) {
     return 0
-  } else if (aHasScope) {
+  }
+  if (aHasScope) {
     return -1
-  } else if (bHasScope) {
+  }
+  if (bHasScope) {
     return 1
   }
   return 0
