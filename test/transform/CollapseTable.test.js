@@ -51,6 +51,16 @@ describe('CollapseTable', () => {
         domino.createDocument('&nbsp;hi hi&nbsp;').childNodes[0].textContent
       ), 'hi hi')
     })
+    it('tabs trimmed', () => {
+      assert.equal(stringWithNormalizedSpaces(
+        domino.createDocument('\thi\t').childNodes[0].textContent
+      ), 'hi')
+    })
+    it('non-leading tabs converted to breaking spaces', () => {
+      assert.equal(stringWithNormalizedSpaces(
+        domino.createDocument('hi\thi').childNodes[0].textContent
+      ), 'hi hi')
+    })
   })
 
   describe('isHeaderTextEligible()', () => {
