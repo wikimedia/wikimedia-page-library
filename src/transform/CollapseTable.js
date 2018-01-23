@@ -63,8 +63,8 @@ const nodeTypeIsElementOrText = node =>
   node.nodeType === ELEMENT_NODE || node.nodeType === TEXT_NODE
 
 /**
- * Removes leading and trailing whitespace and normalizes other spaces - i.e. ensures non-breaking
- * spaces are replaced with regular breaking spaces. 
+ * Removes leading and trailing whitespace and normalizes other whitespace - i.e. ensures
+ * non-breaking spaces, tabs, etc are replaced with regular breaking spaces. 
  * @param  {!string} string
  * @return {!string}
  */
