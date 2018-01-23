@@ -5,6 +5,7 @@ import elementUtilities from './ElementUtilities'
 const SECTION_TOGGLED_EVENT_TYPE = 'section-toggled'
 const ELEMENT_NODE = 1
 const TEXT_NODE = 3
+const BREAKING_SPACE = ' '
 
 /**
  * Determine if we want to extract text from this header.
@@ -68,7 +69,23 @@ const nodeTypeIsElementOrText = node =>
  * @param  {!string} string
  * @return {!string}
  */
-const stringWithNormalizedWhitespace = string => string.trim().replace(/\s/g, ' ')
+const stringWithNormalizedWhitespace = string => string.trim().replace(/\s/g, BREAKING_SPACE)
+
+/**
+ * Determines if node is a BR.
+ * @param  {!Node}  node
+ * @return {!boolean}
+ */
+const isNodeBreakElement = node => node.nodeType === ELEMENT_NODE && node.tagName === 'BR'
+
+/**
+ * Replace node with a text node bearing a single breaking space.
+ * @param {!Document} document
+ * @param  {!Node} node
+ * @return {void}
+ */
+const replaceNodeWithBreakingSpaceTextNode = (document, node) =>
+  node.parentNode.replaceChild(document.createTextNode(BREAKING_SPACE), node)
 
 /**
  * Extracts any header text determined to be eligible.
@@ -91,12 +108,17 @@ const extractEligibleHeaderText = (document, header, pageTitle) => {
   Polyfill.querySelectorAll(fragmentHeader, '.geo, .coordinates, sup.reference, ol, ul')
     .forEach(el => el.remove())
 
+  const childNodesArray = Array.prototype.slice.call(fragmentHeader.childNodes)
   if (pageTitle) {
-    Array.prototype.slice.call(fragmentHeader.childNodes)
+    childNodesArray
       .filter(nodeTypeIsElementOrText)
       .filter(node => isNodeTextContentSimilarToPageTitle(node, pageTitle))
       .forEach(node => node.remove())
   }
+
+  childNodesArray
+    .filter(isNodeBreakElement)
+    .forEach(node => replaceNodeWithBreakingSpaceTextNode(document, node))
 
   const headerText = fragmentHeader.textContent
   if (isHeaderTextEligible(headerText)) {
@@ -422,6 +444,7 @@ export default {
     newCollapsedFooterDiv,
     newCaptionFragment,
     isNodeTextContentSimilarToPageTitle,
-    stringWithNormalizedWhitespace
+    stringWithNormalizedWhitespace,
+    replaceNodeWithBreakingSpaceTextNode
   }
 }

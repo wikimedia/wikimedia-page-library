@@ -873,4 +873,18 @@ describe('CollapseTable', () => {
       assert.deepEqual(headers.map(el => el.id), ['2', '3', '6', '7', '0', '1', '4', '5'])
     })
   })
+
+  describe('replaceNodeWithBreakingSpaceTextNode()', () => {
+    const replaceNodeWithBreakingSpaceTextNode =
+      pagelib.CollapseTable.test.replaceNodeWithBreakingSpaceTextNode
+
+    it('Replaces BR with single breaking space', () => {
+      // 'enwiki > Greece'
+      const doc = domino.createDocument(`
+        <span>Capital<br>and largest city</span>
+      `)
+      replaceNodeWithBreakingSpaceTextNode(doc, doc.querySelector('br'))
+      assert.equal(doc.querySelector('span').textContent, 'Capital and largest city')
+    })
+  })
 })
