@@ -1,11 +1,9 @@
 import assert from 'assert'
 import domino from 'domino'
-import dominoDocumentFragment from '../utilities/DominoDocumentFragment'
 import pagelib from '../../build/wikimedia-page-library-transform'
 
-const documentFragmentFromHTMLString = dominoDocumentFragment.documentFragmentFromHTMLString
 const configureRedLinkTemplate = pagelib.RedLinks.test.configureRedLinkTemplate
-const redLinkAnchorsInContent = pagelib.RedLinks.test.redLinkAnchorsInContent
+const redLinkAnchorsInDocument = pagelib.RedLinks.test.redLinkAnchorsInDocument
 const newRedLinkTemplate = pagelib.RedLinks.test.newRedLinkTemplate
 const replaceAnchorWithSpan = pagelib.RedLinks.test.replaceAnchorWithSpan
 const hideRedLinks = pagelib.RedLinks.hideRedLinks
@@ -29,18 +27,10 @@ describe('RedLinks', () => {
     })
   })
 
-  describe('redLinkAnchorsInContent()', () => {
+  describe('redLinkAnchorsInDocument()', () => {
     it('should find one red link in a document', () => {
       const doc = domino.createDocument('<a id="link1">1</a><a id="link2" class="new">2</a>')
-      const redLinkAnchors = redLinkAnchorsInContent(doc)
-      assert.ok(redLinkAnchors.length === 1)
-      assert.ok(redLinkAnchors[0].id === 'link2')
-    })
-
-    it('should find one red link in a document fragment', () => {
-      const frag =
-        documentFragmentFromHTMLString('<a id="link1">1</a><a id="link2" class="new">2</a>')
-      const redLinkAnchors = redLinkAnchorsInContent(frag)
+      const redLinkAnchors = redLinkAnchorsInDocument(doc)
       assert.ok(redLinkAnchors.length === 1)
       assert.ok(redLinkAnchors[0].id === 'link2')
     })
@@ -72,25 +62,6 @@ describe('RedLinks', () => {
       // Ensure the swap happened - element '#two' should now be a SPAN
       assert.ok(elementTwoTagName(doc) === 'SPAN')
     })
-
-    it('should replace a document fragment anchor with a span', () => {
-      // We'll swap the 'A#two' with 'SPAN#two'
-      const frag =
-        documentFragmentFromHTMLString('<a id="one">1</a><a id="two" class="new">2</a>')
-      const elementTwoTagName = frag => frag.querySelector('#two').tagName // eslint-disable-line require-jsdoc, max-len
-      // #two should initially be an 'A'
-      assert.ok(elementTwoTagName(frag) === 'A')
-
-      // Here's the replacement 'SPAN#two'
-      const span = domino.createDocument().createElement('SPAN')
-      span.id = 'two'
-
-      // Swap!
-      replaceAnchorWithSpan(frag.querySelector('#two'), span)
-
-      // Ensure the swap happened - element '#two' should now be a SPAN
-      assert.ok(elementTwoTagName(frag) === 'SPAN')
-    })
   })
 
   describe('hideRedLinks()', () => {
@@ -99,18 +70,6 @@ describe('RedLinks', () => {
       hideRedLinks(doc)
       const item1 = doc.getElementById('item1')
       const item2 = doc.querySelector('.new')
-      assert.ok(item1.tagName === 'A')
-      assert.ok(item2.tagName === 'SPAN')
-      assert.ok(item2.innerHTML === '<b>2</b>')
-    })
-
-    it('should hide the expected red links in a document fragment', () => {
-      const doc = domino.createDocument()
-      const frag =
-        documentFragmentFromHTMLString('<a id="item1">1</a><a id="item2" class="new"><b>2</b></a>')
-      hideRedLinks(doc, frag)
-      const item1 = frag.querySelector('#item1')
-      const item2 = frag.querySelector('.new')
       assert.ok(item1.tagName === 'A')
       assert.ok(item2.tagName === 'SPAN')
       assert.ok(item2.innerHTML === '<b>2</b>')
