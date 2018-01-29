@@ -3,34 +3,177 @@ import Polyfill from './Polyfill'
 import elementUtilities from './ElementUtilities'
 
 const SECTION_TOGGLED_EVENT_TYPE = 'section-toggled'
+const ELEMENT_NODE = 1
+const TEXT_NODE = 3
+const BREAKING_SPACE = ' '
+
+/**
+ * Determine if we want to extract text from this header.
+ * @param {!Element} header
+ * @return {!boolean}
+ */
+const isHeaderEligible =
+  header => header.childNodes && Polyfill.querySelectorAll(header, 'a').length < 3
+
+/**
+ * Determine eligibility of extracted text.
+ * @param {?string} headerText
+ * @return {!boolean}
+ */
+const isHeaderTextEligible = headerText =>
+  headerText && headerText.replace(/[\s0-9]/g, '').length > 0
+
+/**
+ * Extracts first word from string. Returns null if for any reason it is unable to do so.
+ * @param  {!string} string
+ * @return {?string}
+ */
+const firstWordFromString = string => {
+  // 'If the global flag (g) is not set, Element zero of the array contains the entire match,
+  // while elements 1 through n contain any submatches.'
+  const matches = string.match(/\w+/) // Only need first match so not using 'g' option.
+  if (!matches) {
+    return undefined
+  }
+  return matches[0]
+}
+
+/**
+ * Is node's textContent too similar to pageTitle. Checks if the first word of the node's
+ * textContent is found at the beginning of pageTitle.
+ * @param  {!Node} node
+ * @param  {!string} pageTitle
+ * @return {!boolean}
+ */
+const isNodeTextContentSimilarToPageTitle = (node, pageTitle) => {
+  const firstPageTitleWord = firstWordFromString(pageTitle)
+  const firstNodeTextContentWord = firstWordFromString(node.textContent)
+  // Don't claim similarity if 1st words were not extracted.
+  if (!firstPageTitleWord || !firstNodeTextContentWord) {
+    return false
+  }
+  return firstPageTitleWord.toLowerCase() === firstNodeTextContentWord.toLowerCase()
+}
+
+/**
+ * Determines if a node is an element or text node.
+ * @param  {!Node} node
+ * @return {!boolean}
+ */
+const nodeTypeIsElementOrText = node =>
+  node.nodeType === ELEMENT_NODE || node.nodeType === TEXT_NODE
+
+/**
+ * Removes leading and trailing whitespace and normalizes other whitespace - i.e. ensures
+ * non-breaking spaces, tabs, etc are replaced with regular breaking spaces. 
+ * @param  {!string} string
+ * @return {!string}
+ */
+const stringWithNormalizedWhitespace = string => string.trim().replace(/\s/g, BREAKING_SPACE)
+
+/**
+ * Determines if node is a BR.
+ * @param  {!Node}  node
+ * @return {!boolean}
+ */
+const isNodeBreakElement = node => node.nodeType === ELEMENT_NODE && node.tagName === 'BR'
+
+/**
+ * Replace node with a text node bearing a single breaking space.
+ * @param {!Document} document
+ * @param  {!Node} node
+ * @return {void}
+ */
+const replaceNodeWithBreakingSpaceTextNode = (document, node) =>
+  node.parentNode.replaceChild(document.createTextNode(BREAKING_SPACE), node)
+
+/**
+ * Extracts any header text determined to be eligible.
+ * @param {!Document} document
+ * @param {!Element} header
+ * @param {?string} pageTitle
+ * @return {?string}
+ */
+const extractEligibleHeaderText = (document, header, pageTitle) => {
+  if (!isHeaderEligible(header)) {
+    return null
+  }
+  // Clone header into fragment. This is done so we can remove some elements we don't want
+  // represented when "textContent" is used. Because we've cloned the header into a fragment, we are
+  // free to strip out anything we want without worrying about affecting the visible document.
+  const fragment = document.createDocumentFragment()
+  fragment.appendChild(header.cloneNode(true))
+  const fragmentHeader = fragment.querySelector('th')
+
+  Polyfill.querySelectorAll(fragmentHeader, '.geo, .coordinates, sup.reference, ol, ul')
+    .forEach(el => el.remove())
+
+  const childNodesArray = Array.prototype.slice.call(fragmentHeader.childNodes)
+  if (pageTitle) {
+    childNodesArray
+      .filter(nodeTypeIsElementOrText)
+      .filter(node => isNodeTextContentSimilarToPageTitle(node, pageTitle))
+      .forEach(node => node.remove())
+  }
+
+  childNodesArray
+    .filter(isNodeBreakElement)
+    .forEach(node => replaceNodeWithBreakingSpaceTextNode(document, node))
+
+  const headerText = fragmentHeader.textContent
+  if (isHeaderTextEligible(headerText)) {
+    return stringWithNormalizedWhitespace(headerText)
+  }
+  return null
+}
+
+/**
+ * Used to sort array of Elements so those containing 'scope' attribute are moved to front of
+ * array. Relative order between 'scope' elements is preserved. Relative order between non 'scope'
+ * elements is preserved.
+ * @param  {!Element} a
+ * @param  {!Element} b
+ * @return {!boolean}
+ */
+const elementScopeComparator = (a, b) => {
+  const aHasScope = a.hasAttribute('scope')
+  const bHasScope = b.hasAttribute('scope')
+  if (aHasScope && bHasScope) {
+    return 0
+  }
+  if (aHasScope) {
+    return -1
+  }
+  if (bHasScope) {
+    return 1
+  }
+  return 0
+}
 
 /**
  * Find an array of table header (TH) contents. If there are no TH elements in
  * the table or the header's link matches pageTitle, an empty array is returned.
+ * @param {!Document} document
  * @param {!Element} element
  * @param {?string} pageTitle Unencoded page title; if this title matches the
  *                            contents of the header exactly, it will be omitted.
  * @return {!Array<string>}
  */
-const getTableHeader = (element, pageTitle) => {
-  const thArray = []
+const getTableHeaderTextArray = (document, element, pageTitle) => {
+  const headerTextArray = []
   const headers = Polyfill.querySelectorAll(element, 'th')
+  headers.sort(elementScopeComparator)
   for (let i = 0; i < headers.length; ++i) {
-    const header = headers[i]
-    const anchors = Polyfill.querySelectorAll(header, 'a')
-    if (anchors.length < 3) {
-      // Also ignore it if it's identical to the page title.
-      if ((header.textContent && header.textContent.length) > 0
-        && header.textContent !== pageTitle && header.innerHTML !== pageTitle) {
-        thArray.push(header.textContent)
+    const headerText = extractEligibleHeaderText(document, headers[i], pageTitle)
+    if (headerText && headerTextArray.indexOf(headerText) === -1) {
+      headerTextArray.push(headerText)
+      // 'newCaptionFragment' only ever uses the first 2 items.
+      if (headerTextArray.length === 2) {
+        break
       }
     }
-    if (thArray.length === 2) {
-      // 'newCaption' only ever uses the first 2 items.
-      break
-    }
   }
-  return thArray
+  return headerTextArray
 }
 
 /**
@@ -108,14 +251,14 @@ const isInfobox = element => element.classList.contains('infobox')
 
 /**
  * @param {!Document} document
- * @param {?string} content HTML string.
+ * @param {!DocumentFragment} content
  * @return {!HTMLDivElement}
  */
 const newCollapsedHeaderDiv = (document, content) => {
   const div = document.createElement('div')
   div.classList.add('pagelib_collapse_table_collapsed_container')
   div.classList.add('pagelib_collapse_table_expanded')
-  div.innerHTML = content || ''
+  div.appendChild(content)
   return div
 }
 
@@ -133,32 +276,38 @@ const newCollapsedFooterDiv = (document, content) => {
 }
 
 /**
+ * @param {!Document} document
  * @param {!string} title
  * @param {!Array.<string>} headerText
- * @return {!string} HTML string.
+ * @return {!DocumentFragment}
  */
-const newCaption = (title, headerText) => {
-  let caption = `<strong>${title}</strong>`
+const newCaptionFragment = (document, title, headerText) => {
+  const fragment = document.createDocumentFragment()
 
-  caption += '<span class=pagelib_collapse_table_collapse_text>'
+  const strong = document.createElement('strong')
+  strong.innerHTML = title
+  fragment.appendChild(strong)
+
+  const span = document.createElement('span')
+  span.classList.add('pagelib_collapse_table_collapse_text')
   if (headerText.length > 0) {
-    caption += `: ${headerText[0]}`
+    span.appendChild(document.createTextNode(`: ${headerText[0]}`))
   }
   if (headerText.length > 1) {
-    caption += `, ${headerText[1]}`
+    span.appendChild(document.createTextNode(`, ${headerText[1]}`))
   }
   if (headerText.length > 0) {
-    caption += ' …'
+    span.appendChild(document.createTextNode(' …'))
   }
-  caption += '</span>'
+  fragment.appendChild(span)
 
-  return caption
+  return fragment
 }
 
 /**
  * @param {!Window} window
- * @param {!Element} content
- * @param {?string} pageTitle
+ * @param {!Document} document
+ * @param {?string} pageTitle use title for this not `display title` (which can contain tags)
  * @param {?boolean} isMainPage
  * @param {?boolean} isInitiallyCollapsed
  * @param {?string} infoboxTitle
@@ -167,11 +316,11 @@ const newCaption = (title, headerText) => {
  * @param {?FooterDivClickCallback} footerDivClickCallback
  * @return {void}
  */
-const adjustTables = (window, content, pageTitle, isMainPage, isInitiallyCollapsed,
+const adjustTables = (window, document, pageTitle, isMainPage, isInitiallyCollapsed,
   infoboxTitle, otherTitle, footerTitle, footerDivClickCallback) => {
   if (isMainPage) { return }
 
-  const tables = content.querySelectorAll('table')
+  const tables = document.querySelectorAll('table')
   for (let i = 0; i < tables.length; ++i) {
     const table = tables[i]
 
@@ -180,16 +329,16 @@ const adjustTables = (window, content, pageTitle, isMainPage, isInitiallyCollaps
       continue
     }
 
-    // todo: this is actually an array
-    const headerText = getTableHeader(table, pageTitle)
-    if (!headerText.length && !isInfobox(table)) {
+    const headerTextArray = getTableHeaderTextArray(document, table, pageTitle)
+    if (!headerTextArray.length && !isInfobox(table)) {
       continue
     }
-    const caption = newCaption(isInfobox(table) ? infoboxTitle : otherTitle, headerText)
+    const captionFragment =
+      newCaptionFragment(document, isInfobox(table) ? infoboxTitle : otherTitle, headerTextArray)
 
     // create the container div that will contain both the original table
     // and the collapsed version.
-    const containerDiv = window.document.createElement('div')
+    const containerDiv = document.createElement('div')
     containerDiv.className = 'pagelib_collapse_table_container'
     table.parentNode.insertBefore(containerDiv, table)
     table.parentNode.removeChild(table)
@@ -199,10 +348,10 @@ const adjustTables = (window, content, pageTitle, isMainPage, isInitiallyCollaps
     table.style.marginTop = '0px'
     table.style.marginBottom = '0px'
 
-    const collapsedHeaderDiv = newCollapsedHeaderDiv(window.document, caption)
+    const collapsedHeaderDiv = newCollapsedHeaderDiv(document, captionFragment)
     collapsedHeaderDiv.style.display = 'block'
 
-    const collapsedFooterDiv = newCollapsedFooterDiv(window.document, footerTitle)
+    const collapsedFooterDiv = newCollapsedFooterDiv(document, footerTitle)
     collapsedFooterDiv.style.display = 'none'
 
     // add our stuff to the container
@@ -237,8 +386,8 @@ const adjustTables = (window, content, pageTitle, isMainPage, isInitiallyCollaps
 
 /**
  * @param {!Window} window
- * @param {!Element} content
- * @param {?string} pageTitle
+ * @param {!Document} document
+ * @param {?string} pageTitle use title for this not `display title` (which can contain tags)
  * @param {?boolean} isMainPage
  * @param {?string} infoboxTitle
  * @param {?string} otherTitle
@@ -246,9 +395,9 @@ const adjustTables = (window, content, pageTitle, isMainPage, isInitiallyCollaps
  * @param {?FooterDivClickCallback} footerDivClickCallback
  * @return {void}
  */
-const collapseTables = (window, content, pageTitle, isMainPage, infoboxTitle, otherTitle,
+const collapseTables = (window, document, pageTitle, isMainPage, infoboxTitle, otherTitle,
   footerTitle, footerDivClickCallback) => {
-  adjustTables(window, content, pageTitle, isMainPage, true, infoboxTitle, otherTitle,
+  adjustTables(window, document, pageTitle, isMainPage, true, infoboxTitle, otherTitle,
     footerTitle, footerDivClickCallback)
 }
 
@@ -283,11 +432,19 @@ export default {
   adjustTables,
   expandCollapsedTableIfItContainsElement,
   test: {
-    getTableHeader,
+    elementScopeComparator,
+    extractEligibleHeaderText,
+    firstWordFromString,
+    getTableHeaderTextArray,
     shouldTableBeCollapsed,
+    isHeaderEligible,
+    isHeaderTextEligible,
     isInfobox,
     newCollapsedHeaderDiv,
     newCollapsedFooterDiv,
-    newCaption
+    newCaptionFragment,
+    isNodeTextContentSimilarToPageTitle,
+    stringWithNormalizedWhitespace,
+    replaceNodeWithBreakingSpaceTextNode
   }
 }

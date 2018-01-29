@@ -1,53 +1,347 @@
 import assert from 'assert'
 import domino from 'domino'
 import pagelib from '../../build/wikimedia-page-library-transform'
+const Polyfill = pagelib.test.Polyfill
 
 describe('CollapseTable', () => {
-  describe('getTableHeader()', () => {
-    const getTableHeader = pagelib.CollapseTable.test.getTableHeader
+
+  describe('isHeaderEligible()', () => {
+    const isHeaderEligible = pagelib.CollapseTable.test.isHeaderEligible
+    it('when too many links, should not be eligible', () => {
+      const doc = domino.createDocument('<table><tr><th><a></a><a></a><a></a></th></tr></table>')
+      const header = doc.querySelector('th')
+      const isEligible = isHeaderEligible(header)
+      assert.equal(isEligible, false)
+    })
+    it('when 2 links, should be eligible', () => {
+      const doc = domino.createDocument('<table><tr><th><a></a><a></a></th></tr></table>')
+      const header = doc.querySelector('th')
+      const isEligible = isHeaderEligible(header)
+      assert.equal(isEligible, true)
+    })
+    it('when 1 link, should be eligible', () => {
+      const doc = domino.createDocument('<table><tr><th><a></a></th></tr></table>')
+      const header = doc.querySelector('th')
+      const isEligible = isHeaderEligible(header)
+      assert.equal(isEligible, true)
+    })
+    it('when emtpy, should be eligible', () => {
+      // headers are eligible if empty, but `extractEligibleHeaderText` is responsible for rejecting
+      // them.
+      const doc = domino.createDocument('<table><tr><th></th></tr></table>')
+      const header = doc.querySelector('th')
+      const isEligible = isHeaderEligible(header)
+      assert.equal(isEligible, true)
+    })
+  })
+
+  describe('stringWithNormalizedWhitespace()', () => {
+    // 'enwiki > Bonar Bridge'
+    const stringWithNormalizedWhitespace = pagelib.CollapseTable.test.stringWithNormalizedWhitespace
+    it('leading and trailing whitespace is trimmed', () => {
+      assert.equal(stringWithNormalizedWhitespace(' hi '), 'hi')
+    })
+    it('non-leading/trailing non-breaking spaces converted to breaking spaces', () => {
+      assert.equal(stringWithNormalizedWhitespace(
+        domino.createDocument('hi&nbsp;hi').childNodes[0].textContent
+      ), 'hi hi')
+    })
+    it('leading and trailing non-breaking spaces trimmed', () => {
+      assert.equal(stringWithNormalizedWhitespace(
+        domino.createDocument('&nbsp;hi hi&nbsp;').childNodes[0].textContent
+      ), 'hi hi')
+    })
+    it('tabs trimmed', () => {
+      assert.equal(stringWithNormalizedWhitespace(
+        domino.createDocument('\thi\t').childNodes[0].textContent
+      ), 'hi')
+    })
+    it('non-leading tabs converted to breaking spaces', () => {
+      assert.equal(stringWithNormalizedWhitespace(
+        domino.createDocument('hi\thi').childNodes[0].textContent
+      ), 'hi hi')
+    })
+  })
+
+  describe('isHeaderTextEligible()', () => {
+    const isHeaderTextEligible = pagelib.CollapseTable.test.isHeaderTextEligible
+    it('undefined text is rejected', () => {
+      const doc = domino.createDocument('<table><tr><th></th></tr></table>')
+      const headerText = doc.querySelector('th').textContent
+      const isEligible = isHeaderTextEligible(headerText)
+      assert.equal(isEligible, false)
+    })
+    it('actual text not equal to page title is accepted', () => {
+      const doc = domino.createDocument('<table><tr><th>Some text</th></tr></table>')
+      const headerText = doc.querySelector('th').textContent
+      const isEligible = isHeaderTextEligible(headerText)
+      assert.equal(isEligible, true)
+    })
+    it('node with only comment is rejected', () => {
+      const doc = domino.createDocument('<table><tr><th><!--Comment--></th></tr></table>')
+      const headerText = doc.querySelector('th').textContent
+      const isEligible = isHeaderTextEligible(headerText)
+      assert.equal(isEligible, false)
+    })
+    it('node with only whitespace is rejected', () => {
+      const doc = domino.createDocument('<table><tr><th>   </th></tr></table>')
+      const headerText = doc.querySelector('th').textContent
+      const isEligible = isHeaderTextEligible(headerText)
+      assert.equal(isEligible, false)
+    })
+    it('node with only comment and whitespace is rejected', () => {
+      const doc = domino.createDocument('<table><tr><th>   <!--Comment-->   </th></tr></table>')
+      const headerText = doc.querySelector('th').textContent
+      const isEligible = isHeaderTextEligible(headerText)
+      assert.equal(isEligible, false)
+    })
+    it('node with no text is rejected', () => {
+      const doc = domino.createDocument('<table><tr><th></th></tr></table>')
+      const headerText = doc.querySelector('th').textContent
+      const isEligible = isHeaderTextEligible(headerText)
+      assert.equal(isEligible, false)
+    })
+    it('node with only numbers is rejected', () => {
+      // 'enwiki > Lyublinsko-Dmitrovskaya line'
+      const doc = domino.createDocument('<table><tr><th>123</th></tr></table>')
+      const headerText = doc.querySelector('th').textContent
+      const isEligible = isHeaderTextEligible(headerText)
+      assert.equal(isEligible, false)
+    })
+    it('node with only numbers and whitespace is rejected', () => {
+      const doc = domino.createDocument('<table><tr><th> 123 </th></tr></table>')
+      const headerText = doc.querySelector('th').textContent
+      const isEligible = isHeaderTextEligible(headerText)
+      assert.equal(isEligible, false)
+    })
+  })
+
+  describe('extractEligibleHeaderText()', () => {
+    const extractEligibleHeaderText = pagelib.CollapseTable.test.extractEligibleHeaderText
+
+    it('extracted text is trimmed', () => {
+      const doc = domino.createDocument('<table><tr><th> Some text </th></tr></table>')
+      const header = doc.querySelector('th')
+      const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
+      assert.equal(text, 'Some text')
+    })
+    it('empty header returns null', () => {
+      const doc = domino.createDocument('<table><tr><th></th></tr></table>')
+      const header = doc.querySelector('th')
+      const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
+      assert.equal(text, null)
+    })
+    it('whitespace header returns null', () => {
+      const doc = domino.createDocument('<table><tr><th>    </th></tr></table>')
+      const header = doc.querySelector('th')
+      const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
+      assert.equal(text, null)
+    })
+    it('text equal to page title returns null', () => {
+      const doc = domino.createDocument('<table><tr><th>SampleTitle</th></tr></table>')
+      const header = doc.querySelector('th')
+      const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
+      assert.equal(text, null)
+    })
+    it('extracted text excludes ref links', () => {
+      const doc = domino.createDocument(
+        '<table><tr><th>Some text <sup class=reference>[1]</sup></th></tr></table>'
+      )
+      const header = doc.querySelector('th')
+      const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
+      assert.equal(text, 'Some text')
+    })
+    it('extracted text excludes coordinates', () => {
+      const doc = domino.createDocument(`
+        <table><tr>
+          <th>
+            Some text
+            <span class=geo>0.001,0.002</span>
+            <span class=coordinates>0.001,0.002</span>
+          </th>
+        </tr></table>
+      `)
+      const header = doc.querySelector('th')
+      const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
+      assert.equal(text, 'Some text')
+    })
+    it('extracted text excludes li', () => {
+      // 'enwiki > Brussels-Chapel railway station'
+      const doc = domino.createDocument(`
+        <table><tr>
+          <th>
+            <ul>
+              <li>this
+              <li>that
+            </ul>
+          </th>
+        </tr></table>
+      `)
+      const header = doc.querySelector('th')
+      const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
+      assert.equal(text, null)
+    })
+    it('extracted text excludes li but grabs non-li text', () => {
+      // 'enwiki > Brussels-Chapel railway station'
+      const doc = domino.createDocument(`
+        <table><tr>
+          <th>
+            <ul>
+              <li>this
+              <li>that
+            </ul>
+            <i>goat</i>
+          </th>
+        </tr></table>
+      `)
+      const header = doc.querySelector('th')
+      const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
+      assert.equal(text, 'goat')
+    })
+    it('extracted text skips element if page title starts with element textContent', () => {
+      // 'dewiki > Hornburg (Mansfelder Land)'
+      // 'enwiki > Ramon Magsaysay High School, Manila'
+      const doc =
+        domino.createDocument('<table><tr><th>SampleTitle <i>Some text</i></th></tr></table>')
+      const header = doc.querySelector('th')
+      const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
+      assert.equal(text, 'Some text')
+    })
+    it('extracted text does not skip element if page title does not start with element textContent',
+      () => {
+        // 'enwiki > Barack Obama'
+        const doc =
+          domino.createDocument('<table><tr><th>44th <a>President</a></th></tr></table>')
+        const header = doc.querySelector('th')
+        const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
+        assert.equal(text, '44th President')
+      })
+  })
+
+  describe('isNodeTextContentSimilarToPageTitle()', () => {
+    const isNodeTextContentSimilarToPageTitle =
+      pagelib.CollapseTable.test.isNodeTextContentSimilarToPageTitle
+
+    describe('TH node textContent and page title considered similar', () => {
+      describe('when page title starts with textContent', () => {
+        it('full exact match', () => {
+          const doc = domino.createDocument('<table><tr><th>Brussels</th></tr></table>')
+          const th = doc.querySelector('th')
+          const pageTitle = 'Brussels'
+          const isSimilar = isNodeTextContentSimilarToPageTitle(th, pageTitle)
+          assert.equal(isSimilar, true)
+        })
+        // 'enwiki > Brussels-Chapel railway station'
+        // 'enwiki > Matthew H. Clark'
+        // 'enwiki > Adolf Ehrnrooth'
+        it('starting exact match', () => {
+          const doc = domino.createDocument('<table><tr><th>Brussels</th></tr></table>')
+          const th = doc.querySelector('th')
+          const pageTitle = 'Brussels Railway'
+          const isSimilar = isNodeTextContentSimilarToPageTitle(th, pageTitle)
+          assert.equal(isSimilar, true)
+        })
+        it('and whitespace ignored', () => {
+          const doc = domino.createDocument('<table><tr><th> Brussels </th></tr></table>')
+          const th = doc.querySelector('th')
+          const pageTitle = 'Brussels Railway'
+          const isSimilar = isNodeTextContentSimilarToPageTitle(th, pageTitle)
+          assert.equal(isSimilar, true)
+        })
+        it('and non-alphaNumeric text ignored', () => {
+          const doc = domino.createDocument('<table><tr><th>Brussels</th></tr></table>')
+          const th = doc.querySelector('th')
+          const pageTitle = 'Brussels-Railway'
+          const isSimilar = isNodeTextContentSimilarToPageTitle(th, pageTitle)
+          assert.equal(isSimilar, true)
+        })
+      })
+    })
+  })
+
+  describe('firstWordFromString()', () => {
+    const firstWordFromString = pagelib.CollapseTable.test.firstWordFromString
+    describe('gets first word', () => {
+      it('from sentence', () => {
+        assert.equal(firstWordFromString('food is good'), 'food')
+      })
+      it('from word', () => {
+        assert.equal(firstWordFromString('food'), 'food')
+      })
+      it('from word followed by dash', () => {
+        assert.equal(firstWordFromString('food-'), 'food')
+      })
+      it('from word followed by punctuation', () => {
+        assert.equal(firstWordFromString('food.'), 'food')
+      })
+    })
+    describe('gets null', () => {
+      it('from zero length string', () => {
+        assert.equal(firstWordFromString(''), null)
+      })
+      it('from whitespace string', () => {
+        assert.equal(firstWordFromString(' '), null)
+      })
+      it('from punctuation string', () => {
+        assert.equal(firstWordFromString('.'), null)
+      })
+      it('from dash string', () => {
+        assert.equal(firstWordFromString('-'), null)
+      })
+    })
+  })
+
+  describe('getTableHeaderTextArray()', () => {
+    const getTableHeaderTextArray = pagelib.CollapseTable.test.getTableHeaderTextArray
 
     it('when no table, shouldn\'t find headers', () => {
       const doc = domino.createDocument('<html></html>')
-      const actual = getTableHeader(doc.documentElement, 'pageTitle')
+      const actual = getTableHeaderTextArray(doc, doc.documentElement, 'pageTitle')
       assert.deepEqual(actual, [])
     })
 
     describe('when table', () => {
       it('and no header, shouldn\'t find headers', () => {
         const doc = domino.createDocument('<table></table>')
-        const actual = getTableHeader(doc.querySelector('table'), 'pageTitle')
+        const actual = getTableHeaderTextArray(doc, doc.querySelector('table'), 'pageTitle')
         assert.deepEqual(actual, [])
       })
 
       it('and header is empty, shouldn\'t find headers', () => {
         const doc = domino.createDocument('<table><tr><th></th></tr></table>')
-        const actual = getTableHeader(doc.querySelector('table'), 'pageTitle')
+        const actual = getTableHeaderTextArray(doc, doc.querySelector('table'), 'pageTitle')
         assert.deepEqual(actual, [])
       })
 
       describe('and header is nonempty', () => {
         it('and link is empty, shouldn\'t find header', () => {
           const doc = domino.createDocument('<table><tr><th><a></a></th></tr></table>')
-          const actual = getTableHeader(doc.querySelector('table'), 'pageTitle')
+          const actual = getTableHeaderTextArray(doc, doc.querySelector('table'), 'pageTitle')
           assert.deepEqual(actual, [])
+        })
+
+        it('and two headers have identical text', () => {
+          const doc = domino.createDocument('<table><tr><th>type</th><th>type</th></tr></table>')
+          const actual = getTableHeaderTextArray(doc, doc.querySelector('table'), 'pageTitle')
+          assert.deepEqual(actual, ['type'])
         })
 
         describe('and link is nonempty', () => {
           it('and doesn\'t match page title, should find header', () => {
             const doc = domino.createDocument('<table><tr><th><a>text</a></th></tr></table>')
-            const actual = getTableHeader(doc.querySelector('table'), 'pageTitle')
+            const actual = getTableHeaderTextArray(doc, doc.querySelector('table'), 'pageTitle')
             assert.deepEqual(actual, ['text'])
           })
 
           it('and matches page title, shouldn\'t find header', () => {
             const doc = domino.createDocument('<table><tr><th><a>pageTitle</a></th></tr></table>')
-            const actual = getTableHeader(doc.querySelector('table'), 'pageTitle')
+            const actual = getTableHeaderTextArray(doc, doc.querySelector('table'), 'pageTitle')
             assert.deepEqual(actual, [])
           })
 
           it('and no page title, should find header', () => {
             const doc = domino.createDocument('<table><tr><th><a>text</a></th></tr></table>')
-            const actual = getTableHeader(doc.querySelector('table'))
+            const actual = getTableHeaderTextArray(doc, doc.querySelector('table'))
             assert.deepEqual(actual, ['text'])
           })
         })
@@ -202,27 +496,39 @@ describe('CollapseTable', () => {
     const newCollapsedHeaderDiv = pagelib.CollapseTable.test.newCollapsedHeaderDiv
 
     it('the div is created', () => {
-      const div = newCollapsedHeaderDiv(domino.createDocument())
+      const doc = domino.createDocument()
+      const frag = doc.createDocumentFragment()
+      const div = newCollapsedHeaderDiv(doc, frag)
       assert.ok(div instanceof domino.impl.HTMLDivElement)
     })
 
     it('the div is a container', () => {
-      const div = newCollapsedHeaderDiv(domino.createDocument())
+      const doc = domino.createDocument()
+      const frag = doc.createDocumentFragment()
+      const div = newCollapsedHeaderDiv(doc, frag)
       assert.ok(div.classList.contains('pagelib_collapse_table_collapsed_container'))
     })
 
     it('the div is expanded', () => {
-      const div = newCollapsedHeaderDiv(domino.createDocument())
+      const doc = domino.createDocument()
+      const frag = doc.createDocumentFragment()
+      const div = newCollapsedHeaderDiv(doc, frag)
       assert.ok(div.classList.contains('pagelib_collapse_table_expanded'))
     })
 
     it('when contents is undefined, the div has no contents', () => {
-      const div = newCollapsedHeaderDiv(domino.createDocument())
+      const doc = domino.createDocument()
+      const frag = doc.createDocumentFragment()
+      const div = newCollapsedHeaderDiv(doc, frag)
       assert.ok(!div.innerHTML)
     })
 
     it('when contents are defined, the div has contents', () => {
-      const div = newCollapsedHeaderDiv(domino.createDocument(), 'contents')
+      const doc = domino.createDocument()
+      const frag = doc.createDocumentFragment()
+      const text = doc.createTextNode('contents')
+      frag.appendChild(text)
+      const div = newCollapsedHeaderDiv(doc, frag)
       assert.deepEqual(div.innerHTML, 'contents')
     })
   })
@@ -256,54 +562,53 @@ describe('CollapseTable', () => {
     })
   })
 
-  describe('newCaption()', () => {
-    const newCaption = pagelib.CollapseTable.test.newCaption
+  describe('newCaptionFragment()', () => {
+    const newCaptionFragment = pagelib.CollapseTable.test.newCaptionFragment
 
     describe('when no header text', () => {
-      const caption = newCaption('title', [])
-
+      const caption = newCaptionFragment(domino.createDocument(), 'title', [])
       it('the title is present', () => {
-        assert.ok(caption.includes('title'))
+        assert.ok(caption.textContent.includes('title'))
       })
 
       it('no additional text is shown', () => {
-        assert.ok(!caption.includes(','))
+        assert.ok(!caption.textContent.includes(','))
       })
     })
 
     describe('when a one element header text', () => {
-      const caption = newCaption('title', ['0'])
+      const caption = newCaptionFragment(domino.createDocument(), 'title', ['0'])
 
       it('the title is present', () => {
-        assert.ok(caption.includes('title'))
+        assert.ok(caption.textContent.includes('title'))
       })
 
       it('the first entry is shown', () => {
-        assert.ok(caption.includes('0'))
+        assert.ok(caption.textContent.includes('0'))
       })
 
       it('an ellipsis is shown', () => {
-        assert.ok(caption.includes('…'))
+        assert.ok(caption.textContent.includes('…'))
       })
     })
 
     describe('when a two element header text', () => {
-      const caption = newCaption('title', ['0', '1'])
+      const caption = newCaptionFragment(domino.createDocument(), 'title', ['0', '1'])
 
       it('the title is present', () => {
-        assert.ok(caption.includes('title'))
+        assert.ok(caption.textContent.includes('title'))
       })
 
       it('the first entry is shown', () => {
-        assert.ok(caption.includes('0'))
+        assert.ok(caption.textContent.includes('0'))
       })
 
       it('an ellipsis is shown', () => {
-        assert.ok(caption.includes('…'))
+        assert.ok(caption.textContent.includes('…'))
       })
 
       it('the second entry is shown', () => {
-        assert.ok(caption.includes('1'))
+        assert.ok(caption.textContent.includes('1'))
       })
     })
   })
@@ -508,7 +813,6 @@ describe('CollapseTable', () => {
   })
 
   describe('expandCollapsedTableIfItContainsElement()', () => {
-    // eslint-disable-next-line max-len
     const expandCollapsedTableIfItContainsElement =
       pagelib.CollapseTable.expandCollapsedTableIfItContainsElement
 
@@ -545,6 +849,42 @@ describe('CollapseTable', () => {
           expandCollapsedTableIfItContainsElement(element)
         })
       })
+    })
+  })
+
+  describe('elementScopeComparator()', () => {
+    const elementScopeComparator = pagelib.CollapseTable.test.elementScopeComparator
+    it('elements sorted favoring those having scope with relative order preserved', () => {
+      // 'enwiki > Charled H. Bartlett'
+      const doc = domino.createDocument(`
+        <table>
+        <th id=0>header 0</th>
+        <th id=1>header 1</th>
+        <th scope=row id=2>header 2</th>
+        <th scope=row id=3>header 3</th>
+        <th id=4>header 4</th>
+        <th id=5>header 5</th>
+        <th scope=row id=6>header 6</th>
+        <th scope=row id=7>header 7</th>
+        </table>
+      `)
+      const headers = Polyfill.querySelectorAll(doc, 'th')
+      headers.sort(elementScopeComparator)
+      assert.deepEqual(headers.map(el => el.id), ['2', '3', '6', '7', '0', '1', '4', '5'])
+    })
+  })
+
+  describe('replaceNodeWithBreakingSpaceTextNode()', () => {
+    const replaceNodeWithBreakingSpaceTextNode =
+      pagelib.CollapseTable.test.replaceNodeWithBreakingSpaceTextNode
+
+    it('Replaces BR with single breaking space', () => {
+      // 'enwiki > Greece'
+      const doc = domino.createDocument(`
+        <span>Capital<br>and largest city</span>
+      `)
+      replaceNodeWithBreakingSpaceTextNode(doc, doc.querySelector('br'))
+      assert.equal(doc.querySelector('span').textContent, 'Capital and largest city')
     })
   })
 })
