@@ -22,17 +22,17 @@
   "scripts": {
     "lint": "eslint --cache --max-warnings 0 --ext .js --ext .json --ext .html",
     "lint:all": "npm run -s lint .",
-    "build": "rollup -c",
-    "build:watch": "rollup -cw",
+    "build": "NODE_ENV=production webpack -p",
+    "build:watch": "webpack -dw",
+    "serve:watch": "webpack-dev-server -dw",
     "test:size": "bundlesize",
     "pretest": "npm run -s build",
     "test": "mocha test/**/*.test.js",
     "serve:demo": "browser-sync start -c .browsersync.config.js",
-    "dev": "run-p -s build:watch serve:demo",
-    "clean": "rm -rf build/",
+    "dev": "run-p -s serve:watch serve:demo",
     "preversion": "[ -z \"$(git status -z)\" ]",
     "postversion": "git push --follow-tags origin HEAD && npm publish",
-    "prepublish": "npm run -s lint:all && npm run -s clean && npm -s t",
+    "prepublish": "npm run -s lint:all && npm -s t",
     "upgrade": "ncu -au"
   },
   "pre-commit": [
@@ -47,11 +47,14 @@
     "build"
   ],
   "devDependencies": {
-    "babel-plugin-external-helpers": "6.22.0",
-    "babel-preset-env": "1.5.2",
-    "babel-register": "6.24.1",
+    "babel-core": "6.26.0",
+    "babel-loader": "7.1.2",
+    "babel-preset-env": "1.6.1",
+    "babel-register": "6.26.0",
     "browser-sync": "2.18.13",
     "bundlesize": "0.15.3",
+    "clean-webpack-plugin": "0.1.18",
+    "css-loader": "0.28.9",
     "domino": "1.0.28",
     "eslint": "4.1.1",
     "eslint-config-node-services": "github:wikimedia/eslint-config-node-services#6d257ee",
@@ -59,27 +62,29 @@
     "eslint-plugin-html": "3.0.0",
     "eslint-plugin-jsdoc": "3.1.1",
     "eslint-plugin-json": "1.2.0",
+    "extract-text-webpack-plugin": "3.0.2",
     "mocha": "3.4.2",
     "npm-check-updates": "2.12.1",
     "npm-run-all": "4.0.2",
+    "postcss-loader": "2.0.10",
     "pre-commit": "1.2.2",
-    "rollup": "0.43.0",
-    "rollup-plugin-babel": "2.7.1",
-    "rollup-watch": "4.3.1"
+    "style-loader": "0.20.1",
+    "webpack": "3.10.0",
+    "webpack-dev-server": "2.11.1"
   },
   "license": "Apache-2.0",
   "bundlesize": [
     {
       "path": "build/wikimedia-page-library-override.css",
-      "maxSize": "0.2KB"
+      "maxSize": "0.1KB"
     },
     {
       "path": "build/wikimedia-page-library-transform.css",
-      "maxSize": "25.8KB"
+      "maxSize": "22.1KB"
     },
     {
       "path": "build/wikimedia-page-library-transform.js",
-      "maxSize": "21.9KB"
+      "maxSize": "8.7KB"
     }
   ]
 }

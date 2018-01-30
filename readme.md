@@ -21,7 +21,10 @@ Presently we are consolidating duplicate Android and iOS Wikipedia app implement
 ### What wikimedia-page-library delivers
 - **wikimedia-page-library-transform.js** bundle of all transform JS
 - **wikimedia-page-library-transform.css** bundle of all CSS required by the bundled transform JS
+- **wikimedia-page-library-transform.js** an unwanted [extraneous build product] that may safely be ignored
 - **wikimedia-page-library-override.css** optional CSS overrides for improved appearance that are independent of transforms
+
+[extraneous build product]: https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/518
 
 ## Conventions
 
