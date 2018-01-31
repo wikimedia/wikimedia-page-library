@@ -21,6 +21,8 @@ const config = {
     'wikimedia-page-library-override': './src/override'
   },
 
+  resolve: { extensions: ['.js', '.ts'] },
+
   output: {
     path: path.resolve('build'),
     filename: '[name].js',
@@ -37,6 +39,7 @@ const config = {
 
   module: {
     rules: [
+      { test: /\.ts$/, use: 'ts-loader' },
       {
         test: /\.js$/,
         exclude: /node_modules/,

@@ -1,7 +1,8 @@
 import './LazyLoadTransform.css'
-import ElementGeometry from './ElementGeometry'
-import ElementUtilities from './ElementUtilities'
-import Polyfill from './Polyfill'
+// todo: use imports when other modules are TypeScript.
+const ElementGeometry = require('./ElementGeometry').default
+const ElementUtilities = require('./ElementUtilities').default
+const Polyfill = require('./Polyfill').default
 
 // CSS classes used to identify and present lazily loaded images. Placeholders are members of
 // PLACEHOLDER_CLASS and one state class: pending, loading, or error. Images are members of either
@@ -24,7 +25,7 @@ const COPY_ATTRIBUTES = ['class', 'style', 'src', 'srcset', 'width', 'height', '
 // loading these images degrades the experience with little gain. Always eagerly load these images.
 // Example: flags in the medal count for the "1896 Summer Olympics medal table."
 // https://en.m.wikipedia.org/wiki/1896_Summer_Olympics_medal_table?oldid=773498394#Medal_count
-const UNIT_TO_MINIMUM_LAZY_LOAD_SIZE = {
+const UNIT_TO_MINIMUM_LAZY_LOAD_SIZE: {[unit: string]: number | undefined} = {
   px: 50, // https://phabricator.wikimedia.org/diffusion/EMFR/browse/master/includes/MobileFormatter.php;c89f371ea9e789d7e1a827ddfec7c8028a549c12$22
   ex: 10, // ''
   em: 5 // 1ex ≈ .5em; https://developer.mozilla.org/en-US/docs/Web/CSS/length#Units
@@ -36,7 +37,7 @@ const UNIT_TO_MINIMUM_LAZY_LOAD_SIZE = {
  * @param {!HTMLImageElement} image The image to be replaced.
  * @return {!HTMLSpanElement} The placeholder replacing image.
  */
-const convertImageToPlaceholder = (document, image) => {
+const convertImageToPlaceholder = (document: Document, image: HTMLImageElement): HTMLSpanElement => {
   // There are a number of possible implementations for placeholders including:
   //
   // - [MobileFrontend] Replace the original image with a span and replace the span with a new
@@ -63,7 +64,7 @@ const convertImageToPlaceholder = (document, image) => {
 
   // Copy the image's classes and append the placeholder and current state (pending) classes.
   if (image.hasAttribute('class')) {
-    placeholder.setAttribute('class', image.getAttribute('class'))
+    placeholder.setAttribute('class', image.getAttribute('class') || '')
   }
   placeholder.classList.add(PLACEHOLDER_CLASS)
   placeholder.classList.add(PLACEHOLDER_PENDING_CLASS)
@@ -87,7 +88,7 @@ const convertImageToPlaceholder = (document, image) => {
 
   // Append the spacer to the placeholder and replace the image with the placeholder.
   placeholder.appendChild(spacing)
-  image.parentNode.replaceChild(placeholder, image)
+  if (image.parentNode) image.parentNode.replaceChild(placeholder, image)
 
   return placeholder
 }
@@ -97,19 +98,20 @@ const convertImageToPlaceholder = (document, image) => {
  * @return {!boolean} true if image download can be deferred, false if image should be eagerly
  *                    loaded.
  */
-const isLazyLoadable = image => {
+const isLazyLoadable = (image: HTMLImageElement): boolean => {
   const geometry = ElementGeometry.from(image)
   if (!geometry.width || !geometry.height) { return true }
-  return geometry.widthValue >= UNIT_TO_MINIMUM_LAZY_LOAD_SIZE[geometry.widthUnit]
-    && geometry.heightValue >= UNIT_TO_MINIMUM_LAZY_LOAD_SIZE[geometry.heightUnit]
+  const minWidth = UNIT_TO_MINIMUM_LAZY_LOAD_SIZE[geometry.widthUnit] || Infinity
+  const minHeight = UNIT_TO_MINIMUM_LAZY_LOAD_SIZE[geometry.heightUnit] || Infinity
+  return geometry.widthValue >= minWidth && geometry.heightValue >= minHeight
 }
 
 /**
  * @param {!Element} element
  * @return {!Array.<HTMLImageElement>} Convertible images descendent from but not including element.
  */
-const queryLazyLoadableImages = element =>
-  Polyfill.querySelectorAll(element, 'img').filter(image => isLazyLoadable(image))
+const queryLazyLoadableImages = (element: Element): HTMLImageElement[] =>
+  Polyfill.querySelectorAll(element, 'img').filter((image: HTMLImageElement) => isLazyLoadable(image))
 
 /**
  * Convert images with placeholders. The transformation is inverted by calling loadImage().
@@ -117,7 +119,7 @@ const queryLazyLoadableImages = element =>
  * @param {!Array.<HTMLImageElement>} images The images to lazily load.
  * @return {!Array.<HTMLSpanElement>} The placeholders replacing images.
  */
-const convertImagesToPlaceholders = (document, images) =>
+const convertImagesToPlaceholders = (document: Document, images: HTMLImageElement[]): HTMLSpanElement[] =>
   images.map(image => convertImageToPlaceholder(document, image))
 
 /**
@@ -127,14 +129,14 @@ const convertImagesToPlaceholders = (document, images) =>
  * @param {!HTMLSpanElement} placeholder
  * @return {!HTMLImageElement} A new image element.
  */
-const loadPlaceholder = (document, placeholder) => {
+const loadPlaceholder = (document: Document, placeholder: HTMLSpanElement): HTMLImageElement => {
   placeholder.classList.add(PLACEHOLDER_LOADING_CLASS)
   placeholder.classList.remove(PLACEHOLDER_PENDING_CLASS)
 
   const image = document.createElement('img')
 
-  const retryListener = event => { // eslint-disable-line require-jsdoc
-    image.setAttribute('src', image.getAttribute('src'))
+  const retryListener = (event: MouseEvent) => { // eslint-disable-line require-jsdoc
+    image.setAttribute('src', image.getAttribute('src') || '')
     event.stopPropagation()
     event.preventDefault()
   }
@@ -142,7 +144,7 @@ const loadPlaceholder = (document, placeholder) => {
   // Add the download listener prior to setting the src attribute to avoid missing the load event.
   image.addEventListener('load', () => {
     placeholder.removeEventListener('click', retryListener)
-    placeholder.parentNode.replaceChild(image, placeholder)
+    if (placeholder.parentNode) placeholder.parentNode.replaceChild(image, placeholder)
     image.classList.add(IMAGE_LOADED_CLASS)
     image.classList.remove(IMAGE_LOADING_CLASS)
   }, { once: true })
