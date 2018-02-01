@@ -24,6 +24,7 @@
     "lint:all": "npm run -s lint .",
     "build": "rollup -c",
     "build:watch": "rollup -cw",
+    "test:size": "bundlesize",
     "pretest": "npm run -s build",
     "test": "mocha test/**/*.test.js",
     "serve:demo": "browser-sync start -c .browsersync.config.js",
@@ -36,7 +37,8 @@
   },
   "pre-commit": [
     "lint:all",
-    "test"
+    "test",
+    "test:size"
   ],
   "engines": {
     "node": "7.5.0"
@@ -49,6 +51,7 @@
     "babel-preset-env": "1.5.2",
     "babel-register": "6.24.1",
     "browser-sync": "2.18.13",
+    "bundlesize": "0.15.3",
     "domino": "1.0.28",
     "eslint": "4.1.1",
     "eslint-config-node-services": "github:wikimedia/eslint-config-node-services#6d257ee",
@@ -64,5 +67,19 @@
     "rollup-plugin-babel": "2.7.1",
     "rollup-watch": "4.3.1"
   },
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "bundlesize": [
+    {
+      "path": "build/wikimedia-page-library-override.css",
+      "maxSize": "0.2KB"
+    },
+    {
+      "path": "build/wikimedia-page-library-transform.css",
+      "maxSize": "25.8KB"
+    },
+    {
+      "path": "build/wikimedia-page-library-transform.js",
+      "maxSize": "21.9KB"
+    }
+  ]
 }
