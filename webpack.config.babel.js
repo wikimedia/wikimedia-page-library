@@ -3,7 +3,6 @@ import * as pkg from './package.json'
 import * as webpack from 'webpack'
 import CleanPlugin from 'clean-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
-import UglifyJSPlugin from 'uglifyjs-webpack-plugin'
 
 const PRODUCTION = process.env.NODE_ENV === 'production'
 
@@ -33,8 +32,8 @@ const config = {
 
   performance: {
     hints: PRODUCTION ? 'error' : false,
-    maxAssetSize: 96 * 1024,
-    maxEntrypointSize: 128 * 1024
+    maxAssetSize: 128 * 1024,
+    maxEntrypointSize: 192 * 1024
   },
 
   module: {
@@ -59,10 +58,7 @@ const config = {
             loader: 'style-loader',
             options: { hmr: false }
           },
-          use: [
-            { loader: 'css-loader', options: { minimize: PRODUCTION } },
-            'postcss-loader'
-          ]
+          use: [{ loader: 'css-loader' }, 'postcss-loader']
         })
       }
     ]
@@ -89,14 +85,6 @@ const config = {
     }),
     new ExtractTextPlugin({ filename: '[name].css' })
   ]
-}
-
-if (PRODUCTION) {
-  config.plugins.push(new UglifyJSPlugin({
-    cache: true,
-    parallel: true,
-    sourceMap: true
-  }))
 }
 
 export default config
