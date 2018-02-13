@@ -1,9 +1,12 @@
-### v4.9.1
+### v5.0.1
 - Chore: replace Rollup.js bundler with Webpack; there are no anticipated client changes necessary but integrators should smoke test CSS and JavaScript functionality, especially on older devices, and app devs should verify their development workflows
 - Chore: rename NPM `dev` script to canonical `start`
 
-### v4.9.0
-- New: consolidated 1st paragraph relocation transform
+### v5.0.0
+- Breaking: removed 'fragment' parameter from 'hideRedLinks' method
+- New: consolidated 1st paragraph relocation transform with 'moveLeadIntroductionUp' kickoff method
+- Update: bump Babel iOS target version to 10.3 and Android to 4.4
+- Fix: improved collapsed table header collection
 
 ### v4.8.0
 - New: CollectionUtilities methods for gathering page issues and disambiguation information

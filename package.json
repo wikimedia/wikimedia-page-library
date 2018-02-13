@@ -1,6 +1,6 @@
 {
   "name": "wikimedia-page-library",
-  "version": "4.8.0",
+  "version": "5.0.0",
   "description": "Cross-platform JavaScript and CSS library for Wikimedia apps",
   "keywords": [
     "Wikipedia",
@@ -22,7 +22,7 @@
   "scripts": {
     "lint": "eslint --cache --max-warnings 0 --ext .js --ext .json --ext .html",
     "lint:all": "npm run -s lint .",
-    "build": "NODE_ENV=production webpack -p",
+    "build": "NODE_ENV=production webpack",
     "build:watch": "webpack -dw",
     "serve:watch": "webpack-dev-server -dw",
     "test:size": "bundlesize",
@@ -76,15 +76,15 @@
   "bundlesize": [
     {
       "path": "build/wikimedia-page-library-override.css",
-      "maxSize": "0.1KB"
+      "maxSize": "0.2KB"
     },
     {
       "path": "build/wikimedia-page-library-transform.css",
-      "maxSize": "22.1KB"
+      "maxSize": "25.7KB"
     },
     {
       "path": "build/wikimedia-page-library-transform.js",
-      "maxSize": "8.7KB"
+      "maxSize": "12.6KB"
     }
   ]
 }
