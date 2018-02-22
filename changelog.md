@@ -1,3 +1,6 @@
+### v5.0.1
+- Chore: replace Rollup.js bundler with Webpack; there are no anticipated client changes necessary but integrators should smoke test CSS and JavaScript functionality, especially on older devices, and app devs should verify their development workflows
+
 ### v5.0.0
 - Breaking: removed 'fragment' parameter from 'hideRedLinks' method
 - New: consolidated 1st paragraph relocation transform with 'moveLeadIntroductionUp' kickoff method

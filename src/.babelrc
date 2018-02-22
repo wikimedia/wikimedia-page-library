@@ -1,9 +1,0 @@
-{
-  "presets": [
-    ["env", {
-      "targets": { "android": "4.4", "ios": "10.3" },
-      "plugins": [ "external-helpers" ],
-      "modules": false
-    }]
-  ]
-}
