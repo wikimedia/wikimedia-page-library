@@ -29,7 +29,7 @@
     "pretest": "npm run -s build",
     "test": "mocha test/**/*.test.js",
     "serve:demo": "browser-sync start -c .browsersync.config.js",
-    "dev": "run-p -s serve:watch serve:demo",
+    "start": "run-p -s serve:watch serve:demo",
     "preversion": "[ -z \"$(git status -z)\" ]",
     "postversion": "git push --follow-tags origin HEAD && npm publish",
     "prepublish": "npm run -s lint:all && npm -s t",

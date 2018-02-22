@@ -1,5 +1,6 @@
 ### v5.0.1
 - Chore: replace Rollup.js bundler with Webpack; there are no anticipated client changes necessary but integrators should smoke test CSS and JavaScript functionality, especially on older devices, and app devs should verify their development workflows
+- Chore: rename NPM `dev` script to canonical `start`
 
 ### v5.0.0
 - Breaking: removed 'fragment' parameter from 'hideRedLinks' method
