@@ -1,3 +1,6 @@
+### v5.0.2
+- Fix: Changing the size of the edit pencil to make it look more compatible with other edit pencil views in the android app. Also ensure that the edit pencil has its own dedicated column space within the header element, to support display with multiline headings. 
+
 ### v5.0.1
 - Chore: replace Rollup.js bundler with Webpack; there are no anticipated client changes necessary but integrators should smoke test CSS and JavaScript functionality, especially on older devices, and app devs should verify their development workflows
 - Chore: rename NPM `dev` script to canonical `start`
