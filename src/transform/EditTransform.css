@@ -1,12 +1,22 @@
+.pagelib_edit_section_header {
+  display: flex;
+}
+
+.content-rtl .pagelib_edit_section_header {
+  flex-direction: row-reverse;
+}
+
+.pagelib_edit_section_title {
+  flex: 1;
+}
+
 #mainpage a.pagelib_edit_section_link,
 .no-editing a.pagelib_edit_section_link {
   display: none;
 }
 
 .pagelib_edit_section_link_container {
-  margin: 2px 16px;
-  display: table-cell;
-  vertical-align: bottom;
+  margin: 2px 8px;
   opacity: .54;
 }
 
@@ -28,7 +38,6 @@
 }
 
 .content-rtl .pagelib_edit_section_link_container {
-  float: left;
   -webkit-transform: scaleX( -1 );
   transform: scaleX( -1 );
 }
@@ -37,7 +46,6 @@ a.pagelib_edit_section_link {
   position: relative;
   width: 24px;
   height: 24px;
-  float: right;
   display: inline-block;
   background-size: 24px 24px;
   background-repeat: no-repeat;
