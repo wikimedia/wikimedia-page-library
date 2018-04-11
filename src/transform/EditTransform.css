@@ -1,5 +1,6 @@
 .pagelib_edit_section_header {
   display: flex;
+  align-items: flex-end;
 }
 
 .content-rtl .pagelib_edit_section_header {
