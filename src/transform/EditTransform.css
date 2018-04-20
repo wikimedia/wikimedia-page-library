@@ -3,7 +3,9 @@
   align-items: flex-end;
 }
 
-.content-rtl .pagelib_edit_section_header {
+// TODO: figure out why only Android needs 'row-reverse' for RTL (on iOS it double-reverses the
+// edit pencils to wrong side)
+.pagelib_platform_android .content-rtl .pagelib_edit_section_header {
   flex-direction: row-reverse;
 }
 
