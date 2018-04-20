@@ -2,11 +2,12 @@ import assert from 'assert'
 import fixtureIO from '../utilities/FixtureIO'
 import pagelib from '../../build/wikimedia-page-library-transform'
 const editTransform = pagelib.EditTransform
-let document
-let element
 
 describe('EditTransform', () => {
   describe('.newEditSectionHeader(0, 2)', () => {
+    let document
+    let element
+
     beforeEach(() => {
       document = fixtureIO.documentFromFixtureFile('EditTransform.html')
       element = editTransform.newEditSectionHeader(document, 0, 2, 'Title')
@@ -35,6 +36,9 @@ describe('EditTransform', () => {
   })
 
   describe('.newEditSectionHeader(0, 3)', () => {
+    let document
+    let element
+
     beforeEach(() => {
       document = fixtureIO.documentFromFixtureFile('EditTransform.html')
       element = editTransform.newEditSectionHeader(document, 0, 3, 'Title')
@@ -46,6 +50,9 @@ describe('EditTransform', () => {
   })
 
   describe('.newEditSectionHeader(0, 4)', () => {
+    let document
+    let element
+
     beforeEach(() => {
       document = fixtureIO.documentFromFixtureFile('EditTransform.html')
       element = editTransform.newEditSectionHeader(document, 0, 4, 'Title')
