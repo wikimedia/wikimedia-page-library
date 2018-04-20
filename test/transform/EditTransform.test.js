@@ -6,11 +6,12 @@ let document
 let element
 
 describe('EditTransform', () => {
-  beforeEach(() => {
-    document = fixtureIO.documentFromFixtureFile('EditTransform.html')
-    element = editTransform.newEditSectionHeader(document, 0, 2, 'Title')
-  })
-  describe('.newEditSectionHeader()', () => {
+  describe('.newEditSectionHeader(0, 2)', () => {
+    beforeEach(() => {
+      document = fixtureIO.documentFromFixtureFile('EditTransform.html')
+      element = editTransform.newEditSectionHeader(document, 0, 2, 'Title')
+    })
+
     it('returns a non null element', () => {
       assert.notEqual(element, null)
     })
@@ -32,24 +33,24 @@ describe('EditTransform', () => {
       assert.ok(text.includes('Title'))
     })
   })
-})
-describe('EditTransform', () => {
-  beforeEach(() => {
-    document = fixtureIO.documentFromFixtureFile('EditTransform.html')
-    element = editTransform.newEditSectionHeader(document, 0, 3, 'Title')
-  })
-  describe('.newEditSectionHeader()', () => {
+
+  describe('.newEditSectionHeader(0, 3)', () => {
+    beforeEach(() => {
+      document = fixtureIO.documentFromFixtureFile('EditTransform.html')
+      element = editTransform.newEditSectionHeader(document, 0, 3, 'Title')
+    })
+
     it('creates h3 element', () => {
       assert.ok(element.childNodes.item(0).nodeName === 'H3')
     })
   })
-})
-describe('EditTransform', () => {
-  beforeEach(() => {
-    document = fixtureIO.documentFromFixtureFile('EditTransform.html')
-    element = editTransform.newEditSectionHeader(document, 0, 4, 'Title')
-  })
-  describe('.newEditSectionHeader()', () => {
+
+  describe('.newEditSectionHeader(0, 4)', () => {
+    beforeEach(() => {
+      document = fixtureIO.documentFromFixtureFile('EditTransform.html')
+      element = editTransform.newEditSectionHeader(document, 0, 4, 'Title')
+    })
+
     it('creates h4 element', () => {
       assert.ok(element.childNodes.item(0).nodeName === 'H4')
     })
