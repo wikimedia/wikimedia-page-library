@@ -13,10 +13,10 @@ describe('EditTransform', () => {
     })
 
     it('returns a non null element', () => {
-      assert.notEqual(element, null)
+      assert.ok(element)
     })
     it('creates h2 element', () => {
-      assert.ok(element.childNodes.item(0).nodeName === 'H2')
+      assert.equal(element.childNodes.item(0).nodeName, 'H2')
     })
     it('has all required attributes', () => {
       assert.ok(element.childNodes.item(0).hasAttribute('data-id'))
@@ -41,7 +41,7 @@ describe('EditTransform', () => {
     })
 
     it('creates h3 element', () => {
-      assert.ok(element.childNodes.item(0).nodeName === 'H3')
+      assert.equal(element.childNodes.item(0).nodeName, 'H3')
     })
   })
 
@@ -52,7 +52,7 @@ describe('EditTransform', () => {
     })
 
     it('creates h4 element', () => {
-      assert.ok(element.childNodes.item(0).nodeName === 'H4')
+      assert.equal(element.childNodes.item(0).nodeName, 'H4')
     })
   })
 })
