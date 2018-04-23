@@ -1,3 +1,8 @@
+### v6.0.0
+- Breaking: update section header presentation for multiline titles; integration notes:
+  - Clients should now call EditTransform.newEditSectionHeader() instead of newEditSectionButton() and remove any custom code; please see JSDocs and demo
+- Update: change the size of the edit pencil to make it look more compatible with other edit pencil views in the android app
+
 ### v5.0.1
 - Chore: replace Rollup.js bundler with Webpack; there are no anticipated client changes necessary but integrators should smoke test CSS and JavaScript functionality, especially on older devices, and app devs should verify their development workflows
 - Chore: rename NPM `dev` script to canonical `start`

@@ -80,11 +80,11 @@
     },
     {
       "path": "build/wikimedia-page-library-transform.css",
-      "maxSize": "25.7KB"
+      "maxSize": "25.8KB"
     },
     {
       "path": "build/wikimedia-page-library-transform.js",
-      "maxSize": "12.6KB"
+      "maxSize": "12.7KB"
     }
   ]
 }
