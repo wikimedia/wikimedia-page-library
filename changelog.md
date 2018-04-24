@@ -1,3 +1,6 @@
+### v6.0.1
+- Fix: hiding edit pencils on iOS for sections H3 to H6
+
 ### v6.0.0
 - Breaking: update section header presentation for multiline titles; integration notes:
   - Clients should now call EditTransform.newEditSectionHeader() instead of newEditSectionButton() and remove any custom code; please see JSDocs and demo
