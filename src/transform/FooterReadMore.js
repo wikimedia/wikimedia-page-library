@@ -66,14 +66,14 @@ class ReadMorePage {
    * ReadMorePage constructor.
    * @param {!string} title
    * @param {?string} thumbnail
-   * @param {?object} terms
+   * @param {?object} description
    * @param {?string} extract
    * @return {void}
    */
-  constructor(title, thumbnail, terms, extract) {
+  constructor(title, thumbnail, description, extract) {
     this.title = title
     this.thumbnail = thumbnail
-    this.terms = terms
+    this.description = description
     this.extract = extract
   }
 }
@@ -115,8 +115,8 @@ const documentFragmentForReadMorePage = (readMorePage, index, saveButtonClickHan
   }
 
   let description
-  if (readMorePage.terms) {
-    description = readMorePage.terms.description[0]
+  if (readMorePage.description) {
+    description = readMorePage.description
   }
   if ((!description || description.length < 10) && readMorePage.extract) {
     description = cleanExtract(readMorePage.extract)
@@ -153,7 +153,7 @@ const showReadMorePages = (pages, containerID, saveButtonClickHandler, titlesSho
   pages.forEach((page, index) => {
     const title = page.title.replace(/ /g, '_')
     shownTitles.push(title)
-    const pageModel = new ReadMorePage(title, page.thumbnail, page.terms, page.extract)
+    const pageModel = new ReadMorePage(title, page.thumbnail, page.description, page.extract)
     const pageFragment =
       documentFragmentForReadMorePage(pageModel, index, saveButtonClickHandler, document)
     container.appendChild(pageFragment)
@@ -171,7 +171,7 @@ const queryParameters = (title, count) => ({
   action: 'query',
   format: 'json',
   formatversion: 2,
-  prop: 'extracts|pageimages|pageterms',
+  prop: 'extracts|pageimages|description',
 
   // https://www.mediawiki.org/wiki/API:Search
   // https://www.mediawiki.org/wiki/Help:CirrusSearch
@@ -191,10 +191,7 @@ const queryParameters = (title, count) => ({
   pilicense: 'any', // Include non-free images.
   pilimit: count, // Limit thumbnail results by count.
   piprop: 'thumbnail', // Include URL and dimensions of thumbnail.
-  pithumbsize: 120, // Limit thumbnail dimensions.
-
-  // https://en.wikipedia.org/w/api.php?action=help&modules=query%2Bpageterms
-  wbptterms: 'description'
+  pithumbsize: 120 // Limit thumbnail dimensions.
 })
 
 /**

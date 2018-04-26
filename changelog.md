@@ -1,3 +1,6 @@
+### v6.0.2
+- Update: use new parameters for `Read more` wikidata descriptions
+
 ### v6.0.1
 - Fix: hiding edit pencils on iOS for sections H3 to H6
 
