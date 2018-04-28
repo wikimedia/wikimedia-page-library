@@ -55,7 +55,7 @@
     "bundlesize": "0.17.0",
     "clean-webpack-plugin": "0.1.19",
     "css-loader": "0.28.11",
-    "domino": "1.0.28",
+    "domino": "2.0.2",
     "eslint": "4.1.1",
     "eslint-config-node-services": "github:wikimedia/eslint-config-node-services#6d257ee",
     "eslint-config-wikimedia": "0.4.0",
