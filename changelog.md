@@ -1,3 +1,6 @@
+### v6.0.3
+- Update: slight adjustments to edit pencil spacing
+
 ### v6.0.2
 - Update: use new parameters for `Read more` wikidata descriptions
 
