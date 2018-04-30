@@ -1,12 +1,24 @@
 /** Function rate limiter. */
 export default class Throttle {
   /**
+   * The function to invoke when not throttled.
+   *
+   * @callback notThrottledFunction
+   */
+
+  /**
+   * A function wrapped in a Throttle.
+   *
+   * @callback wrappedFunction
+   */
+
+  /**
    * Wraps a function in a Throttle.
    * @param {!Window} window
    * @param {!number} period The nonnegative minimum number of milliseconds between function
    *                         invocations.
-   * @param {!function} funktion The function to invoke when not throttled.
-   * @return {!function} A function wrapped in a Throttle.
+   * @param {!notThrottledFunction} funktion
+   * @return {!wrappedFunction}
    */
   static wrap(window, period, funktion) {
     const throttle = new Throttle(window, period, funktion)
@@ -23,7 +35,7 @@ export default class Throttle {
    * @param {!Window} window
    * @param {!number} period The nonnegative minimum number of milliseconds between function
    *                         invocations.
-   * @param {!function} funktion The function to invoke when not throttled.
+   * @param {!notThrottledFunction} funktion
    */
   constructor(window, period, funktion) {
     this._window = window

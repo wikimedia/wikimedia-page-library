@@ -11,7 +11,13 @@ export default class {
     this._clears = 0
   }
 
-  /** @return {?function} The timeout function set by setTimeout(). */
+  /**
+   * Timeout function.
+   *
+   * @callback timeoutFunction
+   */
+
+  /** @return {?timeoutFunction} The timeout function set by setTimeout(). */
   get timeout() { return this._timeout }
 
   /** @return {!number} The delay set by setTimeout(). */
@@ -24,7 +30,7 @@ export default class {
   get clears() { return this._clears }
 
   /**
-   * @param {!function} timeout
+   * @param {!timeoutFunction} timeout
    * @param {!number} delay
    * @return {!number} A nonnegative timeout identifier.
    */

@@ -66,7 +66,7 @@ class ReadMorePage {
    * ReadMorePage constructor.
    * @param {!string} title
    * @param {?string} thumbnail
-   * @param {?object} description
+   * @param {?string} description
    * @param {?string} extract
    * @return {void}
    */
@@ -165,7 +165,7 @@ const showReadMorePages = (pages, containerID, saveButtonClickHandler, titlesSho
  * Makes 'Read more' query parameters object for a title.
  * @param {!string} title
  * @param {!number} count
- * @return {!object}
+ * @return {!Object.<string, string|number>}
  */
 const queryParameters = (title, count) => ({
   action: 'query',
@@ -196,7 +196,7 @@ const queryParameters = (title, count) => ({
 
 /**
  * Converts query parameter object to string.
- * @param {!object} parameters
+ * @param {!Object.<string, string|number>} parameters
  * @return {!string}
  */
 const stringFromQueryParameters = parameters => Object.keys(parameters)
