@@ -14,10 +14,10 @@ export default class {
   /**
    * Timeout function.
    *
-   * @callback timeoutFunction
+   * @callback TimeoutFunction
    */
 
-  /** @return {?timeoutFunction} The timeout function set by setTimeout(). */
+  /** @return {?TimeoutFunction} The timeout function set by setTimeout(). */
   get timeout() { return this._timeout }
 
   /** @return {!number} The delay set by setTimeout(). */
@@ -30,7 +30,7 @@ export default class {
   get clears() { return this._clears }
 
   /**
-   * @param {!timeoutFunction} timeout
+   * @param {!TimeoutFunction} timeout
    * @param {!number} delay
    * @return {!number} A nonnegative timeout identifier.
    */
