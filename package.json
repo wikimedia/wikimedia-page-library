@@ -22,7 +22,7 @@
   "scripts": {
     "lint": "eslint --cache --max-warnings 0 --ext .js --ext .json --ext .html",
     "lint:all": "npm run -s lint .",
-    "build": "NODE_ENV=production webpack",
+    "build": "NODE_ENV=production webpack -p",
     "build:watch": "webpack -dw",
     "serve:watch": "webpack-dev-server -dw",
     "test:size": "bundlesize",
