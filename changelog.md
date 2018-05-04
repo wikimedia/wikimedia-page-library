@@ -1,3 +1,6 @@
+### v6.0.4
+- Update: update dependencies
+
 ### v6.0.3
 - Update: slight adjustments to edit pencil spacing
 
