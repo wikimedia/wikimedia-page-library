@@ -1,3 +1,6 @@
+### v6.0.5
+- Fix: theme css regression. Collapsed table borders were missing for sepia and dark themes.
+
 ### v6.0.4
 - Update: update dependencies
 
