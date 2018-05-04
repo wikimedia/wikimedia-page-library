@@ -128,9 +128,9 @@ describe('WidenImage', () => {
       updateExistingStyleValue(element.style, 'width', '100%')
       updateExistingStyleValue(element.style, 'float', 'left')
       updateExistingStyleValue(element.style, 'maxWidth', '25%')
-      assert.ok(element.style.width === undefined)
-      assert.ok(element.style.float === undefined)
-      assert.ok(element.style.maxWidth === undefined)
+      assert.equal(element.style.width, '')
+      assert.equal(element.style.float, undefined)
+      assert.equal(element.style.maxWidth, '')
     })
   })
 
@@ -148,8 +148,8 @@ describe('WidenImage', () => {
   describe('widenElementByUpdatingStyles()', () => {
     it('styles updated whether they exist or not', () => {
       const element = document.querySelector('#widthConstrainedAncestor1')
-      assert.ok(element.style.width === undefined)
-      assert.ok(element.style.height === undefined)
+      assert.equal(element.style.width, '')
+      assert.equal(element.style.height, '')
       styleMocking.mockStylesInElement(element, {
         maxWidth: '50%',
         float: 'right'
@@ -167,16 +167,16 @@ describe('WidenImage', () => {
   describe('widenElementByUpdatingExistingStyles()', () => {
     it('only existing styles updated', () => {
       const element = document.querySelector('#widthConstrainedAncestor1')
-      assert.ok(element.style.width === undefined)
-      assert.ok(element.style.height === undefined)
+      assert.equal(element.style.width, '')
+      assert.equal(element.style.height, '')
       styleMocking.mockStylesInElement(element, {
         maxWidth: '50%',
         float: 'right'
       })
       widenElementByUpdatingExistingStyles(element)
       styleMocking.verifyStylesInElement(element, {
-        width: undefined,
-        height: undefined,
+        width: '',
+        height: '',
         maxWidth: '100%',
         float: 'none'
       })

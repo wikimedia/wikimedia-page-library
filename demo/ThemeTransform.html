@@ -63,7 +63,7 @@
 
 /**
  * Converts article JSON to ArticleRefs.
- * @param {!Array<object>} json array of article JSON objects
+ * @param {!Array<Object>} json array of article JSON objects
  * @return {!Array<ArticleRef>}
  */
 const articleRefsFromArticlesJSON = json => flattenArrayOfArrays(
@@ -83,7 +83,7 @@ const articleRefsFromArticlesJSON = json => flattenArrayOfArrays(
 )
 
 /**
- * Converts ArticleRefs to anchor elements. 
+ * Converts ArticleRefs to anchor elements.
  * @param {!Array<ArticleRef>} articleRefs
  * @return {!Array<HTMLAnchorElement>}
  */
@@ -97,16 +97,16 @@ const anchorsFromArticleRefs = articleRefs => articleRefs.map(articleRef => {
 /**
  * Converts array of arrays of article sections to array of articles' sections (single array with
  * sections from all articles).
- * @param {!Array<object>} allArticlesSections
- * @return {!Array<object>}
+ * @param {!Array<Object>} allArticlesSections
+ * @return {!Array<Object>}
  */
 const sectionsFromAllArticlesSections =
   allArticlesSections => flattenArrayOfArrays(allArticlesSections)
 
 /**
  * Converts article JSON sections to HTML strings.
- * @param  {!Array<object>} sections
- * @return {!Array<String>}
+ * @param  {!Array<Object>} sections
+ * @return {!Array<string>}
  */
 const enclosedSectionHTMLsFromSections = sections => sections.map(section =>
   `<div class='content_block' id='${section.id}'>

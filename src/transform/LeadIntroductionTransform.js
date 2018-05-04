@@ -43,7 +43,7 @@ const extractLeadIntroductionNodes = eligibleParagraph => {
 
 /**
  * Locate first eligible paragraph. We don't want paragraphs from somewhere in the middle of a
- * table, so only paragraphs which are direct children of `containerID` element are considered. 
+ * table, so only paragraphs which are direct children of `containerID` element are considered.
  * @param  {!Document} document
  * @param  {!string} containerID ID of the section under examination.
  * @return {?HTMLParagraphElement}
