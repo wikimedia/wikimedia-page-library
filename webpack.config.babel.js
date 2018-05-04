@@ -55,7 +55,7 @@ const config = {
             loader: 'style-loader',
             options: { hmr: false }
           },
-          use: [{ loader: 'css-loader' }, 'postcss-loader']
+          use: [{ loader: 'css-loader', options: { minimize: false } }, 'postcss-loader']
         })
       }
     ]
