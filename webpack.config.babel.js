@@ -2,7 +2,7 @@ import * as path from 'path'
 import * as pkg from './package.json'
 import * as webpack from 'webpack'
 import CleanPlugin from 'clean-webpack-plugin'
-import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 const PRODUCTION = process.env.NODE_ENV === 'production'
 
@@ -50,13 +50,10 @@ const config = {
       },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: {
-            loader: 'style-loader',
-            options: { hmr: false }
-          },
-          use: [{ loader: 'css-loader', options: { minimize: false } }, 'postcss-loader']
-        })
+        use: [
+          MiniCssExtractPlugin.loader,
+          { loader: 'css-loader', options: { minimize: false } }
+        ]
       }
     ]
   },
@@ -80,7 +77,7 @@ const config = {
       },
       VERSION: JSON.stringify(pkg.version)
     }),
-    new ExtractTextPlugin({ filename: '[name].css' })
+    new MiniCssExtractPlugin({ filename: '[name].css' })
   ]
 }
 
