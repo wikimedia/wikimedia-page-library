@@ -1,3 +1,6 @@
+### v6.0.7
+- Fix: use correct parameters for `Read more` display titles.
+
 ### v6.0.6
 - Fix: second attempt to fix theme css regression. v6.0.5 did not fix it.
 
