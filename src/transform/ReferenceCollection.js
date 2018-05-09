@@ -71,7 +71,6 @@ const collectRefText = (document, sourceNode) => {
   const frag = document.createDocumentFragment()
   const fragDiv = document.createElement('div')
   frag.appendChild(fragDiv)
-
   // eslint-disable-next-line require-jsdoc
   const cloneNodeIntoFragmentDiv = node => fragDiv.appendChild(node.cloneNode(true))
   Array.prototype.slice.call(refTextContainer.childNodes)
