@@ -1,3 +1,6 @@
+### v6.1.0
+- New: adjacent reference extraction
+
 ### v6.0.7
 - Fix: use correct parameters for `Read more` display titles.
 
