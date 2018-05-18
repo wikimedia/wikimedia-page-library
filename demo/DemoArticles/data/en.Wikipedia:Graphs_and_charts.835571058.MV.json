@@ -6,7 +6,7 @@
       "name": "GiantSnowman",
       "gender": "male"
     },
-    "revision": 801754530,
+    "revision": 835571058,
     "languagecount": 1,
     "displaytitle": "Wikipedia:Graphs and charts",
     "id": 19369239,
@@ -189,7 +189,7 @@
         "fromtitle": "Wikipedia:Graphs_and_charts",
         "anchor": "See_also",
         "id": 16,
-        "text": "<ul><li><a href=\"/wiki/Wikipedia:How_to_create_charts_for_Wikipedia_articles\" title=\"Wikipedia:How to create charts for Wikipedia articles\">Wikipedia:How to create charts for Wikipedia articles</a></li>\n<li><a href=\"/wiki/Help:Barchart\" title=\"Help:Barchart\">Help:Barchart</a></li>\n<li><a href=\"/wiki/Wikipedia:Family_trees\" class=\"mw-redirect\" title=\"Wikipedia:Family trees\">Wikipedia:Family trees</a></li>\n<li><a href=\"/wiki/Wikipedia:Collaboration_to_convert_graphs_to_SVG\" title=\"Wikipedia:Collaboration to convert graphs to SVG\">Wikipedia:Collaboration to convert graphs to SVG</a></li>\n<li><a href=\"/wiki/Wikipedia:Don%27t_draw_misleading_graphs\" title=\"Wikipedia:Don't draw misleading graphs\">Wikipedia:Don't draw misleading graphs</a></li>\n<li><a href=\"/wiki/Wikipedia:To_scale_charts\" title=\"Wikipedia:To scale charts\">Wikipedia:To scale charts</a></li>\n<li><a href=\"/wiki/Wikipedia:Images\" title=\"Wikipedia:Images\">Wikipedia:Images</a></li>\n<li><a href=\"/wiki/Wikipedia:Record_charts\" title=\"Wikipedia:Record charts\">Wikipedia:Record charts</a></li>\n</ul>"
+        "text": "<ul><li><a href=\"/wiki/Wikipedia:How_to_create_charts_for_Wikipedia_articles\" title=\"Wikipedia:How to create charts for Wikipedia articles\">Wikipedia:How to create charts for Wikipedia articles</a></li>\n<li><a href=\"/wiki/Help:Barchart\" title=\"Help:Barchart\">Help:Barchart</a></li>\n<li><a href=\"/wiki/Wikipedia:Family_trees\" class=\"mw-redirect\" title=\"Wikipedia:Family trees\">Wikipedia:Family trees</a></li>\n<li><a href=\"/wiki/Wikipedia:Collaboration_to_convert_graphs_to_SVG\" title=\"Wikipedia:Collaboration to convert graphs to SVG\">Wikipedia:Collaboration to convert graphs to SVG</a></li>\n<li><a href=\"/wiki/Wikipedia:Don%27t_draw_misleading_graphs\" title=\"Wikipedia:Don't draw misleading graphs\">Wikipedia:Don't draw misleading graphs</a></li>\n<li><a href=\"/wiki/Wikipedia:To_scale_charts\" title=\"Wikipedia:To scale charts\">Wikipedia:To scale charts</a></li>\n<li><a href=\"/wiki/Wikipedia:Images\" title=\"Wikipedia:Images\">Wikipedia:Images</a></li>\n<li><a href=\"/wiki/Wikipedia:Record_charts\" title=\"Wikipedia:Record charts\">Wikipedia:Record charts</a></li>\n<li><a href=\"https://commons.wikimedia.org/wiki/Commons:Chart_and_graph_resources\" class=\"extiw\" title=\"commons:Commons:Chart and graph resources\">Commons:Chart and graph resources</a></li>\n</ul>"
       }
     ],
     "protection": {},
