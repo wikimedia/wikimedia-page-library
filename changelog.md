@@ -1,3 +1,6 @@
+### v6.0.8
+- Fix: brick, pie, bar, and stacked bar chart theming.
+
 ### v6.0.7
 - Fix: use correct parameters for `Read more` display titles.
 

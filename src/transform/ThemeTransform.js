@@ -88,7 +88,11 @@ const classifyElements = element => {
     'div.chart ul li span[style*="background-color"]',
     'span.legend-color',
     'div.mw-highlight span',
-    'code.mw-highlight span'
+    'code.mw-highlight span',
+    '.BrickChartTemplate div',
+    '.PieChartTemplate div',
+    '.BarChartTemplate div',
+    '.StackedBarTemplate td'
   ].join()
   Polyfill.querySelectorAll(element, selector).forEach(element =>
     element.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE))
