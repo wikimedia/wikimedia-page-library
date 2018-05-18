@@ -2,7 +2,6 @@ import ElementUtilities from './ElementUtilities'
 import NodeUtilities from './NodeUtilities'
 import Polyfill from './Polyfill'
 
-const NodeTypes = NodeUtilities.NodeTypes
 const REFERENCE_SELECTOR = '.reference'
 
 /**
@@ -25,7 +24,7 @@ const getFirstChildAnchor = element => element.querySelector('A')
  * @return {!boolean}
  */
 const isWhitespaceTextNode = node =>
-  !(!node || node.nodeType !== NodeTypes.TEXT_NODE || !node.textContent.match(/^\s+$/))
+  !(!node || node.nodeType !== Node.TEXT_NODE || !node.textContent.match(/^\s+$/))
 
 /**
  * Checks if element has a child anchor with a citation link.

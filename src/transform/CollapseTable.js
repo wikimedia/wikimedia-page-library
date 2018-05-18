@@ -3,8 +3,6 @@ import ElementUtilities from './ElementUtilities'
 import NodeUtilities from './NodeUtilities'
 import Polyfill from './Polyfill'
 
-const NodeTypes = NodeUtilities.NodeTypes
-
 const SECTION_TOGGLED_EVENT_TYPE = 'section-toggled'
 const BREAKING_SPACE = ' '
 
@@ -69,7 +67,7 @@ const stringWithNormalizedWhitespace = string => string.trim().replace(/\s/g, BR
  * @param  {!Node}  node
  * @return {!boolean}
  */
-const isNodeBreakElement = node => node.nodeType === NodeTypes.ELEMENT_NODE && node.tagName === 'BR'
+const isNodeBreakElement = node => node.nodeType === Node.ELEMENT_NODE && node.tagName === 'BR'
 
 /**
  * Replace node with a text node bearing a single breaking space.
@@ -126,7 +124,7 @@ const extractEligibleHeaderText = (document, header, pageTitle) => {
  * elements is preserved.
  * @param  {!Element} a
  * @param  {!Element} b
- * @return {!boolean}
+ * @return {!number}
  */
 const elementScopeComparator = (a, b) => {
   const aHasScope = a.hasAttribute('scope')

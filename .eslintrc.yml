@@ -1,5 +1,7 @@
 extends: node-services
 plugins: [html]
+env:
+  browser: true
 
 parserOptions:
   ecmaVersion: 6
