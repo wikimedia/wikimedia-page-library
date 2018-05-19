@@ -69,7 +69,6 @@ class ReadMorePage {
    * @param {?string} thumbnail
    * @param {?string} description
    * @param {?string} extract
-   * @return {void}
    */
   constructor(title, displayTitle, thumbnail, description, extract) {
     this.title = title
@@ -218,7 +217,7 @@ const stringFromQueryParameters = parameters => Object.keys(parameters)
  * @param {!string} title
  * @param {!number} count Number of `Read more` items to fetch for this title
  * @param {?string} baseURL
- * @return {!sring}
+ * @return {!string}
  */
 const readMoreQueryURL = (title, count, baseURL) =>
   `${baseURL || ''}/w/api.php?${stringFromQueryParameters(queryParameters(title, count))}`

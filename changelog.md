@@ -1,5 +1,6 @@
 ### v6.0.8
-- Fix: brick, pie, bar, and stacked bar chart, and chessboard theming.
+- Fix: [brick, pie, bar, and stacked bar chart](https://phabricator.wikimedia.org/T179128), and [chessboard theming](https://phabricator.wikimedia.org/T183333).
+- [Fix: infobox collapsing on frwiki](https://phabricator.wikimedia.org/T188096)
 
 ### v6.0.7
 - Fix: use correct parameters for `Read more` display titles.
