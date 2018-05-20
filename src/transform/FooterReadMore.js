@@ -65,15 +65,17 @@ class ReadMorePage {
   /**
    * ReadMorePage constructor.
    * @param {!string} title
+   * @param {!string} displayTitle
    * @param {?string} thumbnail
-   * @param {?object} terms
+   * @param {?string} description
    * @param {?string} extract
    * @return {void}
    */
-  constructor(title, thumbnail, terms, extract) {
+  constructor(title, displayTitle, thumbnail, description, extract) {
     this.title = title
+    this.displayTitle = displayTitle
     this.thumbnail = thumbnail
-    this.terms = terms
+    this.description = description
     this.extract = extract
   }
 }
@@ -104,19 +106,25 @@ const documentFragmentForReadMorePage = (readMorePage, index, saveButtonClickHan
   outerAnchorContainer.appendChild(innerDivContainer)
   outerAnchorContainer.href = `/wiki/${encodeURI(readMorePage.title)}`
 
-  if (readMorePage.title) {
+  let titleToShow
+  if (readMorePage.displayTitle) {
+    titleToShow = readMorePage.displayTitle
+  } else if (readMorePage.title) {
+    titleToShow = readMorePage.title
+  }
+
+  if (titleToShow) {
     const title = document.createElement('div')
     title.id = index
     title.className = 'pagelib_footer_readmore_page_title'
-    const displayTitle = readMorePage.title.replace(/_/g, ' ')
-    title.innerHTML = displayTitle
-    outerAnchorContainer.title = displayTitle
+    title.innerHTML = titleToShow.replace(/_/g, ' ')
+    outerAnchorContainer.title = readMorePage.title.replace(/_/g, ' ')
     innerDivContainer.appendChild(title)
   }
 
   let description
-  if (readMorePage.terms) {
-    description = readMorePage.terms.description[0]
+  if (readMorePage.description) {
+    description = readMorePage.description
   }
   if ((!description || description.length < 10) && readMorePage.extract) {
     description = cleanExtract(readMorePage.extract)
@@ -153,7 +161,8 @@ const showReadMorePages = (pages, containerID, saveButtonClickHandler, titlesSho
   pages.forEach((page, index) => {
     const title = page.title.replace(/ /g, '_')
     shownTitles.push(title)
-    const pageModel = new ReadMorePage(title, page.thumbnail, page.terms, page.extract)
+    const pageModel = new ReadMorePage(title, page.pageprops.displaytitle, page.thumbnail,
+      page.description, page.extract)
     const pageFragment =
       documentFragmentForReadMorePage(pageModel, index, saveButtonClickHandler, document)
     container.appendChild(pageFragment)
@@ -165,13 +174,13 @@ const showReadMorePages = (pages, containerID, saveButtonClickHandler, titlesSho
  * Makes 'Read more' query parameters object for a title.
  * @param {!string} title
  * @param {!number} count
- * @return {!object}
+ * @return {!Object.<string, string|number>}
  */
 const queryParameters = (title, count) => ({
   action: 'query',
   format: 'json',
   formatversion: 2,
-  prop: 'extracts|pageimages|pageterms',
+  prop: 'extracts|pageimages|description|pageprops',
 
   // https://www.mediawiki.org/wiki/API:Search
   // https://www.mediawiki.org/wiki/Help:CirrusSearch
@@ -191,15 +200,12 @@ const queryParameters = (title, count) => ({
   pilicense: 'any', // Include non-free images.
   pilimit: count, // Limit thumbnail results by count.
   piprop: 'thumbnail', // Include URL and dimensions of thumbnail.
-  pithumbsize: 120, // Limit thumbnail dimensions.
-
-  // https://en.wikipedia.org/w/api.php?action=help&modules=query%2Bpageterms
-  wbptterms: 'description'
+  pithumbsize: 120 // Limit thumbnail dimensions.
 })
 
 /**
  * Converts query parameter object to string.
- * @param {!object} parameters
+ * @param {!Object.<string, string|number>} parameters
  * @return {!string}
  */
 const stringFromQueryParameters = parameters => Object.keys(parameters)

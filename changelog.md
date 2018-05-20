@@ -1,7 +1,33 @@
+### v6.0.7
+- Fix: use correct parameters for `Read more` display titles.
+- Chore: add JavaScript type-checking support via TypeScript
+
+### v6.0.6
+- Fix: second attempt to fix theme css regression. v6.0.5 did not fix it.
+
+### v6.0.5
+- Fix: theme css regression. Collapsed table borders were missing for sepia and dark themes.
+
+### v6.0.4
+- Update: update dependencies
+
+### v6.0.3
+- Update: slight adjustments to edit pencil spacing
+
+### v6.0.2
+- Update: use new parameters for `Read more` wikidata descriptions
+
+### v6.0.1
+- Fix: hiding edit pencils on iOS for sections H3 to H6
+
+### v6.0.0
+- Breaking: update section header presentation for multiline titles; integration notes:
+  - Clients should now call EditTransform.newEditSectionHeader() instead of newEditSectionButton() and remove any custom code; please see JSDocs and demo
+- Update: change the size of the edit pencil to make it look more compatible with other edit pencil views in the android app
+
 ### v5.0.1
 - Chore: replace Rollup.js bundler with Webpack; there are no anticipated client changes necessary but integrators should smoke test CSS and JavaScript functionality, especially on older devices, and app devs should verify their development workflows
 - Chore: rename NPM `dev` script to canonical `start`
-- Chore: add JavaScript type-checking support via TypeScript
 
 ### v5.0.0
 - Breaking: removed 'fragment' parameter from 'hideRedLinks' method

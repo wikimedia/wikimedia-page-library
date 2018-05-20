@@ -29,28 +29,34 @@
     <control-panel></control-panel>
 
     <div>
-      <section>
-        <h2>Edit section 1</h2>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </section>
-      <section>
-        <h3>Edit section 2</h3>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </section>
-      <section>
-        <h4>Edit section 3</h4>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </section>
     </div>
 
     <script>
       /* global pagelib */
+      // eslint-disable-next-line max-len
+      const contentHTML = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+      const titles = [
+        { level: 1, titleHTML: 'Edit section 1', contentHTML },
+        { level: 2, titleHTML: 'Edit section 2', contentHTML },
+        { level: 3, titleHTML: 'Edit section 3', contentHTML },
+        // eslint-disable-next-line max-len
+        { level: 2, titleHTML: 'A a B b C c D d E e F f G g H h I i J j K k L l M m N n O o P p Q q R r S s T t U u V v W w X x Y y Z z 0 1 2 3 4 5 6 7 8 9 ! @ # $ % ^ &amp; * ( ) - +', contentHTML }
+      ]
       let index = 0
-      document.querySelectorAll('h2, h3, h4').forEach(header => {
-        const button = pagelib.EditTransform.newEditSectionButton(document, index)
-        header.parentNode.insertBefore(button, header)
+      const root = document.querySelector('div')
+      for (const { level, titleHTML, contentHTML } of titles) {
+        const section = document.createElement('section')
+        const header = pagelib.EditTransform.newEditSectionHeader(document,
+          index, level, titleHTML)
+        section.appendChild(header)
+
+        const content = document.createElement('div')
+        content.innerHTML = contentHTML
+        section.appendChild(content)
+
+        root.appendChild(section)
         ++index
-      })
+      }
     </script>
 
 </body>

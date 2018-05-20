@@ -34,7 +34,7 @@ class ArticleRef {
    * @param {!string} title
    * @param {!number} revision
    * @param {!ArticleRefSourceType} sourceType
-   * @return {!object}
+   * @return {!ArticleRef}
    */
   constructor(lang, title, revision, sourceType) {
     this.lang = lang
@@ -78,8 +78,8 @@ class ArticleRef {
 
   /**
    * Extracts array of article sections from article JSON.
-   * @param {!object} json
-   * @return {!Array<object>}
+   * @param {!Object.<string, Array>} json
+   * @return {!Array}
    */
   sectionsArrayFromJSON(json) {
     switch (this.sourceType) {
