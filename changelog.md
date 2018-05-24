@@ -1,3 +1,6 @@
+### v6.0.8
+- Update: add event logging label to `Read more` item urls.
+
 ### v6.0.7
 - Fix: use correct parameters for `Read more` display titles.
 
