@@ -2,7 +2,7 @@ import ElementUtilities from './ElementUtilities'
 import NodeUtilities from './NodeUtilities'
 import Polyfill from './Polyfill'
 
-const REFERENCE_SELECTOR = '.reference'
+const REFERENCE_SELECTOR = '.reference, .mw-ref'
 
 /**
  * Is Citation.
