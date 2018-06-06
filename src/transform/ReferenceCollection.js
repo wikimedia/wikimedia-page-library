@@ -175,7 +175,7 @@ const adjacentNonWhitespaceNode = (node, siblingGetter) => {
 }
 
 /**
- * Collect adjacent reference nodes.
+ * Collect adjacent reference nodes. The starting node is not collected.
  * @param {!Node} node
  * @param {!SiblingGetter} siblingGetter
  * @param {!Collector} nodeCollector
