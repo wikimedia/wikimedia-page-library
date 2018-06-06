@@ -24,7 +24,7 @@ const getFirstChildAnchor = element => element.querySelector('A')
  * @return {!boolean}
  */
 const isWhitespaceTextNode = node =>
-  !(!node || node.nodeType !== Node.TEXT_NODE || !node.textContent.match(/^\s+$/))
+  Boolean(node) && node.nodeType === Node.TEXT_NODE && Boolean(node.textContent.match(/^\s+$/))
 
 /**
  * Checks if element has a child anchor with a citation link.
