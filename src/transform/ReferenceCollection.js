@@ -6,21 +6,21 @@ const REFERENCE_SELECTOR = '.reference, .mw-ref'
 
 /**
  * Is Citation.
- * @param  {!string}  href
+ * @param {!string} href
  * @return {!boolean}
  */
 const isCitation = href => href.indexOf('#cite_note') > -1
 
 /**
  * Gets first child anchor.
- * @param  {!HTMLElement} element
+ * @param {!HTMLElement} element
  * @return {?HTMLAnchorElement}
  */
 const getFirstChildAnchor = element => element.querySelector('A')
 
 /**
  * Determines if node is a text node containing only whitespace.
- * @param  {!Node}  node
+ * @param {!Node} node
  * @return {!boolean}
  */
 const isWhitespaceTextNode = node =>
@@ -28,7 +28,7 @@ const isWhitespaceTextNode = node =>
 
 /**
  * Checks if element has a child anchor with a citation link.
- * @param  {!HTMLElement}  element
+ * @param {!HTMLElement} element
  * @return {!boolean}
  */
 const hasCitationLink = element => {
@@ -41,8 +41,8 @@ const hasCitationLink = element => {
 
 /**
  * Get the reference text container.
- * @param  {!Document} document
- * @param  {!Node} sourceNode
+ * @param {!Document} document
+ * @param {!Node} sourceNode
  * @return {?HTMLElement}
  */
 const getRefTextContainer = (document, sourceNode) => {
@@ -55,8 +55,8 @@ const getRefTextContainer = (document, sourceNode) => {
 
 /**
  * Extract reference text free of backlinks.
- * @param  {!Document} document
- * @param  {!Node} sourceNode
+ * @param {!Document} document
+ * @param {!Node} sourceNode
  * @return {!string}
  */
 const collectRefText = (document, sourceNode) => {
@@ -86,7 +86,7 @@ const collectRefText = (document, sourceNode) => {
 /**
  * Get closest element to node which has class `reference`. If node itself has class `reference`
  * returns the node.
- * @param  {!Node} sourceNode
+ * @param {!Node} sourceNode
  * @return {?HTMLElement}
  */
 const closestReferenceClassElement = sourceNode => {
@@ -117,8 +117,8 @@ class ReferenceItem {
 
 /**
  * Converts node to ReferenceItem.
- * @param  {!Document} document
- * @param  {!Node} node
+ * @param {!Document} document
+ * @param {!Node} node
  * @return {!ReferenceItem}
  */
 const referenceItemForNode = (document, node) => new ReferenceItem(
@@ -133,8 +133,8 @@ const referenceItemForNode = (document, node) => new ReferenceItem(
  */
 class NearbyReferences {
 /**
- * @param  {!number} selectedIndex
- * @param  {!Array.<ReferenceItem>} referencesGroup
+ * @param {!number} selectedIndex
+ * @param {!Array.<ReferenceItem>} referencesGroup
  * @return {!NearbyReferences}
  */
   constructor(selectedIndex, referencesGroup) {
@@ -147,7 +147,7 @@ class NearbyReferences {
  * Closure around a node for getting previous or next sibling.
  *
  * @typedef SiblingGetter
- * @param  {!Node}  node
+ * @param {!Node} node
  * @return {?Node}
  */
 
@@ -155,14 +155,14 @@ class NearbyReferences {
   * Closure around `collectedNodes` for collecting reference nodes.
   *
   * @typedef Collector
-  * @param  {!Node}  node
+  * @param {!Node} node
   * @return {void}
   */
 
 /**
  * Get adjacent non-whitespace node.
- * @param  {!Node}  node
- * @param  {!SiblingGetter} siblingGetter
+ * @param {!Node} node
+ * @param {!SiblingGetter} siblingGetter
  * @return {?Node}
  */
 const adjacentNonWhitespaceNode = (node, siblingGetter) => {
@@ -175,9 +175,9 @@ const adjacentNonWhitespaceNode = (node, siblingGetter) => {
 
 /**
  * Collect adjacent reference nodes.
- * @param  {!Node} node
- * @param  {!SiblingGetter} siblingGetter
- * @param  {!Collector} nodeCollector
+ * @param {!Node} node
+ * @param {!SiblingGetter} siblingGetter
+ * @param {!Collector} nodeCollector
  * @return {void}
  */
 const collectAdjacentReferenceNodes = (node, siblingGetter, nodeCollector) => {
@@ -202,7 +202,7 @@ const nextSiblingGetter = node => node.nextSibling
 
 /**
  * Collect nearby reference nodes.
- * @param  {!Node}  sourceNode
+ * @param {!Node} sourceNode
  * @return {!Array.<Node>}
  */
 const collectNearbyReferenceNodes = sourceNode => {
@@ -222,8 +222,8 @@ const collectNearbyReferenceNodes = sourceNode => {
 
 /**
  * Collect nearby references.
- * @param  {!Document} document
- * @param  {!Node} sourceNode
+ * @param {!Document} document
+ * @param {!Node} sourceNode
  * @return {!NearbyReferences}
  */
 const collectNearbyReferences = (document, sourceNode) => {
