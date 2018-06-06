@@ -185,11 +185,10 @@ const collectAdjacentReferenceNodes = (node, siblingGetter, nodeCollector) => {
   let currentNode = node
   while (true) {
     currentNode = adjacentNonWhitespaceNode(currentNode, siblingGetter)
-    if (hasCitationLink(currentNode)) {
-      nodeCollector(currentNode)
-      continue
+    if (!hasCitationLink(currentNode)) {
+      break
     }
-    break
+    nodeCollector(currentNode)
   }
 }
 
