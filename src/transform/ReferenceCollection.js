@@ -3,13 +3,14 @@ import NodeUtilities from './NodeUtilities'
 import Polyfill from './Polyfill'
 
 const REFERENCE_SELECTOR = '.reference, .mw-ref'
+const CITE_HASH_PREFIX = '#cite_note'
 
 /**
  * Is Citation.
  * @param {!string} href
  * @return {!boolean}
  */
-const isCitation = href => href.indexOf('#cite_note') > -1
+const isCitation = href => href.indexOf(CITE_HASH_PREFIX) > -1
 
 /**
  * Gets first child anchor.
