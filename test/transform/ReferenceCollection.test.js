@@ -55,7 +55,7 @@ describe('ReferenceCollection', () => {
       const secondAnchor = document.querySelector('#a2')
       const nearbyReferences = ReferenceCollection.collectNearbyReferences(document, secondAnchor)
 
-      assert.equal(nearbyReferences.selectedIndex, 1)
+      assert.strictEqual(nearbyReferences.selectedIndex, 1)
       assert.deepEqual(nearbyReferences.referencesGroup, [
         { id: 'cite_ref-a',
           rect: MOCK_RECT,
@@ -101,12 +101,12 @@ describe('ReferenceCollection', () => {
         </stuff>`
     })
     it('gets previous non whitespace node', () => {
-      assert.equal(
+      assert.strictEqual(
         adjacentNonWhitespaceNode(document.querySelector('#two'), prevSiblingGetter).id, 'one'
       )
     })
     it('gets next non whitespace node', () => {
-      assert.equal(
+      assert.strictEqual(
         adjacentNonWhitespaceNode(document.querySelector('#two'), nextSiblingGetter).id, 'three'
       )
     })
@@ -114,34 +114,34 @@ describe('ReferenceCollection', () => {
   describe('.isWhitespaceTextNode()', () => {
     const isWhitespaceTextNode = ReferenceCollection.test.isWhitespaceTextNode
     it('rejects null node', () => {
-      assert.equal(isWhitespaceTextNode(null), false)
+      assert.strictEqual(isWhitespaceTextNode(null), false)
     })
     it('rejects element node', () => {
-      assert.equal(isWhitespaceTextNode(document.createElement('DIV')), false)
+      assert.strictEqual(isWhitespaceTextNode(document.createElement('DIV')), false)
     })
     it('rejects document node', () => {
-      assert.equal(isWhitespaceTextNode(document.implementation.createHTMLDocument()), false)
+      assert.strictEqual(isWhitespaceTextNode(document.implementation.createHTMLDocument()), false)
     })
     it('rejects comment node', () => {
-      assert.equal(isWhitespaceTextNode(document.createComment('A comment')), false)
+      assert.strictEqual(isWhitespaceTextNode(document.createComment('A comment')), false)
     })
     it('rejects non whitespace text node', () => {
-      assert.equal(isWhitespaceTextNode(document.createTextNode('Some text')), false)
+      assert.strictEqual(isWhitespaceTextNode(document.createTextNode('Some text')), false)
     })
     it('accepts text node of space', () => {
-      assert.equal(isWhitespaceTextNode(document.createTextNode(' ')), true)
+      assert.strictEqual(isWhitespaceTextNode(document.createTextNode(' ')), true)
     })
     it('accepts text node of spaces', () => {
-      assert.equal(isWhitespaceTextNode(document.createTextNode('     ')), true)
+      assert.strictEqual(isWhitespaceTextNode(document.createTextNode('     ')), true)
     })
     it('accepts text node of tab', () => {
-      assert.equal(isWhitespaceTextNode(document.createTextNode('\t')), true)
+      assert.strictEqual(isWhitespaceTextNode(document.createTextNode('\t')), true)
     })
     it('accepts text node of tabs', () => {
-      assert.equal(isWhitespaceTextNode(document.createTextNode('\t\t\t')), true)
+      assert.strictEqual(isWhitespaceTextNode(document.createTextNode('\t\t\t')), true)
     })
     it('accepts text node of tabs and spaces', () => {
-      assert.equal(isWhitespaceTextNode(document.createTextNode(' \t \t \t ')), true)
+      assert.strictEqual(isWhitespaceTextNode(document.createTextNode(' \t \t \t ')), true)
     })
   })
   describe('.collectAdjacentReferenceNodes()', () => {
@@ -183,7 +183,7 @@ describe('ReferenceCollection', () => {
         <sup id="cite_ref-a" class="reference"><a id='a1' href="#cite_note-a">[4]</a></sup>
       `)
       const anchor = document.querySelector('#cite_ref-a')
-      assert.equal(closestReferenceClassElement(anchor).id, 'cite_ref-a')
+      assert.strictEqual(closestReferenceClassElement(anchor).id, 'cite_ref-a')
     })
     it('if element does not have class "reference" return first ancestor having it', () => {
       document = domino.createDocument(`
@@ -194,21 +194,21 @@ describe('ReferenceCollection', () => {
         </sup>
       `)
       const anchor = document.querySelector('#a1')
-      assert.equal(closestReferenceClassElement(anchor).id, 'cite_ref-a')
+      assert.strictEqual(closestReferenceClassElement(anchor).id, 'cite_ref-a')
     })
     it('if neither element or it ancestor(s) have class "reference" returns null', () => {
       document = domino.createDocument(`
         <sup id="cite_ref-b"><a id='a2' href="#cite_note-b">[6]</a></sup>
       `)
       const anchor = document.querySelector('#a2')
-      assert.equal(closestReferenceClassElement(anchor), null)
+      assert.strictEqual(closestReferenceClassElement(anchor), null)
     })
   })
   describe('.collectRefText()', () => {
     const collectRefText = ReferenceCollection.test.collectRefText
     it('extracts expected reference text', () => {
       const referenceText = collectRefText(document, document.querySelector('#cite_ref-b'))
-      assert.equal(referenceText, '3 4 5')
+      assert.strictEqual(referenceText, '3 4 5')
     })
     it('removes `sup[id^=cite_ref], .mw-cite-backlink` elements from reference text', () => {
       const referenceText = collectRefText(document, document.querySelector('#cite_ref-d'))
@@ -218,7 +218,7 @@ describe('ReferenceCollection', () => {
       const removalSelector = 'sup[id^=cite_ref], .mw-cite-backlink'
       const matches = document.querySelectorAll(removalSelector)
 
-      assert.equal(matches.length, 0)
+      assert.strictEqual(matches.length, 0)
     })
   })
   describe('.getFirstChildAnchor()', () => {
@@ -231,19 +231,19 @@ describe('ReferenceCollection', () => {
         </div>
       `)
       const container = document.querySelector('#container')
-      assert.equal(getFirstChildAnchor(container).id, 'a1')
+      assert.strictEqual(getFirstChildAnchor(container).id, 'a1')
     })
     it('returns null if no child anchor', () => {
       document = domino.createDocument('<div id="container"></div>')
       const container = document.querySelector('#container')
-      assert.equal(getFirstChildAnchor(container), null)
+      assert.strictEqual(getFirstChildAnchor(container), undefined)
     })
   })
   describe('.getRefTextContainer()', () => {
     const getRefTextContainer = ReferenceCollection.test.getRefTextContainer
     it('gets correct reference text container for tapped anchor container', () => {
       const tappedAnchorContainer = document.querySelector('#cite_ref-d')
-      assert.equal(getRefTextContainer(document, tappedAnchorContainer).id, 'cite_note-d')
+      assert.strictEqual(getRefTextContainer(document, tappedAnchorContainer).id, 'cite_note-d')
     })
   })
   describe('.hasCitationLink()', () => {
@@ -256,11 +256,11 @@ describe('ReferenceCollection', () => {
     })
     it('correctly affirms child anchor has citation link', () => {
       const element = document.querySelector('#cite_ref-a')
-      assert.equal(hasCitationLink(element), true)
+      assert.strictEqual(hasCitationLink(element), true)
     })
     it('correctly affirms child anchor does not have citation link', () => {
       const element = document.querySelector('#cite_ref-b')
-      assert.equal(hasCitationLink(element), false)
+      assert.strictEqual(hasCitationLink(element), false)
     })
   })
 })
