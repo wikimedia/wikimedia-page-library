@@ -14,7 +14,7 @@ const isCitation = href => href.indexOf(CITE_HASH_PREFIX) > -1
 
 /**
  * Gets first child anchor.
- * @param {!HTMLElement} element
+ * @param {!Element} element
  * @return {?HTMLAnchorElement}
  */
 const getFirstChildAnchor = element => element.querySelector('A')
@@ -29,25 +29,24 @@ const isWhitespaceTextNode = node =>
 
 /**
  * Checks if element has a child anchor with a citation link.
- * @param {!HTMLElement} element
+ * @param {!Element} element
  * @return {!boolean}
  */
 const hasCitationLink = element => {
-  try {
-    return isCitation(getFirstChildAnchor(element).getAttribute('href'))
-  } catch (e) {
-    return false
-  }
+  const anchor = element.querySelector('a')
+  // todo: use anchor.hash when https://github.com/fgnass/domino/issues/127 is
+  //       fixed.
+  return anchor && isCitation(anchor.getAttribute('href'))
 }
 
 /**
  * Get the reference text container.
  * @param {!Document} document
- * @param {!Node} sourceNode
+ * @param {!Element} source
  * @return {?HTMLElement}
  */
-const getRefTextContainer = (document, sourceNode) => {
-  const refTextContainerID = getFirstChildAnchor(sourceNode).getAttribute('href').slice(1)
+const getRefTextContainer = (document, source) => {
+  const refTextContainerID = getFirstChildAnchor(source).getAttribute('href').slice(1)
   const refTextContainer = document.getElementById(refTextContainerID)
     || document.getElementById(decodeURIComponent(refTextContainerID))
 
@@ -57,11 +56,11 @@ const getRefTextContainer = (document, sourceNode) => {
 /**
  * Extract reference text free of backlinks.
  * @param {!Document} document
- * @param {!Node} sourceNode
+ * @param {!Element} source
  * @return {!string}
  */
-const collectRefText = (document, sourceNode) => {
-  const refTextContainer = getRefTextContainer(document, sourceNode)
+const collectRefText = (document, source) => {
+  const refTextContainer = getRefTextContainer(document, source)
   if (!refTextContainer) {
     return ''
   }
@@ -185,7 +184,7 @@ const collectAdjacentReferenceNodes = (node, siblingGetter, nodeCollector) => {
   let currentNode = node
   while (true) {
     currentNode = adjacentNonWhitespaceNode(currentNode, siblingGetter)
-    if (!hasCitationLink(currentNode)) {
+    if (!currentNode || !hasCitationLink(currentNode)) {
       break
     }
     nodeCollector(currentNode)
