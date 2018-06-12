@@ -221,24 +221,6 @@ describe('ReferenceCollection', () => {
       assert.strictEqual(matches.length, 0)
     })
   })
-  describe('.getFirstChildAnchor()', () => {
-    const getFirstChildAnchor = ReferenceCollection.test.getFirstChildAnchor
-    it('gets first child anchor', () => {
-      document = domino.createDocument(`
-        <div id="container">
-          <a id='a1' href="#a1">1</a>
-          <a id='a2' href="#a2">2</a>
-        </div>
-      `)
-      const container = document.querySelector('#container')
-      assert.strictEqual(getFirstChildAnchor(container).id, 'a1')
-    })
-    it('returns null if no child anchor', () => {
-      document = domino.createDocument('<div id="container"></div>')
-      const container = document.querySelector('#container')
-      assert.strictEqual(getFirstChildAnchor(container), undefined)
-    })
-  })
   describe('.getRefTextContainer()', () => {
     const getRefTextContainer = ReferenceCollection.test.getRefTextContainer
     it('gets correct reference text container for tapped anchor container', () => {

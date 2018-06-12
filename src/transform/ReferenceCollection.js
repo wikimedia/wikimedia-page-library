@@ -13,13 +13,6 @@ const CITE_HASH_PREFIX = '#cite_note'
 const isCitation = href => href.indexOf(CITE_HASH_PREFIX) > -1
 
 /**
- * Gets first child anchor.
- * @param {!HTMLElement} element
- * @return {?HTMLAnchorElement}
- */
-const getFirstChildAnchor = element => element.querySelector('A')
-
-/**
  * Determines if node is a text node containing only whitespace.
  * @param {!Node} node
  * @return {!boolean}
@@ -34,7 +27,7 @@ const isWhitespaceTextNode = node =>
  */
 const hasCitationLink = element => {
   try {
-    return isCitation(getFirstChildAnchor(element).getAttribute('href'))
+    return isCitation(element.querySelector('A').getAttribute('href'))
   } catch (e) {
     return false
   }
@@ -47,7 +40,7 @@ const hasCitationLink = element => {
  * @return {?HTMLElement}
  */
 const getRefTextContainer = (document, sourceNode) => {
-  const refTextContainerID = getFirstChildAnchor(sourceNode).getAttribute('href').slice(1)
+  const refTextContainerID = sourceNode.querySelector('A').getAttribute('href').slice(1)
   const refTextContainer = document.getElementById(refTextContainerID)
     || document.getElementById(decodeURIComponent(refTextContainerID))
 
@@ -243,7 +236,6 @@ export default {
     collectAdjacentReferenceNodes,
     collectNearbyReferenceNodes,
     collectRefText,
-    getFirstChildAnchor,
     getRefTextContainer,
     hasCitationLink,
     isWhitespaceTextNode,
