@@ -1,3 +1,6 @@
+### v6.0.9
+- Chore: upgrade dependencies
+
 ### v6.0.8
 - Update: add event logging label to `Read more` item urls.
 
