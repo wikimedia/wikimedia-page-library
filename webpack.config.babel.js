@@ -25,7 +25,10 @@ const config = {
     filename: '[name].js',
     library: 'pagelib',
     libraryTarget: 'umd',
-    libraryExport: 'default'
+    libraryExport: 'default',
+
+    // https://github.com/webpack/webpack/issues/6525
+    globalObject: 'this'
   },
 
   performance: {
