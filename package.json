@@ -23,7 +23,7 @@
     "lint": "eslint --cache --max-warnings 0 --ext .js --ext .json --ext .html",
     "lint:all": "npm run -s lint .",
     "build": "NODE_ENV=production webpack -p",
-    "build:watch": "webpack -dw",
+    "build:watch": "webpack -dw --devtool source-map",
     "serve:watch": "webpack-dev-server -dw",
     "test:size": "bundlesize",
     "pretest": "npm run -s build",
