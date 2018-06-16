@@ -1,5 +1,6 @@
 ### v6.0.9
 - Chore: upgrade dependencies
+- Fix: workaround Node.js Webpack require issue https://github.com/webpack/webpack/issues/6525.
 
 ### v6.0.8
 - Update: add event logging label to `Read more` item urls.
