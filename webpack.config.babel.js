@@ -63,7 +63,7 @@ const config = {
 
   stats: STATS,
 
-  devtool: PRODUCTION ? 'source-map' : 'cheap-module-eval-source-map',
+  devtool: 'source-map',
 
   devServer: PRODUCTION ? undefined : {
     clientLogLevel: 'warning',
