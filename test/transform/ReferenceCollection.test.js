@@ -175,6 +175,17 @@ describe('ReferenceCollection', () => {
         'cite_ref-d'
       ])
     })
+    it('handles text nodes', () => {
+      const document = domino.createDocument('<span id=a>a</span>b<span id=c>c</span>')
+      const sourceNode = document.querySelector('span')
+      const collectedNodes = [sourceNode]
+      // eslint-disable-next-line require-jsdoc
+      const collectedNodesPusher = node => collectedNodes.push(node)
+      collectAdjacentReferenceNodes(
+        sourceNode, nextSiblingGetter, collectedNodesPusher
+      )
+      assert.deepEqual(collectedNodes.map(node => node.id), ['a'])
+    })
   })
   describe('.closestReferenceClassElement()', () => {
     const closestReferenceClassElement = ReferenceCollection.test.closestReferenceClassElement
