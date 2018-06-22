@@ -27,7 +27,10 @@ const config = {
     filename: '[name].js',
     library: 'pagelib',
     libraryTarget: 'umd',
-    libraryExport: 'default'
+    libraryExport: 'default',
+
+    // https://github.com/webpack/webpack/issues/6525
+    globalObject: 'this'
   },
 
   performance: {
@@ -63,7 +66,7 @@ const config = {
 
   stats: STATS,
 
-  devtool: PRODUCTION ? 'source-map' : 'cheap-module-eval-source-map',
+  devtool: 'source-map',
 
   devServer: PRODUCTION ? undefined : {
     clientLogLevel: 'warning',
