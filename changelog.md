@@ -1,5 +1,5 @@
 ### v6.0.10
-- Chore: add JavaScript type-checking support
+- Chore: add JavaScript type-checking support via TypeScript
 
 ### v6.0.9
 - Chore: upgrade dependencies
@@ -11,7 +11,6 @@
 
 ### v6.0.7
 - Fix: use correct parameters for `Read more` display titles.
-- Chore: add JavaScript type-checking support via TypeScript
 
 ### v6.0.6
 - Fix: second attempt to fix theme css regression. v6.0.5 did not fix it.
