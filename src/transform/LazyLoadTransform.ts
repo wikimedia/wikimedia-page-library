@@ -25,7 +25,7 @@ const COPY_ATTRIBUTES = ['class', 'style', 'src', 'srcset', 'width', 'height', '
 // loading these images degrades the experience with little gain. Always eagerly load these images.
 // Example: flags in the medal count for the "1896 Summer Olympics medal table."
 // https://en.m.wikipedia.org/wiki/1896_Summer_Olympics_medal_table?oldid=773498394#Medal_count
-const UNIT_TO_MINIMUM_LAZY_LOAD_SIZE: {[unit: string]: number | undefined} = {
+const UNIT_TO_MINIMUM_LAZY_LOAD_SIZE: {[unit in string]?: number} = {
   px: 50, // https://phabricator.wikimedia.org/diffusion/EMFR/browse/master/includes/MobileFormatter.php;c89f371ea9e789d7e1a827ddfec7c8028a549c12$22
   ex: 10, // ''
   em: 5 // 1ex ≈ .5em; https://developer.mozilla.org/en-US/docs/Web/CSS/length#Units
