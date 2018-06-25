@@ -1,3 +1,6 @@
+### v6.0.10
+- Update: add optional parameter to EditTransform.newEditSectionButton() to allow edit pencil to be hidden
+
 ### v6.0.9
 - Chore: upgrade dependencies
 - Fix: workaround Node.js Webpack require issue https://github.com/webpack/webpack/issues/6525
