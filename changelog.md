@@ -1,5 +1,10 @@
-### v6.0.9
+### v6.0.10
+- Update: add optional parameter to EditTransform.newEditSectionButton() to allow edit pencil to be hidden
 - Chore: upgrade dependencies
+
+### v6.0.9
+- Fix: workaround Node.js Webpack require issue https://github.com/webpack/webpack/issues/6525
+- Fix: add source maps to debug builds
 
 ### v6.0.8
 - Update: add event logging label to `Read more` item urls.

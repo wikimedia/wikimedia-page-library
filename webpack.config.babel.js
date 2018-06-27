@@ -20,12 +20,17 @@ const config = {
     'wikimedia-page-library-override': './src/override'
   },
 
+  resolve: { extensions: ['.js', '.ts'] },
+
   output: {
     path: path.resolve('build'),
     filename: '[name].js',
     library: 'pagelib',
     libraryTarget: 'umd',
-    libraryExport: 'default'
+    libraryExport: 'default',
+
+    // https://github.com/webpack/webpack/issues/6525
+    globalObject: 'this'
   },
 
   performance: {
@@ -36,6 +41,7 @@ const config = {
 
   module: {
     rules: [
+      { test: /\.ts$/, use: 'ts-loader' },
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -60,7 +66,7 @@ const config = {
 
   stats: STATS,
 
-  devtool: PRODUCTION ? 'source-map' : 'cheap-module-eval-source-map',
+  devtool: 'source-map',
 
   devServer: PRODUCTION ? undefined : {
     clientLogLevel: 'warning',

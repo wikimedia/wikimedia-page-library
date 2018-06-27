@@ -84,8 +84,9 @@ const isNodeBreakElement = node => node.nodeType === ELEMENT_NODE && node.tagNam
  * @param  {!Node} node
  * @return {void}
  */
-const replaceNodeWithBreakingSpaceTextNode = (document, node) =>
+const replaceNodeWithBreakingSpaceTextNode = (document, node) => {
   node.parentNode.replaceChild(document.createTextNode(BREAKING_SPACE), node)
+}
 
 /**
  * Extracts any header text determined to be eligible.
@@ -133,7 +134,7 @@ const extractEligibleHeaderText = (document, header, pageTitle) => {
  * elements is preserved.
  * @param  {!Element} a
  * @param  {!Element} b
- * @return {!boolean}
+ * @return {!number}
  */
 const elementScopeComparator = (a, b) => {
   const aHasScope = a.hasAttribute('scope')
@@ -247,7 +248,9 @@ const shouldTableBeCollapsed = table => {
  * @param {!Element} element
  * @return {!boolean} true if element is an infobox, false otherwise.
  */
-const isInfobox = element => element.classList.contains('infobox')
+const isInfobox = element =>
+  element.classList.contains('infobox')
+  || element.classList.contains('infobox_v3')
 
 /**
  * @param {!Document} document
@@ -320,7 +323,7 @@ const adjustTables = (window, document, pageTitle, isMainPage, isInitiallyCollap
   infoboxTitle, otherTitle, footerTitle, footerDivClickCallback) => {
   if (isMainPage) { return }
 
-  const tables = document.querySelectorAll('table')
+  const tables = document.querySelectorAll('table, .infobox_v3')
   for (let i = 0; i < tables.length; ++i) {
     const table = tables[i]
 
