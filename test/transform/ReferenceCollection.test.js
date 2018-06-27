@@ -7,16 +7,16 @@ let document
 const ReferenceCollection = pagelib.ReferenceCollection
 
 const referenceGroupHTML = `
-  <sup id="cite_ref-a" class="reference"><a id='a1' href="#cite_note-a">[4]</a></sup>
-  <sup id="cite_ref-b" class="reference"><a id='a2' href="#cite_note-b">[6]</a></sup>
-  <sup id="cite_ref-c" class="reference"><a id='a3' href="#cite_note-c">[7]</a></sup>
-  <sup id="cite_ref-d" class="reference"><a id='a4' href="#cite_note-d">[8]</a></sup>
-  <span id="cite_note-a">0 1 2</span>
-  <span id="cite_note-b">3 4 5</span>
-  <span id="cite_note-c">6 7 8</span>
-  <span id="cite_note-d">9 10 11
-    <sup id="cite_ref-d">tick</sup>
-    <a class="mw-cite-backlink">link</a>
+  <sup id='cite_ref-a' class='reference'><a id='a1' href='#cite_note-a'>[4]</a></sup>
+  <sup id='cite_ref-b' class='reference'><a id='a2' href='#cite_note-b'>[6]</a></sup>
+  <sup id='cite_ref-c' class='reference'><a id='a3' href='#cite_note-c'>[7]</a></sup>
+  <sup id='cite_ref-d' class='reference'><a id='a4' href='#cite_note-d'>[8]</a></sup>
+  <span id='cite_note-a'>0 1 2</span>
+  <span id='cite_note-b'>3 4 5</span>
+  <span id='cite_note-c'>6 7 8</span>
+  <span id='cite_note-d'>9 10 11
+    <sup id='cite_ref-d'>tick</sup>
+    <a class='mw-cite-backlink'>link</a>
   </span>
 `
 
@@ -191,16 +191,16 @@ describe('ReferenceCollection', () => {
     const closestReferenceClassElement = ReferenceCollection.test.closestReferenceClassElement
     it('if element has class "reference" return it', () => {
       document = domino.createDocument(`
-        <sup id="cite_ref-a" class="reference"><a id='a1' href="#cite_note-a">[4]</a></sup>
+        <sup id='cite_ref-a' class='reference'><a id='a1' href='#cite_note-a'>[4]</a></sup>
       `)
       const anchor = document.querySelector('#cite_ref-a')
       assert.strictEqual(closestReferenceClassElement(anchor).id, 'cite_ref-a')
     })
     it('if element does not have class "reference" return first ancestor having it', () => {
       document = domino.createDocument(`
-        <sup id="aa" class="reference">
-          <sup id="cite_ref-a" class="reference">
-            <a id='a1' href="#cite_note-a">[4]</a>
+        <sup id='aa' class='reference'>
+          <sup id='cite_ref-a' class='reference'>
+            <a id='a1' href='#cite_note-a'>[4]</a>
           </sup>
         </sup>
       `)
@@ -209,7 +209,7 @@ describe('ReferenceCollection', () => {
     })
     it('if neither element or it ancestor(s) have class "reference" returns null', () => {
       document = domino.createDocument(`
-        <sup id="cite_ref-b"><a id='a2' href="#cite_note-b">[6]</a></sup>
+        <sup id='cite_ref-b'><a id='a2' href='#cite_note-b'>[6]</a></sup>
       `)
       const anchor = document.querySelector('#a2')
       assert.strictEqual(closestReferenceClassElement(anchor), null)
@@ -243,8 +243,8 @@ describe('ReferenceCollection', () => {
     const hasCitationLink = ReferenceCollection.test.hasCitationLink
     beforeEach(() => {
       document = domino.createDocument(`
-        <sup id="cite_ref-a" class="reference"><a id='a1' href="#cite_note-a">[4]</a></sup>
-        <sup id="cite_ref-b" class="reference"><a id='a2' href="#BLA">[5]</a></sup>
+        <sup id='cite_ref-a' class='reference'><a id='a1' href='#cite_note-a'>[4]</a></sup>
+        <sup id='cite_ref-b' class='reference'><a id='a2' href='#BLA'>[5]</a></sup>
       `)
     })
     it('correctly affirms child anchor has citation link', () => {
