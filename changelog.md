@@ -1,8 +1,13 @@
+### v6.0.11
+- Chore: upgrade dependencies
+- Chore: add JavaScript type-checking support via TypeScript
+- Fix: [brick, pie, bar, and stacked bar chart](https://phabricator.wikimedia.org/T179128), and [chessboard theming](https://phabricator.wikimedia.org/T183333).
+- [Fix: infobox collapsing on frwiki](https://phabricator.wikimedia.org/T188096)
+
 ### v6.0.10
 - Update: add optional parameter to EditTransform.newEditSectionButton() to allow edit pencil to be hidden
 
 ### v6.0.9
-- Chore: upgrade dependencies
 - Fix: workaround Node.js Webpack require issue https://github.com/webpack/webpack/issues/6525
 - Fix: add source maps to debug builds
 
