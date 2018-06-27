@@ -75,8 +75,9 @@ const isNodeBreakElement = node => node.nodeType === Node.ELEMENT_NODE && node.t
  * @param  {!Node} node
  * @return {void}
  */
-const replaceNodeWithBreakingSpaceTextNode = (document, node) =>
+const replaceNodeWithBreakingSpaceTextNode = (document, node) => {
   node.parentNode.replaceChild(document.createTextNode(BREAKING_SPACE), node)
+}
 
 /**
  * Extracts any header text determined to be eligible.
@@ -238,7 +239,9 @@ const shouldTableBeCollapsed = table => {
  * @param {!Element} element
  * @return {!boolean} true if element is an infobox, false otherwise.
  */
-const isInfobox = element => element.classList.contains('infobox')
+const isInfobox = element =>
+  element.classList.contains('infobox')
+  || element.classList.contains('infobox_v3')
 
 /**
  * @param {!Document} document
@@ -311,7 +314,7 @@ const adjustTables = (window, document, pageTitle, isMainPage, isInitiallyCollap
   infoboxTitle, otherTitle, footerTitle, footerDivClickCallback) => {
   if (isMainPage) { return }
 
-  const tables = document.querySelectorAll('table')
+  const tables = document.querySelectorAll('table, .infobox_v3')
   for (let i = 0; i < tables.length; ++i) {
     const table = tables[i]
 
