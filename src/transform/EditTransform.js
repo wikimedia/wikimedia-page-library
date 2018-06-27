@@ -45,10 +45,11 @@ const newEditSectionButton = (document, index) => {
  * @param {!Document} document
  * @param {!number} index The zero-based index of the section.
  * @param {!number} level The *one-based* header or table of contents level.
- * @param {?string} titleHTML
+ * @param {?string} titleHTML Title of this section header.
+ * @param {?boolean} showEditPencil Whether to show the "edit" pencil (default is true).
  * @return {!HTMLElement}
  */
-const newEditSectionHeader = (document, index, level, titleHTML) => {
+const newEditSectionHeader = (document, index, level, titleHTML, showEditPencil = true) => {
   const element = document.createElement('div')
   element.className = CLASS.SECTION_HEADER
 
@@ -58,8 +59,10 @@ const newEditSectionHeader = (document, index, level, titleHTML) => {
   title.setAttribute(DATA_ATTRIBUTE.SECTION_INDEX, index)
   element.appendChild(title)
 
-  const button = newEditSectionButton(document, index)
-  element.appendChild(button)
+  if (showEditPencil) {
+    const button = newEditSectionButton(document, index)
+    element.appendChild(button)
+  }
 
   return element
 }

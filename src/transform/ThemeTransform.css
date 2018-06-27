@@ -189,6 +189,11 @@ styles with only the things which need tweaking.
   background: #000;
 }
 
+.pagelib_theme_dark table.BarChartTemplate span.nowrap,
+.pagelib_theme_black table.BarChartTemplate span.nowrap {
+  color: #222 !important;
+}
+
 /* 'mw-highlight' colors for dark background */
 /* From: https://raw.githubusercontent.com/richleland/pygments-css/master/native.css */
 .pagelib_theme_dark .content .mw-highlight span.hll { background-color: #404040 }
