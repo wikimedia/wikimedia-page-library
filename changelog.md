@@ -1,5 +1,5 @@
 ### v6.0.10
-- Fix: brick, pie, bar, and stacked bar chart theming.
+- Update: add optional parameter to EditTransform.newEditSectionButton() to allow edit pencil to be hidden
 
 ### v6.0.9
 - Chore: upgrade dependencies
