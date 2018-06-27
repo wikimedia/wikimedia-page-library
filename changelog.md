@@ -1,6 +1,13 @@
+### v6.0.10
+- Update: add optional parameter to EditTransform.newEditSectionButton() to allow edit pencil to be hidden
+
+### v6.0.9
+- Chore: upgrade dependencies
+- Fix: workaround Node.js Webpack require issue https://github.com/webpack/webpack/issues/6525
+- Fix: add source maps to debug builds
+
 ### v6.0.8
-- Fix: [brick, pie, bar, and stacked bar chart](https://phabricator.wikimedia.org/T179128), and [chessboard theming](https://phabricator.wikimedia.org/T183333).
-- [Fix: infobox collapsing on frwiki](https://phabricator.wikimedia.org/T188096)
+- Update: add event logging label to `Read more` item urls.
 
 ### v6.0.7
 - Fix: use correct parameters for `Read more` display titles.
