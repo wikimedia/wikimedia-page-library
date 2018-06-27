@@ -34,7 +34,6 @@ class MenuItem {
    * @param {?string} subtitle
    * @param {!MenuItemType} itemType
    * @param {FooterMenuItemClickCallback} clickHandler
-   * @return {void}
    */
   constructor(title, subtitle, itemType, clickHandler) {
     this.title = title
