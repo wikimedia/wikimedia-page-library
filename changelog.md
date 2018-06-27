@@ -1,6 +1,3 @@
-### v6.1.0
-- New: adjacent reference extraction
-
 ### v6.0.8
 - Update: add event logging label to `Read more` item urls.
 
