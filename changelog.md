@@ -1,3 +1,6 @@
+### v6.1.0
+- New: adjacent reference extraction
+
 ### v6.0.11
 - Chore: upgrade dependencies
 - Chore: add JavaScript type-checking support via TypeScript

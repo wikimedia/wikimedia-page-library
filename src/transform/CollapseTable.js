@@ -1,10 +1,9 @@
 import './CollapseTable.css'
+import ElementUtilities from './ElementUtilities'
+import NodeUtilities from './NodeUtilities'
 import Polyfill from './Polyfill'
-import elementUtilities from './ElementUtilities'
 
 const SECTION_TOGGLED_EVENT_TYPE = 'section-toggled'
-const ELEMENT_NODE = 1
-const TEXT_NODE = 3
 const BREAKING_SPACE = ' '
 
 /**
@@ -56,14 +55,6 @@ const isNodeTextContentSimilarToPageTitle = (node, pageTitle) => {
 }
 
 /**
- * Determines if a node is an element or text node.
- * @param  {!Node} node
- * @return {!boolean}
- */
-const nodeTypeIsElementOrText = node =>
-  node.nodeType === ELEMENT_NODE || node.nodeType === TEXT_NODE
-
-/**
  * Removes leading and trailing whitespace and normalizes other whitespace - i.e. ensures
  * non-breaking spaces, tabs, etc are replaced with regular breaking spaces.
  * @param  {!string} string
@@ -76,7 +67,7 @@ const stringWithNormalizedWhitespace = string => string.trim().replace(/\s/g, BR
  * @param  {!Node}  node
  * @return {!boolean}
  */
-const isNodeBreakElement = node => node.nodeType === ELEMENT_NODE && node.tagName === 'BR'
+const isNodeBreakElement = node => node.nodeType === Node.ELEMENT_NODE && node.tagName === 'BR'
 
 /**
  * Replace node with a text node bearing a single breaking space.
@@ -112,7 +103,7 @@ const extractEligibleHeaderText = (document, header, pageTitle) => {
   const childNodesArray = Array.prototype.slice.call(fragmentHeader.childNodes)
   if (pageTitle) {
     childNodesArray
-      .filter(nodeTypeIsElementOrText)
+      .filter(NodeUtilities.isNodeTypeElementOrText)
       .filter(node => isNodeTextContentSimilarToPageTitle(node, pageTitle))
       .forEach(node => node.remove())
   }
@@ -327,7 +318,7 @@ const adjustTables = (window, document, pageTitle, isMainPage, isInitiallyCollap
   for (let i = 0; i < tables.length; ++i) {
     const table = tables[i]
 
-    if (elementUtilities.findClosestAncestor(table, '.pagelib_collapse_table_container')
+    if (ElementUtilities.findClosestAncestor(table, '.pagelib_collapse_table_container')
       || !shouldTableBeCollapsed(table)) {
       continue
     }
@@ -418,7 +409,7 @@ const collapseTables = (window, document, pageTitle, isMainPage, infoboxTitle, o
 const expandCollapsedTableIfItContainsElement = element => {
   if (element) {
     const containerSelector = '[class*="pagelib_collapse_table_container"]'
-    const container = elementUtilities.findClosestAncestor(element, containerSelector)
+    const container = ElementUtilities.findClosestAncestor(element, containerSelector)
     if (container) {
       const collapsedDiv = container.firstElementChild
       if (collapsedDiv && collapsedDiv.classList.contains('pagelib_collapse_table_expanded')) {

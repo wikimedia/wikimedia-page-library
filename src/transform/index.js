@@ -26,6 +26,7 @@ import LazyLoadTransformer from './LazyLoadTransformer'
 import PlatformTransform from './PlatformTransform'
 import Polyfill from './Polyfill'
 import RedLinks from './RedLinks'
+import ReferenceCollection from './ReferenceCollection'
 import Throttle from './Throttle'
 import WidenImage from './WidenImage'
 
@@ -49,6 +50,7 @@ export default {
   PlatformTransform,
   // todo: rename RedLinkTransform.
   RedLinks,
+  ReferenceCollection,
   ThemeTransform,
   // todo: rename WidenImageTransform.
   WidenImage,
