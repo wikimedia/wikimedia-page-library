@@ -1,3 +1,6 @@
+### v6.1.1
+- Update: add LazyLoadTransformer.collectExistingPlaceholders() API for querying server-side transform image placeholders
+
 ### v6.1.0
 - New: adjacent reference extraction
 
