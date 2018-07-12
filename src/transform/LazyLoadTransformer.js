@@ -42,6 +42,19 @@ export default class {
   }
 
   /**
+   * Searches for existing placeholders in the DOM Document.
+   * This is an alternative to #convertImagesToPlaceholders if that was already done server-side.
+   * @param {!Element} element root element to start searching for placeholders
+   * @return {void}
+   */
+  collectExistingPlaceholders(element) {
+    const placeholders
+      = Array.from(element.querySelectorAll(`.${LazyLoadTransform.PLACEHOLDER_CLASS}`))
+    this._placeholders = this._placeholders.concat(placeholders)
+    this._register()
+  }
+
+  /**
    * Manually trigger a load images check. Calling this function may deregister this instance from
    * listening to page events.
    * @return {void}
