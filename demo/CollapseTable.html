@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang=en>
+
+  <head>
+    <meta charset=utf-8>
+    <title>CollapseTable demo</title>
+    <link href="https://en.wikipedia.org/w/load.php?debug=true&lang=en&modules=skins.minerva.base.reset|skins.minerva.content.styles|ext.cite.style|ext.math.styles|ext.timeline.styles|mediawiki.page.gallery.styles|mediawiki.skinning.content.parsoid&only=styles&version=&*" rel="stylesheet" type="text/css">
+    <link href=http://localhost:8080/wikimedia-page-library-transform.css rel=stylesheet>
+    <style>
+      :root {
+        --control-panel-platform-visibility: visibile;
+        --control-panel-layout-direction-visibility: visible;
+        --control-panel-theme-visibility: visible;
+        --control-panel-compatibility-visibility: visibile;
+      }
+      body {
+        padding: 20px 20px 50px 20px !important;
+      }
+    </style>
+    <script src=https://polygit.org/components/webcomponentsjs/webcomponents-loader.js></script>
+    <script src=http://localhost:8080/wikimedia-page-library-transform.js></script>
+    <link rel=import href=ControlPanel.html>
+  </head>
+
+  <body class="content">
+    <control-panel></control-panel>
+
+    <section>
+      This page contains a few demo infoboxes.
+    </section>
+
+    <section>
+        <div class="pagelib_edit_section_header">
+            <h2 class="pagelib_edit_section_title" data-id="1">Color infobox</h2>
+        </div>
+        <div>
+            From <a href=https://en.wikipedia.org/wiki/Wikipedia:How_to_read_a_color_infobox>Wikipedia:How_to_read_a_color_infobox</a>:
+            <table class="infobox" style="width:22em">
+                <tbody>
+                <tr>
+                    <th colspan="2" style="text-align:center;font-size:125%;font-weight:bold">Red</th>
+                </tr>
+                <tr>
+                    <td colspan="2"
+                        style="text-align:center;line-height:12px; background-color:#FF0000; border: 0.1px solid #000000">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align:center">
+                        <a href="/wiki/File:Red_(color).jpg" class="image"><img alt="Red (color).jpg"
+                                                                                src="//upload.wikimedia.org/wikipedia/en/thumb/3/31/Red_%28color%29.jpg/300px-Red_%28color%29.jpg"
+                                                                                width="300" height="221"
+                                                                                srcset="//upload.wikimedia.org/wikipedia/en/thumb/3/31/Red_%28color%29.jpg/450px-Red_%28color%29.jpg 1.5x, //upload.wikimedia.org/wikipedia/en/thumb/3/31/Red_%28color%29.jpg/600px-Red_%28color%29.jpg 2x"
+                                                                                data-file-width="1600"
+                                                                                data-file-height="1177"></a></td>
+                </tr>
+                <tr>
+                    <th colspan="2" style="text-align:center"><a href="/wiki/Spectral_color" title="Spectral color">Spectral
+                        coordinates</a></th>
+                </tr>
+                <tr>
+                    <th scope="row"><a href="/wiki/Wavelength" title="Wavelength">Wavelength</a></th>
+                    <td>
+                        ~630–740 <a href="/wiki/Nanometre" title="Nanometre">nm</a></td>
+                </tr>
+                <tr>
+                    <th scope="row"><a href="/wiki/Frequency" title="Frequency">Frequency</a></th>
+                    <td>
+                        ~480–405 <a href="/wiki/Terahertz_(unit)" class="mw-redirect" title="Terahertz (unit)">THz</a></td>
+                </tr>
+                <tr>
+                    <th colspan="2" style="text-align:center"><span style="position: relative; float: right; font-size: 70%"><a
+                            href="/wiki/Wikipedia:WikiProject_Color/Normalized_Color_Coordinates"
+                            title="About these coordinates"><img alt="About these coordinates"
+                                                                 src="//upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Gtk-dialog-info.svg/15px-Gtk-dialog-info.svg.png"
+                                                                 width="15" height="15"
+                                                                 srcset="//upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Gtk-dialog-info.svg/23px-Gtk-dialog-info.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Gtk-dialog-info.svg/30px-Gtk-dialog-info.svg.png 2x"
+                                                                 data-file-width="60" data-file-height="60"></a></span> &nbsp;
+                        &nbsp; Color coordinates
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="row"><a href="/wiki/Web_colors#Hex_triplet" title="Web colors">Hex triplet</a></th>
+                    <td>
+                        #FF0000
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><a href="/wiki/SRGB_color_space" class="mw-redirect"
+                                       title="SRGB color space">sRGB</a><sup><b>B</b></sup>&nbsp;&nbsp;(<a href="/wiki/Red"
+                                                                                                           title="Red">r</a>,&nbsp;<a
+                            href="/wiki/Green" title="Green">g</a>,&nbsp;<a href="/wiki/Blue" title="Blue">b</a>)
+                    </th>
+                    <td>
+                        (255, 0, 0)
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><span class="nowrap"><a href="/wiki/CMYK_color_model" title="CMYK color model">CMYK</a><sup><b>H</b></sup> &nbsp; (<a
+                            href="/wiki/Cyan" title="Cyan">c</a>, <a href="/wiki/Magenta" title="Magenta">m</a>, <a
+                            href="/wiki/Yellow" title="Yellow">y</a>, <a href="/wiki/Black" title="Black">k</a>)</span></th>
+                    <td>
+                        <span class="nowrap">(0, 100, 100, 0)</span></td>
+                </tr>
+                <tr>
+                    <th scope="row"><span class="nowrap"><a href="/wiki/HSV_color_space" class="mw-redirect"
+                                                            title="HSV color space">HSV</a> &nbsp; &nbsp; &nbsp; (<a
+                            href="/wiki/Hue" title="Hue">h</a>, <a href="/wiki/Saturation_(color_theory)" class="mw-redirect"
+                                                                   title="Saturation (color theory)">s</a>, <a
+                            href="/wiki/Brightness" title="Brightness">v</a>)</span></th>
+                    <td>
+                        <span class="nowrap">(0°, 100%, 100%)</span></td>
+                </tr>
+                <tr>
+                    <th scope="row">Source</th>
+                    <td>
+                        Given source(s)
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align:center">
+                        <b>B</b>: Normalized to [0–255] (byte)<br><b>H</b>: Normalized to [0–100] (hundred)
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="2" style="text-align:center">Some shades of Red</th>
+                </tr>
+                <tr>
+                    <th scope="row">Darker red</th>
+                    <td>
+                        <span style="background-color:#C10430; border:1px solid #C10430;display:block">&nbsp;</span></td>
+                </tr>
+                <tr>
+                    <th scope="row">Reddish orange</th>
+                    <td>
+                        <span style="background-color:#ED5216; border:1px solid #ED5216;display:block">&nbsp;</span></td>
+                </tr>
+                <tr>
+                    <th scope="row">Purplish red</th>
+                    <td>
+                        <span style="background-color:#BB0067; border:1px solid #BB0067;display:block">&nbsp;</span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section>
+      <div class="pagelib_edit_section_header">
+        <h2 class="pagelib_edit_section_title" data-id="2">Taxobox</h2>
+      </div>
+      <div>
+        From <a href=https://en.wikipedia.org/wiki/Colorado_potato_beetle>Colorado_potato_beetle</a> (see also <a href=https://en.wikipedia.org/wiki/Wikipedia:How_to_read_a_taxobox>Wikipedia:How_to_read_a_taxobox</a>):
+
+        <table class="infobox biota" style="text-align: left; width: 200px; font-size: 100%" about="#mwt5">
+          <tbody>
+          <tr>
+            <th colspan="2" style="text-align: center; background-color: rgb(235,235,210)">Colorado potato beetle</th>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align: center">
+              <figure-inline typeof="mw:Image"><a href="./File:Colorado_potato_beetle.jpg"><img
+                      resource="./File:Colorado_potato_beetle.jpg"
+                      src="//upload.wikimedia.org/wikipedia/commons/thumb/2/21/Colorado_potato_beetle.jpg/250px-Colorado_potato_beetle.jpg"
+                      data-file-width="2790" data-file-height="1811" data-file-type="bitmap" height="162" width="250"
+                      srcset="//upload.wikimedia.org/wikipedia/commons/thumb/2/21/Colorado_potato_beetle.jpg/500px-Colorado_potato_beetle.jpg 2x, //upload.wikimedia.org/wikipedia/commons/thumb/2/21/Colorado_potato_beetle.jpg/375px-Colorado_potato_beetle.jpg 1.5x"></a>
+              </figure-inline>
+            </td>
+          </tr>
+
+
+          <tr style="text-align: center; background-color: rgb(235,235,210)"></tr>
+
+
+          <tr>
+            <th colspan="2" style="min-width:15em; text-align: center; background-color: rgb(235,235,210)"><a
+                    rel="mw:WikiLink" href="./Taxonomy_(biology)" title="Taxonomy (biology)">Scientific
+              classification</a></th>
+          </tr>
+          <tr>
+
+
+            <td>Kingdom:</td>
+            <td><span class="kingdom"><a rel="mw:WikiLink" href="./Animal" title="Animal">Animalia</a></span></td>
+          </tr>
+          <tr>
+
+
+            <td>Phylum:</td>
+            <td><span class="phylum"><a rel="mw:WikiLink" href="./Arthropod" title="Arthropod">Arthropoda</a></span>
+            </td>
+          </tr>
+          <tr>
+
+
+            <td>Class:</td>
+            <td><span class="class"><a rel="mw:WikiLink" href="./Insect" title="Insect">Insecta</a></span></td>
+          </tr>
+          <tr>
+
+
+            <td>Order:</td>
+            <td><span class="order"><a rel="mw:WikiLink" href="./Beetle" title="Beetle">Coleoptera</a></span></td>
+          </tr>
+          <tr>
+
+            <td>Suborder:</td>
+            <td><span class="suborder"><a rel="mw:WikiLink" href="./Polyphaga" title="Polyphaga">Polyphaga</a></span>
+            </td>
+          </tr>
+          <tr>
+
+
+            <td>Family:</td>
+            <td><span class="family"><a rel="mw:WikiLink" href="./Chrysomelidae" title="Chrysomelidae"
+                                        class="mw-redirect">Chrysomelidae</a></span></td>
+          </tr>
+          <tr>
+
+
+            <td>Genus:</td>
+            <td><span class="genus"><i><a rel="mw:WikiLink" href="./Leptinotarsa" title="Leptinotarsa">Leptinotarsa</a></i></span>
+            </td>
+          </tr>
+          <tr>
+
+
+            <td>Species:</td>
+            <td><span class="species"><i><b>L.<span typeof="mw:Entity">&nbsp;</span>decemlineata</b></i></span></td>
+          </tr>
+
+
+          <tr>
+            <th colspan="2" style="text-align: center; background-color: rgb(235,235,210)"><a rel="mw:WikiLink"
+                                                                                              href="./Binomial_nomenclature"
+                                                                                              title="Binomial nomenclature">Binomial
+              name</a></th>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align: center"><b><span class="binomial"><i>Leptinotarsa decemlineata</i></span></b><br>
+              <small><a rel="mw:WikiLink" href="./Thomas_Say" title="Thomas Say">Say</a>, 1824<sup about="#mwt222"
+                                                                                                   class="mw-ref"
+                                                                                                   id="cite_ref-1"
+                                                                                                   rel="dc:references"
+                                                                                                   typeof="mw:Extension/ref"
+                                                                                                   data-mw="{&quot;name&quot;:&quot;ref&quot;,&quot;body&quot;:{&quot;id&quot;:&quot;mw-reference-text-cite_note-1&quot;},&quot;attrs&quot;:{}}"><a
+                      href="./Colorado_potato_beetle#cite_note-1" style="counter-reset: mw-Ref 1;"><span
+                      class="mw-reflink-text">[1]</span></a></sup></small>
+            </td>
+          </tr>
+          <tr style="text-align: center; background-color: rgb(235,235,210)"></tr>
+
+
+          <tr>
+            <th colspan="2" style="text-align: center; background-color: rgb(235,235,210)"><a rel="mw:WikiLink"
+                                                                                              href="./Synonym_(taxonomy)"
+                                                                                              title="Synonym (taxonomy)">Synonyms</a><sup
+                    about="#mwt224" class="mw-ref" id="cite_ref-2" rel="dc:references" typeof="mw:Extension/ref"
+                    data-mw="{&quot;name&quot;:&quot;ref&quot;,&quot;body&quot;:{&quot;id&quot;:&quot;mw-reference-text-cite_note-2&quot;},&quot;attrs&quot;:{}}"><a
+                    href="./Colorado_potato_beetle#cite_note-2" style="counter-reset: mw-Ref 2;"><span
+                    class="mw-reflink-text">[2]</span></a></sup></th>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align: left">
+              <ul>
+                <li><i>Doryphora decemlineata</i>
+                  <small>Say, 1824</small>
+                </li>
+                <li><i>Stilodes decemlineata</i></li>
+              </ul>
+            </td>
+          </tr>
+
+
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="pagelib_edit_section_header">
+        <h2 class="pagelib_edit_section_title" data-id="3">Person</h2>
+      </div>
+      <div>
+        From <a href=https://en.wikipedia.org/wiki/Elizabeth_II>Queen Elizabeth II</a>:
+
+        <table class="infobox vcard" style="width:22em">
+          <tbody>
+          <tr>
+            <th colspan="2" class="fn"
+                style="text-align:center;font-size:125%;font-weight:bold;background-color: #cbe; font-size: 125%">
+              Elizabeth II
+            </th>
+          </tr>
+          <tr>
+            <td colspan="2" class="photo" style="text-align:center">
+              <a href="/wiki/File:Queen_Elizabeth_II_in_March_2015.jpg" class="image"><img
+                      alt="Queen Elizabeth II in March 2015.jpg"
+                      src="//upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Queen_Elizabeth_II_in_March_2015.jpg/300px-Queen_Elizabeth_II_in_March_2015.jpg"
+                      width="300" height="396"
+                      srcset="//upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Queen_Elizabeth_II_in_March_2015.jpg/450px-Queen_Elizabeth_II_in_March_2015.jpg 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Queen_Elizabeth_II_in_March_2015.jpg/600px-Queen_Elizabeth_II_in_March_2015.jpg 2x"
+                      data-file-width="1698" data-file-height="2242"></a>
+              <div>Elizabeth II in 2015</div>
+            </td>
+          </tr>
+          <tr>
+            <th colspan="2" style="text-align:center;background-color: #e4dcf6">
+              <div style="padding:0.1em 0;line-height:1.2em;">
+                <div class="NavFrame collapsed" style="border: none; padding: 0;" id="NavFrame1">
+                  <div class="NavHead"
+                       style="font-size: 105%; background:transparent;text-align:left;padding-left:1.0em;">
+                    <div style="padding:0.1em 0;line-height:1.2em;"><a href="/wiki/Monarchy_of_the_United_Kingdom"
+                                                                       title="Monarchy of the United Kingdom">Queen of
+                      the United Kingdom</a> and<br>the other <a href="/wiki/Commonwealth_realm"
+                                                                 title="Commonwealth realm">Commonwealth realms</a>
+                    </div>
+                    <a class="NavToggle" id="NavToggle1" href="#">[show]</a></div>
+                  <ul class="NavContent"
+                      style="list-style: none none; margin-left: 0px; text-align: left; font-size: 105%; margin-top: 0px; margin-bottom: 0px; line-height: inherit; display: none;">
+                    <li style="line-height: inherit; margin: 0">
+                      <hr>
+                      <table class="nowrap"
+                             style="width:100%;border-collapse:collapse;border-spacing:0px 0px;border:none;line-height:1.2em;text-align:center;">
+                        <tbody>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><b><a href="/wiki/Monarchy_of_Canada"
+                                                                                  title="Monarchy of Canada">Canada</a></b>
+                          </td>
+                          <td> 1952–<span style="font-size:85%;"><i>present</i></span></td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><b><a href="/wiki/Monarchy_of_Australia"
+                                                                                  title="Monarchy of Australia">Australia</a></b>
+                          </td>
+                          <td> 1952–<span style="font-size:85%;"><i>present</i></span></td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><b><a href="/wiki/Monarchy_of_New_Zealand"
+                                                                                  title="Monarchy of New Zealand">New
+                            Zealand</a></b></td>
+                          <td> 1952–<span style="font-size:85%;"><i>present</i></span></td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><b><a href="/wiki/Monarchy_of_Jamaica"
+                                                                                  title="Monarchy of Jamaica">Jamaica</a></b>
+                          </td>
+                          <td> 1962–<span style="font-size:85%;"><i>present</i></span></td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><b><a href="/wiki/Monarchy_of_Barbados"
+                                                                                  title="Monarchy of Barbados">Barbados</a></b>
+                          </td>
+                          <td> 1966–<span style="font-size:85%;"><i>present</i></span></td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><b><a href="/wiki/Monarchy_of_the_Bahamas"
+                                                                                  title="Monarchy of the Bahamas">The
+                            Bahamas</a></b></td>
+                          <td> 1973–<span style="font-size:85%;"><i>present</i></span></td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><b><a href="/wiki/Monarchy_of_Grenada"
+                                                                                  title="Monarchy of Grenada">Grenada</a></b>
+                          </td>
+                          <td> 1974–<span style="font-size:85%;"><i>present</i></span></td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><b><a
+                                  href="/wiki/Monarchy_of_Papua_New_Guinea" title="Monarchy of Papua New Guinea">Papua
+                            New Guinea</a></b></td>
+                          <td> 1975–<span style="font-size:85%;"><i>present</i></span></td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><b><a
+                                  href="/wiki/Monarchy_of_the_Solomon_Islands" title="Monarchy of the Solomon Islands">Solomon
+                            Islands</a></b></td>
+                          <td> 1978–<span style="font-size:85%;"><i>present</i></span></td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><b><a href="/wiki/Monarchy_of_Tuvalu"
+                                                                                  title="Monarchy of Tuvalu">Tuvalu</a></b>
+                          </td>
+                          <td> 1978–<span style="font-size:85%;"><i>present</i></span></td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><b><a href="/wiki/Monarchy_of_Saint_Lucia"
+                                                                                  title="Monarchy of Saint Lucia">St.
+                            Lucia</a></b></td>
+                          <td> 1979–<span style="font-size:85%;"><i>present</i></span></td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;">
+                            <div style="padding:0.1em 0;line-height:1.2em;line-height:1.1em"><b><a
+                                    href="/wiki/Monarchy_of_Saint_Vincent_and_the_Grenadines"
+                                    title="Monarchy of Saint Vincent and the Grenadines">St. Vincent and<br>the
+                              Grenadines</a></b></div>
+                          </td>
+                          <td> 1979–<span style="font-size:85%;"><i>present</i></span></td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><b><a href="/wiki/Monarchy_of_Belize"
+                                                                                  title="Monarchy of Belize">Belize</a></b>
+                          </td>
+                          <td> 1981–<span style="font-size:85%;"><i>present</i></span></td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><b><a
+                                  href="/wiki/Monarchy_of_Antigua_and_Barbuda" title="Monarchy of Antigua and Barbuda">Antigua
+                            and Barbuda</a></b></td>
+                          <td> 1981–<span style="font-size:85%;"><i>present</i></span></td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><b><a
+                                  href="/wiki/Monarchy_of_Saint_Kitts_and_Nevis"
+                                  title="Monarchy of Saint Kitts and Nevis">St. Kitts and Nevis</a></b></td>
+                          <td> 1983–<span style="font-size:85%;"><i>present</i></span></td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><a href="/wiki/Dominion_of_Pakistan"
+                                                                               title="Dominion of Pakistan">Pakistan</a>
+                          </td>
+                          <td> 1952–1956</td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><a href="/wiki/Union_of_South_Africa"
+                                                                               title="Union of South Africa">South
+                            Africa</a></td>
+                          <td> 1952–1961</td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><a href="/wiki/Dominion_of_Ceylon"
+                                                                               title="Dominion of Ceylon">Ceylon</a>
+                          </td>
+                          <td> 1952–1972</td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><a href="/wiki/Dominion_of_Ghana"
+                                                                               title="Dominion of Ghana">Ghana</a></td>
+                          <td> 1957–1960</td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><a href="/wiki/Federation_of_Nigeria"
+                                                                               title="Federation of Nigeria">Nigeria</a>
+                          </td>
+                          <td> 1960–1963</td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><a
+                                  href="/wiki/Sierra_Leone_(1961%E2%80%931971)" title="Sierra Leone (1961–1971)">Sierra
+                            Leone</a></td>
+                          <td> 1961–1971</td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><a href="/wiki/Tanganyika"
+                                                                               title="Tanganyika">Tanganyika</a></td>
+                          <td> 1961–1962</td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><a
+                                  href="/wiki/Dominion_of_Trinidad_and_Tobago" title="Dominion of Trinidad and Tobago">Trinidad
+                            and Tobago</a></td>
+                          <td> 1962–1976</td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><a href="/wiki/Uganda_(1962%E2%80%931963)"
+                                                                               title="Uganda (1962–1963)">Uganda</a>
+                          </td>
+                          <td> 1962–1963</td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><a href="/wiki/Kenya_(1963%E2%80%931964)"
+                                                                               title="Kenya (1963–1964)">Kenya</a></td>
+                          <td> 1963–1964</td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><a href="/wiki/Malawi_(1964%E2%80%931966)"
+                                                                               title="Malawi (1964–1966)">Malawi</a>
+                          </td>
+                          <td> 1964–1966</td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><a href="/wiki/State_of_Malta"
+                                                                               title="State of Malta">Malta</a></td>
+                          <td> 1964–1974</td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><a
+                                  href="/wiki/The_Gambia_(1965%E2%80%931970)" title="The Gambia (1965–1970)">The
+                            Gambia</a></td>
+                          <td> 1965–1970</td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><a href="/wiki/Guyana_(1966%E2%80%931970)"
+                                                                               title="Guyana (1966–1970)">Guyana</a>
+                          </td>
+                          <td> 1966–1970</td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><a
+                                  href="/wiki/Mauritius_(1968%E2%80%931992)" title="Mauritius (1968–1992)">Mauritius</a>
+                          </td>
+                          <td> 1968–1992</td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"><a href="/wiki/Dominion_of_Fiji"
+                                                                               title="Dominion of Fiji">Fiji</a></td>
+                          <td> 1970–1987</td>
+                        </tr>
+                        <tr style="font-weight:normal">
+                          <td style="padding-left:2em;padding-right:0.5em;"></td>
+                          <td></td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </th>
+          </tr>
+          <tr>
+            <th scope="row">Reign</th>
+            <td>
+              6 February 1952&nbsp;– present
+            </td>
+          </tr>
+          <tr>
+            <th scope="row"><a href="/wiki/Coronation_of_Queen_Elizabeth_II" class="mw-redirect"
+                               title="Coronation of Queen Elizabeth II">Coronation</a></th>
+            <td>
+              2 June 1953
+            </td>
+          </tr>
+          <tr>
+            <th scope="row"><a href="/wiki/List_of_British_monarchs" title="List of British monarchs">Predecessor</a>
+            </th>
+            <td>
+              <a href="/wiki/George_VI" title="George VI">George VI</a></td>
+          </tr>
+          <tr>
+            <th scope="row"><a href="/wiki/Heir_apparent" title="Heir apparent">Heir apparent</a></th>
+            <td>
+              <a href="/wiki/Charles,_Prince_of_Wales" title="Charles, Prince of Wales">Charles, Prince of Wales</a>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row"><span class="nowrap">Prime Ministers</span></th>
+            <td>
+              <a href="/wiki/List_of_prime_ministers_of_Queen_Elizabeth_II" class="mw-redirect"
+                 title="List of prime ministers of Queen Elizabeth II"><i>See list</i></a></td>
+          </tr>
+          <tr>
+            <th colspan="2" style="text-align:center;background-color: #e4dcf6">
+              <div style="height: 4px; width:100%;"></div>
+            </th>
+          </tr>
+          <tr>
+            <th scope="row">Born</th>
+            <td>
+              <span style="display:none"> (<span class="bday">1926-04-21</span>) </span>21 April 1926<span
+                    class="noprint ForceAgeToShow"> (age&nbsp;92)</span><br>17 Bruton Street, <a href="/wiki/Mayfair"
+                                                                                                 title="Mayfair">Mayfair</a>,
+              <a href="/wiki/County_of_London" title="County of London">London</a>, United Kingdom
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Spouse</th>
+            <td>
+              <span itemscope="" itemtype="https://en.wikipedia.org/wiki/Elizabeth II"><a
+                      href="/wiki/Philip,_Duke_of_Edinburgh" class="mw-redirect" title="Philip, Duke of Edinburgh">Philip, Duke of Edinburgh</a> (<abbr
+                      title="married">m.</abbr>&nbsp;<abbr title="20 November 1947">1947</abbr>)</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Issue<br><span style="font-size:smaller; font-weight:normal"><i><a href="#Issue">Detail</a></i></span>
+            </th>
+            <td>
+              <div class="plainlist">
+                <ul>
+                  <li><a href="/wiki/Charles,_Prince_of_Wales" title="Charles, Prince of Wales">Charles, Prince of
+                    Wales</a></li>
+                  <li><a href="/wiki/Anne,_Princess_Royal" title="Anne, Princess Royal">Anne, Princess Royal</a></li>
+                  <li><a href="/wiki/Prince_Andrew,_Duke_of_York" title="Prince Andrew, Duke of York">Prince Andrew,
+                    Duke of York</a></li>
+                  <li><a href="/wiki/Prince_Edward,_Earl_of_Wessex" title="Prince Edward, Earl of Wessex">Prince Edward,
+                    Earl of Wessex</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align:center">
+              <table class="infobox"
+                     style="width:22em;border-collapse:collapse; border-spacing:0px; border:none; width:100%; margin:0px; font-size:100%; clear:none; float:none">
+                <tbody>
+                <tr>
+                  <th colspan="2" style="text-align:center;text-align:left">Full name</th>
+                </tr>
+                <tr>
+                  <td colspan="2" class="nickname" style="text-align:center;text-align:left; padding-left:0.7em;">
+                    Elizabeth Alexandra Mary
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row"><a href="/wiki/Dynasty" title="Dynasty">House</a></th>
+            <td>
+              <a href="/wiki/House_of_Windsor" title="House of Windsor">Windsor</a></td>
+          </tr>
+          <tr>
+            <th scope="row">Father</th>
+            <td>
+              <a href="/wiki/George_VI" title="George VI">George VI</a></td>
+          </tr>
+          <tr>
+            <th scope="row">Mother</th>
+            <td>
+              <a href="/wiki/Elizabeth_Bowes-Lyon" class="mw-redirect" title="Elizabeth Bowes-Lyon">Elizabeth
+                Bowes-Lyon</a></td>
+          </tr>
+          <tr>
+            <th scope="row">Signature</th>
+            <td>
+              <a href="/wiki/File:Elizabeth_II_signature_1952.svg" class="image" title="Elizabeth II's signature"><img
+                      alt="Elizabeth II's signature"
+                      src="//upload.wikimedia.org/wikipedia/en/thumb/9/91/Elizabeth_II_signature_1952.svg/125px-Elizabeth_II_signature_1952.svg.png"
+                      width="125" height="40"
+                      srcset="//upload.wikimedia.org/wikipedia/en/thumb/9/91/Elizabeth_II_signature_1952.svg/188px-Elizabeth_II_signature_1952.svg.png 1.5x, //upload.wikimedia.org/wikipedia/en/thumb/9/91/Elizabeth_II_signature_1952.svg/250px-Elizabeth_II_signature_1952.svg.png 2x"
+                      data-file-width="585" data-file-height="188"></a></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+
+    <script>
+
+      /* global pagelib */
+
+      pagelib.ThemeTransform.classifyElements(document)
+
+      pagelib.CollapseTable.collapseTables(window, document, 'page title', false,
+        'info box title', 'other title', 'footer title', null)
+    </script>
+  </body>
+</html>
