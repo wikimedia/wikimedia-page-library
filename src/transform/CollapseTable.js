@@ -5,6 +5,15 @@ import Polyfill from './Polyfill'
 
 const SECTION_TOGGLED_EVENT_TYPE = 'section-toggled'
 const BREAKING_SPACE = ' '
+const CLASS = {
+  ICON: 'pagelib_collapse_table_icon',
+  CONTAINER: 'pagelib_collapse_table_container',
+  COLLAPSED_CONTAINER: 'pagelib_collapse_table_collapsed_container',
+  COLLAPSED: 'pagelib_collapse_table_collapsed',
+  COLLAPSED_BOTTOM: 'pagelib_collapse_table_collapsed_bottom',
+  COLLAPSE_TEXT: 'pagelib_collapse_table_collapse_text',
+  EXPANDED: 'pagelib_collapse_table_expanded',
+}
 
 /**
  * Determine if we want to extract text from this header.
@@ -188,9 +197,9 @@ const toggleCollapsedForContainer = function(container, trigger, footerDivClickC
   const collapsed = table.style.display !== 'none'
   if (collapsed) {
     table.style.display = 'none'
-    header.classList.remove('pagelib_collapse_table_collapsed')
-    header.classList.remove('pagelib_collapse_table_icon')
-    header.classList.add('pagelib_collapse_table_expanded')
+    header.classList.remove(CLASS.COLLAPSED)
+    header.classList.remove(CLASS.ICON)
+    header.classList.add(CLASS.EXPANDED)
     if (caption) {
       caption.style.visibility = 'visible'
     }
@@ -201,9 +210,9 @@ const toggleCollapsedForContainer = function(container, trigger, footerDivClickC
     }
   } else {
     table.style.display = 'block'
-    header.classList.remove('pagelib_collapse_table_expanded')
-    header.classList.add('pagelib_collapse_table_collapsed')
-    header.classList.add('pagelib_collapse_table_icon')
+    header.classList.remove(CLASS.EXPANDED)
+    header.classList.add(CLASS.COLLAPSED)
+    header.classList.add(CLASS.ICON)
     if (caption) {
       caption.style.visibility = 'hidden'
     }
@@ -250,8 +259,8 @@ const isInfobox = element =>
  */
 const newCollapsedHeaderDiv = (document, content) => {
   const div = document.createElement('div')
-  div.classList.add('pagelib_collapse_table_collapsed_container')
-  div.classList.add('pagelib_collapse_table_expanded')
+  div.classList.add(CLASS.COLLAPSED_CONTAINER)
+  div.classList.add(CLASS.EXPANDED)
   div.appendChild(content)
   return div
 }
@@ -263,8 +272,8 @@ const newCollapsedHeaderDiv = (document, content) => {
  */
 const newCollapsedFooterDiv = (document, content) => {
   const div = document.createElement('div')
-  div.classList.add('pagelib_collapse_table_collapsed_bottom')
-  div.classList.add('pagelib_collapse_table_icon')
+  div.classList.add(CLASS.COLLAPSED_BOTTOM)
+  div.classList.add(CLASS.ICON)
   div.innerHTML = content || ''
   return div
 }
@@ -283,7 +292,7 @@ const newCaptionFragment = (document, title, headerText) => {
   fragment.appendChild(strong)
 
   const span = document.createElement('span')
-  span.classList.add('pagelib_collapse_table_collapse_text')
+  span.classList.add(CLASS.COLLAPSE_TEXT)
   if (headerText.length > 0) {
     span.appendChild(document.createTextNode(`: ${headerText[0]}`))
   }
@@ -318,7 +327,7 @@ const adjustTables = (window, document, pageTitle, isMainPage, isInitiallyCollap
   for (let i = 0; i < tables.length; ++i) {
     const table = tables[i]
 
-    if (ElementUtilities.findClosestAncestor(table, '.pagelib_collapse_table_container')
+    if (ElementUtilities.findClosestAncestor(table, `.${CLASS.CONTAINER}`)
       || !shouldTableBeCollapsed(table)) {
       continue
     }
@@ -333,7 +342,7 @@ const adjustTables = (window, document, pageTitle, isMainPage, isInitiallyCollap
     // create the container div that will contain both the original table
     // and the collapsed version.
     const containerDiv = document.createElement('div')
-    containerDiv.className = 'pagelib_collapse_table_container'
+    containerDiv.className = CLASS.CONTAINER
     table.parentNode.insertBefore(containerDiv, table)
     table.parentNode.removeChild(table)
 
@@ -408,11 +417,11 @@ const collapseTables = (window, document, pageTitle, isMainPage, infoboxTitle, o
 */
 const expandCollapsedTableIfItContainsElement = element => {
   if (element) {
-    const containerSelector = '[class*="pagelib_collapse_table_container"]'
+    const containerSelector = `[class*="${CLASS.CONTAINER}"]`
     const container = ElementUtilities.findClosestAncestor(element, containerSelector)
     if (container) {
       const collapsedDiv = container.firstElementChild
-      if (collapsedDiv && collapsedDiv.classList.contains('pagelib_collapse_table_expanded')) {
+      if (collapsedDiv && collapsedDiv.classList.contains(CLASS.EXPANDED)) {
         collapsedDiv.click()
       }
     }
