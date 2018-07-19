@@ -308,21 +308,14 @@ const newCaptionFragment = (document, title, headerText) => {
 }
 
 /**
- * @param {!Window} window
  * @param {!Document} document
  * @param {?string} pageTitle use title for this not `display title` (which can contain tags)
- * @param {?boolean} isMainPage
- * @param {?boolean} isInitiallyCollapsed
  * @param {?string} infoboxTitle
  * @param {?string} otherTitle
  * @param {?string} footerTitle
- * @param {?FooterDivClickCallback} footerDivClickCallback
  * @return {void}
  */
-const adjustTables = (window, document, pageTitle, isMainPage, isInitiallyCollapsed,
-  infoboxTitle, otherTitle, footerTitle, footerDivClickCallback) => {
-  if (isMainPage) { return }
-
+const prepareTables = (document, pageTitle, infoboxTitle, otherTitle, footerTitle) => {
   const tables = document.querySelectorAll('table, .infobox_v3')
   for (let i = 0; i < tables.length; ++i) {
     const table = tables[i]
@@ -364,27 +357,66 @@ const adjustTables = (window, document, pageTitle, isMainPage, isInitiallyCollap
 
     // set initial visibility
     table.style.display = 'none'
+  }
+}
 
-    // eslint-disable-next-line require-jsdoc, no-loop-func
-    const dispatchSectionToggledEvent = collapsed =>
-      // eslint-disable-next-line no-undef
-      window.dispatchEvent(new Polyfill.CustomEvent(SECTION_TOGGLED_EVENT_TYPE, { collapsed }))
+/**
+ * @param {!Window} window
+ * @param {!Document} document
+ * @param {?boolean} isInitiallyCollapsed
+ * @param {?FooterDivClickCallback} footerDivClickCallback
+ * @return {void}
+ */
+const setupEventHandling = (window, document, isInitiallyCollapsed, footerDivClickCallback) => {
+  // eslint-disable-next-line require-jsdoc, no-loop-func
+  const dispatchSectionToggledEvent = collapsed =>
+    // eslint-disable-next-line no-undef
+    window.dispatchEvent(new Polyfill.CustomEvent(SECTION_TOGGLED_EVENT_TYPE, { collapsed }))
 
-    // assign click handler to the collapsed divs
+  // assign click handler to the collapsed divs
+  const collapsedHeaderDivs = [...document.querySelectorAll(`.${CLASS.COLLAPSED_CONTAINER}`)]
+  collapsedHeaderDivs.forEach(collapsedHeaderDiv => {
     collapsedHeaderDiv.onclick = () => {
       const collapsed = toggleCollapseClickCallback.bind(collapsedHeaderDiv)()
       dispatchSectionToggledEvent(collapsed)
     }
+  })
+
+  const collapsedFooterDivs = [...document.querySelectorAll(`.${CLASS.COLLAPSED_BOTTOM}`)]
+  collapsedFooterDivs.forEach(collapsedFooterDiv => {
     collapsedFooterDiv.onclick = () => {
       const collapsed = toggleCollapseClickCallback.bind(collapsedFooterDiv,
         footerDivClickCallback)()
       dispatchSectionToggledEvent(collapsed)
     }
+  })
 
-    if (!isInitiallyCollapsed) {
+  if (!isInitiallyCollapsed) {
+    const containerDivs = [...document.querySelectorAll(`.${CLASS.CONTAINER}`)]
+    containerDivs.forEach(containerDiv => {
       toggleCollapsedForContainer(containerDiv)
-    }
+    })
   }
+}
+
+/**
+ * @param {!Window} window
+ * @param {!Document} document
+ * @param {?string} pageTitle use title for this not `display title` (which can contain tags)
+ * @param {?boolean} isMainPage
+ * @param {?boolean} isInitiallyCollapsed
+ * @param {?string} infoboxTitle
+ * @param {?string} otherTitle
+ * @param {?string} footerTitle
+ * @param {?FooterDivClickCallback} footerDivClickCallback
+ * @return {void}
+ */
+const adjustTables = (window, document, pageTitle, isMainPage, isInitiallyCollapsed,
+  infoboxTitle, otherTitle, footerTitle, footerDivClickCallback) => {
+  if (isMainPage) { return }
+
+  prepareTables(document, pageTitle, infoboxTitle, otherTitle, footerTitle)
+  setupEventHandling(window, document, isInitiallyCollapsed, footerDivClickCallback)
 }
 
 /**
@@ -433,6 +465,8 @@ export default {
   toggleCollapseClickCallback,
   collapseTables,
   adjustTables,
+  prepareTables,
+  setupEventHandling,
   expandCollapsedTableIfItContainsElement,
   test: {
     elementScopeComparator,
