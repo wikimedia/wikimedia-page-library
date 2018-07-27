@@ -124,12 +124,12 @@ describe('WidenImage', () => {
       const doc = domino.createDocument()
       const element = doc.createElement('div')
       element.style.width = ''
-      element.style.float = undefined
+      element.style.float = ''
       updateExistingStyleValue(element.style, 'width', '100%')
       updateExistingStyleValue(element.style, 'float', 'left')
       updateExistingStyleValue(element.style, 'maxWidth', '25%')
       assert.equal(element.style.width, '')
-      assert.equal(element.style.float, undefined)
+      assert.equal(element.style.float, '')
       assert.equal(element.style.maxWidth, '')
     })
   })

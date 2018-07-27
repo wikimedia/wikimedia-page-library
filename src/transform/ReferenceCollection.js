@@ -27,9 +27,7 @@ const isWhitespaceTextNode = node =>
  */
 const hasCitationLink = element => {
   const anchor = element.querySelector('a')
-  // todo: use anchor.hash when https://github.com/fgnass/domino/issues/127 is
-  //       fixed.
-  return anchor && isCitation(anchor.getAttribute('href'))
+  return anchor && isCitation(anchor.hash)
 }
 
 /**
