@@ -41,8 +41,7 @@ const setTheme = (document, theme) => {
  * https://en.wikipedia.org/wiki/Template:Football_kit/pattern_list
  * @type {RegExp}
  */
-const footballTemplateImageFilenameRegex =
-  new RegExp('Kit_(body|socks|shorts|right_arm|left_arm)(.*).png$')
+const footballTemplateImageFilenameRegex = /Kit_(body|socks|shorts|right_arm|left_arm)(.*).png$/
 
 /**
  * Dialog image filename regex.
