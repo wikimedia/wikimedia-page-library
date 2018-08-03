@@ -44,8 +44,16 @@ const setTheme = (document, theme) => {
 const footballTemplateImageFilenameRegex =
   new RegExp('Kit_(body|socks|shorts|right_arm|left_arm)(.*).png$')
 
+/**
+ * Dialog image filename regex.
+ * https://commons.wikimedia.org/wiki/Comparison_of_icon_sets
+ * @type {RegExp}
+ */
+const dialogImageFilenameRegex = /-[Dd]ialog-\w+\.svg(\.png)?$/
+
 /* en > Away colours > 793128975 */
 /* en > Manchester United F.C. > 793244653 */
+/* en > Wikipedia:How_to_read_a_color_infobox > 762137635: small circled i in infobox */
 /**
  * Determines whether white background should be added to image.
  * @param  {!HTMLImageElement} image
@@ -53,6 +61,9 @@ const footballTemplateImageFilenameRegex =
  */
 const imagePresumesWhiteBackground = image => {
   if (footballTemplateImageFilenameRegex.test(image.src)) {
+    return false
+  }
+  if (dialogImageFilenameRegex.test(image.src)) {
     return false
   }
   if (image.classList.contains('mwe-math-fallback-image-inline')) {
