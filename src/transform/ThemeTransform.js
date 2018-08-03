@@ -80,6 +80,7 @@ const classifyElements = element => {
   /* en > Wikipedia:Graphs_and_charts > 801754530 */
   /* en > PepsiCo > 807406166 */
   /* en > Lua_(programming_language) > 809310207 */
+  /* en > Wikipedia:How_to_read_a_color_infobox > 762137635 */
   const selector = [
     'div.color_swatch div',
     'div[style*="position: absolute"]',
@@ -87,6 +88,8 @@ const classifyElements = element => {
     'div.chart div[style*="background-color"]',
     'div.chart ul li span[style*="background-color"]',
     'span.legend-color',
+    'table span[style*="background-color"]',
+    'table td[style*="background-color"]',
     'div.mw-highlight span',
     'code.mw-highlight span',
     '.BrickChartTemplate div',
