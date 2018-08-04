@@ -48,7 +48,7 @@ const footballTemplateImageFilenameRegex = /Kit_(body|socks|shorts|right_arm|lef
  * https://commons.wikimedia.org/wiki/Comparison_of_icon_sets
  * @type {RegExp}
  */
-const dialogImageFilenameRegex = /-[Dd]ialog-\w+\.svg(\.png)?$/
+const dialogImageFilenameRegex = /-dialog-\w+\.svg(\.png)?$/i
 
 /* en > Away colours > 793128975 */
 /* en > Manchester United F.C. > 793244653 */
