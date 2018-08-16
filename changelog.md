@@ -1,3 +1,6 @@
+### v6.1.2
+- Update: footer heading color, size and spacing (currently only used by iOS)
+
 ### v6.1.1
 - Update: add LazyLoadTransformer.collectExistingPlaceholders() API for querying server-side transform image placeholders
 
