@@ -1,3 +1,6 @@
+### v6.1.3
+- Fix: infobox too narrow issue
+
 ### v6.1.2
 - Update: footer heading color, size and spacing (currently only used by iOS)
 
