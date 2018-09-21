@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang=en>
+
+  <head>
+    <meta charset=utf-8>
+    <title>HeaderTransform</title>
+    <link href=http://localhost:8080/wikimedia-page-library-transform.css rel=stylesheet>
+    <style>
+      :root {
+        --control-panel-layout-direction-visibility: visible;
+        --control-panel-theme-visibility: visible;
+      }
+      a {
+        text-decoration: none;
+      }
+      div {
+        max-width: 380px;
+        margin: 0 auto;
+
+        /* Mimic the constraints of a physical screen by preventing box shadows from spilling out. */
+        overflow: hidden;
+      }
+    </style>
+    <script src=https://polygit.org/components/webcomponentsjs/webcomponents-loader.js></script>
+    <script src=http://localhost:8080/wikimedia-page-library-transform.js></script>
+    <link rel=import href=ControlPanel.html>
+  </head>
+
+  <body>
+    <control-panel></control-panel>
+    <div id=headerGoesHere></div>
+
+    <script>
+      /* global pagelib */
+      const container = document.querySelector('#headerGoesHere')
+
+      const configurations = [{
+        displayTitle: 'Ice cream',
+        descriptionEditable: true,
+        description: 'frozen food',
+        hasPronunciation: true,
+        isMainPage: false
+      }, {
+        displayTitle: 'Add a description',
+        descriptionEditable: true,
+        description: '',
+        hasPronunciation: false,
+        isMainPage: false
+      }, {
+        displayTitle: 'No description',
+        descriptionEditable: false,
+        description: '',
+        hasPronunciation: false,
+        isMainPage: false
+      }, {
+        displayTitle: 'Main page',
+        descriptionEditable: false,
+        hasPronunciation: false,
+        isMainPage: true
+      }]
+
+      /**
+       * @return {boolean} true if page is in right-to-left mode
+       */
+      const isRtl = () => document.querySelector('html').classList.contains('content-rtl')
+
+      /**
+       * @return {boolean} true if dark or black theme is used
+       */
+      const isDarkMode = () => {
+        const classList = document.querySelector('html').classList
+        return classList.contains('pagelib_theme_dark') || classList.contains('pagelib_theme_black')
+      }
+
+      configurations.forEach(configuration => {
+        const p = document.createElement('p')
+        p.innerHTML = `Example header for "${configuration.displayTitle}":`
+        container.appendChild(p)
+        pagelib.HeaderTransform.add(document, container, configuration.displayTitle,
+          configuration.descriptionEditable, configuration.description, 'Add a description',
+          configuration.hasPronunciation, configuration.isMainPage, isRtl(),
+          isDarkMode())
+      })
+    </script>
+  </body>
+
+</html>

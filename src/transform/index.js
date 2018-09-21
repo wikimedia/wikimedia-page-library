@@ -21,6 +21,7 @@ import FooterLegal from './FooterLegal'
 import FooterMenu from './FooterMenu'
 import FooterReadMore from './FooterReadMore'
 import FooterTransformer from './FooterTransformer'
+import HeaderTransform from './HeaderTransform'
 import LazyLoadTransform from './LazyLoadTransform'
 import LazyLoadTransformer from './LazyLoadTransformer'
 import PlatformTransform from './PlatformTransform'
@@ -45,6 +46,7 @@ export default {
   FooterMenu,
   FooterReadMore,
   FooterTransformer,
+  HeaderTransform,
   LazyLoadTransform,
   LazyLoadTransformer,
   PlatformTransform,
