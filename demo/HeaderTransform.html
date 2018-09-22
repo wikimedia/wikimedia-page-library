@@ -64,22 +64,13 @@
        */
       const isRtl = () => document.querySelector('html').classList.contains('content-rtl')
 
-      /**
-       * @return {boolean} true if dark or black theme is used
-       */
-      const isDarkMode = () => {
-        const classList = document.querySelector('html').classList
-        return classList.contains('pagelib_theme_dark') || classList.contains('pagelib_theme_black')
-      }
-
       configurations.forEach(configuration => {
         const p = document.createElement('p')
         p.innerHTML = `Example header for "${configuration.displayTitle}":`
         container.appendChild(p)
         pagelib.HeaderTransform.add(document, container, configuration.displayTitle,
           configuration.descriptionEditable, configuration.description, 'Add a description',
-          configuration.hasPronunciation, configuration.isMainPage, isRtl(),
-          isDarkMode())
+          configuration.hasPronunciation, configuration.isMainPage, isRtl())
       })
     </script>
   </body>

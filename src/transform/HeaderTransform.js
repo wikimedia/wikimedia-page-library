@@ -81,14 +81,13 @@ const makeDescriptionDiv = (document, descriptionEditable, description, stringAd
  * @param {boolean} descriptionEditable
  * @param {?string} description
  * @param {!string} stringAddDescription for I18N
- * @param {boolean} hasPronunciation
- * @param {boolean} isMainPage
- * @param {boolean} isRtl
- * @param {boolean} isDarkMode
+ * @param {?boolean} hasPronunciation
+ * @param {?boolean} isMainPage
+ * @param {?boolean} isRtl
  * @return {void}
  */
 const add = (document, container, displayTitle, descriptionEditable, description,
-  stringAddDescription, hasPronunciation, isMainPage, isRtl, isDarkMode) => {
+  stringAddDescription, hasPronunciation, isMainPage, isRtl) => {
 
   const titleDiv = document.createElement('div')
   titleDiv.id = 'heading_0'
