@@ -67,7 +67,7 @@ const collectRefText = (document, source) => {
     .filter(NodeUtilities.isNodeTypeElementOrText)
     .forEach(cloneNodeIntoFragmentDiv)
 
-  const removalSelector = 'sup[id^=cite_ref], .mw-cite-backlink'
+  const removalSelector = 'style, sup[id^=cite_ref], .mw-cite-backlink'
   Polyfill.querySelectorAll(fragDiv, removalSelector)
     .forEach(node => node.remove())
 
