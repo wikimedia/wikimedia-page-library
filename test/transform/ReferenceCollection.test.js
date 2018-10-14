@@ -17,6 +17,7 @@ const referenceGroupHTML = `
   <span id='cite_note-d'>9 10 11
     <sup id='cite_ref-d'>tick</sup>
     <a class='mw-cite-backlink'>link</a>
+    <style>.mw-parser-output cite.citation{font-style:inherit}</style>
   </span>
 `
 
@@ -221,12 +222,12 @@ describe('ReferenceCollection', () => {
       const referenceText = collectRefText(document, document.querySelector('#cite_ref-b'))
       assert.strictEqual(referenceText, '3 4 5')
     })
-    it('removes `sup[id^=cite_ref], .mw-cite-backlink` elements from reference text', () => {
+    it('removes `style, sup[id^=cite_ref], .mw-cite-backlink` elements from reference text', () => {
       const referenceText = collectRefText(document, document.querySelector('#cite_ref-d'))
 
       document = domino.createDocument(referenceText)
 
-      const removalSelector = 'sup[id^=cite_ref], .mw-cite-backlink'
+      const removalSelector = 'style, sup[id^=cite_ref], .mw-cite-backlink'
       const matches = document.querySelectorAll(removalSelector)
 
       assert.strictEqual(matches.length, 0)
