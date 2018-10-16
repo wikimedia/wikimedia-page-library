@@ -1,3 +1,6 @@
+### v6.1.4
+- Fix: extracted references not removing styles 
+
 ### v6.1.3
 - Fix: infobox too narrow issue
 
