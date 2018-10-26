@@ -1,4 +1,5 @@
 import './HeaderTransform.css'
+import EditTransform from './EditTransform.js'
 
 /**
  * Makes an SVG element.
@@ -37,7 +38,7 @@ const makePronunciationIcon = document => {
 }
 
 /**
- * Makes a div including whatever is needed to display the description.
+ * Makes a div including whatever is needed to display the description and edit button.
  * @param {!Document} document
  * @param {boolean} descriptionEditable
  * @param {?string} description
@@ -46,9 +47,11 @@ const makePronunciationIcon = document => {
  */
 const makeDescriptionDiv = (document, descriptionEditable, description, stringAddDescription) => {
   const descriptionDiv = document.createElement('div')
-  const mainEditPencilAnchor = document.createElement('a')
-  mainEditPencilAnchor.setAttribute('data-action', 'edit_main')
-  mainEditPencilAnchor.setAttribute('class', 'pagelib_edit_section_link')
+  const editButton = EditTransform.newEditSectionButton(document, 0)
+  const mainEditPencilAnchor = EditTransform.queryEditSectionLink(editButton)
+  if (descriptionEditable) {
+    mainEditPencilAnchor.setAttribute('data-action', 'edit_main')
+  }
 
   // Span that will contain the description and/or the two-line icon
   const descriptionSpan = document.createElement('span')
@@ -68,8 +71,8 @@ const makeDescriptionDiv = (document, descriptionEditable, description, stringAd
   } else {
     descriptionSpan.innerHTML = ' '
   }
-  descriptionDiv.appendChild(mainEditPencilAnchor)
   descriptionDiv.appendChild(descriptionSpan)
+  descriptionDiv.appendChild(editButton)
   return descriptionDiv
 }
 
