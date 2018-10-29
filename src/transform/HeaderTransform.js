@@ -31,7 +31,7 @@ const makePronunciationIcon = document => {
   audioIcon.style.margin = '0 6px 2px 6px'
   const audioAnchor = document.createElement('a')
   audioAnchor.setAttribute('data-action', 'pronunciation_click')
-  audioAnchor.setAttribute('class', 'pagelib_pronunciation')
+  audioAnchor.setAttribute('class', 'pagelib_header_pronunciation')
   audioAnchor.setAttribute('style', 'color:inherit;')
   audioAnchor.innerHTML = audioIcon.outerHTML
   return audioAnchor
