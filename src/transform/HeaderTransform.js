@@ -40,16 +40,16 @@ const makePronunciationIcon = document => {
 /**
  * Makes a div including whatever is needed to display the description and edit button.
  * @param {!Document} document
- * @param {boolean} descriptionEditable
+ * @param {boolean} isDescriptionEditable
  * @param {?string} description
  * @param {!string} stringAddDescription for I18N
  * @return {!Element}
  */
-const makeDescriptionDiv = (document, descriptionEditable, description, stringAddDescription) => {
+const makeDescriptionDiv = (document, isDescriptionEditable, description, stringAddDescription) => {
   const descriptionDiv = document.createElement('div')
   const editButton = EditTransform.newEditSectionButton(document, 0)
   const mainEditPencilAnchor = EditTransform.queryEditSectionLink(editButton)
-  if (descriptionEditable) {
+  if (isDescriptionEditable) {
     mainEditPencilAnchor.setAttribute('data-action', 'edit_main')
   }
 
@@ -58,7 +58,7 @@ const makeDescriptionDiv = (document, descriptionEditable, description, stringAd
   descriptionSpan.setAttribute('class', 'pagelib_header_description')
   if (description) {
     descriptionSpan.innerHTML = description
-  } else if (descriptionEditable) {
+  } else if (isDescriptionEditable) {
     const descriptionAnchor = document.createElement('a')
     const descSvg = makeSvgElement(document, 24, 16,
       // eslint-disable-next-line max-len
