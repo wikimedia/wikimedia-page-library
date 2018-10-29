@@ -112,7 +112,7 @@ const add = (document, container, displayTitle, descriptionEditable, description
 
   // Decorative divider that appears below the title and description
   const dividerLine = document.createElement('div')
-  dividerLine.setAttribute('class', 'pagelib_divider')
+  dividerLine.setAttribute('class', 'pagelib_header_divider')
 
   if (!isMainPage) {
     titleDiv.appendChild(h1)

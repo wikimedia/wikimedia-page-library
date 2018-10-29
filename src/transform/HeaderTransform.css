@@ -35,7 +35,7 @@ html[dir='rtl'] .pagelib_header_description svg,
   font-style: italic;
 }
 
-.pagelib_divider {
+.pagelib_header_divider {
   width: 56px;
   border-top: 1px solid currentColor !important;
   margin-top: 12px;
@@ -44,7 +44,7 @@ html[dir='rtl'] .pagelib_header_description svg,
 
 .pagelib_edit_section_link,
 .pagelib_header_description,
-.pagelib_divider {
+.pagelib_header_divider {
   opacity: 0.7;
 }
 
@@ -52,8 +52,8 @@ html[dir='rtl'] .pagelib_header_description svg,
 .pagelib_theme_black .pagelib_edit_section_link,
 .pagelib_theme_dark .pagelib_header_description,
 .pagelib_theme_black .pagelib_header_description,
-.pagelib_theme_dark .pagelib_divider,
-.pagelib_theme_black .pagelib_divider {
+.pagelib_theme_dark .pagelib_header_divider,
+.pagelib_theme_black .pagelib_header_divider {
   opacity: 0.54;
 }
 
