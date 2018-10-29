@@ -14,8 +14,8 @@ html[dir='rtl'] .pagelib_header .pagelib_edit_section_link,
   fill: currentColor;
 }
 
-html[dir='rtl'] .pagelib_edit_section_link,
-.content-rtl .pagelib_edit_section_link,
+html[dir='rtl'] .pagelib_header .pagelib_edit_section_link,
+.content-rtl .pagelib_header .pagelib_edit_section_link,
 html[dir='rtl'] .pagelib_header_pronunciation svg,
 .content-rtl .pagelib_header_pronunciation svg,
 html[dir='rtl'] .pagelib_header_description svg,
@@ -42,22 +42,14 @@ html[dir='rtl'] .pagelib_header_description svg,
   margin-bottom: 16px;
 }
 
-.pagelib_edit_section_link,
 .pagelib_header_description,
 .pagelib_header_divider {
   opacity: 0.7;
 }
 
-.pagelib_theme_dark .pagelib_edit_section_link,
-.pagelib_theme_black .pagelib_edit_section_link,
 .pagelib_theme_dark .pagelib_header_description,
 .pagelib_theme_black .pagelib_header_description,
 .pagelib_theme_dark .pagelib_header_divider,
 .pagelib_theme_black .pagelib_header_divider {
   opacity: 0.54;
-}
-
-.pagelib_theme_dark .pagelib_edit_section_link,
-.pagelib_theme_black .pagelib_edit_section_link {
-  -webkit-filter: invert(100%);
 }
