@@ -95,7 +95,7 @@ const add = (document, container, displayTitle, descriptionEditable, description
   const titleDiv = document.createElement('div')
   titleDiv.id = 'heading_0'
   titleDiv.setAttribute('data-id', 0)
-  titleDiv.className = 'section_heading'
+  titleDiv.className = 'section_heading pagelib_header'
   titleDiv.setAttribute('dir', isRtl ? 'rtl' : 'ltr')
 
   // Create the actual H1 heading
