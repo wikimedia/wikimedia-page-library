@@ -1,0 +1,540 @@
+<!doctype html>
+<html>
+
+  <head>
+    <meta charset=utf-8>
+    <title>All Transforms</title>
+    <style>
+      body {
+        padding: 0px 0px 0px 330px !important;
+      }
+      #theme_demo_menu a {
+        display: block;
+        color: black;
+        font-size: 0.7em;
+        font-weight: bold;
+        padding: 3px 0px;
+      }
+      #theme_demo_menu {
+        margin-top: 16px;
+        padding-bottom: 32px;
+      }
+      #theme_demo_tools {
+        background: #ccc;
+        padding: 0px 15px;
+        padding-top: 20px;
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 300px;
+        overflow-y: scroll;
+        height: 100%;
+      }
+      #theme_demo_article_select {
+
+      }
+      .theme_demo_article_title {
+        color: red;
+        font-size: 2.0em;
+        padding-top: 15px;
+      }
+      iframe {        
+        width: 100%;
+        height: 100vh; /* initial value - gets reset */
+        margin-top: 20px;
+        border: 3px #ccc solid;
+      }
+      .checkbox_container {
+        padding-top: 5px;
+        padding-bottom: 5px;
+      }
+      .checkbox_label {
+        margin-left:5px;
+      }
+      input[type=radio] {
+        margin-left:15px;
+      }
+    </style>
+
+    <script src='./DemoArticles/ArticleRef.js'></script>
+    <script src='./DemoUtilities.js'></script>
+
+  </head>
+
+  <body>
+    <div id='theme_demo_tools'>
+      <form id='demo_controls'></form>
+      <br>* = currently irreversible - reload to reset
+      <br><br>
+      Articles to preview:
+      <br>(multiple selection supported)
+      <br><br>
+      <select id='theme_demo_article_select' multiple></select>
+      <br><br>
+      Jump between article previews:
+      <div id='theme_demo_menu'></div>
+      <br><br>
+    </div>
+    
+    <script>
+
+/* global ArticleRef, ArticleRefSourceType, flattenArrayOfArrays, pagelib */
+
+/**
+ * Converts article JSON to ArticleRefs.
+ * @param {!Array<object>} json array of article JSON objects
+ * @return {!Array<ArticleRef>}
+ */
+const articleRefsFromArticlesJSON = json => flattenArrayOfArrays(
+  json.map(articleData => [
+    new ArticleRef(
+      articleData.lang,
+      articleData.title,
+      articleData.revision,
+      ArticleRefSourceType.mobileView
+    ),
+    new ArticleRef(
+      articleData.lang,
+      articleData.title,
+      articleData.revision,
+      ArticleRefSourceType.mobileContentService
+    )
+  ])
+)
+
+/**
+ * Converts ArticleRefs to anchor elements. 
+ * @param {!Array<ArticleRef>} articleRefs
+ * @return {!Array<HTMLAnchorElement>}
+ */
+const anchorsFromArticleRefs = articleRefs => articleRefs.map(articleRef => {
+  const anchor = document.createElement('a')
+  anchor.href = `#${articleRef.fileName()}`
+  anchor.innerHTML = articleRef.displayName()
+  return anchor
+})
+
+/**
+ * Converts article JSON sections to HTML strings.
+ * @param  {!Array<object>} sections
+ * @return {!Array<String>}
+ */
+const enclosedSectionHTMLsFromSections = sections => sections.map(section => {
+  const line = section.line || ''
+  const toclevel = section.toclevel || '1'
+  return `<div class='content_block' id='content_block_${section.id}'>
+            <div class='section_header' id='${section.id}' line='${line}' toclevel='${toclevel}'>
+              <h${toclevel}>${line}</h${toclevel}>
+            </div>
+            ${section.text}
+          </div>`
+})
+
+/**
+ * Converts section HTML strings to a single HTML string.
+ * @param {!Array<string>} allSectionHTMLs
+ * @return {!string}
+ */
+const htmlFromAllSectionHTMLs = allSectionHTMLs => allSectionHTMLs.join('')
+
+const DEMO_ARTICLES_PATH = './DemoArticles/'
+const DEMO_ARTICLES_INDEX_PATH = `${DEMO_ARTICLES_PATH}articles.json`
+const DEMO_ARTICLES_DATA_PATH = `${DEMO_ARTICLES_PATH}data/`
+
+/**
+ * Promises for fetching article section JSON arrays from local data files for ArticleRefs.
+ * @param {!Array<ArticleRef>} articleRefs
+ * @return {!Array<Promise>}
+ */
+const fetchSectionsJSONForArticleRefs = articleRefs =>
+  articleRefs.map(articleRef => articleRef.fetchSectionsJSON(DEMO_ARTICLES_DATA_PATH))
+
+/**
+ * Attaches anchor elements to the menu.
+ * @param {!Array<HTMLAnchorElement>} anchors
+ * @return {void}
+ */
+const addAnchorsToMenu = anchors => {
+  const themeDemoMenu = document.getElementById('theme_demo_menu')
+  anchors.forEach(anchor => themeDemoMenu.appendChild(anchor))
+}
+
+const articleEnclosedInOuterHTML = articleHTML => {
+  const script = 'script'
+  return `
+  <!doctype html>
+  <html>
+    <head>
+      <meta charset=utf-8>
+      <link href='https://en.wikipedia.org/w/load.php?debug=true&lang=en&modules=skins.minerva.base.reset|skins.minerva.content.styles|ext.cite.style|ext.math.styles|ext.timeline.styles|mediawiki.page.gallery.styles|mediawiki.skinning.content.parsoid&only=styles&version=&*' rel='stylesheet' type='text/css'></link>
+      <link href=http://localhost:8080/wikimedia-page-library-transform.css rel=stylesheet>
+      <style>
+        body {
+          padding: 20px !important;
+        }
+        .content_block {
+          padding-bottom: 50px;
+        }
+      </style>
+      <${script} src=http://localhost:8080/wikimedia-page-library-transform.js></${script}>
+    </head>
+    <body>
+      <div class='content' id='content'>
+      ${articleHTML}
+      </div>
+    </body>
+    <${script}>
+      pagelib.ThemeTransform.classifyElements(document)
+    </${script}>
+  </html>`
+}
+
+const expandIframeHeight = iframe => {
+  iframe.style.height = `${iframe.contentWindow.document.body.offsetHeight}px`
+}
+
+const titleDivForArticleRef = articleRef => {
+  const div = document.createElement('div')
+  div.innerHTML = articleRef.displayName()
+  div.classList.add('theme_demo_article_title')
+  div.id = articleRef.fileName()
+  div.title = articleRef.displayName()
+  return div
+}
+
+let activeTransformApplicationClosures = new Object();
+
+const reapplyActiveTransformsToIframe = (iframe) => {
+  const apply = ([id, transformClosure]) => transformClosure(iframe)
+  Object.entries(activeTransformApplicationClosures).forEach(apply)
+}
+
+const addHTMLToDocument = (html, articleRef) => {
+  const iframe = document.createElement('iframe')
+  iframe.scrolling = 'no'
+  iframe.classList.add('article_preview')
+  const titleDiv = titleDivForArticleRef(articleRef)
+  document.body.appendChild(titleDiv)
+  
+  iframe.addEventListener('load', event => {
+    expandIframeHeight(event.target)
+    
+    // Once the pagelib is attached to the iframe content window it's safe to apply previously selected transforms
+    if (iframe.contentWindow.pagelib) {
+      reapplyActiveTransformsToIframe(iframe)
+    }
+ 
+  }, true)
+  
+  document.body.appendChild(iframe)
+  
+//FIXME: i think this was so iframe would resize itself if its doc height changed, but it's not working.
+//should it be on `iframe.contentWindow` - that doesn't seem to work either...
+//to repro expand and collapse tables and check if bottom of article is clipped
+  window.addEventListener('resize', () => expandIframeHeight(iframe), true)
+  
+  const iframeDocument = iframe.contentWindow.document
+  
+  // Park the ArticleRef here for easy access later. For example, provides easy way to check if a
+  // document is showing content for a particular ArticleRef sourceType. This is handy in case a
+  // particular transform demo should be applied to, say, mobileview content, but not MCS content.
+  iframeDocument.articleRef = articleRef
+  
+  iframeDocument.open()
+  iframeDocument.write(html)
+  iframeDocument.close()
+  
+  const htmlElement = iframeDocument.querySelector('html')
+  htmlElement.setAttribute('dir', articleRef.isRTL() ? 'rtl' : 'ltr')  
+}
+
+const configureCheckboxClickToPerformClosureForEachIframe = (checkbox, closure, id) => {
+  checkbox.addEventListener('click', event => {
+    const value = event.target.value // the closure below only needs to capture the value itself
+    const transformApplicationClosure = (iframe) => {
+      closure(iframe.contentWindow, iframe.contentWindow.document, value, iframe)
+      expandIframeHeight(iframe)
+    }
+
+    // Apply transform to each iframe
+    document.querySelectorAll('iframe.article_preview')
+      .forEach(transformApplicationClosure)
+
+    // Maintain list of active transforms (transform id mapped to transformApplicationClosure),
+    // These activeTransformApplicationClosures are later re-applied to newly loaded articles.
+    if(checkbox.checked){
+      activeTransformApplicationClosures[id] = transformApplicationClosure
+    }else{
+      if(id in activeTransformApplicationClosures){
+        delete activeTransformApplicationClosures[id];
+      }  
+    }
+  })
+}
+
+const addCheckboxToDemoControls = (id, title, type, value, iframeScopeClickClosure) => {  
+  const checkboxContainer = document.createElement('div')
+  checkboxContainer.classList.add('checkbox_container')
+  
+  const input = document.createElement('input')
+  input.type = type
+  input.name = id
+  input.value = value
+  checkboxContainer.appendChild(input)
+
+  const label = document.createElement('label')
+  label.for = id
+  label.innerHTML = title
+  label.classList.add('checkbox_label')  
+  checkboxContainer.appendChild(label)
+
+  document.getElementById('demo_controls').appendChild(checkboxContainer)
+
+  configureCheckboxClickToPerformClosureForEachIframe(input, iframeScopeClickClosure, id)
+}
+
+const addTableCollapseControl = () => {
+  addCheckboxToDemoControls('collapse_tables_checkbox', 'Collapse tables *', 'checkbox', null, (iframeWindow, iframeDocument) => {
+      event.target.disabled = true
+      iframeWindow.pagelib.CollapseTable.collapseTables(
+        iframeWindow, iframeDocument, 'page title', false, 'Infobox', 'Information', 'Close', null
+      )
+  })
+}
+
+const addDimImagesControl = () => {
+  addCheckboxToDemoControls('dim_images_checkbox', 'Dim images', 'checkbox', null, (iframeWindow, iframeDocument) => {
+    iframeWindow.pagelib.DimImagesTransform.dim(
+      iframeWindow,
+      !iframeWindow.pagelib.DimImagesTransform.isDim(iframeWindow)
+    )    
+  })
+}
+
+const addEditPencilsControl = () => {
+  addCheckboxToDemoControls('edit_pencil_checkbox', 'Edit pencils *', 'checkbox', null, (iframeWindow, iframeDocument) => {
+    event.target.disabled = true
+    const editPencilHeaderFromSectionHeader = sectionHeader =>
+      iframeWindow.pagelib.EditTransform.newEditSectionHeader(
+        iframeDocument, 
+        sectionHeader.getAttribute('id'), 
+        sectionHeader.getAttribute('toclevel'), 
+        sectionHeader.getAttribute('line')
+      )
+    const replaceSectionHeaderWithEditPencilHeader = sectionHeader => {
+      sectionHeader.parentNode.replaceChild(
+        editPencilHeaderFromSectionHeader(sectionHeader),
+        sectionHeader
+      )      
+    }
+    iframeDocument.querySelectorAll('.section_header').forEach(replaceSectionHeaderWithEditPencilHeader)
+  })
+}
+
+const addWidenImagesControl = () => {
+  const shouldWidenImage = image => {
+    return (image.getAttribute('width') && image.getAttribute('height') &&
+    (parseInt(image.getAttribute('width'), 10) > 64) &&
+    (parseInt(image.getAttribute('height'), 10) > 64)) //&&
+    // image.getAttribute('data-file-width') && // MCS is not returning these??
+    // image.getAttribute('data-file-height')
+//TODO: file ticket for adding ^ to MCS and/or ensure this gets included on new endpoint!
+//TODO: ask bearnd what ticket this new endpoint is on...
+  }
+  addCheckboxToDemoControls('widen_image_checkbox', 'Widen images *', 'checkbox', null, (iframeWindow, iframeDocument) => {
+    event.target.disabled = true
+    Array.from(iframeDocument.querySelectorAll('img'))
+      .filter(shouldWidenImage)
+      .forEach(img => iframeWindow.pagelib.WidenImage.maybeWidenImage(img))
+  })
+}
+
+const addCompatibilityControl = () => {
+  addCheckboxToDemoControls('compatibility_checkbox', 'Compatibility filter *', 'checkbox', null, (iframeWindow, iframeDocument) => {
+    event.target.disabled = true
+    iframeWindow.pagelib.CompatibilityTransform.enableSupport(iframeDocument)
+  })
+}
+
+const addHideRedlinksControl = () => {
+  addCheckboxToDemoControls('hide_redlinks_checkbox', 'Hide redlinks *', 'checkbox', null, (iframeWindow, iframeDocument) => {
+    event.target.disabled = true
+    iframeWindow.pagelib.RedLinks.hideRedLinks(iframeDocument)
+  })
+}
+
+const addThemesControl = () => {
+  const themeSelectionHandler = (iframeWindow, iframeDocument, selectedValue) => {
+    iframeWindow.pagelib.ThemeTransform.classifyElements(iframeDocument)
+    iframeWindow.pagelib.ThemeTransform.setTheme(iframeDocument, iframeWindow.pagelib.ThemeTransform.THEME[selectedValue])
+  }
+  const div = document.createElement('div')
+  div.innerHTML = 'Theme'
+  document.getElementById('demo_controls').appendChild(div)
+  addCheckboxToDemoControls('theme_radio', 'Default', 'radio', 'DEFAULT', themeSelectionHandler)
+  addCheckboxToDemoControls('theme_radio', 'Sepia', 'radio', 'SEPIA', themeSelectionHandler)
+  addCheckboxToDemoControls('theme_radio', 'Dark', 'radio', 'DARK', themeSelectionHandler)
+  addCheckboxToDemoControls('theme_radio', 'Black', 'radio', 'BLACK', themeSelectionHandler)
+}
+
+const addPlatformsControl = () => {
+  const platformSelectionHandler = (iframeWindow, iframeDocument, selectedValue) => {
+    const html = iframeDocument.querySelector('html')
+    html.classList.remove(iframeWindow.pagelib.PlatformTransform.CLASS.ANDROID)
+    html.classList.remove(iframeWindow.pagelib.PlatformTransform.CLASS.IOS)
+    if (selectedValue in iframeWindow.pagelib.PlatformTransform.CLASS) {
+      html.classList.add(iframeWindow.pagelib.PlatformTransform.CLASS[selectedValue])
+    }
+  }
+  const div = document.createElement('div')
+  div.innerHTML = 'Platform'
+  document.getElementById('demo_controls').appendChild(div)
+  addCheckboxToDemoControls('platform_radio', 'Unspecified', 'radio', null, platformSelectionHandler)
+  addCheckboxToDemoControls('platform_radio', 'iOS', 'radio', 'IOS', platformSelectionHandler)
+  addCheckboxToDemoControls('platform_radio', 'Android', 'radio', 'ANDROID', platformSelectionHandler)
+
+}
+
+const addFooterContainer = (iframeWindow, iframeDocument) => {
+  const containerFragment = iframeWindow.pagelib.FooterContainer.containerFragment(iframeDocument)
+  iframeDocument.body.appendChild(containerFragment)
+  iframeWindow.pagelib.FooterContainer.updateLeftAndRightMargin(16, iframeDocument)
+}
+
+const addFooterMenu = (iframeWindow, iframeDocument) => {
+  iframeWindow.pagelib.FooterMenu.setHeading('About this article', 'pagelib_footer_container_menu_heading', iframeDocument)
+  iframeWindow.pagelib.FooterMenu.maybeAddItem('Available in 10 other languages', '', iframeWindow.pagelib.FooterMenu.MenuItemType.languages, 'pagelib_footer_container_menu_items', ()=>{}, iframeDocument)
+  iframeWindow.pagelib.FooterMenu.maybeAddItem('Edited 10 days ago', '', iframeWindow.pagelib.FooterMenu.MenuItemType.lastEdited, 'pagelib_footer_container_menu_items', ()=>{}, iframeDocument)
+  iframeWindow.pagelib.FooterMenu.maybeAddItem('Page issues', '', iframeWindow.pagelib.FooterMenu.MenuItemType.pageIssues, 'pagelib_footer_container_menu_items', ()=>{}, iframeDocument)
+  iframeWindow.pagelib.FooterMenu.maybeAddItem('Similar pages', '', iframeWindow.pagelib.FooterMenu.MenuItemType.disambiguation, 'pagelib_footer_container_menu_items', ()=>{}, iframeDocument)
+  iframeWindow.pagelib.FooterMenu.maybeAddItem('View on a map', '', iframeWindow.pagelib.FooterMenu.MenuItemType.coordinate, 'pagelib_footer_container_menu_items', ()=>{}, iframeDocument)
+}
+
+const addFooterReadMore = (iframeWindow, iframeDocument, iframe) => {
+  iframeWindow.pagelib.FooterReadMore.setHeading('Read more', 'pagelib_footer_container_readmore_heading', iframeDocument)
+  const readMoreItemsFetchedHandler = titles => {
+    let shouldSave = true
+    titles.forEach(title => {
+      iframeWindow.pagelib.FooterReadMore.updateSaveButtonForTitle(title, 'Saved for later', shouldSave, iframeDocument)
+      shouldSave = !shouldSave
+    })
+    expandIframeHeight(iframe)
+  }
+  const baseURL = `https://cors.io/?https://${iframeDocument.articleRef.lang}.wikipedia.org`
+  // Add read more for article 'a' since most langs seem to have article about this letter. 
+  iframeWindow.pagelib.FooterReadMore.add('a', 3, 'pagelib_footer_container_readmore_pages', baseURL, () => {}, readMoreItemsFetchedHandler, iframeDocument)
+}
+
+const addFooterLegal = (iframeWindow, iframeDocument) => {
+  iframeWindow.pagelib.FooterLegal.add(iframeDocument, 'Content is available under $1 unless otherwise noted.', 'CC BY-SA 3.0', 'pagelib_footer_container_legal', () => {}, 'View in browser', () => {})
+}
+
+const addFooterControl = () => {
+  addCheckboxToDemoControls('footer_checkbox', 'Add footer *', 'checkbox', null, (iframeWindow, iframeDocument, selectedValue, iframe) => {
+    event.target.disabled = true
+    addFooterContainer(iframeWindow, iframeDocument)
+    addFooterMenu(iframeWindow, iframeDocument)
+    addFooterReadMore(iframeWindow, iframeDocument, iframe)
+    addFooterLegal(iframeWindow, iframeDocument)
+  })
+}
+
+const addLeadIntroductionControl = () => {
+  addCheckboxToDemoControls('first_paragraph_checkbox', 'Move 1st Paragraph Up (only needed for mobileview) *', 'checkbox', null, (iframeWindow, iframeDocument) => {
+    event.target.disabled = true
+    if (iframeDocument.articleRef.sourceType == ArticleRefSourceType.mobileView){
+      iframeWindow.pagelib.LeadIntroductionTransform.moveLeadIntroductionUp(iframeDocument, 'content_block_0', iframeDocument.querySelector('.section_header'))
+    }
+  })
+}
+
+const addRTLControl = () => {
+  const selectionHandler = (iframeWindow, iframeDocument, selectedValue) => {
+    iframeDocument.querySelector('html').setAttribute('dir', selectedValue)
+  }
+  const div = document.createElement('div')
+  div.innerHTML = 'Text direction'
+  document.getElementById('demo_controls').appendChild(div)
+  addCheckboxToDemoControls('dir_radio', 'LTR', 'radio', 'ltr', selectionHandler)
+  addCheckboxToDemoControls('dir_radio', 'RTL', 'radio', 'rtl', selectionHandler)
+}
+
+const removeAllIframePreviews = () => {
+  const removeElement = iframe => iframe.parentNode.removeChild(iframe)
+  document.querySelectorAll('iframe.article_preview, div.theme_demo_article_title')
+    .forEach(removeElement)
+}
+const removeAllAnchorsFromMenu = () => {
+  document.getElementById('theme_demo_menu').innerHTML = ''
+}
+const articleSelectOptionsFromArticleRefs = articleRefs => articleRefs.map(articleRef => {
+  const option = document.createElement('option')
+  option.value = articleRef.fileName()
+  option.innerHTML = articleRef.displayName()
+  return option
+})
+const addArticleOptionsToSelect = (options, select) => {
+  select.size = options.length
+  options.forEach(anchor => select.appendChild(anchor))
+}
+const selectedValuesFromSelect = select => {
+  let selectedOptions = Array.apply(null, select.options).filter(option => option.selected)
+  return selectedOptions.map(option => option.value)
+}
+const addIframePreviewsForArticleRefs = articleRefs => {
+  Promise.all(fetchSectionsJSONForArticleRefs(articleRefs))
+    .then(articlesSectionsJSON => articlesSectionsJSON.map(enclosedSectionHTMLsFromSections))
+    .then(articlesEnclosedSectionHTML => articlesEnclosedSectionHTML.map(htmlFromAllSectionHTMLs))
+    .then(articlesHTML => articlesHTML.map(articleEnclosedInOuterHTML))
+    .then(articlesCompleteHTML => articlesCompleteHTML.map((articleCompleteHTML, i) => {
+      return addHTMLToDocument(articleCompleteHTML, articleRefs[i])
+    }))
+}
+
+const addTransformControls = () => {
+  addThemesControl()
+  addPlatformsControl()
+  addTableCollapseControl()
+  addDimImagesControl()
+  addLeadIntroductionControl()
+  addEditPencilsControl()
+  addWidenImagesControl()
+  addCompatibilityControl()
+  addHideRedlinksControl()
+  addFooterControl()
+  addRTLControl()
+  //TODO: add addLazyImageLoadControl()
+}
+
+const articleSelectElement = document.getElementById('theme_demo_article_select')
+const articleRefsForSelectedArticleOptions = (selectElement, articleRefs) => articleRefs.filter(articleRef => selectedValuesFromSelect(selectElement).includes(articleRef.fileName()))
+
+fetch(DEMO_ARTICLES_INDEX_PATH)
+  .then(response => response.json())
+  .then(articleRefsFromArticlesJSON)
+  .then(articleRefs => [articleSelectOptionsFromArticleRefs(articleRefs), articleRefs])
+  .then(([options, articleRefs]) => {
+    addArticleOptionsToSelect(options, articleSelectElement)
+    return articleRefs
+  })
+  .then(articleRefs => {
+    articleSelectElement.addEventListener('change', event => {
+      if (!event) {
+        return
+      }
+      
+      let selectedArticleRefs = articleRefsForSelectedArticleOptions(event.target, articleRefs)
+
+      removeAllIframePreviews()
+      addIframePreviewsForArticleRefs(selectedArticleRefs)
+      
+      removeAllAnchorsFromMenu()
+      addAnchorsToMenu(anchorsFromArticleRefs(selectedArticleRefs))
+
+    }, true)
+  })
+  .then(addTransformControls)
+
+    </script>
+</body>
+</html>

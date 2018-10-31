@@ -24,6 +24,8 @@ const displayNameForArticleRefSourceType = type => {
   }
 }
 
+const rtlLangCodes = ['arc', 'arz', 'ar', 'bcc', 'bqi', 'ckb', 'dv', 'fa', 'glk', 'ha', 'he', 'khw', 'ks', 'mzn', 'pnb', 'ps', 'sd', 'ug', 'ur', 'yi']
+
 /**
  * Model for article data in ./articles.json
  */
@@ -41,6 +43,14 @@ class ArticleRef {
     this.title = title
     this.revision = revision
     this.sourceType = sourceType
+  }
+
+  /**
+   * Determines whether lang is RTL.
+   * @return {boolean}
+   */
+  isRTL() {
+    return rtlLangCodes.indexOf(this.lang) > -1
   }
 
   /**
