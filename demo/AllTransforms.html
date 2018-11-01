@@ -14,7 +14,7 @@
       #theme_demo_menu a {
         display: block;
         color: black;
-        font-size: 0.7em;
+        font-size: 0.9em;
         font-weight: bold;
         padding: 3px 0px;
       }
@@ -48,8 +48,6 @@
         border: 3px #ccc solid;
       }
       .checkbox_container {
-        padding-top: 5px;
-        padding-bottom: 5px;
       }
       .checkbox_label {
         margin-left:5px;
@@ -73,7 +71,7 @@
       <br><br><b>Transforms:</b>
       <br><br>
       <form id='demo_controls'></form>
-      <br>* = currently irreversible - reload to reset
+      <br>* = currently irreversible<br>&nbsp;&nbsp;&nbsp;&nbsp;reload to reset
       <br><br>
       <b>Scroll to article preview:</b>
       <div id='theme_demo_menu'></div>
@@ -444,7 +442,7 @@ const addFooterControl = () => {
 }
 
 const addLeadIntroductionControl = () => {
-  addCheckboxToDemoControls('first_paragraph_checkbox', 'Move 1st Paragraph Up (only needed for mobileview) *', 'checkbox', null, (iframeWindow, iframeDocument) => {
+  addCheckboxToDemoControls('first_paragraph_checkbox', 'Move 1st Paragraph Up *', 'checkbox', null, (iframeWindow, iframeDocument) => {
     event.target.disabled = true
     if (iframeDocument.articleRef.sourceType == ArticleRefSourceType.mobileView){
       iframeWindow.pagelib.LeadIntroductionTransform.moveLeadIntroductionUp(iframeDocument, 'content_block_0', iframeDocument.querySelector('.section_header'))
@@ -452,7 +450,7 @@ const addLeadIntroductionControl = () => {
   })
 }
 
-const addRTLControl = () => {
+const addTextDirectionControl = () => {
   const selectionHandler = (iframeWindow, iframeDocument, selectedValue) => {
     iframeDocument.querySelector('html').setAttribute('dir', selectedValue)
   }
@@ -498,15 +496,15 @@ const addIframePreviewsForArticleRefs = articleRefs => {
 const addTransformControls = () => {
   addThemesControl()
   addPlatformsControl()
-  addTableCollapseControl()
+  addTextDirectionControl()
   addDimImagesControl()
+  addTableCollapseControl()
   addLeadIntroductionControl()
   addEditPencilsControl()
   addWidenImagesControl()
   addCompatibilityControl()
   addHideRedlinksControl()
   addFooterControl()
-  addRTLControl()
   //TODO: add addLazyImageLoadControl()
 }
 
