@@ -48,7 +48,7 @@ const makePronunciationIcon = document => {
 const makeDescriptionDiv = (document, isDescriptionEditable, description, stringAddDescription) => {
   const descriptionDiv = document.createElement('div')
   const editButton = EditTransform.newEditSectionButton(document, 0)
-  const mainEditPencilAnchor = EditTransform.queryEditSectionLink(editButton)
+  const mainEditPencilAnchor = editButton.querySelector('a')
   if (isDescriptionEditable) {
     mainEditPencilAnchor.setAttribute('data-action', 'edit_main')
   }

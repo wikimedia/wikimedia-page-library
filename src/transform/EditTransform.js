@@ -12,12 +12,6 @@ const DATA_ATTRIBUTE = { SECTION_INDEX: 'data-id', ACTION: 'data-action' }
 const ACTION_EDIT_SECTION = 'edit_section'
 
 /**
- * @param {!Element} element
- * @return {!HTMLAnchorElement}
- */
-const queryEditSectionLink = element => element.querySelector(`.${CLASS.LINK}`)
-
-/**
  * @param {!Document} document
  * @param {!number} index The zero-based index of the section.
  * @return {!HTMLAnchorElement}
@@ -75,7 +69,6 @@ const newEditSectionHeader = (document, index, level, titleHTML, showEditPencil 
 
 export default {
   CLASS,
-  queryEditSectionLink,
   newEditSectionButton,
   newEditSectionHeader
 }
