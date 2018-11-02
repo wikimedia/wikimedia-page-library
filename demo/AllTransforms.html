@@ -15,7 +15,6 @@
         display: block;
         color: black;
         font-size: 0.9em;
-        font-weight: bold;
         padding: 3px 0px;
       }
       #theme_demo_menu {
@@ -73,7 +72,8 @@
       <form id='demo_controls'></form>
       <br>* = currently irreversible<br>&nbsp;&nbsp;&nbsp;&nbsp;reload to reset
       <br><br>
-      <b>Scroll to article preview:</b>
+      <b>Article previews menu:</b>
+      <br>(`,` and `.` keyboard shortcuts)
       <div id='theme_demo_menu'></div>
       <br><br>
     </div>
@@ -248,6 +248,11 @@ const addHTMLToDocument = (html, articleRef) => {
   
   const htmlElement = iframeDocument.querySelector('html')
   htmlElement.setAttribute('dir', articleRef.isRTL() ? 'rtl' : 'ltr')  
+  
+  // Relay iframe keypress to the parent window.
+  iframeDocument.addEventListener('keypress', event => {
+    window.postMessage(event.keyCode)
+  }, false)
 }
 
 const configureCheckboxClickToPerformClosureForEachIframe = (checkbox, closure, id) => {
@@ -508,6 +513,42 @@ const addTransformControls = () => {
   //TODO: add addLazyImageLoadControl()
 }
 
+const isElementOnscreen = (element) => {
+  let rect = element.getBoundingClientRect()
+  let docHeight = Math.max(document.documentElement.clientHeight, window.innerHeight)
+  return !(rect.bottom < 0 || rect.top - docHeight >= 0)
+}
+
+// Looks at which article preview iFrames are currently onscreen and gets the next or previous one according to `direction`.
+const nextOrPreviousIframe = direction => {
+  const iframes = Array.from(document.querySelectorAll('iframe'))
+  const onscreenIframes = iframes.filter(isElementOnscreen)    
+  if (onscreenIframes.length == 0) {
+    return null
+  }
+  let i = iframes.indexOf(onscreenIframes[onscreenIframes.length - 1]) + direction
+  if (i > iframes.length - 1) {
+    i = 0
+  }
+  if (i < 0) {
+    i = iframes.length - 1
+  }
+  return iframes[i]
+}
+
+// ',' and '.' keys are used to jump between article previews
+const handleKeyPress = keyCode => {
+  if (keyCode != 44 && keyCode != 46) {
+    return
+  }
+  const direction = keyCode == 44 ? -1 : 1
+  const iframeToJumpTo = nextOrPreviousIframe(direction)
+  if (iframeToJumpTo == null) {
+    return
+  }
+  document.location.href = `#${iframeToJumpTo.contentDocument.articleRef.fileName()}`
+}
+
 const articleSelectElement = document.getElementById('theme_demo_article_select')
 const articleRefsForSelectedArticleOptions = (selectElement, articleRefs) => articleRefs.filter(articleRef => selectedValuesFromSelect(selectElement).includes(articleRef.fileName()))
 
@@ -536,6 +577,16 @@ fetch(DEMO_ARTICLES_INDEX_PATH)
     }, true)
   })
   .then(addTransformControls)
+
+  // Handle keypress
+  window.addEventListener('keypress', event => {
+    handleKeyPress(event.keyCode)
+  }, false)
+
+  // Handle keypress from iFrames
+  window.addEventListener('message', event => {
+    handleKeyPress(event.data)
+  }, false)
 
     </script>
 </body>
