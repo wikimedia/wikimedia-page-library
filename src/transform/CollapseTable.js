@@ -368,9 +368,11 @@ const prepareTables = (document, pageTitle, infoboxTitle, otherTitle, footerTitl
  * @return {void}
  */
 const setupEventHandling = (window, document, isInitiallyCollapsed, footerDivClickCallback) => {
-  // eslint-disable-next-line require-jsdoc, no-loop-func
+  /**
+   * @param {boolean} collapsed
+   * @return {boolean}
+   */
   const dispatchSectionToggledEvent = collapsed =>
-    // eslint-disable-next-line no-undef
     window.dispatchEvent(new Polyfill.CustomEvent(SECTION_TOGGLED_EVENT_TYPE, { collapsed }))
 
   // assign click handler to the collapsed divs
