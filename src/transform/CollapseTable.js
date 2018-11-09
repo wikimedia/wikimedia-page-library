@@ -362,12 +362,12 @@ const prepareTables = (document, pageTitle, infoboxTitle, otherTitle, footerTitl
 
 /**
  * @param {!Window} window
- * @param {!Document} document
+ * @param {!Element} container root element to search from
  * @param {?boolean} isInitiallyCollapsed
  * @param {?FooterDivClickCallback} footerDivClickCallback
  * @return {void}
  */
-const setupEventHandling = (window, document, isInitiallyCollapsed, footerDivClickCallback) => {
+const setupEventHandling = (window, container, isInitiallyCollapsed, footerDivClickCallback) => {
   /**
    * @param {boolean} collapsed
    * @return {boolean}
@@ -376,7 +376,7 @@ const setupEventHandling = (window, document, isInitiallyCollapsed, footerDivCli
     window.dispatchEvent(new Polyfill.CustomEvent(SECTION_TOGGLED_EVENT_TYPE, { collapsed }))
 
   // assign click handler to the collapsed divs
-  const collapsedHeaderDivs = Polyfill.querySelectorAll(document, `.${CLASS.COLLAPSED_CONTAINER}`)
+  const collapsedHeaderDivs = Polyfill.querySelectorAll(container, `.${CLASS.COLLAPSED_CONTAINER}`)
   collapsedHeaderDivs.forEach(collapsedHeaderDiv => {
     collapsedHeaderDiv.onclick = () => {
       const collapsed = toggleCollapseClickCallback.bind(collapsedHeaderDiv)()
@@ -384,7 +384,7 @@ const setupEventHandling = (window, document, isInitiallyCollapsed, footerDivCli
     }
   })
 
-  const collapsedFooterDivs = Polyfill.querySelectorAll(document, `.${CLASS.COLLAPSED_BOTTOM}`)
+  const collapsedFooterDivs = Polyfill.querySelectorAll(container, `.${CLASS.COLLAPSED_BOTTOM}`)
   collapsedFooterDivs.forEach(collapsedFooterDiv => {
     collapsedFooterDiv.onclick = () => {
       const collapsed = toggleCollapseClickCallback.bind(collapsedFooterDiv,
@@ -394,7 +394,7 @@ const setupEventHandling = (window, document, isInitiallyCollapsed, footerDivCli
   })
 
   if (!isInitiallyCollapsed) {
-    const containerDivs = Polyfill.querySelectorAll(document, `.${CLASS.CONTAINER}`)
+    const containerDivs = Polyfill.querySelectorAll(container, `.${CLASS.CONTAINER}`)
     containerDivs.forEach(containerDiv => {
       toggleCollapsedForContainer(containerDiv)
     })
@@ -418,7 +418,7 @@ const adjustTables = (window, document, pageTitle, isMainPage, isInitiallyCollap
   if (isMainPage) { return }
 
   prepareTables(document, pageTitle, infoboxTitle, otherTitle, footerTitle)
-  setupEventHandling(window, document, isInitiallyCollapsed, footerDivClickCallback)
+  setupEventHandling(window, document.body, isInitiallyCollapsed, footerDivClickCallback)
 }
 
 /**
