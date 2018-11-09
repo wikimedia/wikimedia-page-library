@@ -376,7 +376,7 @@ const setupEventHandling = (window, document, isInitiallyCollapsed, footerDivCli
     window.dispatchEvent(new Polyfill.CustomEvent(SECTION_TOGGLED_EVENT_TYPE, { collapsed }))
 
   // assign click handler to the collapsed divs
-  const collapsedHeaderDivs = [...document.querySelectorAll(`.${CLASS.COLLAPSED_CONTAINER}`)]
+  const collapsedHeaderDivs = Polyfill.querySelectorAll(document, `.${CLASS.COLLAPSED_CONTAINER}`)
   collapsedHeaderDivs.forEach(collapsedHeaderDiv => {
     collapsedHeaderDiv.onclick = () => {
       const collapsed = toggleCollapseClickCallback.bind(collapsedHeaderDiv)()
@@ -384,7 +384,7 @@ const setupEventHandling = (window, document, isInitiallyCollapsed, footerDivCli
     }
   })
 
-  const collapsedFooterDivs = [...document.querySelectorAll(`.${CLASS.COLLAPSED_BOTTOM}`)]
+  const collapsedFooterDivs = Polyfill.querySelectorAll(document, `.${CLASS.COLLAPSED_BOTTOM}`)
   collapsedFooterDivs.forEach(collapsedFooterDiv => {
     collapsedFooterDiv.onclick = () => {
       const collapsed = toggleCollapseClickCallback.bind(collapsedFooterDiv,
@@ -394,7 +394,7 @@ const setupEventHandling = (window, document, isInitiallyCollapsed, footerDivCli
   })
 
   if (!isInitiallyCollapsed) {
-    const containerDivs = [...document.querySelectorAll(`.${CLASS.CONTAINER}`)]
+    const containerDivs = Polyfill.querySelectorAll(document, `.${CLASS.CONTAINER}`)
     containerDivs.forEach(containerDiv => {
       toggleCollapsedForContainer(containerDiv)
     })
