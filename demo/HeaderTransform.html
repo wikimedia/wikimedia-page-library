@@ -68,9 +68,9 @@
         const p = document.createElement('p')
         p.innerHTML = `Example header for "${configuration.displayTitle}":`
         container.appendChild(p)
-        /* TODO: uncomment this:
-        pagelib.EditTransform.newEditLeadSectionHeader(document, container, configuration.displayTitle,
-          configuration.descriptionEditable, configuration.description, 'Add a description',
+        /* TODO: uncomment this and fix signature with new header code:
+        pagelib.EditTransform.newEditLeadSectionHeader(document, configuration.displayTitle,
+           configuration.description, 'Add a description', configuration.descriptionEditable,
           configuration.hasPronunciation, configuration.isMainPage, isRtl())
         */
       })
