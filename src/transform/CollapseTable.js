@@ -418,7 +418,7 @@ const adjustTables = (window, document, pageTitle, isMainPage, isInitiallyCollap
   if (isMainPage) { return }
 
   prepareTables(document, pageTitle, infoboxTitle, otherTitle, footerTitle)
-  setupEventHandling(window, document.body, isInitiallyCollapsed, footerDivClickCallback)
+  setupEventHandling(window, document, isInitiallyCollapsed, footerDivClickCallback)
 }
 
 /**
