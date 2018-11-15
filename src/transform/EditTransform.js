@@ -84,12 +84,12 @@ const newEditSectionHeader = (document, index, level, titleHTML, showEditPencil 
 }
 
 /**
- * Lead section header is a special case as it needs to show article title and description too,
+ * Lead section header is a special case as it needs to show page title and description too,
  * and in addition to the lead edit pencil, the description can also be editable.
  * As a client, you may wish to set the ID attribute.
  * @param {!Document} document
- * @param {?string} articleDisplayTitle Article display title.
- * @param {?string} titleDescription Article title description.
+ * @param {?string} pageDisplayTitle Page display title.
+ * @param {?string} titleDescription Page title description.
  * @param {?string} addTitleDescriptionString Localized string e.g. 'Add title description'.
  * @param {?boolean} isTitleDescriptionEditable Whether title description is editable.
  * @param {?boolean} showEditPencil Whether to show the "edit" pencil (default is true).
@@ -97,13 +97,13 @@ const newEditSectionHeader = (document, index, level, titleHTML, showEditPencil 
  * @param {?boolean} hasPronunciation Whether to show pronunciation speaker icon (default is false).
 * @return {!HTMLElement}
  */
-const newEditLeadSectionHeader = (document, articleDisplayTitle, titleDescription,
+const newEditLeadSectionHeader = (document, pageDisplayTitle, titleDescription,
   addTitleDescriptionString, isTitleDescriptionEditable, showEditPencil = true, anchor,
   hasPronunciation = false) => {
 
   const container = document.createDocumentFragment()
 
-  const header = newEditSectionHeader(document, 0, 1, articleDisplayTitle, showEditPencil, anchor)
+  const header = newEditSectionHeader(document, 0, 1, pageDisplayTitle, showEditPencil, anchor)
 
   if (hasPronunciation) {
     const a = document.createElement('a')
