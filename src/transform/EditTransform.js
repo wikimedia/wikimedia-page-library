@@ -84,6 +84,36 @@ const newEditSectionHeader = (document, index, level, titleHTML, showEditPencil 
 }
 
 /**
+ * Elements needed to show or add page title description.
+ * @param {!Document} document
+ * @param {?string} titleDescription Page title description.
+ * @param {?string} addTitleDescriptionString Localized string e.g. 'Add title description'.
+ * @param {?boolean} isTitleDescriptionEditable Whether title description is editable.
+ * @return {?HTMLElement}
+ */
+const titleDescriptionElements = (document, titleDescription, addTitleDescriptionString,
+  isTitleDescriptionEditable) => {
+  const descriptionExists = titleDescription !== undefined && titleDescription.length > 0
+  if (descriptionExists) {
+    const p = document.createElement('p')
+    p.id = IDS.TITLE_DESCRIPTION
+    p.innerHTML = titleDescription
+    return p
+  }
+  if (isTitleDescriptionEditable) {
+    const a = document.createElement('a')
+    a.href = '#'
+    a.setAttribute(DATA_ATTRIBUTE.ACTION, ACTION_ADD_TITLE_DESCRIPTION)
+    const p = document.createElement('p')
+    p.id = IDS.ADD_TITLE_DESCRIPTION
+    p.innerHTML = addTitleDescriptionString
+    a.appendChild(p)
+    return a
+  }
+  return null
+}
+
+/**
  * Lead section header is a special case as it needs to show page title and description too,
  * and in addition to the lead edit pencil, the description can also be editable.
  * As a client, you may wish to set the ID attribute.
@@ -95,7 +125,7 @@ const newEditSectionHeader = (document, index, level, titleHTML, showEditPencil 
  * @param {?boolean} showEditPencil Whether to show the "edit" pencil (default is true).
  * @param {?string} anchor Section anchor used for jumping between sections.
  * @param {?boolean} hasPronunciation Whether to show pronunciation speaker icon (default is false).
-* @return {!HTMLElement}
+ * @return {!HTMLElement}
  */
 const newEditLeadSectionHeader = (document, pageDisplayTitle, titleDescription,
   addTitleDescriptionString, isTitleDescriptionEditable, showEditPencil = true, anchor,
@@ -114,21 +144,11 @@ const newEditLeadSectionHeader = (document, pageDisplayTitle, titleDescription,
 
   container.appendChild(header)
 
-  const titleDescriptionExists = titleDescription !== undefined && titleDescription.length > 0
-  if (!isTitleDescriptionEditable || titleDescriptionExists) {
-    const p = document.createElement('p')
-    p.id = IDS.TITLE_DESCRIPTION
-    p.innerHTML = titleDescription
-    container.appendChild(p)
-  } else {
-    const a = document.createElement('a')
-    a.href = '#'
-    a.setAttribute(DATA_ATTRIBUTE.ACTION, ACTION_ADD_TITLE_DESCRIPTION)
-    const p = document.createElement('p')
-    p.id = IDS.ADD_TITLE_DESCRIPTION
-    p.innerHTML = addTitleDescriptionString
-    a.appendChild(p)
-    container.appendChild(a)
+  const descriptionElements = titleDescriptionElements(document, titleDescription,
+    addTitleDescriptionString, isTitleDescriptionEditable)
+
+  if (descriptionElements) {
+    container.appendChild(descriptionElements)
   }
 
   const divider = document.createElement('hr')
