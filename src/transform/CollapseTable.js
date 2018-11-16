@@ -3,7 +3,7 @@ import ElementUtilities from './ElementUtilities'
 import NodeUtilities from './NodeUtilities'
 import Polyfill from './Polyfill'
 
-const ElementNode = NodeUtilities.ElementNode
+const NODE_TYPE = NodeUtilities.NODE_TYPE
 
 const SECTION_TOGGLED_EVENT_TYPE = 'section-toggled'
 const BREAKING_SPACE = ' '
@@ -78,7 +78,7 @@ const stringWithNormalizedWhitespace = string => string.trim().replace(/\s/g, BR
  * @param  {!Node}  node
  * @return {!boolean}
  */
-const isNodeBreakElement = node => node.nodeType === ElementNode && node.tagName === 'BR'
+const isNodeBreakElement = node => node.nodeType === NODE_TYPE.ELEMENT_NODE && node.tagName === 'BR'
 
 /**
  * Replace node with a text node bearing a single breaking space.
