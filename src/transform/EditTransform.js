@@ -56,10 +56,9 @@ const newEditSectionButton = (document, index) => {
  * @param {!number} level The *one-based* header or table of contents level.
  * @param {?string} titleHTML Title of this section header.
  * @param {?boolean} showEditPencil Whether to show the "edit" pencil (default is true).
- * @param {?string} anchor Section anchor used for jumping between sections.
  * @return {!HTMLElement}
  */
-const newEditSectionHeader = (document, index, level, titleHTML, showEditPencil = true, anchor) => {
+const newEditSectionHeader = (document, index, level, titleHTML, showEditPencil = true) => {
   const element = document.createElement('div')
   element.className = CLASS.SECTION_HEADER
 
@@ -73,13 +72,6 @@ const newEditSectionHeader = (document, index, level, titleHTML, showEditPencil 
     const button = newEditSectionButton(document, index)
     element.appendChild(button)
   }
-
-  if (anchor && anchor.length > 0) {
-    // TODO: consider renaming this 'id' to 'anchor' for clarity - would need to update native
-    // code as well - used when TOC sections made to jump to sections.
-    element.id = anchor
-  }
-
   return element
 }
 
@@ -123,17 +115,16 @@ const titleDescriptionElements = (document, titleDescription, addTitleDescriptio
  * @param {?string} addTitleDescriptionString Localized string e.g. 'Add title description'.
  * @param {?boolean} isTitleDescriptionEditable Whether title description is editable.
  * @param {?boolean} showEditPencil Whether to show the "edit" pencil (default is true).
- * @param {?string} anchor Section anchor used for jumping between sections.
  * @param {?boolean} hasPronunciation Whether to show pronunciation speaker icon (default is false).
  * @return {!HTMLElement}
  */
 const newEditLeadSectionHeader = (document, pageDisplayTitle, titleDescription,
-  addTitleDescriptionString, isTitleDescriptionEditable, showEditPencil = true, anchor,
+  addTitleDescriptionString, isTitleDescriptionEditable, showEditPencil = true,
   hasPronunciation = false) => {
 
   const container = document.createDocumentFragment()
 
-  const header = newEditSectionHeader(document, 0, 1, pageDisplayTitle, showEditPencil, anchor)
+  const header = newEditSectionHeader(document, 0, 1, pageDisplayTitle, showEditPencil)
 
   if (hasPronunciation) {
     const a = document.createElement('a')
