@@ -20,7 +20,7 @@
   vertical-align: middle;
 }
 
-[dir="rtl"] #pagelib_edit_section_title_pronunciation {
+html[dir="rtl"] #pagelib_edit_section_title_pronunciation {
   -webkit-transform: scaleX( -1 );
   transform: scaleX( -1 );
 }
@@ -154,7 +154,7 @@ a.pagelib_edit_section_link {
     background-position: left center;
 }
 
-[dir="rtl"] #pagelib_edit_section_add_title_description:before {
+html[dir="rtl"] #pagelib_edit_section_add_title_description:before {
     transform: scaleX(-1);
 }
 
