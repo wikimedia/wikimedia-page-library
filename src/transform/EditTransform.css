@@ -161,8 +161,7 @@ a.pagelib_edit_section_link {
 /* Horizontal divider between title/description and lead section text */
 #pagelib_edit_section_divider {
     border: 1px solid #ccc;
-    margin-top: 12px;
-    margin-bottom: 16px;
+    margin: 12px 0px 16px 0px;
     width: 60px;
 }
 
@@ -170,12 +169,4 @@ a.pagelib_edit_section_link {
     #pagelib_edit_section_divider {
         border-width: 0.5px;
     }
-}
-
-[dir="ltr"] #pagelib_edit_section_divider {
-    margin-left: 0px;
-}
-
-[dir="rtl"] #pagelib_edit_section_divider {
-    margin-right: 0px;
 }
