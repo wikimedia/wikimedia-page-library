@@ -155,6 +155,7 @@ a.pagelib_edit_section_link {
 }
 
 html[dir="rtl"] #pagelib_edit_section_add_title_description:before {
+    -webkit-transform: scaleX( -1 );
     transform: scaleX(-1);
 }
 
