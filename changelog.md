@@ -1,3 +1,7 @@
+### v6.2.0
+- Update: break up CollapseTables.adjustTables into two methods
+- New: edit transform method for article header
+
 ### v6.1.4
 - Fix: extracted references not removing styles 
 
