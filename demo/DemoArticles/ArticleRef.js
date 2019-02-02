@@ -6,7 +6,13 @@ const DEMO_ARTICLES_DATA_PATH = `./DemoArticles/data/`
  */
 const ArticleRefSourceType = {
   mobileView: 1,
-  mobileContentService: 2
+  mobileContentService: 2,
+  pageContentService: 3
+}
+
+const ArticleRefContentType = {
+  sections: 1,
+  page: 2
 }
 
 /**
@@ -20,6 +26,8 @@ const displayNameForArticleRefSourceType = type => {
     return 'MV'
   case ArticleRefSourceType.mobileContentService:
     return 'MCS'
+  case ArticleRefSourceType.pageContentService:
+    return 'PCS'
   default:
     return ''
   }
@@ -61,9 +69,17 @@ class ArticleRef {
   fileName() {
     return `${this.lang}.${this.title}.${this.revision}.${
       displayNameForArticleRefSourceType(this.sourceType)
-    }.json`
+    }.${this.fileExtension()}`
   }
 
+  fileExtension() {
+    switch (this.contentType()) {
+    case ArticleRefContentType.page:
+      return 'html'
+    default:
+      return 'json'
+    }
+  }
   /**
    * String which can be used for display name.
    * @return {!string}
@@ -82,8 +98,19 @@ class ArticleRef {
       return `https://${this.lang}.wikipedia.org/w/api.php?action=mobileview&page=${encodeURI(this.title)}&revision=${this.revision}&format=json&noheadings=true&prop=sections%7Ctext%7Clastmodified%7Clastmodifiedby%7Clanguagecount%7Cid%7Cprotection%7Ceditable%7Cdisplaytitle%7Cthumb%7Cdescription%7Cimage%7Crevision%7Cnamespace&sectionprop=toclevel%7Cline%7Canchor%7Clevel%7Cnumber%7Cfromtitle%7Cindex&sections=all&thumbwidth=640`
     case ArticleRefSourceType.mobileContentService:
       return `https://${this.lang}.m.wikipedia.org/api/rest_v1/page/mobile-sections/${encodeURI(this.title)}/${this.revision}`
+    case ArticleRefSourceType.pageContentService:
+      return `https://${this.lang}.wikipedia.org/api/rest_v1/page/mobile-html/${encodeURI(this.title)}/${this.revision}`
     default:
       return ''
+    }
+  }
+
+  contentType() {
+    switch (this.sourceType) {
+    case ArticleRefSourceType.pageContentService:
+      return ArticleRefContentType.page
+    default:
+      return ArticleRefContentType.sections
     }
   }
 
@@ -114,14 +141,29 @@ class ArticleRef {
       .then(json => this.sectionsArrayFromJSON(json))
   }
 
+  fetchPageText(dataFilePath) {
+    return fetch(`${dataFilePath}${this.fileName()}`)
+      .then(resp => resp.text())
+  }
+
+  buildPageFromSectionsJSON(sectionsJSON) {
+    const articleEnclosedSectionHTML = this.enclosedSectionHTMLsFromSections(sectionsJSON)
+    const articleHTML = this.htmlFromAllSectionHTMLs(articleEnclosedSectionHTML)
+    const articleCompleteHTML = this.articleEnclosedInOuterHTML(articleHTML)
+    return articleCompleteHTML
+  }
+
   fetchCompleteHTML() {
-    return this.fetchSectionsJSON(DEMO_ARTICLES_DATA_PATH)
-      .then(sectionsJSON => {
-        const articleEnclosedSectionHTML = this.enclosedSectionHTMLsFromSections(sectionsJSON)
-        const articleHTML = this.htmlFromAllSectionHTMLs(articleEnclosedSectionHTML)
-        const articleCompleteHTML = this.articleEnclosedInOuterHTML(articleHTML)
-        return articleCompleteHTML        
-      })
+    switch(this.contentType()) {
+      case ArticleRefContentType.page:
+        return this.fetchPageText(DEMO_ARTICLES_DATA_PATH)
+        break
+      case ArticleRefContentType.sections:
+        return this.fetchSectionsJSON(DEMO_ARTICLES_DATA_PATH)
+          .then(sectionsJSON => this.buildPageFromSectionsJSON(sectionsJSON))
+        break
+      default:       
+    }
   }
 
   articleEnclosedInOuterHTML(articleHTML) {
@@ -184,5 +226,6 @@ class ArticleRef {
 
 module.exports = {
   ArticleRef,
-  ArticleRefSourceType
+  ArticleRefSourceType,
+  ArticleRefContentType
 }

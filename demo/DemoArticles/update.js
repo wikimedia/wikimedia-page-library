@@ -6,6 +6,7 @@ const request = require('request')
 const indexJSON = require('./articles.json')
 const ArticleRef = require('./ArticleRef.js').ArticleRef
 const ArticleRefSourceType = require('./ArticleRef.js').ArticleRefSourceType
+const ArticleRefContentType = require('./ArticleRef.js').ArticleRefContentType
 const flattenArrayOfArrays = require('../DemoUtilities.js').flattenArrayOfArrays
 
 const DATA_PATH = './data/'
@@ -23,6 +24,12 @@ const articleRefs = flattenArrayOfArrays(
       articleData.title,
       articleData.revision,
       ArticleRefSourceType.mobileContentService
+    ),
+    new ArticleRef(
+      articleData.lang,
+      articleData.title,
+      articleData.revision,
+      ArticleRefSourceType.pageContentService
     )
   ])
 )
@@ -43,18 +50,22 @@ const escapeLangDirectionMarks = string => string
   .replace(/\u2061/g, '\\u2061')
   .replace(/\ufeff/g, '\\ufeff')
 
-const saveJSONForArticleRef = (articleJSON, articleRef) => {
+const saveSectionJSONForArticleRef = (articleJSON, articleRef) => {
   const formattedArticleJSON = JSON.stringify(articleJSON, null, 2)
   const fullyEscapedArticleJSON = escapeLangDirectionMarks(formattedArticleJSON)
+  saveStringForArticleRef(fullyEscapedArticleJSON, articleRef)
+}
+
+const saveStringForArticleRef = (string, articleRef) => {
   fs.writeFile(
     `${DATA_PATH}${articleRef.fileName()}`,
-    fullyEscapedArticleJSON, err => { if (err) { throw err } }
+    string, err => { if (err) { throw err } }
   )
   // eslint-disable-next-line no-console
   console.log(`\tJSON saved to '${articleRef.fileName()}'`)
 }
 
-const fetchAndSaveJSONForArticleRef = articleRef => {
+const fetchAndSaveContentForArticleRef = articleRef => {
   const requestOptions = {
     method: 'GET',
     uri: articleRef.url(),
@@ -69,9 +80,20 @@ const fetchAndSaveJSONForArticleRef = articleRef => {
         `Couldn't get '${articleRef.fileName()}' article data. Response statusCode '${statusCode}'.`
       )
     }
-    saveJSONForArticleRef(JSON.parse(body), articleRef)
+    
+    const contentType = articleRef.contentType()
+    switch(contentType) {
+      case ArticleRefContentType.sections:
+        saveSectionJSONForArticleRef(JSON.parse(body), articleRef)
+        break
+      case ArticleRefContentType.page:
+        saveStringForArticleRef(body, articleRef)
+        break
+      default:
+    }
+    
   }
   request(requestOptions, responseHandler)
 }
 
-articleRefs.forEach(fetchAndSaveJSONForArticleRef)
+articleRefs.forEach(fetchAndSaveContentForArticleRef)
