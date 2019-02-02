@@ -116,40 +116,7 @@ const anchorsFromArticleRefs = articleRefs => articleRefs.map(articleRef => {
   return anchor
 })
 
-/**
- * Converts article JSON sections to HTML strings.
- * @param  {!Array<object>} sections
- * @return {!Array<String>}
- */
-const enclosedSectionHTMLsFromSections = sections => sections.map(section => {
-  const line = section.line || ''
-  const toclevel = section.toclevel || '1'
-  return `<div class='content_block' id='content_block_${section.id}'>
-            <div class='section_header' id='${section.id}' line='${line}' toclevel='${toclevel}'>
-              <h${toclevel}>${line}</h${toclevel}>
-            </div>
-            ${section.text}
-          </div>`
-})
-
-/**
- * Converts section HTML strings to a single HTML string.
- * @param {!Array<string>} allSectionHTMLs
- * @return {!string}
- */
-const htmlFromAllSectionHTMLs = allSectionHTMLs => allSectionHTMLs.join('')
-
-const DEMO_ARTICLES_PATH = './DemoArticles/'
-const DEMO_ARTICLES_INDEX_PATH = `${DEMO_ARTICLES_PATH}articles.json`
-const DEMO_ARTICLES_DATA_PATH = `${DEMO_ARTICLES_PATH}data/`
-
-/**
- * Promises for fetching article section JSON arrays from local data files for ArticleRefs.
- * @param {!Array<ArticleRef>} articleRefs
- * @return {!Array<Promise>}
- */
-const fetchSectionsJSONForArticleRefs = articleRefs =>
-  articleRefs.map(articleRef => articleRef.fetchSectionsJSON(DEMO_ARTICLES_DATA_PATH))
+const DEMO_ARTICLES_INDEX_PATH = `./DemoArticles/articles.json`
 
 /**
  * Attaches anchor elements to the menu.
@@ -159,36 +126,6 @@ const fetchSectionsJSONForArticleRefs = articleRefs =>
 const addAnchorsToMenu = anchors => {
   const themeDemoMenu = document.getElementById('theme_demo_menu')
   anchors.forEach(anchor => themeDemoMenu.appendChild(anchor))
-}
-
-const articleEnclosedInOuterHTML = articleHTML => {
-  const script = 'script'
-  return `
-  <!doctype html>
-  <html>
-    <head>
-      <meta charset=utf-8>
-      <link href='https://en.wikipedia.org/w/load.php?debug=true&lang=en&modules=skins.minerva.base.reset|skins.minerva.content.styles|ext.cite.style|ext.math.styles|ext.timeline.styles|mediawiki.page.gallery.styles|mediawiki.skinning.content.parsoid&only=styles&version=&*' rel='stylesheet' type='text/css'></link>
-      <link href=http://localhost:8080/wikimedia-page-library-transform.css rel=stylesheet>
-      <style>
-        body {
-          padding: 20px !important;
-        }
-        .content_block {
-          padding-bottom: 50px;
-        }
-      </style>
-      <${script} src=http://localhost:8080/wikimedia-page-library-transform.js></${script}>
-    </head>
-    <body>
-      <div class='content' id='content'>
-      ${articleHTML}
-      </div>
-    </body>
-    <${script}>
-      pagelib.ThemeTransform.classifyElements(document)
-    </${script}>
-  </html>`
 }
 
 const expandIframeHeight = iframe => {
@@ -345,8 +282,7 @@ const addWidenImagesControl = () => {
     (parseInt(image.getAttribute('height'), 10) > 64)) //&&
     // image.getAttribute('data-file-width') && // MCS is not returning these??
     // image.getAttribute('data-file-height')
-//TODO: file ticket for adding ^ to MCS and/or ensure this gets included on new endpoint!
-//TODO: ask bearnd what ticket this new endpoint is on...
+    // TODO: file ticket for adding ^ to MCS and/or ensure this gets included on new PCS endpoint!
   }
   addCheckboxToDemoControls('widen_image_checkbox', 'Widen images *', 'checkbox', null, (iframeWindow, iframeDocument) => {
     event.target.disabled = true
@@ -488,14 +424,20 @@ const selectedValuesFromSelect = select => {
   let selectedOptions = Array.apply(null, select.options).filter(option => option.selected)
   return selectedOptions.map(option => option.value)
 }
+
+/**
+ * Promises for fetching article section JSON arrays from local data files for ArticleRefs.
+ * @param {!Array<ArticleRef>} articleRefs
+ * @return {!Array<Promise>}
+ */
+const fetchArticlesHTMLForArticleRefs = articleRefs =>
+  articleRefs.map(articleRef => articleRef.fetchCompleteHTML())
+
 const addIframePreviewsForArticleRefs = articleRefs => {
-  Promise.all(fetchSectionsJSONForArticleRefs(articleRefs))
-    .then(articlesSectionsJSON => articlesSectionsJSON.map(enclosedSectionHTMLsFromSections))
-    .then(articlesEnclosedSectionHTML => articlesEnclosedSectionHTML.map(htmlFromAllSectionHTMLs))
-    .then(articlesHTML => articlesHTML.map(articleEnclosedInOuterHTML))
-    .then(articlesCompleteHTML => articlesCompleteHTML.map((articleCompleteHTML, i) => {
-      return addHTMLToDocument(articleCompleteHTML, articleRefs[i])
-    }))
+  Promise.all(fetchArticlesHTMLForArticleRefs(articleRefs))
+    .then(articlesHTML => {
+      articlesHTML.forEach((articleHTML, i) => addHTMLToDocument(articleHTML, articleRefs[i]))
+  })
 }
 
 const addTransformControls = () => {

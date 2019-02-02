@@ -1,3 +1,4 @@
+const DEMO_ARTICLES_DATA_PATH = `./DemoArticles/data/`
 
 /**
  * Type representing article source endpoints.
@@ -111,6 +112,73 @@ class ArticleRef {
     return fetch(`${dataFilePath}${this.fileName()}`)
       .then(resp => resp.json())
       .then(json => this.sectionsArrayFromJSON(json))
+  }
+
+  fetchCompleteHTML() {
+    return this.fetchSectionsJSON(DEMO_ARTICLES_DATA_PATH)
+      .then(sectionsJSON => {
+        const articleEnclosedSectionHTML = this.enclosedSectionHTMLsFromSections(sectionsJSON)
+        const articleHTML = this.htmlFromAllSectionHTMLs(articleEnclosedSectionHTML)
+        const articleCompleteHTML = this.articleEnclosedInOuterHTML(articleHTML)
+        return articleCompleteHTML        
+      })
+  }
+
+  articleEnclosedInOuterHTML(articleHTML) {
+    const script = 'script'
+    return `
+    <!doctype html>
+    <html>
+      <head>
+        <meta charset=utf-8>
+        <link href='https://en.wikipedia.org/w/load.php?debug=true&lang=en&modules=skins.minerva.base.reset|skins.minerva.content.styles|ext.cite.style|ext.math.styles|ext.timeline.styles|mediawiki.page.gallery.styles|mediawiki.skinning.content.parsoid&only=styles&version=&*' rel='stylesheet' type='text/css'></link>
+        <link href=http://localhost:8080/wikimedia-page-library-transform.css rel=stylesheet>
+        <style>
+          body {
+            padding: 20px !important;
+          }
+          .content_block {
+            padding-bottom: 50px;
+          }
+        </style>
+        <${script} src=http://localhost:8080/wikimedia-page-library-transform.js></${script}>
+      </head>
+      <body>
+        <div class='content' id='content'>
+        ${articleHTML}
+        </div>
+      </body>
+      <${script}>
+        pagelib.ThemeTransform.classifyElements(document)
+      </${script}>
+    </html>`
+  }
+
+  /**
+   * Converts section HTML strings to a single HTML string.
+   * @param {!Array<string>} allSectionHTMLs
+   * @return {!string}
+   */
+  htmlFromAllSectionHTMLs(allSectionHTMLs) {
+    return allSectionHTMLs.join('')
+  }
+
+  /**
+   * Converts article JSON sections to HTML strings.
+   * @param  {!Array<object>} sections
+   * @return {!Array<String>}
+   */
+  enclosedSectionHTMLsFromSections(sections) {
+    return sections.map(section => {
+      const line = section.line || ''
+      const toclevel = section.toclevel || '1'
+      return `<div class='content_block' id='content_block_${section.id}'>
+                <div class='section_header' id='${section.id}' line='${line}' toclevel='${toclevel}'>
+                  <h${toclevel}>${line}</h${toclevel}>
+                </div>
+                ${section.text}
+              </div>`
+    })
   }
 }
 
