@@ -36,9 +36,7 @@ styles with only the things which need tweaking.
 
 /* baseline .content */
 /* Fixes T214728 */
-.pagelib_theme_dark .content,
-.pagelib_theme_sepia .content,
-.pagelib_theme_black .content {
+.content {
   background-color: unset !important;
 }
 
