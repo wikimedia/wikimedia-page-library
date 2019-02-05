@@ -1,3 +1,7 @@
+### v6.2.1
+- Fix: dark / black theme white background bug
+- Chore: upgrade dependency
+
 ### v6.2.0
 - Update: break up CollapseTables.adjustTables into two methods
 - New: edit transform method for article header
