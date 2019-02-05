@@ -176,6 +176,9 @@ class ArticleRef {
         <link href='https://en.wikipedia.org/w/load.php?debug=true&lang=en&modules=skins.minerva.base.styles|skins.minerva.content.styles|ext.cite.style|ext.math.styles|ext.timeline.styles|mediawiki.page.gallery.styles|mediawiki.skinning.content.parsoid&only=styles&version=&*' rel='stylesheet' type='text/css'></link>
         <link href=http://localhost:8080/wikimedia-page-library-transform.css rel=stylesheet>
         <style>
+          html, body {
+            height: unset !important;
+          }
           body {
             padding: 20px !important;
           }
