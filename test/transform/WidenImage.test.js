@@ -38,16 +38,20 @@ describe('WidenImage', () => {
       assert.ok(!shouldWidenImage(document.getElementById('imageInTable')))
     })
 
+    it('should indicate image nested in absolutely positioned div not be widened', () => {
+      assert.ok(!shouldWidenImage(document.getElementById('imageNestedInAbsoluteDiv')))
+    })
+
     it('should indicate two images from the fixture be widened', () => {
       const images = Array.from(document.getElementsByTagName('img')).filter(image =>
         shouldWidenImage(image) && image.classList.contains('imageWhichShouldWiden'))
       assert.ok(images.length === 2)
     })
 
-    it('should indicate four images from the fixture not be widened', () => {
+    it('should indicate five images from the fixture not be widened', () => {
       const images = Array.from(document.getElementsByTagName('img')).filter(image =>
         !shouldWidenImage(image) && image.classList.contains('imageWhichShouldNotWiden'))
-      assert.ok(images.length === 4)
+      assert.ok(images.length === 5)
     })
   })
 
@@ -55,7 +59,7 @@ describe('WidenImage', () => {
     it('maybeWidenImage always has same return value as shouldWidenImage', () => {
       const images = Array.from(document.getElementsByTagName('img')).filter(image =>
         shouldWidenImage(image) === maybeWidenImage(image))
-      assert.ok(images.length === 6)
+      assert.ok(images.length === 7)
     })
 
     it('widened image has pagelib_widen_image_override class added to its classList', () => {
