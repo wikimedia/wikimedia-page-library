@@ -74,6 +74,11 @@
   border-style: none !important;
 }
 
+.content ol {
+  list-style: decimal inside;
+  padding: 0;
+}
+
 table.infobox caption {
   text-align: center;
   font-weight: bold;
