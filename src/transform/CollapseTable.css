@@ -82,6 +82,7 @@
 table.infobox caption {
   text-align: center;
   font-weight: bold;
+  padding: 16px 16px 8px 16px;
 }
 
 div.pagelib_collapse_table_container {
