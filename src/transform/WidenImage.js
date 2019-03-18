@@ -134,7 +134,7 @@ const shouldWidenImage = image => {
   // Widening absolutely positioned images can cause overlapping with adjacent text.
   // Example can be found on `ja > 今治城 > 71804195`, which has a Mapplot template which outputs
   // an image nested in an absolutely positioned div.
-  if (elementUtilities.findClosestAncestor(image, "[style*='position:absolute']")) {
+  if (elementUtilities.closestInlineStyle(image, 'position', 'absolute')) {
     return false
   }
 
