@@ -29,6 +29,7 @@ import RedLinks from './RedLinks'
 import ReferenceCollection from './ReferenceCollection'
 import Throttle from './Throttle'
 import WidenImage from './WidenImage'
+import './OrderedList.css'
 
 export default {
   // todo: rename CollapseTableTransform.
