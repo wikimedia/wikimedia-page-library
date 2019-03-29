@@ -10,7 +10,7 @@ describe('BodySpacingTransform', () => {
       assert.strictEqual(document.body.outerHTML, '<body><p></p></body>')
     })
 
-    it('just width', () => {
+    it('just left + right', () => {
       const document = domino.createDocument('<p></p>')
       BodySpacingTransform.setMargins(document, { right: '8px', left: '16px' })
       const style = 'margin-right: 8px; margin-left: 16px;'
@@ -32,7 +32,7 @@ describe('BodySpacingTransform', () => {
       assert.strictEqual(document.body.outerHTML, '<body><p></p></body>')
     })
 
-    it('just width', () => {
+    it('just left + right', () => {
       const document = domino.createDocument('<p></p>')
       BodySpacingTransform.setPadding(document, { right: '8px', left: '16px' })
       const style = 'padding-right: 8px; padding-left: 16px;'
