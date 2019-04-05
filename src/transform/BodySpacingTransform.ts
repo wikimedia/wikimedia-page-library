@@ -6,26 +6,26 @@ interface Spacing {
 }
 
 /**
- * Sets the margins on the body element via inline styles.
- * @param {!Document} document
+ * Sets the margins on an element via inline styles.
+ * @param {!HTMLElement} element the element that needs the margins adjusted.
+ *   For the apps this is usually the body element.
  * @param {Spacing} values { top, right, bottom, left }
  *   Use value strings with units, e.g. '16px'. Undefined values are ignored.
  * @param callback callback function
  * @return {void}
  */
-const setMargins = (document: Document, values: Spacing, callback?: () => void): void => {
-  const body: HTMLElement = document.body
+const setMargins = (element: HTMLElement, values: Spacing, callback?: () => void): void => {
   if (values.top !== undefined) {
-    body.style.marginTop = values.top
+    element.style.marginTop = values.top
   }
   if (values.right !== undefined) {
-    body.style.marginRight = values.right
+    element.style.marginRight = values.right
   }
   if (values.bottom !== undefined) {
-    body.style.marginBottom = values.bottom
+    element.style.marginBottom = values.bottom
   }
   if (values.left !== undefined) {
-    body.style.marginLeft = values.left
+    element.style.marginLeft = values.left
   }
   if (callback) {
     callback()
@@ -33,26 +33,26 @@ const setMargins = (document: Document, values: Spacing, callback?: () => void):
 }
 
 /**
- * Sets padding on the body element via inline styles.
- * @param {!Document} document
+ * Sets padding on an element via inline styles.
+ * @param {!HTMLElement} element the element that needs the padding adjusted.
+ *   For the apps this is usually the body element.
  * @param {Spacing} values { top, right, bottom, left }
  *   Use value strings with units, e.g. '16px'. Undefined values are ignored.
  * @param callback callback function
  * @return {void}
  */
-const setPadding = (document: Document, values: Spacing, callback?: () => void): void => {
-  const body: HTMLElement = document.body
+const setPadding = (element: HTMLElement, values: Spacing, callback?: () => void): void => {
   if (values.top !== undefined) {
-    body.style.paddingTop = values.top
+    element.style.paddingTop = values.top
   }
   if (values.right !== undefined) {
-    body.style.paddingRight = values.right
+    element.style.paddingRight = values.right
   }
   if (values.bottom !== undefined) {
-    body.style.paddingBottom = values.bottom
+    element.style.paddingBottom = values.bottom
   }
   if (values.left !== undefined) {
-    body.style.paddingLeft = values.left
+    element.style.paddingLeft = values.left
   }
   if (callback) {
     callback()
