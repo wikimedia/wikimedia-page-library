@@ -13,18 +13,21 @@ describe('BodySpacingTransform', () => {
     it('just left + right', () => {
       const document = domino.createDocument('<p></p>')
       BodySpacingTransform.setMargins(document, { right: '8px', left: '16px' })
-      const style = 'margin-right: 8px; margin-left: 16px;'
-      assert.strictEqual(document.body.outerHTML,`<body style="${style}"><p></p></body>`)
+      assert.strictEqual(document.body.style.marginRight,'8px')
+      assert.strictEqual(document.body.style.marginLeft,'16px')
     })
 
     it('all', () => {
       const document = domino.createDocument('<p></p>')
       BodySpacingTransform.setMargins(document,
         { top: '1px', right: '2px', bottom: '3px', left: '4px' })
-      const style = 'margin-top: 1px; margin-right: 2px; margin-bottom: 3px; margin-left: 4px;'
-      assert.strictEqual(document.body.outerHTML, `<body style="${style}"><p></p></body>`)
+      assert.strictEqual(document.body.style.marginTop,'1px')
+      assert.strictEqual(document.body.style.marginRight,'2px')
+      assert.strictEqual(document.body.style.marginBottom,'3px')
+      assert.strictEqual(document.body.style.marginLeft,'4px')
     })
   })
+
   describe('.setPadding()', () => {
     it('no values', () => {
       const document = domino.createDocument('<p></p>')
@@ -35,16 +38,18 @@ describe('BodySpacingTransform', () => {
     it('just left + right', () => {
       const document = domino.createDocument('<p></p>')
       BodySpacingTransform.setPadding(document, { right: '8px', left: '16px' })
-      const style = 'padding-right: 8px; padding-left: 16px;'
-      assert.strictEqual(document.body.outerHTML,`<body style="${style}"><p></p></body>`)
+      assert.strictEqual(document.body.style.paddingRight,'8px')
+      assert.strictEqual(document.body.style.paddingLeft,'16px')
     })
 
     it('all', () => {
       const document = domino.createDocument('<p></p>')
       BodySpacingTransform.setPadding(document,
         { top: '1px', right: '2px', bottom: '3px', left: '4px' })
-      const style = 'padding-top: 1px; padding-right: 2px; padding-bottom: 3px; padding-left: 4px;'
-      assert.strictEqual(document.body.outerHTML,`<body style="${style}"><p></p></body>`)
+      assert.strictEqual(document.body.style.paddingTop,'1px')
+      assert.strictEqual(document.body.style.paddingRight,'2px')
+      assert.strictEqual(document.body.style.paddingBottom,'3px')
+      assert.strictEqual(document.body.style.paddingLeft,'4px')
     })
   })
 })
