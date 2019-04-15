@@ -184,7 +184,7 @@ div.pagelib_collapse_table_container {
 
 /* Fix for upstream CSS landscape tablet layout interfering with collapsible table width. */
 @media all and (min-width:720px) {
-  table.infobox{
+  table.infobox {
     margin: initial;
     max-width: initial;
     float: initial;
