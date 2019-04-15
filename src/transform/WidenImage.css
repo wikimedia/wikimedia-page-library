@@ -46,6 +46,11 @@
 .thumbinner, .gallerytext {
   text-align: center;
 }
+.content .thumb.tright,
+.content .thumb.tleft,
+.content figure.mw-default-size {
+  float: none;
+}
 
 /* Parsoid: center text beneath images now that images are centered. */
 figcaption {
