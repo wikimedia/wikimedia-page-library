@@ -46,7 +46,7 @@
 .thumbinner, .gallerytext {
   text-align: center;
 }
-.thumb.tright, .thumb.tleft {
+.thumb.tright, .thumb.tleft, figure.mw-default-size {
   float: none !important;
 }
 
