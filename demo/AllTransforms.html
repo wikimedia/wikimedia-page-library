@@ -82,11 +82,11 @@
     
     <script>
 
-/* global ArticleRef, ArticleRefSourceType, flattenArrayOfArrays, pagelib */
+/* global ArticleRef, ArticleRefSourceType, flattenArrayOfArrays */
 
 /**
  * Converts article JSON to ArticleRefs.
- * @param {!Array<object>} json array of article JSON objects
+ * @param {!Array<Object>} json array of article JSON objects
  * @return {!Array<ArticleRef>}
  */
 const articleRefsFromArticlesJSON = json => flattenArrayOfArrays(
@@ -113,7 +113,7 @@ const articleRefsFromArticlesJSON = json => flattenArrayOfArrays(
 )
 
 /**
- * Converts ArticleRefs to anchor elements. 
+ * Converts ArticleRefs to anchor elements.
  * @param {!Array<ArticleRef>} articleRefs
  * @return {!Array<HTMLAnchorElement>}
  */
@@ -124,7 +124,7 @@ const anchorsFromArticleRefs = articleRefs => articleRefs.map(articleRef => {
   return anchor
 })
 
-const DEMO_ARTICLES_INDEX_PATH = `./DemoArticles/articles.json`
+const DEMO_ARTICLES_INDEX_PATH = './DemoArticles/articles.json'
 
 /**
  * Attaches anchor elements to the menu.
@@ -149,9 +149,9 @@ const titleDivForArticleRef = articleRef => {
   return div
 }
 
-let activeTransformApplicationClosures = new Object();
+const activeTransformApplicationClosures = {}
 
-const reapplyActiveTransformsToIframe = (iframe) => {
+const reapplyActiveTransformsToIframe = iframe => {
   const apply = ([id, transformClosure]) => transformClosure(iframe)
   Object.entries(activeTransformApplicationClosures).forEach(apply)
 }
@@ -162,38 +162,39 @@ const addHTMLToDocument = (html, articleRef) => {
   iframe.classList.add('article_preview')
   const titleDiv = titleDivForArticleRef(articleRef)
   document.body.appendChild(titleDiv)
-  
+
   iframe.addEventListener('load', event => {
     expandIframeHeight(event.target)
-    
-    // Once the pagelib is attached to the iframe content window it's safe to apply previously selected transforms
+
+    // Once the pagelib is attached to the iframe content window it's safe to apply previously
+    // selected transforms
     if (iframe.contentWindow.pagelib) {
       reapplyActiveTransformsToIframe(iframe)
     }
- 
+
   }, true)
-  
+
   document.body.appendChild(iframe)
-  
-//FIXME: i think this was so iframe would resize itself if its doc height changed, but it's not working.
-//should it be on `iframe.contentWindow` - that doesn't seem to work either...
-//to repro expand and collapse tables and check if bottom of article is clipped
+
+  // FIXME: i think this was so iframe would resize itself if its doc height changed, but it's not
+  // working. should it be on `iframe.contentWindow` - that doesn't seem to work either...
+  // to repro expand and collapse tables and check if bottom of article is clipped
   window.addEventListener('resize', () => expandIframeHeight(iframe), true)
-  
+
   const iframeDocument = iframe.contentWindow.document
-  
+
   // Park the ArticleRef here for easy access later. For example, provides easy way to check if a
   // document is showing content for a particular ArticleRef sourceType. This is handy in case a
   // particular transform demo should be applied to, say, mobileview content, but not MCS content.
   iframeDocument.articleRef = articleRef
-  
+
   iframeDocument.open()
   iframeDocument.write(html)
   iframeDocument.close()
-  
+
   const htmlElement = iframeDocument.querySelector('html')
-  htmlElement.setAttribute('dir', articleRef.isRTL() ? 'rtl' : 'ltr')  
-  
+  htmlElement.setAttribute('dir', articleRef.isRTL() ? 'rtl' : 'ltr')
+
   // Relay iframe keypress to the parent window.
   iframeDocument.addEventListener('keypress', event => {
     window.postMessage(event.keyCode)
@@ -203,7 +204,7 @@ const addHTMLToDocument = (html, articleRef) => {
 const configureCheckboxClickToPerformClosureForEachIframe = (checkbox, closure, id) => {
   checkbox.addEventListener('click', event => {
     const value = event.target.value // the closure below only needs to capture the value itself
-    const transformApplicationClosure = (iframe) => {
+    const transformApplicationClosure = iframe => {
       closure(iframe.contentWindow, iframe.contentWindow.document, value, iframe)
       expandIframeHeight(iframe)
     }
@@ -214,20 +215,18 @@ const configureCheckboxClickToPerformClosureForEachIframe = (checkbox, closure, 
 
     // Maintain list of active transforms (transform id mapped to transformApplicationClosure),
     // These activeTransformApplicationClosures are later re-applied to newly loaded articles.
-    if(checkbox.checked){
+    if (checkbox.checked) {
       activeTransformApplicationClosures[id] = transformApplicationClosure
-    }else{
-      if(id in activeTransformApplicationClosures){
-        delete activeTransformApplicationClosures[id];
-      }  
+    } else if (id in activeTransformApplicationClosures) {
+      delete activeTransformApplicationClosures[id]
     }
   })
 }
 
-const addCheckboxToDemoControls = (id, title, type, value, iframeScopeClickClosure) => {  
+const addCheckboxToDemoControls = (id, title, type, value, iframeScopeClickClosure) => {
   const checkboxContainer = document.createElement('div')
   checkboxContainer.classList.add('checkbox_container')
-  
+
   const input = document.createElement('input')
   input.type = type
   input.name = id
@@ -237,7 +236,7 @@ const addCheckboxToDemoControls = (id, title, type, value, iframeScopeClickClosu
   const label = document.createElement('label')
   label.for = id
   label.innerHTML = title
-  label.classList.add('checkbox_label')  
+  label.classList.add('checkbox_label')
   checkboxContainer.appendChild(label)
 
   document.getElementById('demo_controls').appendChild(checkboxContainer)
@@ -246,78 +245,118 @@ const addCheckboxToDemoControls = (id, title, type, value, iframeScopeClickClosu
 }
 
 const addTableCollapseControl = () => {
-  addCheckboxToDemoControls('collapse_tables_checkbox', 'Collapse tables *', 'checkbox', null, (iframeWindow, iframeDocument) => {
+  addCheckboxToDemoControls(
+    'collapse_tables_checkbox',
+    'Collapse tables *',
+    'checkbox',
+    null,
+    (iframeWindow, iframeDocument) => {
       event.target.disabled = true
       iframeWindow.pagelib.CollapseTable.collapseTables(
         iframeWindow, iframeDocument, 'page title', false, 'Infobox', 'Information', 'Close', null
       )
-  })
+    }
+  )
 }
 
 const addDimImagesControl = () => {
-  addCheckboxToDemoControls('dim_images_checkbox', 'Dim images', 'checkbox', null, (iframeWindow, iframeDocument) => {
-    iframeWindow.pagelib.DimImagesTransform.dim(
-      iframeWindow,
-      !iframeWindow.pagelib.DimImagesTransform.isDim(iframeWindow)
-    )    
-  })
+  addCheckboxToDemoControls(
+    'dim_images_checkbox',
+    'Dim images',
+    'checkbox',
+    null,
+    (iframeWindow, iframeDocument) => {
+      iframeWindow.pagelib.DimImagesTransform.dim(
+        iframeWindow,
+        !iframeWindow.pagelib.DimImagesTransform.isDim(iframeWindow)
+      )
+    }
+  )
 }
 
 const addEditPencilsControl = () => {
-  addCheckboxToDemoControls('edit_pencil_checkbox', 'Edit pencils *', 'checkbox', null, (iframeWindow, iframeDocument) => {
-    event.target.disabled = true
-    const editPencilHeaderFromSectionHeader = sectionHeader =>
-      iframeWindow.pagelib.EditTransform.newEditSectionHeader(
-        iframeDocument, 
-        sectionHeader.getAttribute('id'), 
-        sectionHeader.getAttribute('toclevel'), 
-        sectionHeader.getAttribute('line')
-      )
-    const replaceSectionHeaderWithEditPencilHeader = sectionHeader => {
-      sectionHeader.parentNode.replaceChild(
-        editPencilHeaderFromSectionHeader(sectionHeader),
-        sectionHeader
-      )      
+  addCheckboxToDemoControls(
+    'edit_pencil_checkbox',
+    'Edit pencils *',
+    'checkbox',
+    null,
+    (iframeWindow, iframeDocument) => {
+      event.target.disabled = true
+      const editPencilHeaderFromSectionHeader = sectionHeader =>
+        iframeWindow.pagelib.EditTransform.newEditSectionHeader(
+          iframeDocument,
+          sectionHeader.getAttribute('id'),
+          sectionHeader.getAttribute('toclevel'),
+          sectionHeader.getAttribute('line')
+        )
+      const replaceSectionHeaderWithEditPencilHeader = sectionHeader => {
+        sectionHeader.parentNode.replaceChild(
+          editPencilHeaderFromSectionHeader(sectionHeader),
+          sectionHeader
+        )
+      }
+      iframeDocument.querySelectorAll('.section_header')
+        .forEach(replaceSectionHeaderWithEditPencilHeader)
     }
-    iframeDocument.querySelectorAll('.section_header').forEach(replaceSectionHeaderWithEditPencilHeader)
-  })
+  )
 }
 
 const addWidenImagesControl = () => {
-  const shouldWidenImage = image => {
-    return (image.getAttribute('width') && image.getAttribute('height') &&
-    (parseInt(image.getAttribute('width'), 10) > 64) &&
-    (parseInt(image.getAttribute('height'), 10) > 64)) //&&
+  const shouldWidenImage = image =>
+    image.getAttribute('width') && image.getAttribute('height') &&
+    parseInt(image.getAttribute('width'), 10) > 64 &&
+    parseInt(image.getAttribute('height'), 10) > 64 // &&
     // image.getAttribute('data-file-width') && // MCS is not returning these??
     // image.getAttribute('data-file-height')
     // TODO: file ticket for adding ^ to MCS and/or ensure this gets included on new PCS endpoint!
-  }
-  addCheckboxToDemoControls('widen_image_checkbox', 'Widen images *', 'checkbox', null, (iframeWindow, iframeDocument) => {
-    event.target.disabled = true
-    Array.from(iframeDocument.querySelectorAll('img'))
-      .filter(shouldWidenImage)
-      .forEach(img => iframeWindow.pagelib.WidenImage.maybeWidenImage(img))
-  })
+
+  addCheckboxToDemoControls(
+    'widen_image_checkbox',
+    'Widen images *',
+    'checkbox',
+    null,
+    (iframeWindow, iframeDocument) => {
+      event.target.disabled = true
+      Array.from(iframeDocument.querySelectorAll('img'))
+        .filter(shouldWidenImage)
+        .forEach(img => iframeWindow.pagelib.WidenImage.maybeWidenImage(img))
+    }
+  )
 }
 
 const addCompatibilityControl = () => {
-  addCheckboxToDemoControls('compatibility_checkbox', 'Compatibility filter *', 'checkbox', null, (iframeWindow, iframeDocument) => {
-    event.target.disabled = true
-    iframeWindow.pagelib.CompatibilityTransform.enableSupport(iframeDocument)
-  })
+  addCheckboxToDemoControls(
+    'compatibility_checkbox',
+    'Compatibility filter *',
+    'checkbox',
+    null,
+    (iframeWindow, iframeDocument) => {
+      event.target.disabled = true
+      iframeWindow.pagelib.CompatibilityTransform.enableSupport(iframeDocument)
+    }
+  )
 }
 
 const addHideRedlinksControl = () => {
-  addCheckboxToDemoControls('hide_redlinks_checkbox', 'Hide redlinks *', 'checkbox', null, (iframeWindow, iframeDocument) => {
-    event.target.disabled = true
-    iframeWindow.pagelib.RedLinks.hideRedLinks(iframeDocument)
-  })
+  addCheckboxToDemoControls(
+    'hide_redlinks_checkbox',
+    'Hide redlinks *',
+    'checkbox',
+    null,
+    (iframeWindow, iframeDocument) => {
+      event.target.disabled = true
+      iframeWindow.pagelib.RedLinks.hideRedLinks(iframeDocument)
+    }
+  )
 }
 
 const addThemesControl = () => {
   const themeSelectionHandler = (iframeWindow, iframeDocument, selectedValue) => {
     iframeWindow.pagelib.ThemeTransform.classifyElements(iframeDocument)
-    iframeWindow.pagelib.ThemeTransform.setTheme(iframeDocument, iframeWindow.pagelib.ThemeTransform.THEME[selectedValue])
+    iframeWindow.pagelib.ThemeTransform.setTheme(
+      iframeDocument,
+      iframeWindow.pagelib.ThemeTransform.THEME[selectedValue]
+    )
   }
   const div = document.createElement('div')
   div.innerHTML = 'Theme'
@@ -340,10 +379,15 @@ const addPlatformsControl = () => {
   const div = document.createElement('div')
   div.innerHTML = 'Platform'
   document.getElementById('demo_controls').appendChild(div)
-  addCheckboxToDemoControls('platform_radio', 'Unspecified', 'radio', null, platformSelectionHandler)
-  addCheckboxToDemoControls('platform_radio', 'iOS', 'radio', 'IOS', platformSelectionHandler)
-  addCheckboxToDemoControls('platform_radio', 'Android', 'radio', 'ANDROID', platformSelectionHandler)
-
+  addCheckboxToDemoControls(
+    'platform_radio', 'Unspecified', 'radio', null, platformSelectionHandler
+  )
+  addCheckboxToDemoControls(
+    'platform_radio', 'iOS', 'radio', 'IOS', platformSelectionHandler
+  )
+  addCheckboxToDemoControls(
+    'platform_radio', 'Android', 'radio', 'ANDROID', platformSelectionHandler
+  )
 }
 
 const addFooterContainer = (iframeWindow, iframeDocument) => {
@@ -353,50 +397,121 @@ const addFooterContainer = (iframeWindow, iframeDocument) => {
 }
 
 const addFooterMenu = (iframeWindow, iframeDocument) => {
-  iframeWindow.pagelib.FooterMenu.setHeading('About this article', 'pagelib_footer_container_menu_heading', iframeDocument)
-  iframeWindow.pagelib.FooterMenu.maybeAddItem('Available in 10 other languages', '', iframeWindow.pagelib.FooterMenu.MenuItemType.languages, 'pagelib_footer_container_menu_items', ()=>{}, iframeDocument)
-  iframeWindow.pagelib.FooterMenu.maybeAddItem('Edited 10 days ago', '', iframeWindow.pagelib.FooterMenu.MenuItemType.lastEdited, 'pagelib_footer_container_menu_items', ()=>{}, iframeDocument)
-  iframeWindow.pagelib.FooterMenu.maybeAddItem('Page issues', '', iframeWindow.pagelib.FooterMenu.MenuItemType.pageIssues, 'pagelib_footer_container_menu_items', ()=>{}, iframeDocument)
-  iframeWindow.pagelib.FooterMenu.maybeAddItem('Similar pages', '', iframeWindow.pagelib.FooterMenu.MenuItemType.disambiguation, 'pagelib_footer_container_menu_items', ()=>{}, iframeDocument)
-  iframeWindow.pagelib.FooterMenu.maybeAddItem('View on a map', '', iframeWindow.pagelib.FooterMenu.MenuItemType.coordinate, 'pagelib_footer_container_menu_items', ()=>{}, iframeDocument)
+  iframeWindow.pagelib.FooterMenu.setHeading(
+    'About this article', 'pagelib_footer_container_menu_heading', iframeDocument
+  )
+  iframeWindow.pagelib.FooterMenu.maybeAddItem(
+    'Available in 10 other languages',
+    '',
+    iframeWindow.pagelib.FooterMenu.MenuItemType.languages,
+    'pagelib_footer_container_menu_items',
+    () => {},
+    iframeDocument
+  )
+  iframeWindow.pagelib.FooterMenu.maybeAddItem(
+    'Edited 10 days ago',
+    '',
+    iframeWindow.pagelib.FooterMenu.MenuItemType.lastEdited,
+    'pagelib_footer_container_menu_items',
+    () => {},
+    iframeDocument
+  )
+  iframeWindow.pagelib.FooterMenu.maybeAddItem(
+    'Page issues',
+    '',
+    iframeWindow.pagelib.FooterMenu.MenuItemType.pageIssues,
+    'pagelib_footer_container_menu_items',
+    () => {},
+    iframeDocument
+  )
+  iframeWindow.pagelib.FooterMenu.maybeAddItem(
+    'Similar pages',
+    '',
+    iframeWindow.pagelib.FooterMenu.MenuItemType.disambiguation,
+    'pagelib_footer_container_menu_items',
+    () => {},
+    iframeDocument
+  )
+  iframeWindow.pagelib.FooterMenu.maybeAddItem(
+    'View on a map',
+    '',
+    iframeWindow.pagelib.FooterMenu.MenuItemType.coordinate,
+    'pagelib_footer_container_menu_items',
+    () => {},
+    iframeDocument
+  )
 }
 
 const addFooterReadMore = (iframeWindow, iframeDocument, iframe) => {
-  iframeWindow.pagelib.FooterReadMore.setHeading('Read more', 'pagelib_footer_container_readmore_heading', iframeDocument)
+  iframeWindow.pagelib.FooterReadMore.setHeading(
+    'Read more', 'pagelib_footer_container_readmore_heading', iframeDocument
+  )
   const readMoreItemsFetchedHandler = titles => {
     let shouldSave = true
     titles.forEach(title => {
-      iframeWindow.pagelib.FooterReadMore.updateSaveButtonForTitle(title, 'Saved for later', shouldSave, iframeDocument)
+      iframeWindow.pagelib.FooterReadMore.updateSaveButtonForTitle(
+        title, 'Saved for later', shouldSave, iframeDocument
+      )
       shouldSave = !shouldSave
     })
     expandIframeHeight(iframe)
   }
   const baseURL = `https://cors.io/?https://${iframeDocument.articleRef.lang}.wikipedia.org`
-  // Add read more for article 'a' since most langs seem to have article about this letter. 
-  iframeWindow.pagelib.FooterReadMore.add('a', 3, 'pagelib_footer_container_readmore_pages', baseURL, () => {}, readMoreItemsFetchedHandler, iframeDocument)
+  // Add read more for article 'a' since most langs seem to have article about this letter.
+  iframeWindow.pagelib.FooterReadMore.add(
+    'a',
+    3,
+    'pagelib_footer_container_readmore_pages',
+    baseURL,
+    () => {},
+    readMoreItemsFetchedHandler,
+    iframeDocument
+  )
 }
 
 const addFooterLegal = (iframeWindow, iframeDocument) => {
-  iframeWindow.pagelib.FooterLegal.add(iframeDocument, 'Content is available under $1 unless otherwise noted.', 'CC BY-SA 3.0', 'pagelib_footer_container_legal', () => {}, 'View in browser', () => {})
+  iframeWindow.pagelib.FooterLegal.add(
+    iframeDocument,
+    'Content is available under $1 unless otherwise noted.',
+    'CC BY-SA 3.0',
+    'pagelib_footer_container_legal',
+    () => {},
+    'View in browser',
+    () => {}
+  )
 }
 
 const addFooterControl = () => {
-  addCheckboxToDemoControls('footer_checkbox', 'Add footer *', 'checkbox', null, (iframeWindow, iframeDocument, selectedValue, iframe) => {
-    event.target.disabled = true
-    addFooterContainer(iframeWindow, iframeDocument)
-    addFooterMenu(iframeWindow, iframeDocument)
-    addFooterReadMore(iframeWindow, iframeDocument, iframe)
-    addFooterLegal(iframeWindow, iframeDocument)
-  })
+  addCheckboxToDemoControls(
+    'footer_checkbox',
+    'Add footer *',
+    'checkbox',
+    null,
+    (iframeWindow, iframeDocument, selectedValue, iframe) => {
+      event.target.disabled = true
+      addFooterContainer(iframeWindow, iframeDocument)
+      addFooterMenu(iframeWindow, iframeDocument)
+      addFooterReadMore(iframeWindow, iframeDocument, iframe)
+      addFooterLegal(iframeWindow, iframeDocument)
+    }
+  )
 }
 
 const addLeadIntroductionControl = () => {
-  addCheckboxToDemoControls('first_paragraph_checkbox', 'Move 1st Paragraph Up *', 'checkbox', null, (iframeWindow, iframeDocument) => {
-    event.target.disabled = true
-    if (iframeDocument.articleRef.sourceType == ArticleRefSourceType.mobileView){
-      iframeWindow.pagelib.LeadIntroductionTransform.moveLeadIntroductionUp(iframeDocument, 'content_block_0', iframeDocument.querySelector('.section_header'))
+  addCheckboxToDemoControls(
+    'first_paragraph_checkbox',
+    'Move 1st Paragraph Up *',
+    'checkbox',
+    null,
+    (iframeWindow, iframeDocument) => {
+      event.target.disabled = true
+      if (iframeDocument.articleRef.sourceType === ArticleRefSourceType.mobileView) {
+        iframeWindow.pagelib.LeadIntroductionTransform.moveLeadIntroductionUp(
+          iframeDocument, 'content_block_0', iframeDocument.querySelector('.section_header')
+        )
+      }
     }
-  })
+  )
 }
 
 const addTextDirectionControl = () => {
@@ -429,7 +544,7 @@ const addArticleOptionsToSelect = (options, select) => {
   options.forEach(anchor => select.appendChild(anchor))
 }
 const selectedValuesFromSelect = select => {
-  let selectedOptions = Array.apply(null, select.options).filter(option => option.selected)
+  const selectedOptions = Array.apply(null, select.options).filter(option => option.selected)
   return selectedOptions.map(option => option.value)
 }
 
@@ -445,7 +560,7 @@ const addIframePreviewsForArticleRefs = articleRefs => {
   Promise.all(fetchArticlesHTMLForArticleRefs(articleRefs))
     .then(articlesHTML => {
       articlesHTML.forEach((articleHTML, i) => addHTMLToDocument(articleHTML, articleRefs[i]))
-  })
+    })
 }
 
 const addTransformControls = () => {
@@ -460,20 +575,21 @@ const addTransformControls = () => {
   addCompatibilityControl()
   addHideRedlinksControl()
   addFooterControl()
-  //TODO: add addLazyImageLoadControl()
+  // TODO: add addLazyImageLoadControl()
 }
 
-const isElementOnscreen = (element) => {
-  let rect = element.getBoundingClientRect()
-  let docHeight = Math.max(document.documentElement.clientHeight, window.innerHeight)
+const isElementOnscreen = element => {
+  const rect = element.getBoundingClientRect()
+  const docHeight = Math.max(document.documentElement.clientHeight, window.innerHeight)
   return !(rect.bottom < 0 || rect.top - docHeight >= 0)
 }
 
-// Looks at which article preview iFrames are currently onscreen and gets the next or previous one according to `direction`.
+// Looks at which article preview iFrames are currently onscreen and gets the next or previous one
+// according to `direction`.
 const nextOrPreviousIframe = direction => {
   const iframes = Array.from(document.querySelectorAll('iframe'))
-  const onscreenIframes = iframes.filter(isElementOnscreen)    
-  if (onscreenIframes.length == 0) {
+  const onscreenIframes = iframes.filter(isElementOnscreen)
+  if (onscreenIframes.length === 0) {
     return null
   }
   let i = iframes.indexOf(onscreenIframes[onscreenIframes.length - 1]) + direction
@@ -488,19 +604,22 @@ const nextOrPreviousIframe = direction => {
 
 // ',' and '.' keys are used to jump between article previews
 const handleKeyPress = keyCode => {
-  if (keyCode != 44 && keyCode != 46) {
+  if (keyCode !== 44 && keyCode !== 46) {
     return
   }
-  const direction = keyCode == 44 ? -1 : 1
+  const direction = keyCode === 44 ? -1 : 1
   const iframeToJumpTo = nextOrPreviousIframe(direction)
-  if (iframeToJumpTo == null) {
+  if (iframeToJumpTo === null) {
     return
   }
   document.location.href = `#${iframeToJumpTo.contentDocument.articleRef.fileName()}`
 }
 
 const articleSelectElement = document.getElementById('theme_demo_article_select')
-const articleRefsForSelectedArticleOptions = (selectElement, articleRefs) => articleRefs.filter(articleRef => selectedValuesFromSelect(selectElement).includes(articleRef.fileName()))
+const articleRefsForSelectedArticleOptions =
+  (selectElement, articleRefs) => articleRefs.filter(
+    articleRef => selectedValuesFromSelect(selectElement).includes(articleRef.fileName())
+  )
 
 fetch(DEMO_ARTICLES_INDEX_PATH)
   .then(response => response.json())
@@ -515,12 +634,12 @@ fetch(DEMO_ARTICLES_INDEX_PATH)
       if (!event) {
         return
       }
-      
-      let selectedArticleRefs = articleRefsForSelectedArticleOptions(event.target, articleRefs)
+
+      const selectedArticleRefs = articleRefsForSelectedArticleOptions(event.target, articleRefs)
 
       removeAllIframePreviews()
       addIframePreviewsForArticleRefs(selectedArticleRefs)
-      
+
       removeAllAnchorsFromMenu()
       addAnchorsToMenu(anchorsFromArticleRefs(selectedArticleRefs))
 
@@ -528,15 +647,15 @@ fetch(DEMO_ARTICLES_INDEX_PATH)
   })
   .then(addTransformControls)
 
-  // Handle keypress
-  window.addEventListener('keypress', event => {
-    handleKeyPress(event.keyCode)
-  }, false)
+// Handle keypress
+window.addEventListener('keypress', event => {
+  handleKeyPress(event.keyCode)
+}, false)
 
-  // Handle keypress from iFrames
-  window.addEventListener('message', event => {
-    handleKeyPress(event.data)
-  }, false)
+// Handle keypress from iFrames
+window.addEventListener('message', event => {
+  handleKeyPress(event.data)
+}, false)
 
     </script>
 </body>
