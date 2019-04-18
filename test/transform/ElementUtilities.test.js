@@ -45,16 +45,52 @@ describe('ElementUtilities', () => {
         assert.ok(elementUtilities.closestInlineStyle(element, 'top'))
       })
 
+      it('inclusive with sought value', () => {
+        const document = domino.createDocument('<br style="top: 0;">')
+        const element = document.querySelector('br')
+        assert.ok(elementUtilities.closestInlineStyle(element, 'top', '0'))
+      })
+
+      it('inclusive without sought value', () => {
+        const document = domino.createDocument('<br style="top: 0;">')
+        const element = document.querySelector('br')
+        assert.ok(elementUtilities.closestInlineStyle(element, 'top', '1') === undefined)
+      })
+
       it('parent', () => {
         const document = domino.createDocument('<div style="top: 0;"><br></div>')
         const element = document.querySelector('br')
         assert.ok(elementUtilities.closestInlineStyle(element, 'top').tagName === 'DIV')
       })
 
+      it('parent with sought value', () => {
+        const document = domino.createDocument('<div style="top: 0;"><br></div>')
+        const element = document.querySelector('br')
+        assert.ok(elementUtilities.closestInlineStyle(element, 'top', '0').tagName === 'DIV')
+      })
+
+      it('parent without sought value', () => {
+        const document = domino.createDocument('<div style="top: 0;"><br></div>')
+        const element = document.querySelector('br')
+        assert.ok(elementUtilities.closestInlineStyle(element, 'top', '1') === undefined)
+      })
+
       it('grandparent', () => {
         const document = domino.createDocument('<div style="top: 0;"><p><br></p></div>')
         const element = document.querySelector('br')
         assert.ok(elementUtilities.closestInlineStyle(element, 'top').tagName === 'DIV')
+      })
+
+      it('grandparent with sought value', () => {
+        const document = domino.createDocument('<div style="top: 55;"><p><br></p></div>')
+        const element = document.querySelector('br')
+        assert.ok(elementUtilities.closestInlineStyle(element, 'top', '55').tagName === 'DIV')
+      })
+
+      it('grandparent without sought value', () => {
+        const document = domino.createDocument('<div style="top: 0;"><p><br></p></div>')
+        const element = document.querySelector('br')
+        assert.ok(elementUtilities.closestInlineStyle(element, 'top', '55') === undefined)
       })
     })
 

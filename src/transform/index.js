@@ -8,6 +8,7 @@
 // used by the theme transform for whatever it is you are trying to override.
 import ThemeTransform from './ThemeTransform'
 
+import BodySpacingTransform from './BodySpacingTransform'
 import CollapseTable from './CollapseTable'
 import CollectionUtilities from './CollectionUtilities'
 import CompatibilityTransform from './CompatibilityTransform'
@@ -29,8 +30,10 @@ import RedLinks from './RedLinks'
 import ReferenceCollection from './ReferenceCollection'
 import Throttle from './Throttle'
 import WidenImage from './WidenImage'
+import './OrderedList.css'
 
 export default {
+  BodySpacingTransform,
   // todo: rename CollapseTableTransform.
   CollapseTable,
   CollectionUtilities,

@@ -37,7 +37,7 @@ styles with only the things which need tweaking.
 /* baseline .content */
 /* Fixes T214728 */
 .content {
-  background-color: unset !important;
+  background-color: initial !important;
 }
 
 /* baseline table */

@@ -77,6 +77,7 @@
 table.infobox caption {
   text-align: center;
   font-weight: bold;
+  padding: 10px 10px 0px 10px;
 }
 
 div.pagelib_collapse_table_container {
@@ -179,4 +180,13 @@ div.pagelib_collapse_table_container {
 .pagelib_collapse_table_container table {
     display: block;
     width: 100% !important
+}
+
+/* Fix for upstream CSS landscape tablet layout interfering with collapsible table width. */
+@media all and (min-width:720px) {
+  table.infobox {
+    margin: initial;
+    max-width: initial;
+    float: initial;
+  }
 }

@@ -1,3 +1,16 @@
+### v6.4.0
+- Fix: tablet landscape collapsed tables
+- Fix: tablet landscape image widening
+- Add: `build:debug` option which correctly builds sourcemaps and doesn't minify
+- New: BodySpacingTransform 
+
+### v6.3.0
+- Fix: pre-emptively override upstream ordered list CSS changes
+- Fix: absolutely positioned image widening bug
+- Fix: dark / black theme white background bug - follow-up for older Android versions
+- New: optional `value` parameter for `closestInlineStyle`
+- Chore: upgrade dependency
+
 ### v6.2.1
 - Fix: dark / black theme white background bug
 - Chore: upgrade dependency

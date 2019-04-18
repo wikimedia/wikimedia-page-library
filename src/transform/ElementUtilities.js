@@ -23,11 +23,21 @@ const findClosestAncestor = (el, selector) => {
 /**
  * @param {?Element} element
  * @param {!string} property
- * @return {?Element} The inclusive first element with an inline style or undefined.
+ * @param {?string} value
+ * @return {?Element} The inclusive first element with an inline style (and optional value) or
+ * undefined.
  */
-const closestInlineStyle = (element, property) => {
+const closestInlineStyle = (element, property, value) => {
   for (let el = element; el; el = el.parentElement) {
-    if (el.style[property]) { return el }
+    const thisValue = el.style[property]
+    if (thisValue) {
+      if (value === undefined) {
+        return el
+      }
+      if (value === thisValue) {
+        return el
+      }
+    }
   }
   return undefined
 }
