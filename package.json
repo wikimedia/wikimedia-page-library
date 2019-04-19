@@ -41,9 +41,6 @@
     "test",
     "test:size"
   ],
-  "engines": {
-    "node": "7.5.0"
-  },
   "files": [
     "build"
   ],
@@ -54,7 +51,7 @@
     "babel-preset-env": "1.7.0",
     "babel-register": "6.26.0",
     "browser-sync": "2.26.3",
-    "bundlesize": "0.17.0",
+    "bundlesize": "0.17.1",
     "clean-webpack-plugin": "1.0.0",
     "css-loader": "1.0.1",
     "domino": "2.1.1",
