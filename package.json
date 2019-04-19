@@ -75,6 +75,10 @@
     "webpack-dev-server": "3.1.14"
   },
   "license": "Apache-2.0",
+  "engines": {
+    "node": "10.15.3",
+    "npm": "6.9.0"
+  },
   "bundlesize": [
     {
       "path": "build/wikimedia-page-library-override.css",
