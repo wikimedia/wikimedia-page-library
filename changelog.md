@@ -1,3 +1,7 @@
+### v6.5.0
+ - Update: Add nodenv and nvm support, set node version to current long term stable release 10.15.3
+ - Update: Re-resolve dependencies with node 10 and npm 6, run `npm audit fix`
+
 ### v6.4.0
 - Fix: tablet landscape collapsed tables
 - Fix: tablet landscape image widening
