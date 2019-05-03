@@ -107,6 +107,21 @@ class ReferenceItem {
 }
 
 /**
+ * Reference item model.
+ */
+class ReferenceItemV2 {
+  /**
+   * ReferenceItemV2 construtor.
+   * @param {!string} href
+   * @param {?string} text
+   */
+  constructor(href, text) {
+    this.href = href
+    this.text = text
+  }
+}
+
+/**
  * Converts node to ReferenceItem.
  * @param {!Document} document
  * @param {!Node} node
@@ -120,6 +135,17 @@ const referenceItemForNode = (document, node) => new ReferenceItem(
 )
 
 /**
+ * Converts node to ReferenceItemV2.
+ * @param {!Document} document
+ * @param {!Node} node
+ * @return {!ReferenceItem}
+ */
+const referenceItemForNodeV2 = (document, node) => new ReferenceItemV2(
+  node.querySelector('A').getAttribute('href'),
+  node.textContent
+)
+
+/**
  * Container for nearby references including the index of the selected reference.
  */
 class NearbyReferences {
@@ -127,6 +153,21 @@ class NearbyReferences {
  * @param {!number} selectedIndex
  * @param {!Array.<ReferenceItem>} referencesGroup
  * @return {!NearbyReferences}
+ */
+  constructor(selectedIndex, referencesGroup) {
+    this.selectedIndex = selectedIndex
+    this.referencesGroup = referencesGroup
+  }
+}
+
+/**
+ * Container for nearby references including the index of the selected reference.
+ */
+class NearbyReferencesV2 {
+/**
+ * @param {!number} selectedIndex
+ * @param {!Array.<ReferenceItemV2>} referencesGroup
+ * @return {!NearbyReferencesV2}
  */
   constructor(selectedIndex, referencesGroup) {
     this.selectedIndex = selectedIndex
@@ -225,8 +266,23 @@ const collectNearbyReferences = (document, sourceNode) => {
   return new NearbyReferences(selectedIndex, referencesGroup)
 }
 
+/**
+ * Collect nearby references.
+ * @param {!Document} document
+ * @param {!Node} sourceNode
+ * @return {!NearbyReferencesV2}
+ */
+const collectNearbyReferencesV2 = (document, sourceNode) => {
+  const sourceNodeParent = sourceNode.parentElement
+  const referenceNodes = collectNearbyReferenceNodes(sourceNodeParent)
+  const selectedIndex = referenceNodes.indexOf(sourceNodeParent)
+  const referencesGroup = referenceNodes.map(node => referenceItemForNodeV2(document, node))
+  return new NearbyReferencesV2(selectedIndex, referencesGroup)
+}
+
 export default {
   collectNearbyReferences,
+  collectNearbyReferencesV2,
   isCitation,
   test: {
     adjacentNonWhitespaceNode,
