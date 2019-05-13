@@ -190,3 +190,9 @@ div.pagelib_collapse_table_container {
     float: initial;
   }
 }
+
+/* Fix Collapsed infobox floating to the right, see https://phabricator.wikimedia.org/T221695
+   .mw-stack.mobile-float-reset is a parent element to the infobox table*/
+.mw-stack.mobile-float-reset {
+    float: none !important;
+}
