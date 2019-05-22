@@ -179,7 +179,8 @@ div.pagelib_collapse_table_container {
    but only for tables we collapse. */
 .pagelib_collapse_table_container table {
     display: block;
-    width: 100% !important
+    width: 100% !important;
+    height: unset !important;
 }
 
 /* Fix for upstream CSS landscape tablet layout interfering with collapsible table width. */
