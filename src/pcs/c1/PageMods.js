@@ -45,8 +45,7 @@ const setMulti = (document, settings, onSuccess) => {
     ThemeTransform.setTheme(document, settings.theme)
   }
   if (settings.dimImages !== undefined) {
-    // TODO: update once DimImagesTransform doesn't require the window parameter anymore
-    DimImagesTransform.dim(document.defaultView, settings.dimImages)
+    DimImagesTransform.dimImages(document, settings.dimImages)
   }
   if (settings.margins !== undefined) {
     BodySpacingTransform.setMargins(document.body, settings.margins)
@@ -86,8 +85,7 @@ const setTheme = (document, theme, onSuccess) => {
  * @return {void}
  */
 const setDimImages = (document, dimImages, onSuccess) => {
-  // TODO: update once DimImagesTransform doesn't require the window parameter anymore
-  DimImagesTransform.dim(document.defaultView, dimImages)
+  DimImagesTransform.dimImages(document, dimImages)
 
   if (onSuccess instanceof Function) {
     onSuccess()
