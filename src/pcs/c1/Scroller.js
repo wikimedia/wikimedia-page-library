@@ -1,19 +1,20 @@
-let value = 0
+let scrollTop = 0
 
 /**
- * Sets the decor offset height in pixel
+ * Sets the maximum top scroll position in pixel. Use this to adjust for any decor overlaying the
+ * Viewport.
  * @param {!number} newValue pixel value
  * @return {void}
  */
-const setValue = newValue => {
-  value = newValue
+const setScrollTop = newValue => {
+  scrollTop = newValue
 }
 
 /**
- * Gets the current decor offset height in pixel
+ * Gets maximum top scroll position in pixel.
  * @return {number}
  */
-const getValue = () => value
+const getScrollTop = () => scrollTop
 
 /**
  * Scrolls the WebView to the top of the container parent node.
@@ -22,13 +23,13 @@ const getValue = () => value
  * @return {void}
  */
 const scrollWithDecorOffset = container => {
-  window.scrollTo(0, container.parentNode.offsetTop - value)
+  window.scrollTo(0, container.parentNode.offsetTop - scrollTop)
 }
 
 export default {
-  setValue,
+  setScrollTop,
   scrollWithDecorOffset,
   testing: {
-    getValue
+    getScrollTop
   }
 }

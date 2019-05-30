@@ -55,7 +55,7 @@ pagelib.c1.PageMods.setMulti(window, document, {
   dimImages: true,
   margins: { top: '32px', right: '32px', bottom: '32px', left: '32px' },
   areTablesCollapsed: true,
-  decorOffset: 64
+  scrollTop: 64
   }, () => { alert('success') }
 )
 ```
@@ -82,6 +82,14 @@ Turns on or off dimming of images.
 Example:
 ```
 pagelib.c1.PageMods.setMargins(document, { top: '128px', right: '32px', bottom: '16px', left: '32px' })
+```
+
+### setScrollTop()
+Sets the top-most vertical position to scroll to in pixel. Use this to adjust for any decor overlaying the top of the viewport. 
+
+Example:
+```
+pagelib.c1.PageMods.setScrollTop(document, 64)
 ```
 
 

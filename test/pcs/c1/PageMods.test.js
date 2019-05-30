@@ -111,16 +111,16 @@ describe('pcs.c1.PageMod', () => {
     })
   })
 
-  describe('.setDecorOffset()', () => {
+  describe('.setScrollTop()', () => {
     it('all', () => {
       let callbackCalled = false
       const window = domino.createWindow(emptyHTML)
       const document = window.document
 
-      PageMod.setDecorOffset(document, 64,
+      PageMod.setScrollTop(document, 64,
         () => { callbackCalled = true })
 
-      assert.strictEqual(PageMod.testing.getDecorOffsetObject().testing.getValue(),64)
+      assert.strictEqual(PageMod.testing.getScroller().testing.getScrollTop(),64)
       assert.ok(callbackCalled)
     })
   })

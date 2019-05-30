@@ -1,9 +1,9 @@
-import DecorOffset from './DecorOffset'
 import PageMods from './PageMods'
+import Scroller from './Scroller'
 import Themes from './Themes'
 
 export default {
-  DecorOffset,
   PageMods,
+  Scroller,
   Themes
 }
