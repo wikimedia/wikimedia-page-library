@@ -33,7 +33,7 @@ There are two kinds of versions we are concerned about, client side and server s
   - Consider adding object parameters to functions and set sensible defaults to allow for future arguments to be passed without breaking older clients.
   - Apply some defaults where it’s reasonable to do so. Be prepared for nulls, undefined, or empty string values. Don’t bail when the backend returns additional unexpected properties - just ignore it. Enums: expect unexpected and ignore it.
   - Do not return primitive values. Return JS objects with only one field instead. If you want to return something in addition to the primitive value you won’t need a new API version.
-- Identify clients using the `platform`, `clientVersion`, and `clientPcsVersion` preferences. This list may not be complete yet. Potentially other device- or user preference specific info might be useful in the future (locale?).
+- Identify clients using the `platform` and `clientVersion` preferences. This information is useful to be able to patch things server side if the need arises. This list may not be complete yet. Potentially other device- or user preference specific info might be useful in the future (locale?).
 - Only create a new API version when you really have to. You can add new stuff to the current version if it doesn’t affect existing clients.
 - Prepare for phasing out an API version. Some old versions you can’t afford to maintain. So define a process for informing clients that you may later not support their version.
 
@@ -46,11 +46,24 @@ No need to call this one from the client side. This will be invoked automaticall
 ready. All other functions are meant to be called by the client.
 
 #### setMulti()
-Combination of the following calls, changing multiple settings in one single call. The settings are kept in an object
+Combination of the following calls, changing multiple settings in one single call. The settings are kept in an object.
+
+Setting parameter object fields:
+- platform: possible values in pagelib.c1.Platforms: [IOS, ANDROID] 
+- clientVersion: string of client version (platform specific)
+- theme: possible values in pagelib.c1.Themes: [DEFAULT, SEPIA, DARK, BLACK]
+- dimImages: boolean
+- margins: object with { top, right, bottom, left }
+- areTablesCollapsed: boolean
+- scrollTop: number of pixel for highest position to scroll to. Use this to adjust for any decor overlaying the viewport.
+
+(The first three field don't have any equivalent separate call since those don't make sense to change after the fact.)
 
 Example:
 ```
 pagelib.c1.PageMods.setMulti(window, document, {
+  platform: pagelib.c1.Platforms.IOS,
+  clientVersion: '6.2.1',
   theme: pagelib.c1.Themes.SEPIA,
   dimImages: true,
   margins: { top: '32px', right: '32px', bottom: '32px', left: '32px' },
@@ -85,7 +98,7 @@ pagelib.c1.PageMods.setMargins(document, { top: '128px', right: '32px', bottom: 
 ```
 
 ### setScrollTop()
-Sets the top-most vertical position to scroll to in pixel. Use this to adjust for any decor overlaying the top of the viewport. 
+Sets the top-most vertical position to scroll to in pixel. Use this to adjust for any decor overlaying the top of the viewport. Default: 0
 
 Example:
 ```

@@ -3,6 +3,7 @@ import { c1 } from '../../../build/wikimedia-page-library-pcs'
 import domino from 'domino'
 
 const PageMod = c1.PageMods
+const Platforms = c1.Platforms
 const Themes = c1.Themes
 
 describe('pcs.c1.PageMod', () => {
@@ -10,7 +11,8 @@ describe('pcs.c1.PageMod', () => {
 
   describe('.onPageLoad()', () => {
     it('any', () => {
-      const document = domino.createDocument(emptyHTML)
+      const window = domino.createWindow(emptyHTML)
+      const document = window.document
 
       PageMod.onPageLoad(window, document)
     })
@@ -23,6 +25,8 @@ describe('pcs.c1.PageMod', () => {
       const document = window.document
 
       PageMod.setMulti(document, {
+        platform: Platforms.IOS,
+        clientVersion: '6.2.1',
         theme: Themes.DARK,
         dimImages: true,
         margins: { top: '1px', right: '2px', bottom: '3px', left: '4px' },

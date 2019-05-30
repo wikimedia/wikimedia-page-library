@@ -2,6 +2,7 @@ import BodySpacingTransform from '../../transform/BodySpacingTransform'
 import CollapseTable from '../../transform/CollapseTable'
 import DimImagesTransform from '../../transform/DimImagesTransform'
 import LazyLoadTransformer from '../../transform/LazyLoadTransformer'
+import PlatformTransform from '../../transform/PlatformTransform'
 import Scroller from './Scroller'
 import ThemeTransform from '../../transform/ThemeTransform'
 
@@ -32,11 +33,14 @@ const onPageLoad = (window, document) => {
  * during initial page load.
  * @param {!Document} document
  * @param {!{}} settings client settings
- *   { theme, dimImages, margins, areTablesCollapsed, scrollTop }
+ *   { platform, clientVersion, theme, dimImages, margins, areTablesCollapsed, scrollTop }
  * @param {?OnSuccess} onSuccess callback
  * @return {void}
  */
 const setMulti = (document, settings, onSuccess) => {
+  if (settings.platform !== undefined) {
+    PlatformTransform.setPlatform(document, settings.platform)
+  }
   if (settings.theme !== undefined) {
     ThemeTransform.setTheme(document, settings.theme)
   }
