@@ -11,10 +11,9 @@ interface Spacing {
  *   For the apps this is usually the body element.
  * @param {Spacing} values { top, right, bottom, left }
  *   Use value strings with units, e.g. '16px'. Undefined values are ignored.
- * @param callback callback function
  * @return {void}
  */
-const setMargins = (bodyElement: HTMLBodyElement, values: Spacing, callback?: () => void): void => {
+const setMargins = (bodyElement: HTMLBodyElement, values: Spacing): void => {
   if (values.top !== undefined) {
     bodyElement.style.marginTop = values.top
   }
@@ -27,9 +26,6 @@ const setMargins = (bodyElement: HTMLBodyElement, values: Spacing, callback?: ()
   if (values.left !== undefined) {
     bodyElement.style.marginLeft = values.left
   }
-  if (callback) {
-    callback()
-  }
 }
 
 /**
@@ -38,10 +34,9 @@ const setMargins = (bodyElement: HTMLBodyElement, values: Spacing, callback?: ()
  *   For the apps this is usually the body element.
  * @param {Spacing} values { top, right, bottom, left }
  *   Use value strings with units, e.g. '16px'. Undefined values are ignored.
- * @param callback callback function
  * @return {void}
  */
-const setPadding = (bodyElement: HTMLBodyElement, values: Spacing, callback?: () => void): void => {
+const setPadding = (bodyElement: HTMLBodyElement, values: Spacing): void => {
   if (values.top !== undefined) {
     bodyElement.style.paddingTop = values.top
   }
@@ -53,9 +48,6 @@ const setPadding = (bodyElement: HTMLBodyElement, values: Spacing, callback?: ()
   }
   if (values.left !== undefined) {
     bodyElement.style.paddingLeft = values.left
-  }
-  if (callback) {
-    callback()
   }
 }
 
