@@ -78,7 +78,7 @@ Turns on or off dimming of images.
 
 Example:
 ```
-pagelib.c1.PageMod.setTheme(document, Themes.SEPIA)
+pagelib.c1.PageMods.setTheme(document, pagelib.c1.Themes.SEPIA)
 ```
 
 ### setDimImages()
