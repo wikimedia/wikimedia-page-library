@@ -1,8 +1,8 @@
 import BodySpacingTransform from '../../transform/BodySpacingTransform'
 import CollapseTable from '../../transform/CollapseTable'
-import DecorOffset from './DecorOffset'
 import DimImagesTransform from '../../transform/DimImagesTransform'
 import LazyLoadTransformer from '../../transform/LazyLoadTransformer'
+import Scroller from './Scroller'
 import ThemeTransform from '../../transform/ThemeTransform'
 
 /**
@@ -19,7 +19,7 @@ const onPageLoad = (window, document) => {
   lazyLoader.collectExistingPlaceholders(document.body)
   lazyLoader.loadPlaceholders()
 
-  CollapseTable.setupEventHandling(window, document, true, DecorOffset.scrollWithDecorOffset)
+  CollapseTable.setupEventHandling(window, document, true, Scroller.scrollWithDecorOffset)
 }
 
 /**
@@ -32,7 +32,7 @@ const onPageLoad = (window, document) => {
  * during initial page load.
  * @param {!Document} document
  * @param {!{}} settings client settings
- *   { theme, dimImages, margins, areTablesCollapsed, decorOffset }
+ *   { theme, dimImages, margins, areTablesCollapsed, scrollTop }
  * @param {?OnSuccess} onSuccess callback
  * @return {void}
  */
@@ -50,8 +50,8 @@ const setMulti = (document, settings, onSuccess) => {
   if (settings.areTablesCollapsed) {
     CollapseTable.toggleCollapsedForAll(document.body)
   }
-  if (settings.decorOffset !== undefined) {
-    DecorOffset.setValue(settings.decorOffset)
+  if (settings.scrollTop !== undefined) {
+    Scroller.setScrollTop(settings.scrollTop)
   }
 
   if (onSuccess instanceof Function) {
@@ -106,14 +106,14 @@ const setMargins = (document, margins, onSuccess) => {
 }
 
 /**
- * Sets the margins.
+ * Sets the top scroll position for collapsing of tables (when bottom close button is tapped).
  * @param {!Document} document
- * @param {!number} decorOffset height of decor covering the top portion of the Viewport in pixel
+ * @param {!number} scrollTop height of decor covering the top portion of the Viewport in pixel
  * @param {?OnSuccess} onSuccess callback
  * @return {void}
  */
-const setDecorOffset = (document, decorOffset, onSuccess) => {
-  DecorOffset.setValue(decorOffset)
+const setScrollTop = (document, scrollTop, onSuccess) => {
+  Scroller.setScrollTop(scrollTop)
 
   if (onSuccess instanceof Function) {
     onSuccess()
@@ -121,10 +121,10 @@ const setDecorOffset = (document, decorOffset, onSuccess) => {
 }
 
 /**
- * Gets the DecorOffset object. Just for testing!
- * @return {{setValue, testing, scrollWithDecorOffset}}
+ * Gets the Scroller object. Just for testing!
+ * @return {{setScrollTop, scrollWithDecorOffset}}
  */
-const getDecorOffsetObject = () => DecorOffset
+const getScroller = () => Scroller
 
 
 export default {
@@ -133,9 +133,9 @@ export default {
   setTheme,
   setDimImages,
   setMargins,
-  setDecorOffset,
+  setScrollTop,
   testing: {
-    getDecorOffsetObject
+    getScroller
   }
 }
 
