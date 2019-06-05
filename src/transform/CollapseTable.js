@@ -310,6 +310,37 @@ const newCaptionFragment = (document, title, headerText) => {
 }
 
 /**
+ * @param {!Node} nodeToReplace
+ * @param {!Node} replacementNode
+ * @return {void}
+ */
+const replaceNodeInContentBlock = (nodeToReplace, replacementNode) => {
+  if (!nodeToReplace || !replacementNode) {
+    return
+  }
+  let lastAncestorBeforeContentBlock = nodeToReplace
+  let contentBlock = nodeToReplace.parentNode
+  if (!contentBlock) {
+    return
+  }
+  let foundContentBlock = false
+  while (contentBlock) {
+    if (contentBlock.classList && contentBlock.classList.contains('content_block')) {
+      foundContentBlock = true
+      break
+    }
+    lastAncestorBeforeContentBlock = contentBlock
+    contentBlock = contentBlock.parentNode
+  }
+  if (!foundContentBlock) {
+    lastAncestorBeforeContentBlock = nodeToReplace
+    contentBlock = nodeToReplace.parentNode
+  }
+  contentBlock.insertBefore(replacementNode, lastAncestorBeforeContentBlock)
+  contentBlock.removeChild(lastAncestorBeforeContentBlock)
+}
+
+/**
  * @param {!Document} document
  * @param {?string} pageTitle use title for this not `display title` (which can contain tags)
  * @param {?string} infoboxTitle
@@ -338,8 +369,7 @@ const prepareTables = (document, pageTitle, infoboxTitle, otherTitle, footerTitl
     // and the collapsed version.
     const containerDiv = document.createElement('div')
     containerDiv.className = CLASS.CONTAINER
-    table.parentNode.insertBefore(containerDiv, table)
-    table.parentNode.removeChild(table)
+    replaceNodeInContentBlock(table, containerDiv)
 
     // remove top and bottom margin from the table, so that it's flush with
     // our expand/collapse buttons
