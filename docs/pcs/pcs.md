@@ -61,7 +61,7 @@ Setting parameter object fields:
 
 Example:
 ```
-pagelib.c1.PageMods.setMulti(window, document, {
+pagelib.c1.PageMods.setMulti(document, {
   platform: pagelib.c1.Platforms.IOS,
   clientVersion: '6.2.1',
   theme: pagelib.c1.Themes.SEPIA,
@@ -74,7 +74,7 @@ pagelib.c1.PageMods.setMulti(window, document, {
 ```
 
 ### setTheme()
-Turns on or off dimming of images.
+Sets the theme. See possible values listed in `setMulti()`.
 
 Example:
 ```
@@ -90,7 +90,7 @@ pagelib.c1.PageMods.setDimImages(document, true)
 ```
 
 ### setMargins()
-Turns on or off dimming of images.
+Sets the margins on the `<body>` tag.
 
 Example:
 ```

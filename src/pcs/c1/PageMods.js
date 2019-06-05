@@ -34,7 +34,7 @@ const onPageLoad = (window, document) => {
  * @param {!Document} document
  * @param {!{}} settings client settings
  *   { platform, clientVersion, theme, dimImages, margins, areTablesCollapsed, scrollTop }
- * @param {?OnSuccess} onSuccess callback
+ * @param {?PageMods~Function} onSuccess callback
  * @return {void}
  */
 const setMulti = (document, settings, onSuccess) => {
@@ -78,7 +78,7 @@ const setTheme = (document, theme, onSuccess) => {
 }
 
 /**
- * Turns on dimming of images.
+ * Toggles dimming of images.
  * @param {!Document} document
  * @param {!boolean} dimImages true if images should be dimmed, false otherwise
  * @param {?OnSuccess} onSuccess callback
@@ -128,6 +128,8 @@ const setScrollTop = (document, scrollTop, onSuccess) => {
  */
 const getScroller = () => Scroller
 
+// automatically invoked when DOM is ready
+document.addEventListener('DOMContentLoaded', () => onPageLoad(window, document))
 
 export default {
   onPageLoad,
@@ -140,6 +142,3 @@ export default {
     getScroller
   }
 }
-
-// automatically invoked when DOM is ready
-document.addEventListener('DOMContentLoaded', () => onPageLoad(window, document))
