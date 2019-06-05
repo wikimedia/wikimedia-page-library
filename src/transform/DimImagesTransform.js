@@ -22,19 +22,19 @@ const dim = (window, enable) => dimImages(window.document, enable)
  * @param {!Document} document
  * @return {boolean}
  */
-const isDimImagesOn = document => document.querySelector('html').classList.contains(CLASS)
+const areImagesDimmed = document => document.querySelector('html').classList.contains(CLASS)
 
 /**
- * @deprecated Use isDimImagesOn instead, which only requires a Document
+ * @deprecated Use areImagesDimmed instead, which only requires a Document
  * @param {!Window} window
  * @return {boolean}
  */
-const isDim = window => isDimImagesOn(window.document)
+const isDim = window => areImagesDimmed(window.document)
 
 export default {
   CLASS,
   dim,
   isDim,
   dimImages,
-  isDimImagesOn
+  areImagesDimmed,
 }
