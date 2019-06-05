@@ -1,4 +1,4 @@
-// Versioned abstraction layer. mobile-html clients are hughly encouraged to go through this instead
+// Versioned abstraction layer. mobile-html clients are highly encouraged to go through this instead
 // of accessing the other JS functionality directly.
 // c1 stands for PCS client version 1.
 
