@@ -810,6 +810,25 @@ describe('CollapseTable', () => {
       assert.deepEqual(window.document.getElementById('c').style.display, 'none')
       assert.deepEqual(window.document.getElementById('d').style.display, 'none')
     })
+
+    it('moves a table up to the content block when it is nested in other elements', () => {
+      const html = `
+        <div><div class=content_block><div class=not_content_block><div>
+        <table class=infobox>info</table>
+        </div></div></div></div>
+      `
+      const window = domino.createWindow(html)
+      collapseTables(window, window.document)
+      const contentBlock = window.document.querySelector('.content_block')
+      assert.ok(contentBlock)
+      assert.deepEqual(contentBlock.parentNode.parentNode.tagName, 'BODY')
+      const collapsibleContainer = contentBlock.childNodes[0]
+      assert.ok(collapsibleContainer)
+      assert.ok(collapsibleContainer.classList.contains('pagelib_collapse_table_container'))
+      const table = collapsibleContainer.querySelector('.infobox')
+      assert.ok(table)
+      assert.deepEqual(table.parentNode, collapsibleContainer)
+    })
   })
 
   describe('expandCollapsedTableIfItContainsElement()', () => {
