@@ -363,6 +363,17 @@ const prepareTables = (document, pageTitle, infoboxTitle, otherTitle, footerTitl
 }
 
 /**
+ * @param {!Element} container root element to search from
+ * @return {void}
+ */
+const toggleCollapsedForAll = container => {
+  const containerDivs = Polyfill.querySelectorAll(container, `.${CLASS.CONTAINER}`)
+  containerDivs.forEach(containerDiv => {
+    toggleCollapsedForContainer(containerDiv)
+  })
+}
+
+/**
  * @param {!Window} window
  * @param {!Element} container root element to search from
  * @param {?boolean} isInitiallyCollapsed
@@ -396,10 +407,7 @@ const setupEventHandling = (window, container, isInitiallyCollapsed, footerDivCl
   })
 
   if (!isInitiallyCollapsed) {
-    const containerDivs = Polyfill.querySelectorAll(container, `.${CLASS.CONTAINER}`)
-    containerDivs.forEach(containerDiv => {
-      toggleCollapsedForContainer(containerDiv)
-    })
+    toggleCollapsedForAll(container)
   }
 }
 
@@ -466,6 +474,7 @@ const expandCollapsedTableIfItContainsElement = element => {
 
 export default {
   SECTION_TOGGLED_EVENT_TYPE,
+  toggleCollapsedForAll,
   toggleCollapseClickCallback,
   collapseTables,
   adjustTables,
