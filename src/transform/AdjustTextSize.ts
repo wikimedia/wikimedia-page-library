@@ -1,6 +1,7 @@
 /**
- * Set text size adjustment percentage of the body element
+ * Sets text size adjustment percentage of the body element
  * @param  {!HTMLBodyElement} body that needs the margins adjusted.
+ * @param  {!string} textSize percentage for text-size-adjust in format of string, like '100%'
  * @return {void}
  */
 const setPercentage = (body: HTMLBodyElement, textSize: string): void => {

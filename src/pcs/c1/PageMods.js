@@ -1,3 +1,4 @@
+import AdjustTextSize from '../../transform/AdjustTextSize'
 import BodySpacingTransform from '../../transform/BodySpacingTransform'
 import CollapseTable from '../../transform/CollapseTable'
 import DimImagesTransform from '../../transform/DimImagesTransform'
@@ -55,6 +56,12 @@ const setMulti = (document, settings, onSuccess) => {
   }
   if (settings.scrollTop !== undefined) {
     Scroller.setScrollTop(settings.scrollTop)
+  }
+  if (settings.setTextSizeAdjustmentPercentage !== undefined) {
+    AdjustTextSize.setTextSizeAdjustmentPercentage(
+      document.body,
+      settings.setTextSizeAdjustmentPercentage
+    )
   }
 
   if (onSuccess instanceof Function) {
@@ -123,6 +130,21 @@ const setScrollTop = (document, scrollTop, onSuccess) => {
 }
 
 /**
+ * Sets text size adjustment percentage of the body element
+ * @param  {!Document} document
+ * @param  {!string} textSize percentage for text-size-adjust in format of string, like '100%'
+ * @param  {?OnSuccess} onSuccess onSuccess callback
+ * @return {void}
+ */
+const setTextSizeAdjustmentPercentage = (document, textSize, onSuccess) => {
+  AdjustTextSize.setPercentage(document.body, textSize)
+
+  if (onSuccess instanceof Function) {
+    onSuccess()
+  }
+}
+
+/**
  * Gets the Scroller object. Just for testing!
  * @return {{setScrollTop, scrollWithDecorOffset}}
  */
@@ -138,6 +160,7 @@ export default {
   setDimImages,
   setMargins,
   setScrollTop,
+  setTextSizeAdjustmentPercentage,
   testing: {
     getScroller
   }
