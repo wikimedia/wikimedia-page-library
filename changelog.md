@@ -1,7 +1,17 @@
+### v7.0.0
+- Breaking: Remove callbacks from BodySpacingTransform
+- New: PCS abstraction layer
+- New: CollapseTable `toggleCollapsedForAll` method
+- New: DimImagesTransform `dimImages` and `areImagesDimmed` methods which operates on a document instead of window
+- New: PlatformTransform `setPlatform` method
+- Fix: Unset any explicit height of collapsible tables
+- Update: Bump patch version of vulnerable dependencies
+- Deprecated: DimImagesTransform `dim` and `isDim`
+
 ### v6.5.0
- - Update: Add nodenv and nvm support, set node version to current long term stable release 10.15.3
- - Update: Re-resolve dependencies with node 10 and npm 6, run `npm audit fix`
- - Fix: Remove background-color: initial on .content to fix mobile-html
+- Update: Add nodenv and nvm support, set node version to current long term stable release 10.15.3
+- Update: Re-resolve dependencies with node 10 and npm 6, run `npm audit fix`
+- Fix: Remove background-color: initial on .content to fix mobile-html
 
 ### v6.4.0
 - Fix: tablet landscape collapsed tables
