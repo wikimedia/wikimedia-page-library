@@ -318,7 +318,8 @@ const isMediaWikiSectionNode = node => {
   if (node.tagName === 'SECTION' && node.attributes && node.attributes['data-mw-section-id']) {
     return true
   }
-  // MobileView output has a div with the `content_block` class for sections
+  // The iOS app wraps MobileView sections with a div with the `content_block` class
+  // This should be removed after the iOS app switches to mobile-html
   if (node.tagName === 'DIV' && node.classList && node.classList.contains('content_block')) {
     return true
   }
