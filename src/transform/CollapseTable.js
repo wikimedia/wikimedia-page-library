@@ -310,6 +310,22 @@ const newCaptionFragment = (document, title, headerText) => {
 }
 
 /**
+ * @param {!Node} node - node to test
+ * @return {boolean} true if this is a node that represents a MediaWiki section
+ */
+const isMediaWikiSectionNode = node => {
+  // mobile-html output has `data-mw-section-id` attributes on section tags
+  if (node.attributes && node.attributes['data-mw-section-id']) {
+    return true
+  }
+  // MobileView output has a div with the `content_block` class for sections
+  if (node.classList && node.classList.contains('content_block')) {
+    return true
+  }
+  return false
+}
+
+/**
  * @param {!Node} nodeToReplace
  * @param {!Node} replacementNode
  * @return {void}
@@ -325,13 +341,7 @@ const replaceNodeInSection = (nodeToReplace, replacementNode) => {
   }
   let foundSectionTag = false
   while (sectionTag) {
-    // mobile-html output has `data-mw-section-id` attributes on section tags
-    if (sectionTag.attributes && sectionTag.attributes['data-mw-section-id']) {
-      foundSectionTag = true
-      break
-    }
-    // MobileView output has a div with the `content_block` class for sections
-    if (sectionTag.classList && sectionTag.classList.contains('content_block')) {
+    if (isMediaWikiSectionNode(sectionTag)) {
       foundSectionTag = true
       break
     }
