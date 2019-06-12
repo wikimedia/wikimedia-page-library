@@ -314,30 +314,36 @@ const newCaptionFragment = (document, title, headerText) => {
  * @param {!Node} replacementNode
  * @return {void}
  */
-const replaceNodeInContentBlock = (nodeToReplace, replacementNode) => {
+const replaceNodeInSection = (nodeToReplace, replacementNode) => {
   if (!nodeToReplace || !replacementNode) {
     return
   }
-  let lastAncestorBeforeContentBlock = nodeToReplace
-  let contentBlock = nodeToReplace.parentNode
-  if (!contentBlock) {
+  let childOfSectionTag = nodeToReplace
+  let sectionTag = nodeToReplace.parentNode
+  if (!sectionTag) {
     return
   }
-  let foundContentBlock = false
-  while (contentBlock) {
-    if (contentBlock.classList && contentBlock.classList.contains('content_block')) {
-      foundContentBlock = true
+  let foundSectionTag = false
+  while (sectionTag) {
+    // mobile-html output has `data-mw-section-id` attributes on section tags
+    if (sectionTag.attributes && sectionTag.attributes['data-mw-section-id']) {
+      foundSectionTag = true
       break
     }
-    lastAncestorBeforeContentBlock = contentBlock
-    contentBlock = contentBlock.parentNode
+    // MobileView output has a div with the `content_block` class for sections
+    if (sectionTag.classList && sectionTag.classList.contains('content_block')) {
+      foundSectionTag = true
+      break
+    }
+    childOfSectionTag = sectionTag
+    sectionTag = sectionTag.parentNode
   }
-  if (!foundContentBlock) {
-    lastAncestorBeforeContentBlock = nodeToReplace
-    contentBlock = nodeToReplace.parentNode
+  if (!foundSectionTag) {
+    childOfSectionTag = nodeToReplace
+    sectionTag = nodeToReplace.parentNode
   }
-  contentBlock.insertBefore(replacementNode, lastAncestorBeforeContentBlock)
-  contentBlock.removeChild(lastAncestorBeforeContentBlock)
+  sectionTag.insertBefore(replacementNode, childOfSectionTag)
+  sectionTag.removeChild(childOfSectionTag)
 }
 
 /**
@@ -369,7 +375,7 @@ const prepareTables = (document, pageTitle, infoboxTitle, otherTitle, footerTitl
     // and the collapsed version.
     const containerDiv = document.createElement('div')
     containerDiv.className = CLASS.CONTAINER
-    replaceNodeInContentBlock(table, containerDiv)
+    replaceNodeInSection(table, containerDiv)
 
     // remove top and bottom margin from the table, so that it's flush with
     // our expand/collapse buttons
