@@ -315,11 +315,11 @@ const newCaptionFragment = (document, title, headerText) => {
  */
 const isMediaWikiSectionNode = node => {
   // mobile-html output has `data-mw-section-id` attributes on section tags
-  if (node.attributes && node.attributes['data-mw-section-id']) {
+  if (node.tagName === 'SECTION' && node.attributes && node.attributes['data-mw-section-id']) {
     return true
   }
   // MobileView output has a div with the `content_block` class for sections
-  if (node.classList && node.classList.contains('content_block')) {
+  if (node.tagName === 'DIV' && node.classList && node.classList.contains('content_block')) {
     return true
   }
   return false
