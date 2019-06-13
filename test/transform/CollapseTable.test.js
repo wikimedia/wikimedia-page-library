@@ -198,6 +198,34 @@ describe('CollapseTable', () => {
       const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
       assert.equal(text, 'goat')
     })
+    it('extracted text excludes style', () => {
+      // 'enwiki > Brussels-Chapel railway station'
+      const doc = domino.createDocument(`
+        <table><tr>
+          <th>
+            <style>ul {text-align:center}</style>
+            <i>goat</i>
+          </th>
+        </tr></table>
+      `)
+      const header = doc.querySelector('th')
+      const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
+      assert.equal(text, 'goat')
+    })
+    it('extracted text excludes script', () => {
+      // 'enwiki > Brussels-Chapel railway station'
+      const doc = domino.createDocument(`
+        <table><tr>
+          <th>
+            <script>function(){var x = 1;}</script>
+            <i>goat</i>
+          </th>
+        </tr></table>
+      `)
+      const header = doc.querySelector('th')
+      const text = extractEligibleHeaderText(doc, header, 'SampleTitle')
+      assert.equal(text, 'goat')
+    })
     it('extracted text skips element if page title starts with element textContent', () => {
       // 'dewiki > Hornburg (Mansfelder Land)'
       // 'enwiki > Ramon Magsaysay High School, Manila'
