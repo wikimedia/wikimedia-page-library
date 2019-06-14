@@ -34,7 +34,8 @@ const onPageLoad = (window, document) => {
  * during initial page load.
  * @param {!Document} document
  * @param {!{}} settings client settings
- *   { platform, clientVersion, theme, dimImages, margins, areTablesCollapsed, scrollTop }
+ *   { platform, clientVersion, theme, dimImages, margins, areTablesCollapsed, scrollTop,
+ *   textSizeAdjustmentPercentage }
  * @param {?PageMods~Function} onSuccess callback
  * @return {void}
  */
@@ -57,10 +58,10 @@ const setMulti = (document, settings, onSuccess) => {
   if (settings.scrollTop !== undefined) {
     Scroller.setScrollTop(settings.scrollTop)
   }
-  if (settings.setTextSizeAdjustmentPercentage !== undefined) {
-    AdjustTextSize.setTextSizeAdjustmentPercentage(
+  if (settings.textSizeAdjustmentPercentage !== undefined) {
+    AdjustTextSize.setPercentage(
       document.body,
-      settings.setTextSizeAdjustmentPercentage
+      settings.textSizeAdjustmentPercentage
     )
   }
 

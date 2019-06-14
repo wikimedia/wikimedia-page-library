@@ -13,8 +13,8 @@ describe('AdjustTextSize', () => {
     it('set string value', () => {
       const document = domino.createDocument('<p></p>')
       AdjustTextSize.setPercentage(document.body, '80%')
-      assert.strictEqual(document.body.style['-webkit-text-size-adjust'],'80%')
-      assert.strictEqual(document.body.style['text-size-adjust'],'80%')
+      assert.strictEqual(document.body.style['-webkit-text-size-adjust'], '80%')
+      assert.strictEqual(document.body.style['text-size-adjust'], '80%')
     })
   })
 })
