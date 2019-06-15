@@ -8,6 +8,7 @@
 // used by the theme transform for whatever it is you are trying to override.
 import ThemeTransform from './ThemeTransform'
 
+import AdjustTextSize from './AdjustTextSize'
 import BodySpacingTransform from './BodySpacingTransform'
 import CollapseTable from './CollapseTable'
 import CollectionUtilities from './CollectionUtilities'
@@ -33,6 +34,7 @@ import WidenImage from './WidenImage'
 import './OrderedList.css'
 
 export default {
+  AdjustTextSize,
   BodySpacingTransform,
   // todo: rename CollapseTableTransform.
   CollapseTable,
