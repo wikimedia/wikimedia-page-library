@@ -1,3 +1,6 @@
+### v7.2.0
+- Fix: republish v7.1.0 which didn't "take" correctly
+
 ### v7.1.0
 - New: Allow clients to adjust text size
 - Fix: TemplateStyles CSS appearing in quick facts header
