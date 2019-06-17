@@ -1,3 +1,7 @@
+### v7.1.0
+- New: Allow clients to adjust text size
+- Fix: TemplateStyles CSS appearing in quick facts header
+
 ### v7.0.0
 - Breaking: Remove callbacks from BodySpacingTransform
 - New: PCS abstraction layer
