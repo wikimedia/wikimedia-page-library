@@ -19,7 +19,7 @@
   background-color: #222;
 }
 
-html[dir='ltr'] .pagelib_footer_menu_item {
+.pagelib_footer_menu_item {
   background-position: left center;
 }
 
@@ -37,7 +37,7 @@ html[dir='rtl'] .pagelib_footer_menu_item {
   color: #f8f9fa;
 }
 
-html[dir='ltr'] .pagelib_footer_menu_item_title {
+.pagelib_footer_menu_item_title {
   padding-left: 50px;
 }
 
@@ -55,7 +55,7 @@ html[dir='rtl'] .pagelib_footer_menu_item_title {
   color: #7c776e;
 }
 
-html[dir='ltr'] .pagelib_footer_menu_item_subtitle {
+.pagelib_footer_menu_item_subtitle {
   padding-left: 50px;
 }
 
