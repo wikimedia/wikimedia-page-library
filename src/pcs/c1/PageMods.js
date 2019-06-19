@@ -251,6 +251,8 @@ const addFooter = (
       titlesShownHandler,
       document
     )
+
+    FooterContainer.updateLeftAndRightMargin(18, document) // TODO: integrate with setMargins
   }
 
   /**
