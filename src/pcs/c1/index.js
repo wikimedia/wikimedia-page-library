@@ -7,8 +7,8 @@ import Themes from './Themes'
 
 export default {
   Footer,
-  PageMods,
   Platforms,
+  PageMods,
   Scroller,
   Sections,
   Themes
