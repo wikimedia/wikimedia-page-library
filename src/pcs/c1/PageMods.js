@@ -2,6 +2,10 @@ import AdjustTextSize from '../../transform/AdjustTextSize'
 import BodySpacingTransform from '../../transform/BodySpacingTransform'
 import CollapseTable from '../../transform/CollapseTable'
 import DimImagesTransform from '../../transform/DimImagesTransform'
+import FooterContainer from '../../transform/FooterContainer'
+import FooterLegal from '../../transform/FooterLegal'
+import FooterMenu from '../../transform/FooterMenu'
+import FooterReadMore from '../../transform/FooterReadMore'
 import LazyLoadTransformer from '../../transform/LazyLoadTransformer'
 import PlatformTransform from '../../transform/PlatformTransform'
 import Scroller from './Scroller'
@@ -146,6 +150,129 @@ const setTextSizeAdjustmentPercentage = (document, textSize, onSuccess) => {
 }
 
 /**
+ * Adds footer to the end of the document
+ * @param  {!Document} document
+ * @param  {!list} articleTitle article title for related pages
+ * @param  {!string} menuItems menu items to add
+ * @param  {!boolean} hasReadMore whether or not to add read more section
+ * @param  {!number} readMoreItemCount number of read more items to add
+ * @param  {!map} localizedStrings localized strings
+ * @return {void}
+ */
+const addFooter = (
+  document,
+  articleTitle,
+  menuItems,
+  hasReadMore,
+  readMoreItemCount,
+  localizedStrings
+) => {
+  // Add container
+  if (FooterContainer.isContainerAttached(document) === false) {
+    document.body.appendChild(FooterContainer.containerFragment(document))
+  }
+  // Add menu
+  FooterMenu.setHeading(
+    localizedStrings.menuHeading,
+    'pagelib_footer_container_menu_heading',
+    document
+  )
+  menuItems.forEach(item => {
+    let title = ''
+    let subtitle = ''
+    let menuItemTypeString = ''
+    switch (item) {
+    case FooterMenu.MenuItemType.languages:
+      menuItemTypeString = 'languages'
+      title = localizedStrings.menuLanguagesTitle
+      break
+    case FooterMenu.MenuItemType.lastEdited:
+      menuItemTypeString = 'lastEdited'
+      title = localizedStrings.menuLastEditedTitle
+      subtitle = localizedStrings.menuLastEditedSubtitle
+      break
+    case FooterMenu.MenuItemType.pageIssues:
+      menuItemTypeString = 'pageIssues'
+      title = localizedStrings.menuPageIssuesTitle
+      break
+    case FooterMenu.MenuItemType.disambiguation:
+      menuItemTypeString = 'disambiguation'
+      title = localizedStrings.menuDisambiguationTitle
+      break
+    case FooterMenu.MenuItemType.coordinate:
+      menuItemTypeString = 'coordinate'
+      title = localizedStrings.menuCoordinateTitle
+      break
+    case FooterMenu.MenuItemType.talkPage:
+      menuItemTypeString = 'talkPage'
+      title = localizedStrings.menuTalkPageTitle
+      break
+    default:
+    }
+    /**
+    * @param {!map} payload menu item payload
+    * @return {void}
+    */
+    const itemSelectionHandler = payload => { // TODO: interaction handling
+      console.log(menuItemTypeString + JSON.stringify(payload)) // eslint-disable-line no-console
+    }
+    FooterMenu.maybeAddItem(
+      title,
+      subtitle,
+      item,
+      'pagelib_footer_container_menu_items',
+      itemSelectionHandler,
+      document
+    )
+  })
+
+  if (hasReadMore) {
+    FooterReadMore.setHeading(
+      localizedStrings.readMoreHeading,
+      'pagelib_footer_container_readmore_heading',
+      document
+    )
+    /**
+    * @param {!string} title article title
+    * @return {void}
+    */
+    const saveButtonTapHandler = title => { } // TODO: interaction handling
+    /**
+    * @param {!list} titles article titles
+    * @return {void}
+    */
+    const titlesShownHandler = titles => { } // TODO: interaction handling
+    FooterReadMore.add(
+      articleTitle,
+      readMoreItemCount,
+      'pagelib_footer_container_readmore_pages',
+      null,
+      saveButtonTapHandler,
+      titlesShownHandler,
+      document
+    )
+  }
+
+  /**
+  * @return {void}
+  */
+  const licenseLinkClickHandler = () => { } // TODO: interaction handling
+  /**
+  * @return {void}
+  */
+  const viewInBrowserLinkClickHandler =  { } // TODO: interaction handling
+  FooterLegal.add(
+    document,
+    localizedStrings.licenseString,
+    localizedStrings.licenseSubstitutionString,
+    'pagelib_footer_container_legal',
+    licenseLinkClickHandler,
+    localizedStrings.viewInBrowserString,
+    viewInBrowserLinkClickHandler
+  )
+}
+
+/**
  * Gets the Scroller object. Just for testing!
  * @return {{setScrollTop, scrollWithDecorOffset}}
  */
@@ -162,6 +289,7 @@ export default {
   setMargins,
   setScrollTop,
   setTextSizeAdjustmentPercentage,
+  addFooter,
   testing: {
     getScroller
   }

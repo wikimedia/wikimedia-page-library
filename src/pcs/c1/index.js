@@ -1,3 +1,4 @@
+import Footer from './Footer'
 import PageMods from './PageMods'
 import Platforms from './Platforms'
 import Scroller from './Scroller'
@@ -7,5 +8,6 @@ export default {
   Platforms,
   PageMods,
   Scroller,
-  Themes
+  Themes,
+  Footer
 }
