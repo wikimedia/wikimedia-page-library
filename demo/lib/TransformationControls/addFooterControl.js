@@ -6,7 +6,6 @@ const { expandIframeHeight } = util
 const addFooterContainer = (iframeWindow, iframeDocument) => {
   const containerFragment = iframeWindow.pagelib.FooterContainer.containerFragment(iframeDocument)
   iframeDocument.body.appendChild(containerFragment)
-  iframeWindow.pagelib.FooterContainer.updateLeftAndRightMargin(16, iframeDocument)
 }
 
 const addFooterMenu = (iframeWindow, iframeDocument) => {
