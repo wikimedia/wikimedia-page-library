@@ -1,13 +1,5 @@
-.pagelib_footer_container {
-}
-
-.pagelib_theme_dark .pagelib_footer_container {
-}
-
-.pagelib_theme_sepia .pagelib_footer_container {
-}
-
-.pagelib_theme_black .pagelib_footer_container {
+.pagelib_footer_section {
+  padding-bottom: 1.5em;
 }
 
 .pagelib_footer_container_heading {
@@ -26,7 +18,6 @@
 }
 
 #pagelib_footer_container_menu_heading {
-  margin-bottom: 10px;
 }
 
 #pagelib_footer_container_menu_items {
@@ -34,7 +25,6 @@
   display: table;
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 1em;
 }
 
 .pagelib_theme_dark #pagelib_footer_container_menu_items,
