@@ -1,17 +1,13 @@
 .pagelib_footer_container {
-  background-color: #eaecf0;
 }
 
 .pagelib_theme_dark .pagelib_footer_container {
-  background-color: #222;
 }
 
 .pagelib_theme_sepia .pagelib_footer_container {
-  background-color: #e1dad1;
 }
 
 .pagelib_theme_black .pagelib_footer_container {
-  background-color: #101418;
 }
 
 .pagelib_footer_container_heading {
