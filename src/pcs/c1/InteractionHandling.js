@@ -133,28 +133,12 @@ const postMessageForImagePlaceholderWithTarget = innerPlaceholderSpan => {
 }
 
 /**
- * Use "X", "Y", "Width" and "Height" keys so we can use CGRectMakeWithDictionaryRepresentation in
- * native land to convert to CGRect.
- * @param  {!ReferenceItem} referenceItem
- * @return {void}
- */
-const reformatReferenceItemRectToBridgeToCGRect = referenceItem => {
-  referenceItem.rect = {
-    X: referenceItem.rect.left,
-    Y: referenceItem.rect.top,
-    Width: referenceItem.rect.width,
-    Height: referenceItem.rect.height
-  }
-}
-
-/**
  * Posts a message for a reference click.
  * @param {!Element} target an anchor element
  * @return {void}
  */
 const postMessageForReferenceWithTarget = target => {
   const nearbyReferences = ReferenceCollection.collectNearbyReferences(document, target)
-  nearbyReferences.referencesGroup.forEach(reformatReferenceItemRectToBridgeToCGRect)
   postMessage(new Interaction(Actions.ReferenceClicked, nearbyReferences))
 }
 
