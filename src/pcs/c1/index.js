@@ -1,3 +1,4 @@
+import InteractionHandling from './InteractionHandling'
 import Footer from './Footer'
 import PageMods from './PageMods'
 import Platforms from './Platforms'
@@ -7,6 +8,7 @@ import Themes from './Themes'
 
 export default {
   Footer,
+  InteractionHandling,
   Platforms,
   PageMods,
   Scroller,
