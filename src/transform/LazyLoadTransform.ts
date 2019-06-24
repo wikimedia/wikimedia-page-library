@@ -14,6 +14,15 @@ const PLACEHOLDER_ERROR_CLASS = 'pagelib_lazy_load_placeholder_error' // Downloa
 const IMAGE_LOADING_CLASS = 'pagelib_lazy_load_image_loading' // Download started.
 const IMAGE_LOADED_CLASS = 'pagelib_lazy_load_image_loaded' // Download completed.
 
+const CLASSES = {
+  PLACEHOLDER_CLASS,
+  PLACEHOLDER_PENDING_CLASS,
+  PLACEHOLDER_LOADING_CLASS,
+  PLACEHOLDER_ERROR_CLASS,
+  IMAGE_LOADING_CLASS,
+  IMAGE_LOADED_CLASS
+}
+
 // Attributes copied from images to placeholders via data-* attributes for later restoration. The
 // image's classes and dimensions are also set on the placeholder.
 // The 3 data-* items are used by iOS.
@@ -165,6 +174,7 @@ const loadPlaceholder = (document: Document, placeholder: HTMLSpanElement): HTML
 }
 
 export default {
+  CLASSES,
   PLACEHOLDER_CLASS,
   queryLazyLoadableImages,
   convertImagesToPlaceholders,

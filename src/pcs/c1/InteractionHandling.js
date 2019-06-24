@@ -1,4 +1,5 @@
 import CollapseTable from '../../transform/CollapseTable'
+import LazyLoadTransform from '../../transform/LazyLoadTransform'
 import ReferenceCollection from '../../transform/ReferenceCollection'
 
 /**
@@ -64,11 +65,15 @@ class ClickedItem {
     if (ReferenceCollection.isCitation(this.href)) {
       return ItemType.reference
     } else if (this.target.tagName === 'IMG'
-      && this.target.getAttribute('data-image-gallery') === 'true') {
+      && (this.target.classList.contains(LazyLoadTransform.CLASSES.IMAGE_LOADED_CLASS)
+          || this.target.classList.contains(LazyLoadTransform.CLASSES.IMAGE_LOADING_CLASS))
+      && (this.target.closest('figure') || this.target.closest('figure-inline'))
+    ) {
       return ItemType.image
     } else if (this.target.tagName === 'SPAN'
-      && this.target.parentElement.getAttribute('data-data-image-gallery')
-        === 'true') {
+      && this.target.classList.contains(LazyLoadTransform.CLASSES.PLACEHOLDER_CLASS)
+      && (this.target.closest('figure') || this.target.closest('figure-inline'))
+    ) {
       return ItemType.imagePlaceholder
     } else if (this.href) {
       return ItemType.link
