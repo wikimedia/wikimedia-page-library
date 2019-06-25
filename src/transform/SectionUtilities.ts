@@ -1,6 +1,6 @@
 /**
  * get Section Offsets object to handle quick scrolling in the table of contents
- * @param  {!HTMLBodyElement} body that needs the margins adjusted.
+ * @param  {!HTMLBodyElement} body HTML body element DOM object.
  * @return {!object} section offsets object
  */
 const getSectionOffsets = (body: HTMLBodyElement): object => {

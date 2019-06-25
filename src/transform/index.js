@@ -57,10 +57,10 @@ export default {
   // todo: rename RedLinkTransform.
   RedLinks,
   ReferenceCollection,
+  SectionUtilities,
   ThemeTransform,
   // todo: rename WidenImageTransform.
   WidenImage,
-  SectionUtilities,
   test: {
     ElementGeometry,
     ElementUtilities,
