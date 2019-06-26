@@ -246,7 +246,7 @@ const addFooter = (
       articleTitle,
       readMoreItemCount,
       'pagelib_footer_container_readmore_pages',
-      null,
+      'http://localhost:7231/en.wikipedia.org/v1',
       saveButtonTapHandler,
       titlesShownHandler,
       document
