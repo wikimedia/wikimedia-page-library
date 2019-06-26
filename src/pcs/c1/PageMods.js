@@ -154,18 +154,18 @@ const setTextSizeAdjustmentPercentage = (document, textSize, onSuccess) => {
  * @param  {!Document} document
  * @param  {!list} articleTitle article title for related pages
  * @param  {!string} menuItems menu items to add
- * @param  {!boolean} hasReadMore whether or not to add read more section
- * @param  {!number} readMoreItemCount number of read more items to add
  * @param  {!map} localizedStrings localized strings
+ * @param  {!number} readMoreItemCount number of read more items to add
+ * @param  {!string} readMoreBaseURL base url for restbase to fetch read more
  * @return {void}
  */
 const addFooter = (
   document,
   articleTitle,
   menuItems,
-  hasReadMore,
+  localizedStrings,
   readMoreItemCount,
-  localizedStrings
+  readMoreBaseURL
 ) => {
   // Add container
   if (FooterContainer.isContainerAttached(document) === false) {
@@ -226,7 +226,7 @@ const addFooter = (
     )
   })
 
-  if (hasReadMore) {
+  if (readMoreItemCount && readMoreItemCount > 0) {
     FooterReadMore.setHeading(
       localizedStrings.readMoreHeading,
       'pagelib_footer_container_readmore_heading',
@@ -246,7 +246,7 @@ const addFooter = (
       articleTitle,
       readMoreItemCount,
       'pagelib_footer_container_readmore_pages',
-      'http://localhost:7231/en.wikipedia.org/v1',
+      readMoreBaseURL,
       saveButtonTapHandler,
       titlesShownHandler,
       document
