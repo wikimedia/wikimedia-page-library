@@ -161,21 +161,6 @@ class NearbyReferences {
 }
 
 /**
- * Container for nearby references including the index of the selected reference.
- */
-class NearbyReferencesV2 {
-/**
- * @param {!number} selectedIndex
- * @param {!Array.<ReferenceItemV2>} referencesGroup
- * @return {!NearbyReferencesV2}
- */
-  constructor(selectedIndex, referencesGroup) {
-    this.selectedIndex = selectedIndex
-    this.referencesGroup = referencesGroup
-  }
-}
-
-/**
  * Closure around a node for getting previous or next sibling.
  *
  * @typedef SiblingGetter
@@ -270,19 +255,19 @@ const collectNearbyReferences = (document, sourceNode) => {
  * Collect nearby references.
  * @param {!Document} document
  * @param {!Node} sourceNode
- * @return {!NearbyReferencesV2}
+ * @return {!NearbyReferences}
  */
-const collectNearbyReferencesV2 = (document, sourceNode) => {
+const collectNearbyReferencesAsText = (document, sourceNode) => {
   const sourceNodeParent = sourceNode.parentElement
   const referenceNodes = collectNearbyReferenceNodes(sourceNodeParent)
   const selectedIndex = referenceNodes.indexOf(sourceNodeParent)
   const referencesGroup = referenceNodes.map(node => referenceItemForNodeV2(document, node))
-  return new NearbyReferencesV2(selectedIndex, referencesGroup)
+  return new NearbyReferences(selectedIndex, referencesGroup)
 }
 
 export default {
   collectNearbyReferences,
-  collectNearbyReferencesV2,
+  collectNearbyReferencesAsText,
   isCitation,
   test: {
     adjacentNonWhitespaceNode,
