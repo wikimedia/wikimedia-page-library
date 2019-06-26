@@ -80,7 +80,7 @@ describe('ReferenceCollection', () => {
     })
   })
 
-  describe('.collectNearbyReferencesV2()', () => {
+  describe('.collectNearbyReferencesAsText()', () => {
     it('collects expected references group and selected index', () => {
 
       const MOCK_RECT = { top: 0, left: 1, width: 2, height: 3 }
@@ -90,7 +90,8 @@ describe('ReferenceCollection', () => {
       domino.impl.Element.prototype.getBoundingClientRect = () => MOCK_RECT
 
       const secondAnchor = document.querySelector('#a2')
-      const nearbyReferences = ReferenceCollection.collectNearbyReferencesV2(document, secondAnchor)
+      const nearbyReferences =
+        ReferenceCollection.collectNearbyReferencesAsText(document, secondAnchor)
 
       assert.strictEqual(nearbyReferences.selectedIndex, 1)
       assert.deepEqual(nearbyReferences.referencesGroup, [
