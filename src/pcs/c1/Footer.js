@@ -3,6 +3,20 @@ import FooterLegal from '../../transform/FooterLegal'
 import FooterMenu from '../../transform/FooterMenu'
 import FooterReadMore from '../../transform/FooterReadMore'
 
+let handlers
+
+/**
+ * Sets up the interaction handlers for the footer.
+ * @param {!{}} newHandlers an object with handlers for {
+ *   itemSelectionHandler, saveButtonTapHandler, titlesShownHandler, licenseLinkClickHandler,
+ *   viewInBrowserLinkClickHandler
+ * }
+ * @return {void}
+ */
+const _setupInteractionHandlers = newHandlers => {
+  handlers = newHandlers
+}
+
 /**
  * Adds footer to the end of the document
  * @param  {!Document} document
@@ -62,8 +76,10 @@ const add = (document, articleTitle, menuItems, localizedStrings, readMoreItemCo
      * @param {!map} payload menu item payload
      * @return {void}
      */
-    const itemSelectionHandler = payload => { // TODO: interaction handling
-      console.log(menuItemTypeString + JSON.stringify(payload)) // eslint-disable-line no-console
+    const itemSelectionHandler = payload => {
+      if (handlers) {
+        handlers.itemSelectionHandler(menuItemTypeString, payload)
+      }
     }
 
     FooterMenu.maybeAddItem(
@@ -88,14 +104,20 @@ const add = (document, articleTitle, menuItems, localizedStrings, readMoreItemCo
      * @return {void}
      */
     const saveButtonTapHandler = title => {
-    } // TODO: interaction handling
+      if (handlers) {
+        handlers.saveButtonTapHandler(title)
+      }
+    }
 
     /**
      * @param {!list} titles article titles
      * @return {void}
      */
     const titlesShownHandler = titles => {
-    } // TODO: interaction handling
+      if (handlers) {
+        handlers.titlesShownHandler(titles)
+      }
+    }
 
     FooterReadMore.add(
       articleTitle,
@@ -112,12 +134,19 @@ const add = (document, articleTitle, menuItems, localizedStrings, readMoreItemCo
    * @return {void}
    */
   const licenseLinkClickHandler = () => {
-  } // TODO: interaction handling
+    if (handlers) {
+      handlers.licenseLinkClickHandler()
+    }
+  }
 
   /**
    * @return {void}
    */
-  const viewInBrowserLinkClickHandler = {} // TODO: interaction handling
+  const viewInBrowserLinkClickHandler = () => {
+    if (handlers) {
+      handlers.viewInBrowserLinkClickHandler()
+    }
+  }
 
   FooterLegal.add(
     document,
@@ -146,5 +175,6 @@ const updateReadMoreSaveButtonForTitle = (document, title, text, isSaved) => {
 export default {
   MenuItemType: FooterMenu.MenuItemType,
   add,
-  updateReadMoreSaveButtonForTitle
+  updateReadMoreSaveButtonForTitle,
+  _setupInteractionHandlers // to be used internally only
 }
