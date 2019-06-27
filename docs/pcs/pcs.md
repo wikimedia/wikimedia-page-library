@@ -73,7 +73,7 @@ pagelib.c1.PageMods.setMulti(document, {
 )
 ```
 
-### setTheme()
+#### setTheme()
 Sets the theme. See possible values listed in `setMulti()`.
 
 Example:
@@ -81,7 +81,7 @@ Example:
 pagelib.c1.PageMods.setTheme(document, pagelib.c1.Themes.SEPIA)
 ```
 
-### setDimImages()
+#### setDimImages()
 Turns on or off dimming of images.
 
 Example:
@@ -89,7 +89,7 @@ Example:
 pagelib.c1.PageMods.setDimImages(document, true)
 ```
 
-### setMargins()
+#### setMargins()
 Sets the margins on the `<body>` tag.
 
 Example:
@@ -97,7 +97,7 @@ Example:
 pagelib.c1.PageMods.setMargins(document, { top: '128px', right: '32px', bottom: '16px', left: '32px' })
 ```
 
-### setScrollTop()
+#### setScrollTop()
 Sets the top-most vertical position to scroll to in pixel. Use this to adjust for any decor overlaying the top of the viewport. Default: 0
 
 Example:
@@ -105,15 +105,56 @@ Example:
 pagelib.c1.PageMods.setScrollTop(document, 64)
 ```
 
-## Sections
+### Sections
 A set of utilities to handle Sections properties.
 
-### getOffsets()
+#### getOffsets()
 Gets Section Offsets object to handle quick scrolling in the table of contents.
 
 Example:
 ```
 pagelib.c1.Sections.getOffsets(document)
+```
+
+### Footer
+
+#### add()
+Adds a footer to the page showing metadata of the page, like how many other languages it's available in, when it was last edited, links to history, talk pages, read more, view in browser, license text. 
+
+Example:
+```
+pagelib.c1.PageMods.addFooter(
+    document,
+    'Knight Lore',  // articleTitle
+    [pagelib.c1.Footer.MenuItemType.languages, pagelib.c1.Footer.MenuItemType.lastEdited, pagelib.c1.Footer.MenuItemType.pageIssues, pagelib.c1.Footer.MenuItemType.disambiguation, pagelib.c1.Footer.MenuItemType.talkPage],  // menuItems
+    { 
+        'readMoreHeading': 'Read more',
+        'menuDisambiguationTitle': 'Similar pages',
+        'menuLanguagesTitle': 'Available in 9 other languages',
+        'menuHeading': 'About this article',
+        'menuLastEditedSubtitle': 'Full edit history',
+        'menuLastEditedTitle': 'Edited today',
+        'licenseString': 'Content is available under $1 unless otherwise noted.',
+        'menuTalkPageTitle': 'View talk page',
+        'menuPageIssuesTitle': 'Page issues',
+        'viewInBrowserString': 'View article in browser',
+        'licenseSubstitutionString': 'CC BY-SA 3.0',
+        'menuCoordinateTitle': 'View on a map'
+     }, // localizedStrings
+     3,  // readMoreItemCount
+     'http://localhost:7231/en.wikipedia.org/v1' // baseUrl for getting ReadMore items
+)
+```
+
+`'http://localhost:7231/en.wikipedia.org/v1'` is for a local RESTBase instance.
+Production uses something like `'https://en.wikipedia.org/api/rest_v1'`.
+
+#### updateSaveButtonForTitle()
+The client is expected to call this function for every "Read more" title received.
+
+Example:
+```
+pagelib.c1.PageMods.updateSaveButtonForTitle(document, 'Mire Mare', 'Saved for later', true)
 ```
 
 
