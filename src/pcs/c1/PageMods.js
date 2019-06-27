@@ -272,6 +272,20 @@ const addFooter = (
   )
 }
 
+
+/**
+ * Updates save button text and bookmark icon for saved state.
+ * Safe to call even for titles for which there is not currently a 'Read more' item.
+ * @param {!Document} document
+ * @param {!string} title
+ * @param {!string} text
+ * @param {!boolean} isSaved
+ * @return {void}
+*/
+const updateSaveButtonForTitle = (document, title, text, isSaved) => {
+  FooterReadMore.updateSaveButtonForTitle(title, text, isSaved, document)
+}
+
 /**
  * Gets the Scroller object. Just for testing!
  * @return {{setScrollTop, scrollWithDecorOffset}}
@@ -282,6 +296,7 @@ const getScroller = () => Scroller
 document.addEventListener('DOMContentLoaded', () => onPageLoad(window, document))
 
 export default {
+  addFooter,
   onPageLoad,
   setMulti,
   setTheme,
@@ -289,7 +304,7 @@ export default {
   setMargins,
   setScrollTop,
   setTextSizeAdjustmentPercentage,
-  addFooter,
+  updateSaveButtonForTitle,
   testing: {
     getScroller
   }
