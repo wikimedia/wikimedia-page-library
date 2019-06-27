@@ -134,8 +134,8 @@ const add = (document, articleTitle, menuItems, localizedStrings, readMoreItemCo
  * Updates save button text and bookmark icon for saved state in 'Read more' items.
  * Safe to call even for titles for which there is not currently a 'Read more' item.
  * @param {!Document} document
- * @param {!string} title
- * @param {!string} text
+ * @param {!string} title read more entry title
+ * @param {!string} text label indicating saved state
  * @param {!boolean} isSaved
  * @return {void}
  */
