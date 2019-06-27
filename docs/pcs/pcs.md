@@ -149,12 +149,12 @@ pagelib.c1.PageMods.addFooter(
 `'http://localhost:7231/en.wikipedia.org/v1'` is for a local RESTBase instance.
 Production uses something like `'https://en.wikipedia.org/api/rest_v1'`.
 
-#### updateSaveButtonForTitle()
+#### updateReadMoreSaveButtonForTitle()
 The client is expected to call this function for every "Read more" title received.
 
 Example:
 ```
-pagelib.c1.PageMods.updateSaveButtonForTitle(document, 'Mire Mare', 'Saved for later', true)
+pagelib.c1.PageMods.updateReadMoreSaveButtonForTitle(document, 'Mire Mare', 'Saved for later', true)
 ```
 
 
