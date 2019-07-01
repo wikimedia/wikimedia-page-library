@@ -30,6 +30,7 @@ import Polyfill from './Polyfill'
 import RedLinks from './RedLinks'
 import ReferenceCollection from './ReferenceCollection'
 import Throttle from './Throttle'
+import SectionUtilities from './SectionUtilities'
 import WidenImage from './WidenImage'
 import './OrderedList.css'
 
@@ -56,6 +57,7 @@ export default {
   // todo: rename RedLinkTransform.
   RedLinks,
   ReferenceCollection,
+  SectionUtilities,
   ThemeTransform,
   // todo: rename WidenImageTransform.
   WidenImage,

@@ -105,5 +105,16 @@ Example:
 pagelib.c1.PageMods.setScrollTop(document, 64)
 ```
 
+## Sections
+A set of utilities to handle Sections properties.
+
+### getOffsets()
+Gets Section Offsets object to handle quick scrolling in the table of contents.
+
+Example:
+```
+pagelib.c1.Sections.getOffsets(document)
+```
+
 
 [Page Content Service]: https://www.mediawiki.org/wiki/Page_Content_Service
