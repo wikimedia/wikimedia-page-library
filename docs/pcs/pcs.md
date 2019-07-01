@@ -123,7 +123,7 @@ Adds a footer to the page showing metadata of the page, like how many other lang
 
 Example:
 ```
-pagelib.c1.PageMods.addFooter(
+pagelib.c1.Footer.add(
     document,
     'Knight Lore',  // articleTitle
     [pagelib.c1.Footer.MenuItemType.languages, pagelib.c1.Footer.MenuItemType.lastEdited, pagelib.c1.Footer.MenuItemType.pageIssues, pagelib.c1.Footer.MenuItemType.disambiguation, pagelib.c1.Footer.MenuItemType.talkPage],  // menuItems
@@ -154,7 +154,7 @@ The client is expected to call this function for every "Read more" title receive
 
 Example:
 ```
-pagelib.c1.PageMods.updateReadMoreSaveButtonForTitle(document, 'Mire Mare', 'Saved for later', true)
+pagelib.c1.Footer.updateReadMoreSaveButtonForTitle(document, 'Mire Mare', 'Saved for later', true)
 ```
 
 
