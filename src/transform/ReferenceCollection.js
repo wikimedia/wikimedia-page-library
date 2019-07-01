@@ -109,9 +109,9 @@ class ReferenceItem {
 /**
  * Reference item model.
  */
-class ReferenceItemV2 {
+class ReferenceLinkItem {
   /**
-   * ReferenceItemV2 construtor.
+   * ReferenceLinkItem construtor.
    * @param {!string} href
    * @param {?string} text
    */
@@ -135,12 +135,12 @@ const referenceItemForNode = (document, node) => new ReferenceItem(
 )
 
 /**
- * Converts node to ReferenceItemV2.
+ * Converts node to ReferenceLinkItem.
  * @param {!Document} document
  * @param {!Node} node
  * @return {!ReferenceItem}
  */
-const referenceItemForNodeV2 = (document, node) => new ReferenceItemV2(
+const referenceLinkItemForNode = (document, node) => new ReferenceLinkItem(
   node.querySelector('A').getAttribute('href'),
   node.textContent
 )
@@ -261,7 +261,7 @@ const collectNearbyReferencesAsText = (document, sourceNode) => {
   const sourceNodeParent = sourceNode.parentElement
   const referenceNodes = collectNearbyReferenceNodes(sourceNodeParent)
   const selectedIndex = referenceNodes.indexOf(sourceNodeParent)
-  const referencesGroup = referenceNodes.map(node => referenceItemForNodeV2(document, node))
+  const referencesGroup = referenceNodes.map(node => referenceLinkItemForNode(document, node))
   return new NearbyReferences(selectedIndex, referencesGroup)
 }
 
