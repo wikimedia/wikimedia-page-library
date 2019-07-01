@@ -6,24 +6,6 @@
   text-decoration: none;
 }
 
-.pagelib_footer_container_heading {
-}
-
-.pagelib_theme_sepia .pagelib_footer_container_heading {
-}
-
-.pagelib_theme_dark .pagelib_footer_container_heading {
-}
-
-.pagelib_theme_black .pagelib_footer_container_heading {
-}
-
-#pagelib_footer_container_readmore_pages {
-}
-
-#pagelib_footer_container_menu_heading {
-}
-
 #pagelib_footer_container_menu_items {
   background-color: #c8ccd1;
   display: table;
