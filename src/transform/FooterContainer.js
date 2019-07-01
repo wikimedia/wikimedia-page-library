@@ -11,14 +11,14 @@ const containerFragment = document => {
   menuSection.id = 'pagelib_footer_container_menu'
   menuSection.className = 'pagelib_footer_section'
   menuSection.innerHTML =
-  `<h2 id='pagelib_footer_container_menu_heading' class='pagelib_footer_container_heading'></h2>
+  `<h2 id='pagelib_footer_container_menu_heading'></h2>
    <div id='pagelib_footer_container_menu_items'></div>`
   containerFragment.appendChild(menuSection)
   const readMoreSection = document.createElement('section')
   readMoreSection.id = 'pagelib_footer_container_readmore'
   readMoreSection.className = 'pagelib_footer_section'
   readMoreSection.innerHTML =
-  `<h2 id='pagelib_footer_container_readmore_heading' class='pagelib_footer_container_heading'></h2>
+  `<h2 id='pagelib_footer_container_readmore_heading'></h2>
    <div id='pagelib_footer_container_readmore_pages'></div>`
   containerFragment.appendChild(readMoreSection)
   const legalSection = document.createElement('section')
