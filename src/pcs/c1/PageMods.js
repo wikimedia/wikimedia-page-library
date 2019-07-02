@@ -2,6 +2,7 @@ import AdjustTextSize from '../../transform/AdjustTextSize'
 import BodySpacingTransform from '../../transform/BodySpacingTransform'
 import CollapseTable from '../../transform/CollapseTable'
 import DimImagesTransform from '../../transform/DimImagesTransform'
+import L10N from './L10N'
 import LazyLoadTransformer from '../../transform/LazyLoadTransformer'
 import PlatformTransform from '../../transform/PlatformTransform'
 import Scroller from './Scroller'
@@ -34,7 +35,7 @@ const onPageLoad = (window, document) => {
  * during initial page load.
  * @param {!Document} document
  * @param {!{}} settings client settings
- *   { platform, clientVersion, theme, dimImages, margins, areTablesCollapsed, scrollTop,
+ *   { platform, clientVersion, l10n, theme, dimImages, margins, areTablesCollapsed, scrollTop,
  *   textSizeAdjustmentPercentage }
  * @param {?PageMods~Function} onSuccess callback
  * @return {void}
@@ -42,6 +43,9 @@ const onPageLoad = (window, document) => {
 const setMulti = (document, settings, onSuccess) => {
   if (settings.platform !== undefined) {
     PlatformTransform.setPlatform(document, settings.platform)
+  }
+  if (settings.l10n !== undefined) {
+    L10N.localizeLabels(document, settings.l10n)
   }
   if (settings.theme !== undefined) {
     ThemeTransform.setTheme(document, settings.theme)
