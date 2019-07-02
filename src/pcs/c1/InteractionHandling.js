@@ -1,4 +1,5 @@
 import CollapseTable from '../../transform/CollapseTable'
+import Footer from './Footer'
 import LazyLoadTransform from '../../transform/LazyLoadTransform'
 import ReferenceCollection from '../../transform/ReferenceCollection'
 
@@ -12,6 +13,11 @@ const Actions = {
   ReferenceClicked: 'reference_clicked',
   EditSection: 'edit_section',
   AddTitleDescription: 'add_title_description',
+  FooterItemSelected: 'footer_item_selected',
+  SaveOtherPage: 'save_other_page',
+  ShowReadMorePages: 'show_read_more_pages',
+  ViewLicense: 'view_license',
+  ViewInBrowser: 'view_in_browser',
 }
 
 let interactionHandler
@@ -209,6 +215,45 @@ const handleClickEvent = event => {
 }
 
 /**
+ * @param {!string} itemType type of footer menu item
+ * @param {!map} payload menu item payload
+ * @return {void}
+ */
+const itemSelectionHandler = (itemType, payload) => {
+  postMessage(new Interaction(Actions.FooterItemSelected, { itemType, payload }))
+}
+
+/**
+ * @param {!string} title page title
+ * @return {void}
+ */
+const saveButtonTapHandler = title => {
+  postMessage(new Interaction(Actions.SaveOtherPage, { title }))
+}
+
+/**
+ * @param {!list<string>} titles list of page titles
+ * @return {void}
+ */
+const titlesShownHandler = titles => {
+  postMessage(new Interaction(Actions.SaveOtherPage, { titles }))
+}
+
+/**
+ * @return {void}
+ */
+const licenseLinkClickHandler = () => {
+  postMessage(new Interaction(Actions.ViewLicense))
+}
+
+/**
+ * @return {void}
+ */
+const viewInBrowserLinkClickHandler = () => {
+  postMessage(new Interaction(Actions.ViewInBrowser))
+}
+
+/**
  * Sets the interaction handler function.
  * @param {~Function} myHandlerFunction a platform specific bridge function.
  * On iOS consider using something like:
@@ -221,6 +266,14 @@ const handleClickEvent = event => {
  */
 const setInteractionHandler = myHandlerFunction => {
   interactionHandler = myHandlerFunction
+
+  Footer._connectHandlers({
+    itemSelectionHandler,
+    saveButtonTapHandler,
+    titlesShownHandler,
+    licenseLinkClickHandler,
+    viewInBrowserLinkClickHandler
+  })
 
   // Associate our custom click handler logic with the document `click` event.
   document.addEventListener('click', event => {
