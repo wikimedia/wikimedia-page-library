@@ -13,6 +13,8 @@ const Actions = {
   ReferenceClicked: 'reference_clicked',
   EditSection: 'edit_section',
   AddTitleDescription: 'add_title_description',
+
+  /* Footer related actions: */
   FooterItemSelected: 'footer_item_selected',
   SaveOtherPage: 'save_other_page',
   ReadMoreTitlesRetrieved: 'read_more_titles_retrieved',
