@@ -15,7 +15,7 @@ const Actions = {
   AddTitleDescription: 'add_title_description',
   FooterItemSelected: 'footer_item_selected',
   SaveOtherPage: 'save_other_page',
-  ShowReadMorePages: 'show_read_more_pages',
+  ReadMoreTitlesRetrieved: 'read_more_titles_retrieved',
   ViewLicense: 'view_license',
   ViewInBrowser: 'view_in_browser',
 }
@@ -219,7 +219,7 @@ const handleClickEvent = event => {
  * @param {!map} payload menu item payload
  * @return {void}
  */
-const itemSelectionHandler = (itemType, payload) => {
+const footerItemSelected = (itemType, payload) => {
   postMessage(new Interaction(Actions.FooterItemSelected, { itemType, payload }))
 }
 
@@ -227,29 +227,29 @@ const itemSelectionHandler = (itemType, payload) => {
  * @param {!string} title page title
  * @return {void}
  */
-const saveButtonTapHandler = title => {
+const saveOtherPage = title => {
   postMessage(new Interaction(Actions.SaveOtherPage, { title }))
 }
 
 /**
- * @param {!list<string>} titles list of page titles
+ * @param {!list<string>} titles list of 'Read more' page titles
  * @return {void}
  */
-const titlesShownHandler = titles => {
-  postMessage(new Interaction(Actions.SaveOtherPage, { titles }))
+const titlesRetrieved = titles => {
+  postMessage(new Interaction(Actions.ReadMoreTitlesRetrieved, { titles }))
 }
 
 /**
  * @return {void}
  */
-const licenseLinkClickHandler = () => {
+const viewLicense = () => {
   postMessage(new Interaction(Actions.ViewLicense))
 }
 
 /**
  * @return {void}
  */
-const viewInBrowserLinkClickHandler = () => {
+const viewInBrowser = () => {
   postMessage(new Interaction(Actions.ViewInBrowser))
 }
 
@@ -268,11 +268,11 @@ const setInteractionHandler = myHandlerFunction => {
   interactionHandler = myHandlerFunction
 
   Footer._connectHandlers({
-    itemSelectionHandler,
-    saveButtonTapHandler,
-    titlesShownHandler,
-    licenseLinkClickHandler,
-    viewInBrowserLinkClickHandler
+    footerItemSelected,
+    saveOtherPage,
+    titlesRetrieved,
+    viewLicense,
+    viewInBrowser
   })
 
   // Associate our custom click handler logic with the document `click` event.
