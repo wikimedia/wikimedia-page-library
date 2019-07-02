@@ -107,6 +107,21 @@ class ReferenceItem {
 }
 
 /**
+ * Reference item model.
+ */
+class ReferenceLinkItem {
+  /**
+   * ReferenceLinkItem construtor.
+   * @param {!string} href
+   * @param {?string} text
+   */
+  constructor(href, text) {
+    this.href = href
+    this.text = text
+  }
+}
+
+/**
  * Converts node to ReferenceItem.
  * @param {!Document} document
  * @param {!Node} node
@@ -117,6 +132,17 @@ const referenceItemForNode = (document, node) => new ReferenceItem(
   node.getBoundingClientRect(),
   node.textContent,
   collectRefText(document, node)
+)
+
+/**
+ * Converts node to ReferenceLinkItem.
+ * @param {!Document} document
+ * @param {!Node} node
+ * @return {!ReferenceItem}
+ */
+const referenceLinkItemForNode = (document, node) => new ReferenceLinkItem(
+  node.querySelector('A').getAttribute('href'),
+  node.textContent
 )
 
 /**
@@ -225,8 +251,23 @@ const collectNearbyReferences = (document, sourceNode) => {
   return new NearbyReferences(selectedIndex, referencesGroup)
 }
 
+/**
+ * Collect nearby references.
+ * @param {!Document} document
+ * @param {!Node} sourceNode
+ * @return {!NearbyReferences}
+ */
+const collectNearbyReferencesAsText = (document, sourceNode) => {
+  const sourceNodeParent = sourceNode.parentElement
+  const referenceNodes = collectNearbyReferenceNodes(sourceNodeParent)
+  const selectedIndex = referenceNodes.indexOf(sourceNodeParent)
+  const referencesGroup = referenceNodes.map(node => referenceLinkItemForNode(document, node))
+  return new NearbyReferences(selectedIndex, referencesGroup)
+}
+
 export default {
   collectNearbyReferences,
+  collectNearbyReferencesAsText,
   isCitation,
   test: {
     adjacentNonWhitespaceNode,

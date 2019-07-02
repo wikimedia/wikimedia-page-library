@@ -14,6 +14,15 @@ const isAndroid = window => /android/i.test(window.navigator.userAgent)
 const isIOs = window => /ipad|iphone|ipod/i.test(window.navigator.userAgent)
 
 /**
+ * @param {!HTMLDocument} document
+ * @param {!string} platform one of the values in CLASS
+ * @return {void}
+ */
+const setPlatform = (document, platform) => {
+  document.querySelector('html').classList.add(platform)
+}
+
+/**
  * @param {!Window} window
  * @return {void}
  */
@@ -25,5 +34,6 @@ const classify = window => {
 
 export default {
   CLASS,
-  classify
+  classify,
+  setPlatform
 }

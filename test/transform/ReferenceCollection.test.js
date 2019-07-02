@@ -79,6 +79,35 @@ describe('ReferenceCollection', () => {
       ])
     })
   })
+
+  describe('.collectNearbyReferencesAsText()', () => {
+    it('collects expected references group and selected index', () => {
+
+      const MOCK_RECT = { top: 0, left: 1, width: 2, height: 3 }
+
+      // Domino doesn't implement 'getBoundingClientRect' so
+      // backfill it for testing methods which call it.
+      domino.impl.Element.prototype.getBoundingClientRect = () => MOCK_RECT
+
+      const secondAnchor = document.querySelector('#a2')
+      const nearbyReferences =
+        ReferenceCollection.collectNearbyReferencesAsText(document, secondAnchor)
+
+      assert.strictEqual(nearbyReferences.selectedIndex, 1)
+      assert.deepEqual(nearbyReferences.referencesGroup, [
+        { href: '#cite_note-a',
+          text: '[4]' },
+        { href: '#cite_note-b',
+          text: '[6]' },
+        { href: '#cite_note-c',
+          text: '[7]' },
+        { href: '#cite_note-d',
+          text: '[8]' }
+
+      ])
+    })
+  })
+
   describe('.isCitation()', () => {
     const isCitation = ReferenceCollection.isCitation
     it('identifies citations', () => {

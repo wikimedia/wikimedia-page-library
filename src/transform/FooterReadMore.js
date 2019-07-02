@@ -158,9 +158,9 @@ const showReadMorePages = (pages, containerID, saveButtonClickHandler, titlesSho
   const shownTitles = []
   const container = document.getElementById(containerID)
   pages.forEach((page, index) => {
-    const title = page.title.replace(/ /g, '_')
+    const title = page.titles.normalized
     shownTitles.push(title)
-    const pageModel = new ReadMorePage(title, page.pageprops.displaytitle, page.thumbnail,
+    const pageModel = new ReadMorePage(title, page.titles.display, page.thumbnail,
       page.description, page.extract)
     const pageFragment =
       documentFragmentForReadMorePage(pageModel, index, saveButtonClickHandler, document)
@@ -168,48 +168,6 @@ const showReadMorePages = (pages, containerID, saveButtonClickHandler, titlesSho
   })
   titlesShownHandler(shownTitles)
 }
-
-/**
- * Makes 'Read more' query parameters object for a title.
- * @param {!string} title
- * @param {!number} count
- * @return {!Object.<string, string|number>}
- */
-const queryParameters = (title, count) => ({
-  action: 'query',
-  format: 'json',
-  formatversion: 2,
-  prop: 'extracts|pageimages|description|pageprops',
-
-  // https://www.mediawiki.org/wiki/API:Search
-  // https://www.mediawiki.org/wiki/Help:CirrusSearch
-  generator: 'search',
-  gsrlimit: count, // Limit search results by count.
-  gsrprop: 'redirecttitle', // Include a a parsed snippet of the redirect title property.
-  gsrsearch: `morelike:${title}`, // Weight search with the title.
-  gsrwhat: 'text', // Search the text then titles of pages.
-
-  // https://www.mediawiki.org/wiki/Extension:TextExtracts
-  exchars: 256, // Limit number of characters returned.
-  exintro: '', // Only content before the first section.
-  exlimit: count, // Limit extract results by count.
-  explaintext: '', // Strip HTML.
-
-  // https://www.mediawiki.org/wiki/Extension:PageImages
-  pilicense: 'any', // Include non-free images.
-  pilimit: count, // Limit thumbnail results by count.
-  piprop: 'thumbnail', // Include URL and dimensions of thumbnail.
-  pithumbsize: 120 // Limit thumbnail dimensions.
-})
-
-/**
- * Converts query parameter object to string.
- * @param {!Object.<string, string|number>} parameters
- * @return {!string}
- */
-const stringFromQueryParameters = parameters => Object.keys(parameters)
-  .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(parameters[key])}`)
-  .join('&')
 
 /**
  * URL for retrieving 'Read more' pages for a given title.
@@ -220,7 +178,7 @@ const stringFromQueryParameters = parameters => Object.keys(parameters)
  * @return {!string}
  */
 const readMoreQueryURL = (title, count, baseURL) =>
-  `${baseURL || ''}/w/api.php?${stringFromQueryParameters(queryParameters(title, count))}`
+  `${baseURL || ''}/page/related/${title}`
 
 /**
  * Fetch error handler.
@@ -251,8 +209,16 @@ const fetchReadMore = (title, count, containerID, baseURL, showReadMorePagesHand
   xhr.onload = () => {
     if (xhr.readyState === XMLHttpRequest.DONE) { // eslint-disable-line no-undef
       if (xhr.status === 200) {
+        const pages = JSON.parse(xhr.responseText).pages
+        let results
+        if (pages.length > count) {
+          const rand = Math.floor(Math.random() * Math.floor(pages.length - count))
+          results = pages.slice(rand, rand + count)
+        } else {
+          results = pages
+        }
         showReadMorePagesHandler(
-          JSON.parse(xhr.responseText).query.pages,
+          results,
           containerID,
           saveButtonClickHandler,
           titlesShownHandler,

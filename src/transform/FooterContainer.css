@@ -1,43 +1,9 @@
-.pagelib_footer_container {
-  background-color: #eaecf0;
+.pagelib_footer_section {
+  padding-bottom: 1.5em;
 }
 
-.pagelib_theme_dark .pagelib_footer_container {
-  background-color: #222;
-}
-
-.pagelib_theme_sepia .pagelib_footer_container {
-  background-color: #e1dad1;
-}
-
-.pagelib_theme_black .pagelib_footer_container {
-  background-color: #101418;
-}
-
-.pagelib_footer_container_heading {
-  padding-top: 35px;
-  font-size: 0.8em;
-  line-height: 0.8em;
-  color: #72777D;
-}
-
-.pagelib_theme_sepia .pagelib_footer_container_heading {
-  color: #646059;
-}
-
-.pagelib_theme_dark .pagelib_footer_container_heading {
-  color: #C8CCD1;
-}
-
-.pagelib_theme_black .pagelib_footer_container_heading {
-  color: #F8F9FA;
-}
-
-#pagelib_footer_container_readmore_pages {
-}
-
-#pagelib_footer_container_menu_heading {
-  margin-bottom: 10px;
+.pagelib_footer_section a:hover {
+  text-decoration: none;
 }
 
 #pagelib_footer_container_menu_items {

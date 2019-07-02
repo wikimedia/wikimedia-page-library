@@ -108,8 +108,9 @@ const extractEligibleHeaderText = (document, header, pageTitle) => {
   fragment.appendChild(header.cloneNode(true))
   const fragmentHeader = fragment.querySelector('th')
 
-  Polyfill.querySelectorAll(fragmentHeader, '.geo, .coordinates, sup.reference, ol, ul')
-    .forEach(el => el.remove())
+  Polyfill.querySelectorAll(
+    fragmentHeader, '.geo, .coordinates, sup.reference, ol, ul, style, script'
+  ).forEach(el => el.remove())
 
   const childNodesArray = Array.prototype.slice.call(fragmentHeader.childNodes)
   if (pageTitle) {
@@ -410,6 +411,17 @@ const prepareTables = (document, pageTitle, infoboxTitle, otherTitle, footerTitl
 }
 
 /**
+ * @param {!Element} container root element to search from
+ * @return {void}
+ */
+const toggleCollapsedForAll = container => {
+  const containerDivs = Polyfill.querySelectorAll(container, `.${CLASS.CONTAINER}`)
+  containerDivs.forEach(containerDiv => {
+    toggleCollapsedForContainer(containerDiv)
+  })
+}
+
+/**
  * @param {!Window} window
  * @param {!Element} container root element to search from
  * @param {?boolean} isInitiallyCollapsed
@@ -443,10 +455,7 @@ const setupEventHandling = (window, container, isInitiallyCollapsed, footerDivCl
   })
 
   if (!isInitiallyCollapsed) {
-    const containerDivs = Polyfill.querySelectorAll(container, `.${CLASS.CONTAINER}`)
-    containerDivs.forEach(containerDiv => {
-      toggleCollapsedForContainer(containerDiv)
-    })
+    toggleCollapsedForAll(container)
   }
 }
 
@@ -513,6 +522,7 @@ const expandCollapsedTableIfItContainsElement = element => {
 
 export default {
   SECTION_TOGGLED_EVENT_TYPE,
+  toggleCollapsedForAll,
   toggleCollapseClickCallback,
   collapseTables,
   adjustTables,

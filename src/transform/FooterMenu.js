@@ -160,7 +160,7 @@ const maybeAddItem = (title, subtitle, itemType, containerID, clickHandler, docu
   // Items are not added if they have a payload extractor which fails to extract anything.
   const extractor = item.payloadExtractor()
   if (extractor) {
-    item.payload = extractor(document, document.querySelector('div#content_block_0'))
+    item.payload = extractor(document, document.querySelector('section[data-mw-section-id="0"]'))
     if (item.payload.length === 0) {
       return
     }
