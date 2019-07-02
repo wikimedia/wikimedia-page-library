@@ -1,3 +1,9 @@
+### v8.0.0
+- Breaking: footer implementation used by iOS app removed a couple of public functions
+- New: PCS: footer functionality
+- New: PCS: get offsets for sections
+- New: Collect references item which contain only href and text
+
 ### v7.2.0
 - Fix: republish v7.1.0 which didn't "take" correctly
 
