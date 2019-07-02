@@ -157,5 +157,43 @@ Example:
 pagelib.c1.Footer.updateReadMoreSaveButtonForTitle(document, 'Mire Mare', 'Saved for later', true)
 ```
 
+### InteractionHandling
+
+#### setInteractionHandler()
+Sets up callbacks for select events originating from the WebView.
+
+Example for testing:
+```
+pagelib.c1.InteractionHandling.setInteractionHandler((interaction) => { console.log(JSON.stringify(interaction)) })
+```
+
+iOS: 
+```
+pagelib.c1.InteractionHandling.setInteractionHandler((interaction) => { window.webkit.messageHandlers.interaction.postMessage(interaction) })
+```
+
+Android:
+```
+pagelib.c1.InteractionHandling.setInteractionHandler((interaction) => { window.InteractionWebInterface.post(interaction) })
+```
+
+Currently the following actions can be emitted:
+```
+const Actions = {
+  LinkClicked
+  ImageClicked,
+  ReferenceClicked,
+  EditSection,
+  AddTitleDescription,
+  
+  /* Footer related actions: */
+  FooterItemSelected,
+  SaveOtherPage,
+  ReadMoreTitlesRetrieved,
+  ViewLicense,
+  ViewInBrowser,
+}
+```
+
 
 [Page Content Service]: https://www.mediawiki.org/wiki/Page_Content_Service
