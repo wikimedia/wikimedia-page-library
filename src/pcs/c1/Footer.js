@@ -13,7 +13,7 @@ let handlers
  * }
  * @return {void}
  */
-const _setupInteractionHandlers = newHandlers => {
+const _connectHandlers = newHandlers => {
   handlers = newHandlers
 }
 
@@ -176,5 +176,5 @@ export default {
   MenuItemType: FooterMenu.MenuItemType,
   add,
   updateReadMoreSaveButtonForTitle,
-  _setupInteractionHandlers // to be used internally only
+  _connectHandlers // to be used internally only
 }
