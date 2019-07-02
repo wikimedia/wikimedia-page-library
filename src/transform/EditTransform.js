@@ -151,8 +151,7 @@ const newEditLeadSectionHeader = (document, pageDisplayTitle, titleDescription,
 
 export default {
   CLASS,
-  ACTION_ADD_TITLE_DESCRIPTION,
-  DATA_ATTRIBUTE,
+  ADD_TITLE_DESCRIPTION: IDS.ADD_TITLE_DESCRIPTION,
   newEditSectionButton,
   newEditSectionHeader,
   newEditLeadSectionHeader

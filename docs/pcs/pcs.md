@@ -51,26 +51,29 @@ Combination of the following calls, changing multiple settings in one single cal
 Setting parameter object fields:
 - platform: possible values in pagelib.c1.Platforms: [IOS, ANDROID] 
 - clientVersion: string of client version (platform specific)
+- l10n: object of localized user visible strings: { addTitleDescription }
 - theme: possible values in pagelib.c1.Themes: [DEFAULT, SEPIA, DARK, BLACK]
 - dimImages: boolean
 - margins: object with { top, right, bottom, left }
 - areTablesCollapsed: boolean
 - scrollTop: number of pixel for highest position to scroll to. Use this to adjust for any decor overlaying the viewport.
 
-(The first three field don't have any equivalent separate call since those don't make sense to change after the fact.)
+(The first three fields don't have any equivalent separate call since those don't make sense to change after the fact.)
 
 Example:
 ```
 pagelib.c1.PageMods.setMulti(document, {
   platform: pagelib.c1.Platforms.IOS,
   clientVersion: '6.2.1',
+  l10n: { 
+    addTitleDescription: 'Titelbeschreibung bearbeiten',
+  },
   theme: pagelib.c1.Themes.SEPIA,
   dimImages: true,
   margins: { top: '32px', right: '32px', bottom: '32px', left: '32px' },
   areTablesCollapsed: true,
   scrollTop: 64
-  }, () => { alert('success') }
-)
+})
 ```
 
 #### setTheme()
