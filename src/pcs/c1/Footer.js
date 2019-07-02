@@ -8,8 +8,7 @@ let handlers
 /**
  * Sets up the interaction handlers for the footer.
  * @param {!{}} newHandlers an object with handlers for {
- *   itemSelectionHandler, saveButtonTapHandler, titlesShownHandler, licenseLinkClickHandler,
- *   viewInBrowserLinkClickHandler
+ *   titlesRetrieved, footerItemSelected, saveOtherPage, viewLicense, viewInBrowser
  * }
  * @return {void}
  */
@@ -78,7 +77,7 @@ const add = (document, articleTitle, menuItems, localizedStrings, readMoreItemCo
      */
     const itemSelectionHandler = payload => {
       if (handlers) {
-        handlers.itemSelectionHandler(menuItemTypeString, payload)
+        handlers.footerItemSelected(menuItemTypeString, payload)
       }
     }
 
@@ -105,7 +104,7 @@ const add = (document, articleTitle, menuItems, localizedStrings, readMoreItemCo
      */
     const saveButtonTapHandler = title => {
       if (handlers) {
-        handlers.saveButtonTapHandler(title)
+        handlers.saveOtherPage(title)
       }
     }
 
@@ -115,7 +114,7 @@ const add = (document, articleTitle, menuItems, localizedStrings, readMoreItemCo
      */
     const titlesShownHandler = titles => {
       if (handlers) {
-        handlers.titlesShownHandler(titles)
+        handlers.titlesRetrieved(titles)
       }
     }
 
@@ -135,7 +134,7 @@ const add = (document, articleTitle, menuItems, localizedStrings, readMoreItemCo
    */
   const licenseLinkClickHandler = () => {
     if (handlers) {
-      handlers.licenseLinkClickHandler()
+      handlers.viewLicense()
     }
   }
 
@@ -144,7 +143,7 @@ const add = (document, articleTitle, menuItems, localizedStrings, readMoreItemCo
    */
   const viewInBrowserLinkClickHandler = () => {
     if (handlers) {
-      handlers.viewInBrowserLinkClickHandler()
+      handlers.viewInBrowser()
     }
   }
 
