@@ -1,5 +1,5 @@
-import InteractionHandling from './InteractionHandling'
 import Footer from './Footer'
+import InteractionHandling from './InteractionHandling'
 import PageMods from './PageMods'
 import Platforms from './Platforms'
 import Scroller from './Scroller'
