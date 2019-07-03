@@ -93,7 +93,8 @@ const classifyElements = element => {
     '.PieChartTemplate div',
     '.BarChartTemplate div',
     '.StackedBarTemplate td',
-    '.chess-board div'
+    '.chess-board div',
+    'span[style*="background"]'
   ].join()
   Polyfill.querySelectorAll(element, selector).forEach(element =>
     element.classList.add(CONSTRAINT.DIV_DO_NOT_APPLY_BASELINE))

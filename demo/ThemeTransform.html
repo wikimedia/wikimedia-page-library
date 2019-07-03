@@ -148,7 +148,6 @@ const addArticleTitles = articleRefs => {
 
 const DEMO_ARTICLES_PATH = './DemoArticles/'
 const DEMO_ARTICLES_INDEX_PATH = `${DEMO_ARTICLES_PATH}articles.json`
-const DEMO_ARTICLES_DATA_PATH = `${DEMO_ARTICLES_PATH}data/`
 
 /**
  * Promises for fetching article section JSON arrays from local data files for ArticleRefs.
@@ -156,7 +155,7 @@ const DEMO_ARTICLES_DATA_PATH = `${DEMO_ARTICLES_PATH}data/`
  * @return {!Array<Promise>}
  */
 const fetchSectionsJSONForArticleRefs = articleRefs =>
-  articleRefs.map(articleRef => articleRef.fetchSectionsJSON(DEMO_ARTICLES_DATA_PATH))
+  articleRefs.map(articleRef => articleRef.fetchSectionsJSON())
 
 /**
  * Attaches anchor elements to the menu.

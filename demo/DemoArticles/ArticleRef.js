@@ -135,14 +135,14 @@ class ArticleRef {
    * @param {!string} dataFilePath
    * @return {!Promise}
    */
-  fetchSectionsJSON(dataFilePath) {
-    return fetch(`${dataFilePath}${this.fileName()}`)
+  fetchSectionsJSON() {
+    return fetch(`${DEMO_ARTICLES_DATA_PATH}${this.fileName()}`)
       .then(resp => resp.json())
       .then(json => this.sectionsArrayFromJSON(json))
   }
 
-  fetchPageText(dataFilePath) {
-    return fetch(`${dataFilePath}${this.fileName()}`)
+  fetchPageText() {
+    return fetch(`${DEMO_ARTICLES_DATA_PATH}${this.fileName()}`)
       .then(resp => resp.text())
   }
 

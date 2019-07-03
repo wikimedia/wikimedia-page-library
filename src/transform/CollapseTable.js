@@ -315,6 +315,54 @@ const newCaptionFragment = (document, title, titleClass, headerText) => {
 }
 
 /**
+ * @param {!Node} node - node to test
+ * @return {boolean} true if this is a node that represents a MediaWiki section
+ */
+const isMediaWikiSectionNode = node => {
+  // mobile-html output has `data-mw-section-id` attributes on section tags
+  if (node.tagName === 'SECTION' && node.attributes && node.attributes['data-mw-section-id']) {
+    return true
+  }
+  // The iOS app wraps MobileView sections with a div with the `content_block` class
+  // This should be removed after the iOS app switches to mobile-html
+  if (node.tagName === 'DIV' && node.classList && node.classList.contains('content_block')) {
+    return true
+  }
+  return false
+}
+
+/**
+ * @param {!Node} nodeToReplace
+ * @param {!Node} replacementNode
+ * @return {void}
+ */
+const replaceNodeInSection = (nodeToReplace, replacementNode) => {
+  if (!nodeToReplace || !replacementNode) {
+    return
+  }
+  let childOfSectionTag = nodeToReplace
+  let sectionTag = nodeToReplace.parentNode
+  if (!sectionTag) {
+    return
+  }
+  let foundSectionTag = false
+  while (sectionTag) {
+    if (isMediaWikiSectionNode(sectionTag)) {
+      foundSectionTag = true
+      break
+    }
+    childOfSectionTag = sectionTag
+    sectionTag = sectionTag.parentNode
+  }
+  if (!foundSectionTag) {
+    childOfSectionTag = nodeToReplace
+    sectionTag = nodeToReplace.parentNode
+  }
+  sectionTag.insertBefore(replacementNode, childOfSectionTag)
+  sectionTag.removeChild(childOfSectionTag)
+}
+
+/**
  * @param {!Document} document
  * @param {?string} pageTitle use title for this not `display title` (which can contain tags)
  * @param {?string} infoboxTitle
@@ -347,8 +395,7 @@ const prepareTables = (document, pageTitle, infoboxTitle, otherTitle, footerTitl
     // and the collapsed version.
     const containerDiv = document.createElement('div')
     containerDiv.className = CLASS.CONTAINER
-    table.parentNode.insertBefore(containerDiv, table)
-    table.parentNode.removeChild(table)
+    replaceNodeInSection(table, containerDiv)
 
     // remove top and bottom margin from the table, so that it's flush with
     // our expand/collapse buttons
