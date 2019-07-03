@@ -15,6 +15,8 @@ const CLASS = {
   COLLAPSED_BOTTOM: 'pagelib_collapse_table_collapsed_bottom',
   COLLAPSE_TEXT: 'pagelib_collapse_table_collapse_text',
   EXPANDED: 'pagelib_collapse_table_expanded',
+  TABLE_INFOBOX: 'pagelib_table_infobox',
+  TABLE_OTHER: 'pagelib_table_other'
 }
 
 /**
@@ -284,14 +286,16 @@ const newCollapsedFooterDiv = (document, content) => {
 /**
  * @param {!Document} document
  * @param {!string} title
+ * @param {!string} titleClass
  * @param {!Array.<string>} headerText
  * @return {!DocumentFragment}
  */
-const newCaptionFragment = (document, title, headerText) => {
+const newCaptionFragment = (document, title, titleClass, headerText) => {
   const fragment = document.createDocumentFragment()
 
   const strong = document.createElement('strong')
   strong.innerHTML = title
+  strong.classList.add(titleClass)
   fragment.appendChild(strong)
 
   const span = document.createElement('span')
@@ -381,7 +385,11 @@ const prepareTables = (document, pageTitle, infoboxTitle, otherTitle, footerTitl
       continue
     }
     const captionFragment =
-      newCaptionFragment(document, isInfobox(table) ? infoboxTitle : otherTitle, headerTextArray)
+      newCaptionFragment(
+        document,
+        isInfobox(table) ? infoboxTitle : otherTitle,
+        isInfobox(table) ? CLASS.TABLE_INFOBOX : CLASS.TABLE_OTHER,
+        headerTextArray)
 
     // create the container div that will contain both the original table
     // and the collapsed version.
@@ -521,6 +529,7 @@ const expandCollapsedTableIfItContainsElement = element => {
 }
 
 export default {
+  CLASS,
   SECTION_TOGGLED_EVENT_TYPE,
   toggleCollapsedForAll,
   toggleCollapseClickCallback,
