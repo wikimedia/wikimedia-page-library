@@ -1,5 +1,9 @@
 import EditTransform from '../../transform/EditTransform'
 
+const selectors = {
+  addTitleDescription: `#${EditTransform.ADD_TITLE_DESCRIPTION}`,
+}
+
 /**
  * Change user visible labels in the WebView.
  * @param {!Document} document
@@ -9,10 +13,12 @@ import EditTransform from '../../transform/EditTransform'
  * @return {void}
  */
 const localizeLabels = (document, localizedStrings) => {
-  if (localizedStrings.addTitleDescription) {
-    const element = document.querySelector(`#${EditTransform.ADD_TITLE_DESCRIPTION}`)
-    if (element) {
-      element.innerHTML = localizedStrings.addTitleDescription
+  for (const [key, selector] of Object.entries(selectors)) {
+    if (localizedStrings[key]) {
+      const elements = document.querySelectorAll(selector)
+      elements.forEach(element => {
+        element.innerHTML = localizedStrings[key]
+      })
     }
   }
 }
