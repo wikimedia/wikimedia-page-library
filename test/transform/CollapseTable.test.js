@@ -868,7 +868,7 @@ describe('CollapseTable', () => {
       collapseTables(window, window.document)
       const section = window.document.querySelector('section')
       assert.ok(section)
-      assert.deepEqual(section.parentNode.parentNode.tagName, 'BODY')
+      assert.deepEqual(section.parentNode.tagName, 'BODY')
       const collapsibleContainer = section.childNodes[0]
       assert.ok(collapsibleContainer)
       assert.ok(collapsibleContainer.classList.contains('pagelib_collapse_table_container'))
