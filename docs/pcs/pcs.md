@@ -67,6 +67,9 @@ pagelib.c1.PageMods.setMulti(document, {
   clientVersion: '6.2.1',
   l10n: { 
     addTitleDescription: 'Titelbeschreibung bearbeiten',
+    tableInfobox: 'Schnelle Fakten',
+    tableOther: 'Weitere Informationen',
+    tableClose: 'Schließen'
   },
   theme: pagelib.c1.Themes.SEPIA,
   dimImages: true,
