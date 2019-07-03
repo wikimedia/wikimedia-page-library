@@ -860,9 +860,9 @@ describe('CollapseTable', () => {
 
     it('moves a table to the tag with the data-mw-section-id attribute when it is nested', () => {
       const html = `
-        <div><section data-mw-section-id=0><div class=not_content_block><div>
+        <section data-mw-section-id=0><div class=not_content_block><div>
         <table class=infobox>info</table>
-        </div></div></section></div>
+        </div></div></section>
       `
       const window = domino.createWindow(html)
       collapseTables(window, window.document)
