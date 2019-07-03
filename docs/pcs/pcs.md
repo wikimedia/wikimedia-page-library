@@ -51,7 +51,7 @@ Combination of the following calls, changing multiple settings in one single cal
 Setting parameter object fields:
 - platform: possible values in pagelib.c1.Platforms: [IOS, ANDROID] 
 - clientVersion: string of client version (platform specific)
-- l10n: object of localized user visible strings: { addTitleDescription }
+- l10n: object of localized user visible strings: { addTitleDescription, tableInfobox, tableOther, tableClose }
 - theme: possible values in pagelib.c1.Themes: [DEFAULT, SEPIA, DARK, BLACK]
 - dimImages: boolean
 - margins: object with { top, right, bottom, left }
