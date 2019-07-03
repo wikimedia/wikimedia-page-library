@@ -594,7 +594,7 @@ describe('CollapseTable', () => {
     const newCaptionFragment = pagelib.CollapseTable.test.newCaptionFragment
 
     describe('when no header text', () => {
-      const caption = newCaptionFragment(domino.createDocument(), 'title', [])
+      const caption = newCaptionFragment(domino.createDocument(), 'title', 'titleClass',[])
       it('the title is present', () => {
         assert.ok(caption.textContent.includes('title'))
       })
@@ -602,10 +602,14 @@ describe('CollapseTable', () => {
       it('no additional text is shown', () => {
         assert.ok(!caption.textContent.includes(','))
       })
+
+      it('title class is set to allow distinguishing types of tables', () => {
+        assert.ok(caption.querySelector('strong').classList.contains('titleClass'))
+      })
     })
 
     describe('when a one element header text', () => {
-      const caption = newCaptionFragment(domino.createDocument(), 'title', ['0'])
+      const caption = newCaptionFragment(domino.createDocument(), 'title', 'titleClass',['0'])
 
       it('the title is present', () => {
         assert.ok(caption.textContent.includes('title'))
@@ -621,7 +625,7 @@ describe('CollapseTable', () => {
     })
 
     describe('when a two element header text', () => {
-      const caption = newCaptionFragment(domino.createDocument(), 'title', ['0', '1'])
+      const caption = newCaptionFragment(domino.createDocument(), 'title', 'titleClass',['0', '1'])
 
       it('the title is present', () => {
         assert.ok(caption.textContent.includes('title'))
