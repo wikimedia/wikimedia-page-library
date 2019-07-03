@@ -1,3 +1,8 @@
+### v8.1.0
+- New: Localized strings for add description and the CollapseTable transform can be passed in by the client
+- Fix: appearance of spans with specific background color
+- Fix: some infoboxes were floating
+
 ### v8.0.0
 - Breaking: footer implementation used by iOS app removed a couple of public functions
 - New: PCS: footer functionality
