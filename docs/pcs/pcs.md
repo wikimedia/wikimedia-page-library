@@ -191,6 +191,7 @@ const Actions = {
   ReferenceClicked,
   EditSection,
   AddTitleDescription,
+  PronunciationClicked,
   
   /* Footer related actions: */
   FooterItemSelected,
