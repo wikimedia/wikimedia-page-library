@@ -13,6 +13,7 @@ const Actions = {
   ReferenceClicked: 'reference_clicked',
   EditSection: 'edit_section',
   AddTitleDescription: 'add_title_description',
+  PronunciationClicked: 'pronunciation_clicked',
 
   /* Footer related actions: */
   FooterItemSelected: 'footer_item_selected',
@@ -206,6 +207,12 @@ const handleClickEvent = event => {
   // Handle add title description link.
   if (anchorForTarget.getAttribute('data-action') === 'add_title_description') {
     postMessage(new Interaction(Actions.AddTitleDescription))
+    return
+  }
+
+  // Handle audio pronunciation button.
+  if (anchorForTarget.getAttribute('data-action') === 'title_pronunciation') {
+    postMessage(new Interaction(Actions.PronunciationClicked))
     return
   }
 
