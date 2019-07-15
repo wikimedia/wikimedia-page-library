@@ -48,7 +48,7 @@ describe('ReferenceCollection', () => {
   describe('.collectNearbyReferences()', () => {
     it('collects expected references group and selected index', () => {
 
-      const MOCK_RECT = { top: 0, left: 1, width: 2, height: 3 }
+      const MOCK_RECT = { top: 0, left: 1, right: 4, bottom: 0, width: 2, height: 3, x: 0, y: 0 }
 
       // Domino doesn't implement 'getBoundingClientRect' so
       // backfill it for testing methods which call it.

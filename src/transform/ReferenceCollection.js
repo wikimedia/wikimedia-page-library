@@ -122,6 +122,25 @@ class ReferenceLinkItem {
 }
 
 /**
+ * Get node's bounding rect as a plain object.
+ * @param {!Node} node
+ * @return {!Object<string, number>}
+ */
+const getBoundingClientRectAsPlainObject = node => {
+  const rect = node.getBoundingClientRect()
+  return {
+    top: rect.top,
+    right: rect.right,
+    bottom: rect.bottom,
+    left: rect.left,
+    width: rect.width,
+    height: rect.height,
+    x: rect.x,
+    y: rect.y
+  }
+}
+
+/**
  * Converts node to ReferenceItem.
  * @param {!Document} document
  * @param {!Node} node
@@ -129,7 +148,7 @@ class ReferenceLinkItem {
  */
 const referenceItemForNode = (document, node) => new ReferenceItem(
   closestReferenceClassElement(node).id,
-  node.getBoundingClientRect(),
+  getBoundingClientRectAsPlainObject(node),
   node.textContent,
   collectRefText(document, node)
 )
