@@ -148,12 +148,13 @@ pagelib.c1.Footer.add(
         'menuCoordinateTitle': 'View on a map'
      }, // localizedStrings
      3,  // readMoreItemCount
-     'http://localhost:7231/en.wikipedia.org/v1' // baseUrl for getting ReadMore items
+     'https://en.wikipedia.org/api/rest_v1' // baseUrl for getting ReadMore items
 )
 ```
 
-`'http://localhost:7231/en.wikipedia.org/v1'` is for a local RESTBase instance.
-Production uses something like `'https://en.wikipedia.org/api/rest_v1'`.
+baseUrl for getting ReadMore items:
+- production: `'https://en.wikipedia.org/api/rest_v1'`
+- local RB: `'http://localhost:7231/en.wikipedia.org/v1'`
 
 #### updateReadMoreSaveButtonForTitle()
 The client is expected to call this function for every "Read more" title received.
