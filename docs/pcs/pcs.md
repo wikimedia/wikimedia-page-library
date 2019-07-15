@@ -55,7 +55,7 @@ Setting parameter object fields:
 - theme: possible values in pagelib.c1.Themes: [DEFAULT, SEPIA, DARK, BLACK]
 - dimImages: boolean
 - margins: object with { top, right, bottom, left }
-- areTablesCollapsed: boolean
+- areTablesInitiallyExpanded: boolean (Default: tables are collapsed)
 - scrollTop: number of pixel for highest position to scroll to. Use this to adjust for any decor overlaying the viewport.
 
 (The first three fields don't have any equivalent separate call since those don't make sense to change after the fact.)
@@ -74,7 +74,7 @@ pagelib.c1.PageMods.setMulti(document, {
   theme: pagelib.c1.Themes.SEPIA,
   dimImages: true,
   margins: { top: '32px', right: '32px', bottom: '32px', left: '32px' },
-  areTablesCollapsed: true,
+  areTablesInitiallyExpanded: true,
   scrollTop: 64
 })
 ```

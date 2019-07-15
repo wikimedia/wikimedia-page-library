@@ -30,7 +30,7 @@ describe('pcs.c1.PageMods', () => {
         theme: Themes.DARK,
         dimImages: true,
         margins: { top: '1px', right: '2px', bottom: '3px', left: '4px' },
-        areTablesCollapsed: true
+        areTablesInitiallyExpanded: true
       }, () => { onSuccessCallbackCalled = true })
 
       assert.ok(document.documentElement.classList.contains('pagelib_theme_dark'))

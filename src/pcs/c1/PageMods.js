@@ -35,8 +35,8 @@ const onPageLoad = (window, document) => {
  * during initial page load.
  * @param {!Document} document
  * @param {!{}} settings client settings
- *   { platform, clientVersion, l10n, theme, dimImages, margins, areTablesCollapsed, scrollTop,
- *   textSizeAdjustmentPercentage }
+ *   { platform, clientVersion, l10n, theme, dimImages, margins, areTablesInitiallyExpanded,
+ *   scrollTop, textSizeAdjustmentPercentage }
  * @param {?PageMods~Function} onSuccess callback
  * @return {void}
  */
@@ -56,7 +56,7 @@ const setMulti = (document, settings, onSuccess) => {
   if (settings.margins !== undefined) {
     BodySpacingTransform.setMargins(document.body, settings.margins)
   }
-  if (settings.areTablesCollapsed) {
+  if (settings.areTablesInitiallyExpanded) {
     CollapseTable.toggleCollapsedForAll(document.body)
   }
   if (settings.scrollTop !== undefined) {
