@@ -1,3 +1,6 @@
+### v8.3.0
+- Fix: republish v8.3.0 which didn't "take" correctly
+
 ### v8.2.0
 - Change: rename areTablesCollapsed to areTablesInitiallyExpanded
   - Clients should now negate this boolean value. The old flag doesn't do anything anymore.
