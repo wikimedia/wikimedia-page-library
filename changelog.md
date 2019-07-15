@@ -1,3 +1,10 @@
+### v8.2.0
+- Change: rename areTablesCollapsed to areTablesInitiallyExpanded
+  - Clients should now negate this boolean value. The old flag doesn't do anything anymore.
+    (Not marking it breaking because before it wasn't working correctly yet.)
+- New: add interaction handling for pronunciation button
+- Fix: references click interaction handling serialization
+
 ### v8.1.0
 - New: Localized strings for add description and the CollapseTable transform can be passed in by the client
 - Fix: appearance of spans with specific background color
