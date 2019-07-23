@@ -59,19 +59,23 @@ describe('ReferenceCollection', () => {
 
       assert.strictEqual(nearbyReferences.selectedIndex, 1)
       assert.deepEqual(nearbyReferences.referencesGroup, [
-        { id: 'cite_ref-a',
+        { href: '#cite_note-a',
+          id: 'cite_ref-a',
           rect: MOCK_RECT,
           text: '[4]',
           html: '0 1 2' },
-        { id: 'cite_ref-b',
+        { href: '#cite_note-b',
+          id: 'cite_ref-b',
           rect: MOCK_RECT,
           text: '[6]',
           html: '3 4 5' },
-        { id: 'cite_ref-c',
+        { href: '#cite_note-c',
+          id: 'cite_ref-c',
           rect: MOCK_RECT,
           text: '[7]',
           html: '6 7 8' },
-        { id: 'cite_ref-d',
+        { href: '#cite_note-d',
+          id: 'cite_ref-d',
           rect: MOCK_RECT,
           text: '[8]',
           html: '9 10 11' }

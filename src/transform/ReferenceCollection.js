@@ -92,17 +92,19 @@ const closestReferenceClassElement = sourceNode => {
  */
 class ReferenceItem {
   /**
-   * ReferenceItem construtor.
+   * ReferenceItem constructor.
    * @param {!string} id
    * @param {!DOMRect} rect
    * @param {?string} text
    * @param {?string} html
+   * @param {?string} href
    */
-  constructor(id, rect, text, html) {
+  constructor(id, rect, text, html, href) {
     this.id = id
     this.rect = rect
     this.text = text
     this.html = html
+    this.href = href
   }
 }
 
@@ -150,7 +152,8 @@ const referenceItemForNode = (document, node) => new ReferenceItem(
   closestReferenceClassElement(node).id,
   getBoundingClientRectAsPlainObject(node),
   node.textContent,
-  collectRefText(document, node)
+  collectRefText(document, node),
+  node.querySelector('A').getAttribute('href')
 )
 
 /**
