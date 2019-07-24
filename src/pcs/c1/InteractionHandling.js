@@ -120,8 +120,9 @@ const postMessageForLinkWithHref = href => {
  * @return {void}
  */
 const postMessageForImageWithTarget = (target, href) => {
+  const canonicalHref = href.replace(/^\.\/.+:/g, './File:')
   postMessage(new Interaction(Actions.ImageClicked, {
-    href,
+    href: canonicalHref,
     src: target.getAttribute('src'),
     'data-file-width': target.getAttribute('data-file-width'),
     'data-file-height': target.getAttribute('data-file-height')
