@@ -2,6 +2,7 @@ import CollapseTable from '../../transform/CollapseTable'
 import Footer from './Footer'
 import LazyLoadTransform from '../../transform/LazyLoadTransform'
 import ReferenceCollection from '../../transform/ReferenceCollection'
+import SectionUtilities from '../../transform/SectionUtilities'
 
 /**
  * Type of actions users can click which may need to be handled by the native side.
@@ -275,6 +276,23 @@ const viewInBrowser = () => {
 }
 
 /**
+ * Gets information about the current text selection
+ * @param {?Window} optionalWindow
+ * @return {!map} selection info
+ */
+const getSelectionInfo = optionalWindow => {
+  const selection = (optionalWindow || window).getSelection()
+  const text = selection.toString()
+  const anchorNode = selection.anchorNode
+  const section = SectionUtilities.getSectionIDOfElement(anchorNode)
+  const isTitleDescription = anchorNode &&
+      anchorNode.parentElement &&
+      anchorNode.parentElement.id === 'pagelib_edit_section_title_description' ||
+      false
+  return { text, section, isTitleDescription }
+}
+
+/**
  * Sets the interaction handler function.
  * @param {~Function} myHandlerFunction a platform specific bridge function.
  * On iOS consider using something like:
@@ -305,5 +323,6 @@ const setInteractionHandler = myHandlerFunction => {
 
 export default {
   Actions,
+  getSelectionInfo,
   setInteractionHandler
 }
