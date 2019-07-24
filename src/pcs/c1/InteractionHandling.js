@@ -116,15 +116,13 @@ const postMessageForLinkWithHref = href => {
 /**
  * Posts message for an image click.
  * @param {!Element} target an image element
+ * @param {!string} href url for the image
  * @return {void}
  */
-const postMessageForImageWithTarget = target => {
+const postMessageForImageWithTarget = (target, href) => {
   postMessage(new Interaction(Actions.ImageClicked, {
+    href,
     src: target.getAttribute('src'),
-    // Image should be fetched by time it is tapped,
-    // so naturalWidth and height should be available.
-    width: target.naturalWidth,
-    height: target.naturalHeight,
     'data-file-width': target.getAttribute('data-file-width'),
     'data-file-height': target.getAttribute('data-file-height')
   }))
@@ -167,7 +165,7 @@ const postMessageForClickedItem = item => {
     postMessageForLinkWithHref(item.href)
     break
   case ItemType.image:
-    postMessageForImageWithTarget(item.target)
+    postMessageForImageWithTarget(item.target, item.href)
     break
   case ItemType.imagePlaceholder:
     postMessageForImagePlaceholderWithTarget(item.target)
