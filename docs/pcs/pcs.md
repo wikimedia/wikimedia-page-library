@@ -121,6 +121,14 @@ pagelib.c1.Page.getRevision()
 ```
 returns '907165344'
 
+#### setTextSizeAdjustmentPercentage
+Sets the text-adjust-size property percentage allowing native clients to adjust the font-size. This CSS property is not supported in all browsers, you can check which browsers support it in the following link, https://caniuse.com/#feat=text-size-adjust
+
+The input needs to be a string like '10%'. Example:
+```
+pagelib.c1.PageMods.setTextSizeAdjustmentPercentage(document, '10%')
+```
+
 ### Sections
 A set of utilities to handle Sections properties.
 

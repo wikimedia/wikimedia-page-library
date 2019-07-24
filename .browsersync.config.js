@@ -1,6 +1,6 @@
 // http://www.browsersync.io/docs/options/
 module.exports = {
-  files: ['build/*.{css,js}', 'demo/*.{html,css,js,json}'],
+  files: ['build/*.{css,js}', 'demo/**/*.{html,css,js,json}'],
   watchEvents: ['add', 'change'],
   server: {
     baseDir: 'demo',
