@@ -102,16 +102,27 @@ const postMessage = interaction => {
 
 /**
  * Posts message for a link click.
+ * @param {!Element} target element
  * @param {!string} href url
  * @return {void}
  */
-const postMessageForLinkWithHref = href => {
+const postMessageForLink = (target, href) => {
   if (href[0] === '#') {
     CollapseTable.expandCollapsedTableIfItContainsElement(
       document.getElementById(href.substring(1)))
   }
-  postMessage(new Interaction(Actions.LinkClicked, { href }))
+  postMessage(new Interaction(Actions.LinkClicked, {
+    href,
+    text: target.innerText
+  }))
 }
+
+/**
+ * Canonical file href
+ * @param {!string} href url for the image
+ * @return {!string} canonicalized file href
+ */
+const canonicalFileHref = href => href && href.replace(/^\.\/.+:/g, './File:')
 
 /**
  * Posts message for an image click.
@@ -119,8 +130,8 @@ const postMessageForLinkWithHref = href => {
  * @param {!string} href url for the image
  * @return {void}
  */
-const postMessageForImageWithTarget = (target, href) => {
-  const canonicalHref = href.replace(/^\.\/.+:/g, './File:')
+const postMessageForImage = (target, href) => {
+  const canonicalHref = canonicalFileHref(href)
   postMessage(new Interaction(Actions.ImageClicked, {
     href: canonicalHref,
     src: target.getAttribute('src'),
@@ -132,14 +143,15 @@ const postMessageForImageWithTarget = (target, href) => {
 /**
  * Posts a message for a lazy load image placeholder click.
  * @param {!Element} innerPlaceholderSpan
+ * @param {!string} href url for the image
  * @return {void}
  */
-const postMessageForImagePlaceholderWithTarget = innerPlaceholderSpan => {
+const postMessageForImagePlaceholder = (innerPlaceholderSpan, href) => {
   const outerSpan = innerPlaceholderSpan.parentElement
+  const canonicalHref = canonicalFileHref(href)
   postMessage(new Interaction(Actions.ImageClicked, {
+    href: canonicalHref,
     src: outerSpan.getAttribute('data-src'),
-    width: outerSpan.getAttribute('data-width'),
-    height: outerSpan.getAttribute('data-height'),
     'data-file-width': outerSpan.getAttribute('data-data-file-width'),
     'data-file-height': outerSpan.getAttribute('data-data-file-height')
   }))
@@ -163,13 +175,13 @@ const postMessageForReferenceWithTarget = target => {
 const postMessageForClickedItem = item => {
   switch (item.type()) {
   case ItemType.link:
-    postMessageForLinkWithHref(item.href)
+    postMessageForLink(item.target, item.href)
     break
   case ItemType.image:
-    postMessageForImageWithTarget(item.target, item.href)
+    postMessageForImage(item.target, item.href)
     break
   case ItemType.imagePlaceholder:
-    postMessageForImagePlaceholderWithTarget(item.target)
+    postMessageForImagePlaceholder(item.target, item.href)
     break
   case ItemType.reference:
     postMessageForReferenceWithTarget(item.target)
