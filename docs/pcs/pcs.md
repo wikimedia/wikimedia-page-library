@@ -203,5 +203,17 @@ const Actions = {
 }
 ```
 
+#### getSelectionInfo()
+Gets information about the currently selected text.
+
+Example for testing:
+```
+pagelib.c1.InteractionHandling.getSelectionInfo()
+```
+
+Should return something along the lines of:
+```
+{text: "selected text here", section: "1", isTitleDescription: false}
+```
 
 [Page Content Service]: https://www.mediawiki.org/wiki/Page_Content_Service
