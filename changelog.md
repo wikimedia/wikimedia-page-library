@@ -1,3 +1,9 @@
+### v8.4.0
+- Change: don't pass natural size with imageClicked action
+- New: pass href with imageClicked action
+- New: pass title and text for linkClicked actions
+- New: added href to ReferenceCollection in collectNearbyReferences output
+
 ### v8.3.0
 - Fix: republish v8.3.0 which didn't "take" correctly
 
