@@ -113,7 +113,8 @@ const postMessageForLink = (target, href) => {
   }
   postMessage(new Interaction(Actions.LinkClicked, {
     href,
-    text: target.innerText
+    text: target.innerText,
+    title: target.title
   }))
 }
 
