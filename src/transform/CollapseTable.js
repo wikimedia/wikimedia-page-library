@@ -2,6 +2,7 @@ import './CollapseTable.css'
 import ElementUtilities from './ElementUtilities'
 import NodeUtilities from './NodeUtilities'
 import Polyfill from './Polyfill'
+import SectionUtilities from './SectionUtilities'
 
 const NODE_TYPE = NodeUtilities.NODE_TYPE
 
@@ -315,23 +316,6 @@ const newCaptionFragment = (document, title, titleClass, headerText) => {
 }
 
 /**
- * @param {!Node} node - node to test
- * @return {boolean} true if this is a node that represents a MediaWiki section
- */
-const isMediaWikiSectionNode = node => {
-  // mobile-html output has `data-mw-section-id` attributes on section tags
-  if (node.tagName === 'SECTION' && node.attributes && node.attributes['data-mw-section-id']) {
-    return true
-  }
-  // The iOS app wraps MobileView sections with a div with the `content_block` class
-  // This should be removed after the iOS app switches to mobile-html
-  if (node.tagName === 'DIV' && node.classList && node.classList.contains('content_block')) {
-    return true
-  }
-  return false
-}
-
-/**
  * @param {!Node} nodeToReplace
  * @param {!Node} replacementNode
  * @return {void}
@@ -347,7 +331,7 @@ const replaceNodeInSection = (nodeToReplace, replacementNode) => {
   }
   let foundSectionTag = false
   while (sectionTag) {
-    if (isMediaWikiSectionNode(sectionTag)) {
+    if (SectionUtilities.isMediaWikiSectionElement(sectionTag)) {
       foundSectionTag = true
       break
     }
