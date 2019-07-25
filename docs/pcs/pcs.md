@@ -39,7 +39,7 @@ There are two kinds of versions we are concerned about, client side and server s
 
 ## Interface
 
-### PageMods
+### Page
 
 #### onPageLoad()
 No need to call this one from the client side. This will be invoked automatically when the DOM is 
@@ -62,7 +62,7 @@ Setting parameter object fields:
 
 Example:
 ```
-pagelib.c1.PageMods.setup({
+pagelib.c1.Page.setup({
   platform: pagelib.c1.Platforms.IOS,
   clientVersion: '6.2.1',
   l10n: { 
@@ -85,7 +85,7 @@ Sets the theme. See possible values listed in `setMulti()`.
 
 Example:
 ```
-pagelib.c1.PageMods.setTheme(pagelib.c1.Themes.SEPIA)
+pagelib.c1.Page.setTheme(pagelib.c1.Themes.SEPIA)
 ```
 
 #### setDimImages()
@@ -93,7 +93,7 @@ Turns on or off dimming of images.
 
 Example:
 ```
-pagelib.c1.PageMods.setDimImages(true)
+pagelib.c1.Page.setDimImages(true)
 ```
 
 #### setMargins()
@@ -101,7 +101,7 @@ Sets the margins on the `<body>` tag.
 
 Example:
 ```
-pagelib.c1.PageMods.setMargins({ top: '128px', right: '32px', bottom: '16px', left: '32px' })
+pagelib.c1.Page.setMargins({ top: '128px', right: '32px', bottom: '16px', left: '32px' })
 ```
 
 #### setScrollTop()
@@ -109,7 +109,7 @@ Sets the top-most vertical position to scroll to in pixel. Use this to adjust fo
 
 Example:
 ```
-pagelib.c1.PageMods.setScrollTop(64)
+pagelib.c1.Page.setScrollTop(64)
 ```
 
 ### Sections
