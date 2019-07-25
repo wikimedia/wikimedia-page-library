@@ -69,3 +69,8 @@ li.gallerybox div.thumb > div {
 div.gallerytext > p {
   margin-top: 0px !important;
 }
+
+/* Prevent image placeholder to be wider than the viewport */
+.gallerybox .pagelib_lazy_load_placeholder {
+  width: 100%!important;
+}
