@@ -103,7 +103,7 @@ const documentFragmentForReadMorePage = (readMorePage, index, saveButtonClickHan
   const innerDivContainer = document.createElement('div')
   innerDivContainer.classList.add('pagelib_footer_readmore_page_container')
   outerAnchorContainer.appendChild(innerDivContainer)
-  outerAnchorContainer.href = `/wiki/${encodeURI(readMorePage.title)}?event_logging_label=read_more`
+  outerAnchorContainer.href = `./${encodeURI(readMorePage.title)}?event_logging_label=read_more`
 
   let titleToShow
   if (readMorePage.displayTitle) {
