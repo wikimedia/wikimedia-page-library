@@ -6,13 +6,14 @@ const Page = c1.Page
 const Platforms = c1.Platforms
 const Themes = c1.Themes
 
+/* eslint-disable no-global-assign, no-native-reassign */
 describe('pcs.c1.Page', () => {
   const emptyHTML = '<html lang="en"><head><title>Foo</title></head><body><p></p></body></html>'
 
   describe('.onPageLoad()', () => {
     it('any', () => {
-      const window = domino.createWindow(emptyHTML)
-      const document = window.document
+      window = domino.createWindow(emptyHTML)
+      document = window.document
 
       Page.onPageLoad(window, document)
     })
@@ -21,8 +22,8 @@ describe('pcs.c1.Page', () => {
   describe('.setup()', () => {
     it('all', () => {
       let onSuccessCallbackCalled = false
-      const window = domino.createWindow(emptyHTML)
-      const document = window.document
+      window = domino.createWindow(emptyHTML)
+      document = window.document
 
       Page.setup({
         platform: Platforms.IOS,
@@ -43,8 +44,8 @@ describe('pcs.c1.Page', () => {
     })
 
     it('empty settings', () => {
-      const window = domino.createWindow(emptyHTML)
-      const document = window.document
+      window = domino.createWindow(emptyHTML)
+      document = window.document
 
       Page.setup({})
 
@@ -52,8 +53,8 @@ describe('pcs.c1.Page', () => {
     })
 
     it('nothing', () => {
-      const window = domino.createWindow(emptyHTML)
-      const document = window.document
+      window = domino.createWindow(emptyHTML)
+      document = window.document
 
       Page.setup()
 
@@ -64,7 +65,7 @@ describe('pcs.c1.Page', () => {
   describe('.setTheme()', () => {
     it('sepia', () => {
       let callbackCalled = false
-      const document = domino.createDocument(emptyHTML)
+      document = domino.createDocument(emptyHTML)
 
       Page.setTheme(Themes.SEPIA, () => { callbackCalled = true })
 
@@ -76,8 +77,8 @@ describe('pcs.c1.Page', () => {
   describe('.setDimImages()', () => {
     it('true + callback', () => {
       let callbackCalled = false
-      const window = domino.createWindow(emptyHTML)
-      const document = window.document
+      window = domino.createWindow(emptyHTML)
+      document = window.document
 
       Page.setDimImages(true, () => { callbackCalled = true })
 
@@ -86,8 +87,8 @@ describe('pcs.c1.Page', () => {
     })
 
     it('false', () => {
-      const window = domino.createWindow(emptyHTML)
-      const document = window.document
+      window = domino.createWindow(emptyHTML)
+      document = window.document
 
       Page.setDimImages(false)
 
@@ -98,8 +99,8 @@ describe('pcs.c1.Page', () => {
   describe('.setMargins()', () => {
     it('all', () => {
       let callbackCalled = false
-      const window = domino.createWindow(emptyHTML)
-      const document = window.document
+      window = domino.createWindow(emptyHTML)
+      document = window.document
 
       Page.setMargins({ top: '1px', right: '2px', bottom: '3px', left: '4px' },
         () => { callbackCalled = true })
@@ -112,8 +113,8 @@ describe('pcs.c1.Page', () => {
     })
 
     it('nothing', () => {
-      const window = domino.createWindow(emptyHTML)
-      const document = window.document
+      window = domino.createWindow(emptyHTML)
+      document = window.document
 
       Page.setMargins({})
 
@@ -128,8 +129,8 @@ describe('pcs.c1.Page', () => {
     it('all', () => {
       let callbackCalled = false
       /* eslint no-unused-vars: ["off"] */
-      const window = domino.createWindow(emptyHTML)
-      const document = window.document
+      window = domino.createWindow(emptyHTML)
+      document = window.document
 
       Page.setScrollTop(64,
         () => { callbackCalled = true })
