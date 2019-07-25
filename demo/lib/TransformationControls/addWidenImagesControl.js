@@ -9,9 +9,7 @@ const shouldWidenImage = image =>
   // TODO: file ticket for adding ^ to MCS and/or ensure this gets included on new PCS endpoint!
 
 const widenImage = (iframeWindow, image) => {
-  if (iframeWindow.pagelib.c1) {
-    // TODO: widen image transform is not exposed in the abstraction layer
-  } else {
+  if (!iframeWindow.pagelib.c1) {
     iframeWindow.pagelib.WidenImage.maybeWidenImage(image)
   }
 }

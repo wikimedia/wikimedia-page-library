@@ -102,7 +102,7 @@ export default [
     event.target.disabled = true
     if (iframeWindow.pagelib.c1) {
       iframeWindow.pagelib.c1.Footer.add(
-        document,
+        iframeDocument,
         'Knight Lore',  // TODO: expose the article for each closure
         [ // menuItems
           iframeWindow.pagelib.c1.Footer.MenuItemType.languages,

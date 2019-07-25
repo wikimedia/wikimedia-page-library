@@ -7,7 +7,10 @@ const textSizeAdjustmentHandler = (iframeWindow, iframeDocument, value) => {
     iframeWindow.pagelib.AdjustTextSize.setPercentage(iframeDocument.body, value)
   }
 }
-
+/**
+ * this only works on certain mobile browsers
+ * https://caniuse.com/#feat=text-size-adjust
+ */
 export default [
   'adjust_text_size_form',
   'Text Size Adjustment (Percentage) *',
