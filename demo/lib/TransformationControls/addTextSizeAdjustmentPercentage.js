@@ -2,7 +2,7 @@
 
 const textSizeAdjustmentHandler = (iframeWindow, iframeDocument, value) => {
   if (iframeWindow.pagelib.c1) {
-    iframeWindow.pagelib.c1.PageMods.setTextSizeAdjustmentPercentage(iframeDocument, value)
+    iframeWindow.pagelib.c1.Page.setTextSizeAdjustmentPercentage(value)
   } else {
     iframeWindow.pagelib.AdjustTextSize.setPercentage(iframeDocument.body, value)
   }

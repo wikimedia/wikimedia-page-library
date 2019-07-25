@@ -126,7 +126,7 @@ Sets the text-adjust-size property percentage allowing native clients to adjust 
 
 The input needs to be a string like '10%'. Example:
 ```
-pagelib.c1.PageMods.setTextSizeAdjustmentPercentage(document, '10%')
+pagelib.c1.Page.setTextSizeAdjustmentPercentage('10%')
 ```
 
 ### Sections

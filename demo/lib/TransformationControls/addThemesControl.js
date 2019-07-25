@@ -3,8 +3,7 @@
 const themeSelectionHandler = (iframeWindow, iframeDocument, selectedValue) => {
   // Check for abstraction layer to apply PCS rules
   if (iframeWindow.pagelib.c1) {
-    iframeWindow.pagelib.c1.PageMods.setTheme(
-      iframeDocument,
+    iframeWindow.pagelib.c1.Page.setTheme(
       iframeWindow.pagelib.c1.Themes[selectedValue]
     )
   } else {

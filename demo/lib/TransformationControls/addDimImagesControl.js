@@ -7,8 +7,7 @@ const areImagesDimmed = document => document.querySelector('html').classList.con
 
 const dimImages = (iframeWindow, iframeDocument) => {
   if (iframeWindow.pagelib.c1) {
-    iframeWindow.pagelib.c1.PageMods.setDimImages(
-      iframeDocument,
+    iframeWindow.pagelib.c1.Page.setDimImages(
       !areImagesDimmed(iframeWindow.document)
     )
   } else {
