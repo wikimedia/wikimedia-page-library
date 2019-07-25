@@ -24,7 +24,7 @@ describe('pcs.c1.PageMods', () => {
       const window = domino.createWindow(emptyHTML)
       const document = window.document
 
-      PageMods.setMulti(document, {
+      PageMods.setup({
         platform: Platforms.IOS,
         clientVersion: '6.2.1',
         theme: Themes.DARK,
@@ -57,7 +57,7 @@ describe('pcs.c1.PageMods', () => {
       let callbackCalled = false
       const document = domino.createDocument(emptyHTML)
 
-      PageMods.setTheme(document, Themes.SEPIA, () => { callbackCalled = true })
+      PageMods.setTheme(Themes.SEPIA, () => { callbackCalled = true })
 
       assert.ok(document.documentElement.classList.contains('pagelib_theme_sepia'))
       assert.ok(callbackCalled)
@@ -70,7 +70,7 @@ describe('pcs.c1.PageMods', () => {
       const window = domino.createWindow(emptyHTML)
       const document = window.document
 
-      PageMods.setDimImages(document, true, () => { callbackCalled = true })
+      PageMods.setDimImages(true, () => { callbackCalled = true })
 
       assert.ok(document.documentElement.classList.contains('pagelib_dim_images'))
       assert.ok(callbackCalled)
@@ -80,7 +80,7 @@ describe('pcs.c1.PageMods', () => {
       const window = domino.createWindow(emptyHTML)
       const document = window.document
 
-      PageMods.setDimImages(document, false)
+      PageMods.setDimImages(false)
 
       assert.ok(!document.documentElement.classList.contains('pagelib_dim_images'))
     })
@@ -92,7 +92,7 @@ describe('pcs.c1.PageMods', () => {
       const window = domino.createWindow(emptyHTML)
       const document = window.document
 
-      PageMods.setMargins(document, { top: '1px', right: '2px', bottom: '3px', left: '4px' },
+      PageMods.setMargins({ top: '1px', right: '2px', bottom: '3px', left: '4px' },
         () => { callbackCalled = true })
 
       assert.strictEqual(document.body.style.marginTop,'1px')
@@ -106,7 +106,7 @@ describe('pcs.c1.PageMods', () => {
       const window = domino.createWindow(emptyHTML)
       const document = window.document
 
-      PageMods.setMargins(document, {})
+      PageMods.setMargins({})
 
       assert.strictEqual(document.body.style.marginTop,'')
       assert.strictEqual(document.body.style.marginRight,'')
@@ -118,10 +118,11 @@ describe('pcs.c1.PageMods', () => {
   describe('.setScrollTop()', () => {
     it('all', () => {
       let callbackCalled = false
+      /* eslint no-unused-vars: ["off"] */
       const window = domino.createWindow(emptyHTML)
       const document = window.document
 
-      PageMods.setScrollTop(document, 64,
+      PageMods.setScrollTop(64,
         () => { callbackCalled = true })
 
       assert.strictEqual(PageMods.testing.getScroller().testing.getScrollTop(),64)

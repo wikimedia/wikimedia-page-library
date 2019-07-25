@@ -18,7 +18,6 @@ const _connectHandlers = newHandlers => {
 
 /**
  * Adds footer to the end of the document
- * @param  {!Document} document
  * @param  {!list} articleTitle article title for related pages
  * @param  {!string} menuItems menu items to add
  * @param  {!map} localizedStrings localized strings
@@ -26,7 +25,7 @@ const _connectHandlers = newHandlers => {
  * @param  {!string} readMoreBaseURL base url for restbase to fetch read more
  * @return {void}
  */
-const add = (document, articleTitle, menuItems, localizedStrings, readMoreItemCount,
+const add = (articleTitle, menuItems, localizedStrings, readMoreItemCount,
   readMoreBaseURL) => {
   // Add container
   if (FooterContainer.isContainerAttached(document) === false) {
@@ -161,13 +160,12 @@ const add = (document, articleTitle, menuItems, localizedStrings, readMoreItemCo
 /**
  * Updates save button text and bookmark icon for saved state in 'Read more' items.
  * Safe to call even for titles for which there is not currently a 'Read more' item.
- * @param {!Document} document
  * @param {!string} title read more entry title
  * @param {!string} text label indicating saved state
  * @param {!boolean} isSaved
  * @return {void}
  */
-const updateReadMoreSaveButtonForTitle = (document, title, text, isSaved) => {
+const updateReadMoreSaveButtonForTitle = (title, text, isSaved) => {
   FooterReadMore.updateSaveButtonForTitle(title, text, isSaved, document)
 }
 
