@@ -18,7 +18,7 @@ describe('pcs.c1.Page', () => {
     })
   })
 
-  describe('.setMulti()', () => {
+  describe('.setup()', () => {
     it('all', () => {
       let onSuccessCallbackCalled = false
       const window = domino.createWindow(emptyHTML)
@@ -42,11 +42,20 @@ describe('pcs.c1.Page', () => {
       assert.ok(onSuccessCallbackCalled)
     })
 
+    it('empty settings', () => {
+      const window = domino.createWindow(emptyHTML)
+      const document = window.document
+
+      Page.setup({})
+
+      assert.strictEqual(document.outerHTML, emptyHTML)
+    })
+
     it('nothing', () => {
       const window = domino.createWindow(emptyHTML)
       const document = window.document
 
-      Page.setMulti(window, document, {})
+      Page.setup()
 
       assert.strictEqual(document.outerHTML, emptyHTML)
     })
