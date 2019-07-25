@@ -2,11 +2,11 @@ import assert from 'assert'
 import { c1 } from '../../../build/wikimedia-page-library-pcs'
 import domino from 'domino'
 
-const PageMods = c1.PageMods
+const Page = c1.Page
 const Platforms = c1.Platforms
 const Themes = c1.Themes
 
-describe('pcs.c1.PageMods', () => {
+describe('pcs.c1.Page', () => {
   const emptyHTML = '<html lang="en"><head><title>Foo</title></head><body><p></p></body></html>'
 
   describe('.onPageLoad()', () => {
@@ -14,7 +14,7 @@ describe('pcs.c1.PageMods', () => {
       const window = domino.createWindow(emptyHTML)
       const document = window.document
 
-      PageMods.onPageLoad(window, document)
+      Page.onPageLoad(window, document)
     })
   })
 
@@ -24,7 +24,7 @@ describe('pcs.c1.PageMods', () => {
       const window = domino.createWindow(emptyHTML)
       const document = window.document
 
-      PageMods.setMulti(document, {
+      Page.setup({
         platform: Platforms.IOS,
         clientVersion: '6.2.1',
         theme: Themes.DARK,
@@ -46,7 +46,7 @@ describe('pcs.c1.PageMods', () => {
       const window = domino.createWindow(emptyHTML)
       const document = window.document
 
-      PageMods.setMulti(window, document, {})
+      Page.setMulti(window, document, {})
 
       assert.strictEqual(document.outerHTML, emptyHTML)
     })
@@ -57,7 +57,7 @@ describe('pcs.c1.PageMods', () => {
       let callbackCalled = false
       const document = domino.createDocument(emptyHTML)
 
-      PageMods.setTheme(document, Themes.SEPIA, () => { callbackCalled = true })
+      Page.setTheme(Themes.SEPIA, () => { callbackCalled = true })
 
       assert.ok(document.documentElement.classList.contains('pagelib_theme_sepia'))
       assert.ok(callbackCalled)
@@ -70,7 +70,7 @@ describe('pcs.c1.PageMods', () => {
       const window = domino.createWindow(emptyHTML)
       const document = window.document
 
-      PageMods.setDimImages(document, true, () => { callbackCalled = true })
+      Page.setDimImages(true, () => { callbackCalled = true })
 
       assert.ok(document.documentElement.classList.contains('pagelib_dim_images'))
       assert.ok(callbackCalled)
@@ -80,7 +80,7 @@ describe('pcs.c1.PageMods', () => {
       const window = domino.createWindow(emptyHTML)
       const document = window.document
 
-      PageMods.setDimImages(document, false)
+      Page.setDimImages(false)
 
       assert.ok(!document.documentElement.classList.contains('pagelib_dim_images'))
     })
@@ -92,7 +92,7 @@ describe('pcs.c1.PageMods', () => {
       const window = domino.createWindow(emptyHTML)
       const document = window.document
 
-      PageMods.setMargins(document, { top: '1px', right: '2px', bottom: '3px', left: '4px' },
+      Page.setMargins({ top: '1px', right: '2px', bottom: '3px', left: '4px' },
         () => { callbackCalled = true })
 
       assert.strictEqual(document.body.style.marginTop,'1px')
@@ -106,7 +106,7 @@ describe('pcs.c1.PageMods', () => {
       const window = domino.createWindow(emptyHTML)
       const document = window.document
 
-      PageMods.setMargins(document, {})
+      Page.setMargins({})
 
       assert.strictEqual(document.body.style.marginTop,'')
       assert.strictEqual(document.body.style.marginRight,'')
@@ -118,13 +118,14 @@ describe('pcs.c1.PageMods', () => {
   describe('.setScrollTop()', () => {
     it('all', () => {
       let callbackCalled = false
+      /* eslint no-unused-vars: ["off"] */
       const window = domino.createWindow(emptyHTML)
       const document = window.document
 
-      PageMods.setScrollTop(document, 64,
+      Page.setScrollTop(64,
         () => { callbackCalled = true })
 
-      assert.strictEqual(PageMods.testing.getScroller().testing.getScrollTop(),64)
+      assert.strictEqual(Page.testing.getScroller().testing.getScrollTop(),64)
       assert.ok(callbackCalled)
     })
   })
