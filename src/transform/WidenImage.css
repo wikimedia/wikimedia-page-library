@@ -72,5 +72,5 @@ div.gallerytext > p {
 
 /* Prevent image placeholder to be wider than the viewport */
 .gallerybox .pagelib_lazy_load_placeholder {
-  width: 100%!important;
+  width: 100% !important;
 }
