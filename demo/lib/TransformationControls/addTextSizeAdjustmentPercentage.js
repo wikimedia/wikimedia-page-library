@@ -13,7 +13,7 @@ const textSizeAdjustmentHandler = (iframeWindow, iframeDocument, value) => {
  */
 export default [
   'adjust_text_size_form',
-  'Text Size Adjustment (Percentage) *',
+  'Text Size Adjustment (Percentage) * **',
   'form',
   'percentage',
   textSizeAdjustmentHandler
