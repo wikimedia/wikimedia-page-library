@@ -128,7 +128,6 @@ describe('pcs.c1.Page', () => {
   describe('.setScrollTop()', () => {
     it('all', () => {
       let callbackCalled = false
-      /* eslint no-unused-vars: ["off"] */
       window = domino.createWindow(emptyHTML)
       document = window.document
 
