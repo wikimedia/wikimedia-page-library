@@ -100,9 +100,39 @@ export default [
   null,
   (iframeWindow, iframeDocument, selectedValue, iframe) => {
     event.target.disabled = true
-    addFooterContainer(iframeWindow, iframeDocument)
-    addFooterMenu(iframeWindow, iframeDocument)
-    addFooterReadMore(iframeWindow, iframeDocument, iframe)
-    addFooterLegal(iframeWindow, iframeDocument)
+    if (iframeWindow.pagelib.c1) {
+      iframeWindow.pagelib.c1.Footer.add(
+        iframeDocument,
+        'Knight Lore',  // TODO: expose the article for each closure
+        [ // menuItems
+          iframeWindow.pagelib.c1.Footer.MenuItemType.languages,
+          iframeWindow.pagelib.c1.Footer.MenuItemType.lastEdited,
+          iframeWindow.pagelib.c1.Footer.MenuItemType.pageIssues,
+          iframeWindow.pagelib.c1.Footer.MenuItemType.disambiguation,
+          iframeWindow.pagelib.c1.Footer.MenuItemType.talkPage
+        ],
+        {
+          'readMoreHeading': 'Read more',
+          'menuDisambiguationTitle': 'Similar pages',
+          'menuLanguagesTitle': 'Available in 9 other languages',
+          'menuHeading': 'About this article',
+          'menuLastEditedSubtitle': 'Full edit history',
+          'menuLastEditedTitle': 'Edited today',
+          'licenseString': 'Content is available under $1 unless otherwise noted.',
+          'menuTalkPageTitle': 'View talk page',
+          'menuPageIssuesTitle': 'Page issues',
+          'viewInBrowserString': 'View article in browser',
+          'licenseSubstitutionString': 'CC BY-SA 3.0',
+          'menuCoordinateTitle': 'View on a map'
+        }, // localizedStrings
+        3,  // readMoreItemCount
+        'https://en.wikipedia.org/api/rest_v1' // baseUrl for getting ReadMore items
+      )
+    } else {
+      addFooterContainer(iframeWindow, iframeDocument)
+      addFooterMenu(iframeWindow, iframeDocument)
+      addFooterReadMore(iframeWindow, iframeDocument, iframe)
+      addFooterLegal(iframeWindow, iframeDocument)
+    }
   }
 ]

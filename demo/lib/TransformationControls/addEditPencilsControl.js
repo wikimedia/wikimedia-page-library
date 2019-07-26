@@ -7,20 +7,23 @@ export default [
   null,
   (iframeWindow, iframeDocument) => {
     event.target.disabled = true
-    const editPencilHeaderFromSectionHeader = sectionHeader =>
-      iframeWindow.pagelib.EditTransform.newEditSectionHeader(
-        iframeDocument,
-        sectionHeader.getAttribute('id'),
-        sectionHeader.getAttribute('toclevel'),
-        sectionHeader.getAttribute('line')
-      )
-    const replaceSectionHeaderWithEditPencilHeader = sectionHeader => {
-      sectionHeader.parentNode.replaceChild(
-        editPencilHeaderFromSectionHeader(sectionHeader),
-        sectionHeader
-      )
+    // Check if pagelib contains abstraction layer
+    if (!iframeWindow.pagelib.c1) {
+      const editPencilHeaderFromSectionHeader = sectionHeader =>
+        iframeWindow.pagelib.EditTransform.newEditSectionHeader(
+          iframeDocument,
+          sectionHeader.getAttribute('id'),
+          sectionHeader.getAttribute('toclevel'),
+          sectionHeader.getAttribute('line')
+        )
+      const replaceSectionHeaderWithEditPencilHeader = sectionHeader => {
+        sectionHeader.parentNode.replaceChild(
+          editPencilHeaderFromSectionHeader(sectionHeader),
+          sectionHeader
+        )
+      }
+      iframeDocument.querySelectorAll('.section_header')
+        .forEach(replaceSectionHeaderWithEditPencilHeader)
     }
-    iframeDocument.querySelectorAll('.section_header')
-      .forEach(replaceSectionHeaderWithEditPencilHeader)
   }
 ]

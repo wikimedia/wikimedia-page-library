@@ -8,6 +8,11 @@ const shouldWidenImage = image =>
   // image.getAttribute('data-file-height')
   // TODO: file ticket for adding ^ to MCS and/or ensure this gets included on new PCS endpoint!
 
+const widenImage = (iframeWindow, image) => {
+  if (!iframeWindow.pagelib.c1) {
+    iframeWindow.pagelib.WidenImage.maybeWidenImage(image)
+  }
+}
 export default [
   'widen_image_checkbox',
   'Widen images *',
@@ -17,6 +22,6 @@ export default [
     event.target.disabled = true
     Array.from(iframeDocument.querySelectorAll('img'))
       .filter(shouldWidenImage)
-      .forEach(img => iframeWindow.pagelib.WidenImage.maybeWidenImage(img))
+      .forEach(image => widenImage(iframeWindow, image))
   }
 ]

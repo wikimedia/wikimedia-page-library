@@ -2,10 +2,14 @@
 
 const platformSelectionHandler = (iframeWindow, iframeDocument, selectedValue) => {
   const html = iframeDocument.querySelector('html')
-  html.classList.remove(iframeWindow.pagelib.PlatformTransform.CLASS.ANDROID)
-  html.classList.remove(iframeWindow.pagelib.PlatformTransform.CLASS.IOS)
-  if (selectedValue in iframeWindow.pagelib.PlatformTransform.CLASS) {
-    html.classList.add(iframeWindow.pagelib.PlatformTransform.CLASS[selectedValue])
+  /* eslint-disable multiline-ternary */
+  const platformClass = iframeWindow.pagelib.c1
+    ? iframeWindow.pagelib.c1.Platforms
+    : iframeWindow.pagelib.PlatformTransform.CLASS
+  html.classList.remove(platformClass.ANDROID)
+  html.classList.remove(platformClass.IOS)
+  if (selectedValue in platformClass) {
+    html.classList.add(platformClass[selectedValue])
   }
 }
 

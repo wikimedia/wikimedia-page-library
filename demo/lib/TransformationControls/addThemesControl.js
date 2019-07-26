@@ -1,11 +1,18 @@
 /* eslint-disable require-jsdoc */
 
 const themeSelectionHandler = (iframeWindow, iframeDocument, selectedValue) => {
-  iframeWindow.pagelib.ThemeTransform.classifyElements(iframeDocument)
-  iframeWindow.pagelib.ThemeTransform.setTheme(
-    iframeDocument,
-    iframeWindow.pagelib.ThemeTransform.THEME[selectedValue]
-  )
+  // Check for abstraction layer to apply PCS rules
+  if (iframeWindow.pagelib.c1) {
+    iframeWindow.pagelib.c1.Page.setTheme(
+      iframeWindow.pagelib.c1.Themes[selectedValue]
+    )
+  } else {
+    iframeWindow.pagelib.ThemeTransform.classifyElements(iframeDocument)
+    iframeWindow.pagelib.ThemeTransform.setTheme(
+      iframeDocument,
+      iframeWindow.pagelib.ThemeTransform.THEME[selectedValue]
+    )
+  }
 }
 const div = document.createElement('div')
 div.id = 'theme'
