@@ -24,7 +24,6 @@ describe('pcs.c1.Page', () => {
       let onSuccessCallbackCalled = false
       window = domino.createWindow(emptyHTML)
       document = window.document
-      window.requestAnimationFrame = cb => cb()
 
       Page.setup({
         platform: Platforms.IOS,

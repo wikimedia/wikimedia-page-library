@@ -71,10 +71,14 @@ const setup = (optionalSettings, onSuccess) => {
   }
 
   if (onSuccess instanceof Function) {
-    // request animation frame before callback to ensure theme is set
-    window.requestAnimationFrame(() => {
+    if (window && window.requestAnimationFrame) {
+      // request animation frame before callback to ensure theme is set
+      window.requestAnimationFrame(() => {
+        onSuccess()
+      })
+    } else {
       onSuccess()
-    })
+    }
   }
 }
 
