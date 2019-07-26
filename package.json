@@ -28,7 +28,7 @@
     "serve:watch": "webpack-dev-server -dw",
     "test:size": "bundlesize",
     "pretest": "npm run -s build",
-    "test": "mocha test/**/*.test.js test/**/**/*.test.js && bundlesize",
+    "test": "mocha --recursive test && bundlesize",
     "serve:demo": "browser-sync start -c .browsersync.config.js",
     "start": "run-p -s serve:watch serve:demo",
     "preversion": "[ -z \"$(git status -z)\" ]",
