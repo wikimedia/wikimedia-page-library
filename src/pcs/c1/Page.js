@@ -2,6 +2,7 @@ import AdjustTextSize from '../../transform/AdjustTextSize'
 import BodySpacingTransform from '../../transform/BodySpacingTransform'
 import CollapseTable from '../../transform/CollapseTable'
 import DimImagesTransform from '../../transform/DimImagesTransform'
+import EditTransform from '../../transform/EditTransform'
 import L10N from './L10N'
 import LazyLoadTransformer from '../../transform/LazyLoadTransformer'
 import PlatformTransform from '../../transform/PlatformTransform'
@@ -153,6 +154,21 @@ const setTextSizeAdjustmentPercentage = (textSize, onSuccess) => {
 }
 
 /**
+ * Enables edit buttons to be shown (and which ones).
+ * @param {?boolean} isEditable true if edit buttons should be shown
+ * @param {?boolean} isProtected true if the protected edit buttons should be shown
+ * @param {?OnSuccess} onSuccess onSuccess callback
+ * @return {void}
+ */
+const setEditButtons = (isEditable, isProtected, onSuccess) => {
+  EditTransform.setEditButtons(document, isEditable, isProtected)
+
+  if (onSuccess instanceof Function) {
+    onSuccess()
+  }
+}
+
+/**
  * Gets the revision of the current mobile-html page.
  * @return {string}
  */
@@ -178,6 +194,7 @@ export default {
   setMargins,
   setScrollTop,
   setTextSizeAdjustmentPercentage,
+  setEditButtons,
   getRevision,
   testing: {
     getScroller

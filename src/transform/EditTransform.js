@@ -21,6 +21,27 @@ const ACTION_TITLE_PRONUNCIATION = 'title_pronunciation'
 const ACTION_ADD_TITLE_DESCRIPTION = 'add_title_description'
 
 /**
+ * Enables edit buttons to be shown (and which ones: protected or regular).
+ * @param {!HTMLDocument} document
+ * @param {?boolean} isEditable true if edit buttons should be shown
+ * @param {?boolean} isProtected true if the protected edit buttons should be shown
+ * @return {void}
+ */
+const setEditButtons = (document, isEditable = false, isProtected = false) => {
+  const classList = document.documentElement.classList
+  if (isEditable) {
+    classList.remove(CLASS.PROTECTION.FORBIDDEN)
+  } else {
+    classList.add(CLASS.PROTECTION.FORBIDDEN)
+  }
+  if (isProtected) {
+    classList.add(CLASS.PROTECTION.PROTECTED)
+  } else {
+    classList.remove(CLASS.PROTECTION.PROTECTED)
+  }
+}
+
+/**
  * @param {!Document} document
  * @param {!number} index The zero-based index of the section.
  * @return {!HTMLAnchorElement}
@@ -152,6 +173,7 @@ const newEditLeadSectionHeader = (document, pageDisplayTitle, titleDescription,
 export default {
   CLASS,
   ADD_TITLE_DESCRIPTION: IDS.ADD_TITLE_DESCRIPTION,
+  setEditButtons,
   newEditSectionButton,
   newEditSectionHeader,
   newEditLeadSectionHeader

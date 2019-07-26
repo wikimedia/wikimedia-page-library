@@ -121,12 +121,23 @@ pagelib.c1.Page.getRevision()
 ```
 returns '907165344'
 
-#### setTextSizeAdjustmentPercentage
+#### setTextSizeAdjustmentPercentage(percentageString)
 Sets the text-adjust-size property percentage allowing native clients to adjust the font-size. This CSS property is not supported in all browsers, you can check which browsers support it in the following link, https://caniuse.com/#feat=text-size-adjust
 
 The input needs to be a string like '10%'. Example:
 ```
 pagelib.c1.Page.setTextSizeAdjustmentPercentage('10%')
+```
+
+#### setEditButtons(isEditable, isProtected, onSuccess)
+Enables or disables the edit buttons on the page. The default is edit buttons are off but it's probably best to not assume that.
+The second boolean is whether to show the protected edit pencils.
+
+All parameters are optional. Default is false, false.
+
+Example:
+```
+pagelib.c1.Page.setEditButtons(true, false)
 ```
 
 ### Sections
