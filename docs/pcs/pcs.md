@@ -39,7 +39,7 @@ There are two kinds of versions we are concerned about, client side and server s
 
 ## Interface
 
-### PageMods
+### Page
 
 #### onPageLoad()
 No need to call this one from the client side. This will be invoked automatically when the DOM is 
@@ -52,17 +52,17 @@ Setting parameter object fields:
 - platform: possible values in pagelib.c1.Platforms: [IOS, ANDROID] 
 - clientVersion: string of client version (platform specific)
 - l10n: object of localized user visible strings: { addTitleDescription, tableInfobox, tableOther, tableClose }
+- loadImages: will images be loaded (defaults to true if omitted)
 - theme: possible values in pagelib.c1.Themes: [DEFAULT, SEPIA, DARK, BLACK]
 - dimImages: boolean
 - margins: object with { top, right, bottom, left }
 - areTablesInitiallyExpanded: boolean (Default: tables are collapsed)
 - scrollTop: number of pixel for highest position to scroll to. Use this to adjust for any decor overlaying the viewport.
-
-(The first three fields don't have any equivalent separate call since those don't make sense to change after the fact.)
+(The first four fields don't have any equivalent separate call since those don't make sense to change after the fact.)
 
 Example:
 ```
-pagelib.c1.PageMods.setMulti(document, {
+pagelib.c1.Page.setup({
   platform: pagelib.c1.Platforms.IOS,
   clientVersion: '6.2.1',
   l10n: { 
@@ -75,7 +75,8 @@ pagelib.c1.PageMods.setMulti(document, {
   dimImages: true,
   margins: { top: '32px', right: '32px', bottom: '32px', left: '32px' },
   areTablesInitiallyExpanded: true,
-  scrollTop: 64
+  scrollTop: 64,
+  loadImages: true
 })
 ```
 
@@ -84,7 +85,7 @@ Sets the theme. See possible values listed in `setMulti()`.
 
 Example:
 ```
-pagelib.c1.PageMods.setTheme(document, pagelib.c1.Themes.SEPIA)
+pagelib.c1.Page.setTheme(pagelib.c1.Themes.SEPIA)
 ```
 
 #### setDimImages()
@@ -92,7 +93,7 @@ Turns on or off dimming of images.
 
 Example:
 ```
-pagelib.c1.PageMods.setDimImages(document, true)
+pagelib.c1.Page.setDimImages(true)
 ```
 
 #### setMargins()
@@ -100,7 +101,7 @@ Sets the margins on the `<body>` tag.
 
 Example:
 ```
-pagelib.c1.PageMods.setMargins(document, { top: '128px', right: '32px', bottom: '16px', left: '32px' })
+pagelib.c1.Page.setMargins({ top: '128px', right: '32px', bottom: '16px', left: '32px' })
 ```
 
 #### setScrollTop()
@@ -108,7 +109,7 @@ Sets the top-most vertical position to scroll to in pixel. Use this to adjust fo
 
 Example:
 ```
-pagelib.c1.PageMods.setScrollTop(document, 64)
+pagelib.c1.Page.setScrollTop(64)
 ```
 
 ### Sections
@@ -119,7 +120,7 @@ Gets Section Offsets object to handle quick scrolling in the table of contents.
 
 Example:
 ```
-pagelib.c1.Sections.getOffsets(document)
+pagelib.c1.Sections.getOffsets()
 ```
 
 ### Footer
@@ -130,7 +131,6 @@ Adds a footer to the page showing metadata of the page, like how many other lang
 Example:
 ```
 pagelib.c1.Footer.add(
-    document,
     'Knight Lore',  // articleTitle
     [pagelib.c1.Footer.MenuItemType.languages, pagelib.c1.Footer.MenuItemType.lastEdited, pagelib.c1.Footer.MenuItemType.pageIssues, pagelib.c1.Footer.MenuItemType.disambiguation, pagelib.c1.Footer.MenuItemType.talkPage],  // menuItems
     { 
@@ -161,7 +161,7 @@ The client is expected to call this function for every "Read more" title receive
 
 Example:
 ```
-pagelib.c1.Footer.updateReadMoreSaveButtonForTitle(document, 'Mire Mare', 'Saved for later', true)
+pagelib.c1.Footer.updateReadMoreSaveButtonForTitle('Mire Mare', 'Saved for later', true)
 ```
 
 ### InteractionHandling

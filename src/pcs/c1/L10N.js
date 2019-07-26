@@ -10,13 +10,12 @@ const selectors = {
 
 /**
  * Change user visible labels in the WebView.
- * @param {!Document} document
  * @param {!{string}} localizedStrings a dictionary of localized strings {
  *   addTitleDescription, tableInfobox, tableOther, tableClose
  * }
  * @return {void}
  */
-const localizeLabels = (document, localizedStrings) => {
+const localizeLabels = localizedStrings => {
   for (const [key, selector] of Object.entries(selectors)) {
     if (localizedStrings[key]) {
       const elements = Array.from(document.querySelectorAll(selector))
