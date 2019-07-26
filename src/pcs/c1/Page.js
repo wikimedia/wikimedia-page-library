@@ -149,6 +149,15 @@ const setTextSizeAdjustmentPercentage = (textSize, onSuccess) => {
 }
 
 /**
+ * Gets the revision of the current mobile-html page.
+ * @return {string}
+ */
+const getRevision = () => {
+  const about = document.documentElement.getAttribute('about')
+  return about.substring(about.lastIndexOf('/') + 1)
+}
+
+/**
  * Gets the Scroller object. Just for testing!
  * @return {{setScrollTop, scrollWithDecorOffset}}
  */
@@ -165,6 +174,7 @@ export default {
   setMargins,
   setScrollTop,
   setTextSizeAdjustmentPercentage,
+  getRevision,
   testing: {
     getScroller
   }

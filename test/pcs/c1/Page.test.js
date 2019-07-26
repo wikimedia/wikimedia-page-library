@@ -139,4 +139,14 @@ describe('pcs.c1.Page', () => {
       assert.ok(callbackCalled)
     })
   })
+
+  describe('.getRevision()', () => {
+    it('all', () => {
+      window = domino.createWindow(
+        '<html about="http://en.wikipedia.org/wiki/Special:Redirect/revision/907165344">')
+      document = window.document
+
+      assert.strictEqual(Page.getRevision(), '907165344')
+    })
+  })
 })

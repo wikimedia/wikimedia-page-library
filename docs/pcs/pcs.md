@@ -112,6 +112,15 @@ Example:
 pagelib.c1.Page.setScrollTop(64)
 ```
 
+#### getRevision()
+Gets the revision of the current page as a string.
+
+Example:
+```
+pagelib.c1.Page.getRevision()
+```
+returns '907165344'
+
 ### Sections
 A set of utilities to handle Sections properties.
 
