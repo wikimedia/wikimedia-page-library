@@ -1,6 +1,33 @@
 import './WidenImage.css'
 import elementUtilities from './ElementUtilities'
 
+const MIN_IMAGE_SIZE = 48
+const MATHOID_IMG_CLASS = 'mwe-math-fallback-image-inline'
+
+const thumbBucketWidthCandidates = [
+  640,
+  320
+]
+
+const MediaSelectors = [
+  '*[typeof^=mw:Image]',
+  '*[typeof^=mw:Video]',
+  '*[typeof^=mw:Audio]',
+  `img.${MATHOID_IMG_CLASS}`
+]
+
+// Exclusions for various categories of content. See MMVB.isAllowedThumb in mediawiki-extensions-
+// MultimediaViewer.
+const MediaBlacklist = [
+  '.metadata',
+  '.noviewer',
+]
+
+const VideoSelectors = MediaSelectors.filter(selector => selector.includes('Video'))
+
+const PronunciationParentSelector = 'span.IPA'
+const PronunciationSelector = 'a[rel=mw:MediaLink]'
+const SpokenWikipediaId = '#section_SpokenWikipedia'
 /**
  * Gets array of ancestors of element which need widening.
  * @param  {!HTMLElement} element
@@ -147,6 +174,7 @@ const shouldWidenImage = image => {
  * @return {void}
  */
 const widenImage = image => {
+  console.log(image.tagName)
   widenAncestors(image)
   image.classList.add('pagelib_widen_image_override')
 }
@@ -164,8 +192,123 @@ const maybeWidenImage = image => {
   return false
 }
 
+/**
+ * Determines whether or not an image is a gallery image
+ * @param  {!HTMLElement} image   The image in question
+ * @return {boolean}              Whether or not 'image' is a gallery image
+ */
+const isGalleryImage = image => image.width >= 64
+
+/**
+ * Returns whether the element or an ancestor is part of a blacklisted class
+ * @param {!Element} elem an HTML Element
+ * @return {!boolean} true if the element or an ancestor is part of a blacklisted class
+ */
+const isDisallowed = elem => !!elem.closest(MediaBlacklist.join())
+
+const isFromGallery = elem => !!elem.closest('.gallerybox')
+
+/**
+ * Returns whether the on-page size of an <img> element is small enough to filter from the response
+ * @param {!Element} img an <img> element
+ */
+const isTooSmall = img => {
+  const width = img.getAttribute('width')
+  const height = img.getAttribute('height')
+  return width < MIN_IMAGE_SIZE || height < MIN_IMAGE_SIZE
+}
+
+/**
+ * Widens all gallery images in a document that need widening
+ * @param  {!HTMLDocument} document  The document in question
+ * @return {void}
+ */
+const widenGalleryImagesInDocument = document => {
+  Array.from(document.querySelectorAll('figure img')).forEach(image => {
+    if (isGalleryImage(image)) {
+      maybeWidenImage(image)
+    }
+  })
+}
+
+const THUMB_URL_PATH_REGEX = /\/thumb\//
+const THUMB_WIDTH_REGEX = /(\d+)px-[^/]+$/
+
+const scaleThumbUrl = function(initialUrl, desiredWidth, originalWidth) {
+  if (!initialUrl.match(THUMB_URL_PATH_REGEX)) {
+    // not a thumb URL
+    return
+  }
+  const match = THUMB_WIDTH_REGEX.exec(initialUrl)
+  if (match) {
+    const maxWidth = originalWidth || match[1]
+    if (maxWidth > desiredWidth) {
+      const newSubstring = match[0].replace(match[1], desiredWidth)
+      return initialUrl.replace(THUMB_WIDTH_REGEX, newSubstring)
+    }
+  }
+}
+
+const adjustSrcSet = (srcSet, origWidth, candidateBucketWidth) => {
+  const srcSetEntries = srcSet.split(',').map(str => str.trim())
+  const updatedEntries = []
+  srcSetEntries.forEach(entry => {
+    const entryParts = entry.split(' ')
+    const src = entryParts[0]
+    const res = entryParts[1]
+    const multiplier = res.substring(0, res.toLowerCase().indexOf('x'))
+    const desiredWidth = candidateBucketWidth * multiplier
+    if (desiredWidth < origWidth) {
+      const scaledThumbUrl = scaleThumbUrl(src, desiredWidth, origWidth)
+      if (scaledThumbUrl) {
+        updatedEntries.push(`${scaledThumbUrl} ${res}`)
+      }
+    }
+  })
+  if (updatedEntries.length) {
+    return updatedEntries.join(', ')
+  }
+}
+
+const adjustThumbWidths = document => {
+  const imgs = document.querySelectorAll('img');
+  [].forEach.call(imgs, img => {
+    if (isTooSmall(img) || isDisallowed(img) || isFromGallery(img)) {
+      return
+    }
+    const src = img.getAttribute('src')
+    const srcSet = img.getAttribute('srcset')
+    const width = img.getAttribute('width')
+    const height = img.getAttribute('height')
+    const origWidth = img.getAttribute('data-file-width')
+    for (let i = 0; i < thumbBucketWidthCandidates.length; i++) {
+      const candidateBucketWidth = thumbBucketWidthCandidates[i]
+      if (candidateBucketWidth >= origWidth) {
+        continue
+      }
+      const scaledThumbUrl = scaleThumbUrl(src, candidateBucketWidth, origWidth)
+      if (scaledThumbUrl) {
+        img.setAttribute('src', scaledThumbUrl)
+        img.setAttribute('height', Math.round(height * candidateBucketWidth / width))
+        img.setAttribute('width', candidateBucketWidth)
+        if (srcSet) {
+          const adjustedSrcSet = adjustSrcSet(srcSet, origWidth, candidateBucketWidth)
+          if (adjustedSrcSet) {
+            img.setAttribute('srcSet', adjustedSrcSet)
+          } else {
+            img.removeAttribute('srcSet')
+          }
+        }
+        break
+      }
+    }
+  })
+}
+
 export default {
+  adjustThumbWidths,
   maybeWidenImage,
+  widenGalleryImagesInDocument,
   test: {
     ancestorsToWiden,
     shouldWidenImage,

@@ -3,10 +3,12 @@ import BodySpacingTransform from '../../transform/BodySpacingTransform'
 import CollapseTable from '../../transform/CollapseTable'
 import DimImagesTransform from '../../transform/DimImagesTransform'
 import L10N from './L10N'
+import LazyLoadTransform from '../../transform/LazyLoadTransform'
 import LazyLoadTransformer from '../../transform/LazyLoadTransformer'
 import PlatformTransform from '../../transform/PlatformTransform'
 import Scroller from './Scroller'
 import ThemeTransform from '../../transform/ThemeTransform'
+import WidenImagesTransform from '../../transform/WidenImage'
 
 /**
  * Executes common JS functionality the client should start, like hooking up events for
@@ -162,6 +164,34 @@ const getRevision = () => {
 }
 
 /**
+ * Gets the revision of the current mobile-html page.
+ * @param  {!string} contentHTML string of HTML content
+ * @return {boolean} whether or not the content was replaced
+ */
+const replaceContent = contentHTML => {
+  const body = document.querySelector('body')
+  const header = document.querySelector('header')
+  while (body.firstChild) {
+    body.removeChild(body.firstChild)
+  }
+  body.appendChild(header)
+  header.insertAdjacentHTML('afterend', contentHTML)
+
+  WidenImagesTransform.adjustThumbWidths(document)
+
+  ThemeTransform.classifyElements(document.body)
+
+  CollapseTable.prepareTables(document, '', '', '', '')
+
+  WidenImagesTransform.widenGalleryImagesInDocument(document)
+
+  const lazyLoadableImages = LazyLoadTransform.queryLazyLoadableImages(document.body)
+  LazyLoadTransform.convertImagesToPlaceholders(document, lazyLoadableImages)
+
+  return true
+}
+
+/**
  * Gets the Scroller object. Just for testing!
  * @return {{setScrollTop, scrollWithDecorOffset}}
  */
@@ -179,6 +209,7 @@ export default {
   setScrollTop,
   setTextSizeAdjustmentPercentage,
   getRevision,
+  replaceContent,
   testing: {
     getScroller
   }
