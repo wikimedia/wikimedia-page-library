@@ -22,24 +22,38 @@ describe('pcs.c1.Page', () => {
   describe('.setup()', () => {
     it('all', () => {
       let onSuccessCallbackCalled = false
-      window = domino.createWindow(emptyHTML)
+      window = domino.createWindow(
+        '<strong class="pagelib_table_infobox">Quick facts</strong>')
       document = window.document
 
       Page.setup({
         platform: Platforms.IOS,
         clientVersion: '6.2.1',
+        l10n: {
+          addTitleDescription: 'Titelbeschreibung bearbeiten',
+          tableInfobox: 'Schnelle Fakten',
+          tableOther: 'Weitere Informationen',
+          tableClose: 'Schließen'
+        },
         theme: Themes.DARK,
         dimImages: true,
         margins: { top: '1px', right: '2px', bottom: '3px', left: '4px' },
-        areTablesInitiallyExpanded: true
+        areTablesInitiallyExpanded: true,
+        textSizeAdjustmentPercentage: '100%',
+        scrollTop: 64,
+        loadImages: true
       }, () => { onSuccessCallbackCalled = true })
 
+      assert.strictEqual(document.querySelector('.pagelib_table_infobox').innerHTML,
+        'Schnelle Fakten')
       assert.ok(document.documentElement.classList.contains('pagelib_theme_dark'))
       assert.ok(document.documentElement.classList.contains('pagelib_dim_images'))
       assert.strictEqual(document.body.style.marginTop, '1px')
       assert.strictEqual(document.body.style.marginRight, '2px')
       assert.strictEqual(document.body.style.marginBottom, '3px')
       assert.strictEqual(document.body.style.marginLeft, '4px')
+      assert.strictEqual(document.body.style['text-size-adjust'], '100%')
+      assert.strictEqual(Page.testing.getScroller().testing.getScrollTop(), 64)
       assert.ok(onSuccessCallbackCalled)
     })
 
@@ -105,10 +119,10 @@ describe('pcs.c1.Page', () => {
       Page.setMargins({ top: '1px', right: '2px', bottom: '3px', left: '4px' },
         () => { callbackCalled = true })
 
-      assert.strictEqual(document.body.style.marginTop,'1px')
-      assert.strictEqual(document.body.style.marginRight,'2px')
-      assert.strictEqual(document.body.style.marginBottom,'3px')
-      assert.strictEqual(document.body.style.marginLeft,'4px')
+      assert.strictEqual(document.body.style.marginTop, '1px')
+      assert.strictEqual(document.body.style.marginRight, '2px')
+      assert.strictEqual(document.body.style.marginBottom, '3px')
+      assert.strictEqual(document.body.style.marginLeft, '4px')
       assert.ok(callbackCalled)
     })
 
@@ -118,10 +132,24 @@ describe('pcs.c1.Page', () => {
 
       Page.setMargins({})
 
-      assert.strictEqual(document.body.style.marginTop,'')
-      assert.strictEqual(document.body.style.marginRight,'')
-      assert.strictEqual(document.body.style.marginBottom,'')
-      assert.strictEqual(document.body.style.marginLeft,'')
+      assert.strictEqual(document.body.style.marginTop, '')
+      assert.strictEqual(document.body.style.marginRight, '')
+      assert.strictEqual(document.body.style.marginBottom, '')
+      assert.strictEqual(document.body.style.marginLeft, '')
+    })
+  })
+
+  describe('.setTextSizeAdjustmentPercentage()', () => {
+    it('120%', () => {
+      let callbackCalled = false
+      window = domino.createWindow(emptyHTML)
+      document = window.document
+
+      Page.setTextSizeAdjustmentPercentage('120%',
+        () => { callbackCalled = true })
+
+      assert.strictEqual(document.body.style['text-size-adjust'], '120%')
+      assert.ok(callbackCalled)
     })
   })
 
@@ -134,7 +162,7 @@ describe('pcs.c1.Page', () => {
       Page.setScrollTop(64,
         () => { callbackCalled = true })
 
-      assert.strictEqual(Page.testing.getScroller().testing.getScrollTop(),64)
+      assert.strictEqual(Page.testing.getScroller().testing.getScrollTop(), 64)
       assert.ok(callbackCalled)
     })
   })
