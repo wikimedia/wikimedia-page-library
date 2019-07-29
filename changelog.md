@@ -1,3 +1,16 @@
+### v9.0.0
+- Breaking: `PageMods` is now `Page`
+- Breaking: `setMulti()` in `Page` is now called `setup()`
+- Breaking: Most pcs functions removed the `document` parameter
+- Breaking: `Footer.add()` now takes a parameter object
+- Change: images are not loaded automatically anymore. Set `loadImages` to `true` in `Page.setup()` if you want images to be loaded.
+- Change: Read more links now start with `./` instead of `/wiki/`
+- Change: Edit buttons are not shown by default anymore.
+- New: Clients specify if and what edit buttons should be shown via `Page.setEditButtons(isEditable, isProtected)`.
+- New: `Page.getRevision()`. Useful to make the proper follow-up requests to the companion JSON endpoints, (metadata, references, ...)
+- Fix: Prevent placeholder to be wider than the viewport width on initial load
+- Fix: Check for requestAnimationFrame before use
+
 ### v8.4.0
 - Change: don't pass natural size with imageClicked action
 - New: pass href with imageClicked action
