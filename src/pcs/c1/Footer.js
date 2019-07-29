@@ -18,22 +18,24 @@ const _connectHandlers = newHandlers => {
 
 /**
  * Adds footer to the end of the document
- * @param  {!list} articleTitle article title for related pages
- * @param  {!string} menuItems menu items to add
- * @param  {!map} localizedStrings localized strings
- * @param  {!number} readMoreItemCount number of read more items to add
- * @param  {!string} readMoreBaseURL base url for restbase to fetch read more
+ * @param {!Object.<any>} params parameters as follows
+ *   {!string} title article title for related pages
+ *   {!array<string>} menuItems menu items to add
+ *   {!map} l10n localized strings
+ *   {!number} readMoreItemCount number of read more items to add
+ *   {!string} readMoreBaseURL base url for RESTBase to fetch read more
  * @return {void}
  */
-const add = (articleTitle, menuItems, localizedStrings, readMoreItemCount,
-  readMoreBaseURL) => {
+const add = params => {
+  const { title: articleTitle, menuItems, l10n, readMoreItemCount, readMoreBaseURL } = params
+
   // Add container
   if (FooterContainer.isContainerAttached(document) === false) {
     document.body.appendChild(FooterContainer.containerFragment(document))
   }
   // Add menu
   FooterMenu.setHeading(
-    localizedStrings.menuHeading,
+    l10n.menuHeading,
     'pagelib_footer_container_menu_heading',
     document
   )
@@ -44,28 +46,28 @@ const add = (articleTitle, menuItems, localizedStrings, readMoreItemCount,
     switch (item) {
     case FooterMenu.MenuItemType.languages:
       menuItemTypeString = 'languages'
-      title = localizedStrings.menuLanguagesTitle
+      title = l10n.menuLanguagesTitle
       break
     case FooterMenu.MenuItemType.lastEdited:
       menuItemTypeString = 'lastEdited'
-      title = localizedStrings.menuLastEditedTitle
-      subtitle = localizedStrings.menuLastEditedSubtitle
+      title = l10n.menuLastEditedTitle
+      subtitle = l10n.menuLastEditedSubtitle
       break
     case FooterMenu.MenuItemType.pageIssues:
       menuItemTypeString = 'pageIssues'
-      title = localizedStrings.menuPageIssuesTitle
+      title = l10n.menuPageIssuesTitle
       break
     case FooterMenu.MenuItemType.disambiguation:
       menuItemTypeString = 'disambiguation'
-      title = localizedStrings.menuDisambiguationTitle
+      title = l10n.menuDisambiguationTitle
       break
     case FooterMenu.MenuItemType.coordinate:
       menuItemTypeString = 'coordinate'
-      title = localizedStrings.menuCoordinateTitle
+      title = l10n.menuCoordinateTitle
       break
     case FooterMenu.MenuItemType.talkPage:
       menuItemTypeString = 'talkPage'
-      title = localizedStrings.menuTalkPageTitle
+      title = l10n.menuTalkPageTitle
       break
     default:
     }
@@ -92,7 +94,7 @@ const add = (articleTitle, menuItems, localizedStrings, readMoreItemCount,
 
   if (readMoreItemCount && readMoreItemCount > 0) {
     FooterReadMore.setHeading(
-      localizedStrings.readMoreHeading,
+      l10n.readMoreHeading,
       'pagelib_footer_container_readmore_heading',
       document
     )
@@ -148,11 +150,11 @@ const add = (articleTitle, menuItems, localizedStrings, readMoreItemCount,
 
   FooterLegal.add(
     document,
-    localizedStrings.licenseString,
-    localizedStrings.licenseSubstitutionString,
+    l10n.licenseString,
+    l10n.licenseSubstitutionString,
     'pagelib_footer_container_legal',
     licenseLinkClickHandler,
-    localizedStrings.viewInBrowserString,
+    l10n.viewInBrowserString,
     viewInBrowserLinkClickHandler
   )
 }

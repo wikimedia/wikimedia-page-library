@@ -159,10 +159,10 @@ Adds a footer to the page showing metadata of the page, like how many other lang
 
 Example:
 ```
-pagelib.c1.Footer.add(
-    'Knight Lore',  // articleTitle
-    [pagelib.c1.Footer.MenuItemType.languages, pagelib.c1.Footer.MenuItemType.lastEdited, pagelib.c1.Footer.MenuItemType.pageIssues, pagelib.c1.Footer.MenuItemType.disambiguation, pagelib.c1.Footer.MenuItemType.talkPage],  // menuItems
-    { 
+pagelib.c1.Footer.add({
+    title: 'Knight Lore',
+    menuItems: [pagelib.c1.Footer.MenuItemType.languages, pagelib.c1.Footer.MenuItemType.lastEdited, pagelib.c1.Footer.MenuItemType.pageIssues, pagelib.c1.Footer.MenuItemType.disambiguation, pagelib.c1.Footer.MenuItemType.talkPage],
+    l10n: { 
         'readMoreHeading': 'Read more',
         'menuDisambiguationTitle': 'Similar pages',
         'menuLanguagesTitle': 'Available in 9 other languages',
@@ -175,13 +175,13 @@ pagelib.c1.Footer.add(
         'viewInBrowserString': 'View article in browser',
         'licenseSubstitutionString': 'CC BY-SA 3.0',
         'menuCoordinateTitle': 'View on a map'
-     }, // localizedStrings
-     3,  // readMoreItemCount
-     'https://en.wikipedia.org/api/rest_v1' // baseUrl for getting ReadMore items
-)
+     },
+     readMoreItemCount: 3,
+     readMoreBaseURL: 'https://en.wikipedia.org/api/rest_v1'
+})
 ```
 
-baseUrl for getting ReadMore items:
+readMoreBaseURL:
 - production: `'https://en.wikipedia.org/api/rest_v1'`
 - local RB: `'http://localhost:7231/en.wikipedia.org/v1'`
 
