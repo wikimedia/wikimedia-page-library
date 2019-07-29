@@ -178,8 +178,10 @@ pagelib.c1.Footer.add({
     'licenseSubstitutionString': 'CC BY-SA 3.0',
     'menuCoordinateTitle': 'View on a map'
   },
-  readMoreItemCount: 3,
-  readMoreBaseURL: 'https://en.wikipedia.org/api/rest_v1'
+  readMore: { 
+    itemCount: 3,
+    baseURL: 'https://en.wikipedia.org/api/rest_v1'
+  }
 })
 ```
 

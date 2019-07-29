@@ -27,7 +27,9 @@ const _connectHandlers = newHandlers => {
  * @return {void}
  */
 const add = params => {
-  const { title: articleTitle, menuItems, l10n, readMoreItemCount, readMoreBaseURL } = params
+  const { title: articleTitle, menuItems, l10n,
+    readMore: { itemCount: readMoreItemCount, baseURL: readMoreBaseURL } }
+    = params
 
   // Add container
   if (FooterContainer.isContainerAttached(document) === false) {
