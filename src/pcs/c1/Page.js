@@ -42,7 +42,7 @@ const setup = (optionalSettings, onSuccess) => {
     PlatformTransform.setPlatform(document, settings.platform)
   }
   if (settings.l10n !== undefined) {
-    L10N.localizeLabels(document, settings.l10n)
+    L10N.localizeLabels(settings.l10n)
   }
   if (settings.theme !== undefined) {
     ThemeTransform.setTheme(document, settings.theme)

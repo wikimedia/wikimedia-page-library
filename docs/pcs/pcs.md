@@ -45,7 +45,7 @@ There are two kinds of versions we are concerned about, client side and server s
 No need to call this one from the client side. This will be invoked automatically when the DOM is 
 ready. All other functions are meant to be called by the client.
 
-#### setMulti()
+#### setup()
 Combination of the following calls, changing multiple settings in one single call. The settings are kept in an object.
 
 Setting parameter object fields:
@@ -75,13 +75,14 @@ pagelib.c1.Page.setup({
   dimImages: true,
   margins: { top: '32px', right: '32px', bottom: '32px', left: '32px' },
   areTablesInitiallyExpanded: true,
+  textSizeAdjustmentPercentage: '100%',
   scrollTop: 64,
   loadImages: true
 })
 ```
 
 #### setTheme()
-Sets the theme. See possible values listed in `setMulti()`.
+Sets the theme. See possible values listed in `setup()`.
 
 Example:
 ```
