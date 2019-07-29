@@ -4,6 +4,36 @@ import pagelib from '../../build/wikimedia-page-library-transform'
 const editTransform = pagelib.EditTransform
 
 describe('EditTransform', () => {
+  describe('.setEditButtons()', () => {
+    const protection = editTransform.CLASS.PROTECTION
+    let document
+
+    beforeEach(() => {
+      document = fixtureIO.documentFromFixtureFile('EditTransform.html')
+    })
+
+    it('(document) = (document, false, false)', () => {
+      editTransform.setEditButtons(document)
+      assert.ok(document.documentElement.classList.contains(protection.FORBIDDEN))
+      assert.ok(!document.documentElement.classList.contains(protection.PROTECTED))
+    })
+    it('false, true', () => {
+      editTransform.setEditButtons(document, false, true)
+      assert.ok(document.documentElement.classList.contains(protection.FORBIDDEN))
+      assert.ok(document.documentElement.classList.contains(protection.PROTECTED))
+    })
+    it('true, false', () => {
+      editTransform.setEditButtons(document, true, false)
+      assert.ok(!document.documentElement.classList.contains(protection.FORBIDDEN))
+      assert.ok(!document.documentElement.classList.contains(protection.PROTECTED))
+    })
+    it('true, true', () => {
+      editTransform.setEditButtons(document, true, true)
+      assert.ok(!document.documentElement.classList.contains(protection.FORBIDDEN))
+      assert.ok(document.documentElement.classList.contains(protection.PROTECTED))
+    })
+  })
+
   describe('.newEditSectionHeader(0, 2)', () => {
     let document
     let element

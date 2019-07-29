@@ -167,6 +167,21 @@ describe('pcs.c1.Page', () => {
     })
   })
 
+  describe('.setEditButtons()', () => {
+    it('simple', () =>  {
+      let callbackCalled = false
+      window = domino.createWindow(
+        '<html about="http://en.wikipedia.org/wiki/Special:Redirect/revision/907165344">')
+      document = window.document
+
+      Page.setEditButtons(false, true, () => { callbackCalled = true })
+
+      assert.ok(document.documentElement.classList.contains('no-editing'))
+      assert.ok(document.documentElement.classList.contains('page-protected'))
+      assert.ok(callbackCalled)
+    })
+  })
+
   describe('.getRevision()', () => {
     it('all', () => {
       window = domino.createWindow(
