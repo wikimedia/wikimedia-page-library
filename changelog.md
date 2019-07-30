@@ -1,3 +1,7 @@
+### v9.1.0
+- New: References link was added to Footer and InteractionHandling
+- New: Sections that are marked server-side as only containing reference lists are hidden via CSS 
+
 ### v9.0.0
 - Breaking: `PageMods` is now `Page`
 - Breaking: `setMulti()` in `Page` is now called `setup()`
