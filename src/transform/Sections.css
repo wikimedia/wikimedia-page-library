@@ -1,0 +1,4 @@
+/* Hide Sections marked to be hidden*/
+section.pagelib_hide_section {
+    display: none;
+}
