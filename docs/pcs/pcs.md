@@ -155,7 +155,7 @@ pagelib.c1.Sections.getOffsets()
 ### Footer
 
 #### add()
-Adds a footer to the page showing metadata of the page, like how many other languages it's available in, when it was last edited, links to history, talk pages, read more, view in browser, license text. 
+Adds a footer to the page showing metadata of the page, like how many other languages it's available in, when it was last edited, links to history, talk pages, read more, view in browser, license text, reference list. 
 
 Example:
 ```
@@ -163,7 +163,7 @@ pagelib.c1.Footer.add({
   platform: pagelib.c1.Platforms.IOS,
   clientVersion: '6.2.1',
   title: 'Knight Lore',
-  menuItems: [pagelib.c1.Footer.MenuItemType.languages, pagelib.c1.Footer.MenuItemType.lastEdited, pagelib.c1.Footer.MenuItemType.pageIssues, pagelib.c1.Footer.MenuItemType.disambiguation, pagelib.c1.Footer.MenuItemType.talkPage],
+  menuItems: [pagelib.c1.Footer.MenuItemType.languages, pagelib.c1.Footer.MenuItemType.lastEdited, pagelib.c1.Footer.MenuItemType.pageIssues, pagelib.c1.Footer.MenuItemType.disambiguation, pagelib.c1.Footer.MenuItemType.talkPage, pagelib.c1.Footer.MenuItemType.referenceList],
   l10n: { 
     'readMoreHeading': 'Read more',
     'menuDisambiguationTitle': 'Similar pages',
@@ -176,7 +176,8 @@ pagelib.c1.Footer.add({
     'menuPageIssuesTitle': 'Page issues',
     'viewInBrowserString': 'View article in browser',
     'licenseSubstitutionString': 'CC BY-SA 3.0',
-    'menuCoordinateTitle': 'View on a map'
+    'menuCoordinateTitle': 'View on a map',
+    'menuReferenceListTitle': 'References'
   },
   readMore: { 
     itemCount: 3,
