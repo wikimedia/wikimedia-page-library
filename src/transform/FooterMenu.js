@@ -21,7 +21,8 @@ const MenuItemType = {
   pageIssues: 3,
   disambiguation: 4,
   coordinate: 5,
-  talkPage: 6
+  talkPage: 6,
+  referenceList: 7,
 }
 
 /**
@@ -61,6 +62,8 @@ class MenuItem {
       return 'pagelib_footer_menu_icon_disambiguation'
     case MenuItemType.coordinate:
       return 'pagelib_footer_menu_icon_coordinate'
+    case MenuItemType.referenceList:
+      return 'pagelib_footer_menu_icon_reference_list'
     default:
       return ''
     }

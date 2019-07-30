@@ -71,6 +71,10 @@ const add = params => {
       menuItemTypeString = 'talkPage'
       title = l10n.menuTalkPageTitle
       break
+    case FooterMenu.MenuItemType.referenceList:
+      menuItemTypeString = 'referenceList'
+      title = l10n.menuReferenceListTitle
+      break
     default:
     }
 
