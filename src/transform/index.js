@@ -33,6 +33,7 @@ import Throttle from './Throttle'
 import SectionUtilities from './SectionUtilities'
 import WidenImage from './WidenImage'
 import './OrderedList.css'
+import './Sections.css'
 
 export default {
   AdjustTextSize,
