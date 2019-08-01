@@ -26,7 +26,7 @@ const CLASS = {
  * @return {!boolean}
  */
 const isHeaderEligible =
-  header => header.childNodes && Polyfill.querySelectorAll(header, 'a').length < 3
+  header => Polyfill.querySelectorAll(header, 'a').length < 3
 
 /**
  * Determine eligibility of extracted text.
@@ -115,17 +115,25 @@ const extractEligibleHeaderText = (document, header, pageTitle) => {
     fragmentHeader, '.geo, .coordinates, sup.reference, ol, ul, style, script'
   ).forEach(el => el.remove())
 
-  const childNodesArray = Array.prototype.slice.call(fragmentHeader.childNodes)
-  if (pageTitle) {
-    childNodesArray
-      .filter(NodeUtilities.isNodeTypeElementOrText)
-      .filter(node => isNodeTextContentSimilarToPageTitle(node, pageTitle))
-      .forEach(node => node.remove())
+  let cur = fragmentHeader.lastChild
+  while (cur) {
+    if (pageTitle
+      && NodeUtilities.isNodeTypeElementOrText(cur)
+      && isNodeTextContentSimilarToPageTitle(cur, pageTitle)) {
+      if (cur.previousSibling) {
+        cur = cur.previousSibling
+        cur.nextSibling.remove()
+      } else {
+        cur.remove()
+        cur = undefined
+      }
+    } else if (isNodeBreakElement(cur)) {
+      replaceNodeWithBreakingSpaceTextNode(document, cur)
+      cur = cur.previousSibling
+    } else {
+      cur = cur.previousSibling
+    }
   }
-
-  childNodesArray
-    .filter(isNodeBreakElement)
-    .forEach(node => replaceNodeWithBreakingSpaceTextNode(document, node))
 
   const headerText = fragmentHeader.textContent
   if (isHeaderTextEligible(headerText)) {

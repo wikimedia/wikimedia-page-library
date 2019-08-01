@@ -43,22 +43,22 @@ describe('CollapseTable', () => {
     })
     it('non-leading/trailing non-breaking spaces converted to breaking spaces', () => {
       assert.equal(stringWithNormalizedWhitespace(
-        domino.createDocument('hi&nbsp;hi').childNodes[0].textContent
+        domino.createDocument('hi&nbsp;hi').firstChild.textContent
       ), 'hi hi')
     })
     it('leading and trailing non-breaking spaces trimmed', () => {
       assert.equal(stringWithNormalizedWhitespace(
-        domino.createDocument('&nbsp;hi hi&nbsp;').childNodes[0].textContent
+        domino.createDocument('&nbsp;hi hi&nbsp;').firstChild.textContent
       ), 'hi hi')
     })
     it('tabs trimmed', () => {
       assert.equal(stringWithNormalizedWhitespace(
-        domino.createDocument('\thi\t').childNodes[0].textContent
+        domino.createDocument('\thi\t').firstChild.textContent
       ), 'hi')
     })
     it('non-leading tabs converted to breaking spaces', () => {
       assert.equal(stringWithNormalizedWhitespace(
-        domino.createDocument('hi\thi').childNodes[0].textContent
+        domino.createDocument('hi\thi').firstChild.textContent
       ), 'hi hi')
     })
   })
@@ -854,7 +854,7 @@ describe('CollapseTable', () => {
       const contentBlock = window.document.querySelector('.content_block')
       assert.ok(contentBlock)
       assert.deepEqual(contentBlock.parentNode.parentNode.tagName, 'BODY')
-      const collapsibleContainer = contentBlock.childNodes[0]
+      const collapsibleContainer = contentBlock.firstChild
       assert.ok(collapsibleContainer)
       assert.ok(collapsibleContainer.classList.contains('pagelib_collapse_table_container'))
       const table = collapsibleContainer.querySelector('.infobox')
@@ -873,7 +873,7 @@ describe('CollapseTable', () => {
       const section = window.document.querySelector('section')
       assert.ok(section)
       assert.deepEqual(section.parentNode.tagName, 'BODY')
-      const collapsibleContainer = section.childNodes[0]
+      const collapsibleContainer = section.firstChild
       assert.ok(collapsibleContainer)
       assert.ok(collapsibleContainer.classList.contains('pagelib_collapse_table_container'))
       const table = collapsibleContainer.querySelector('.infobox')
