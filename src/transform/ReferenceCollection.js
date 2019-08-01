@@ -63,9 +63,13 @@ const collectRefText = (document, source) => {
   frag.appendChild(fragDiv)
   // eslint-disable-next-line require-jsdoc
   const cloneNodeIntoFragmentDiv = node => fragDiv.appendChild(node.cloneNode(true))
-  Array.prototype.slice.call(refTextContainer.childNodes)
-    .filter(NodeUtilities.isNodeTypeElementOrText)
-    .forEach(cloneNodeIntoFragmentDiv)
+  let cur = refTextContainer.firstChild
+  while (cur) {
+    if (NodeUtilities.isNodeTypeElementOrText(cur)) {
+      cloneNodeIntoFragmentDiv(cur)
+    }
+    cur = cur.nextSibling
+  }
 
   const removalSelector = 'link, style, sup[id^=cite_ref], .mw-cite-backlink'
   Polyfill.querySelectorAll(fragDiv, removalSelector)
