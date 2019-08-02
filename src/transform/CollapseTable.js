@@ -255,7 +255,16 @@ const toggleCollapseClickCallback = function(footerDivClickCallback) {
 const shouldTableBeCollapsed = table => {
   const classBlacklist = ['navbox', 'vertical-navbox', 'navbox-inner', 'metadata', 'mbox-small']
   const blacklistIntersects = classBlacklist.some(clazz => table.classList.contains(clazz))
-  return table.style.display !== 'none' && !blacklistIntersects
+  let isHidden
+  // Wrap in a try-catch block to avoid Domino crashing on a malformed style declaration.
+  // T229521
+  try {
+    isHidden = table.style.display === 'none'
+  } catch (e) {
+    // If Domino fails to parse styles, err on the safe side and don't transform
+    isHidden = true
+  }
+  return !isHidden && !blacklistIntersects
 }
 
 /**
