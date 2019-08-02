@@ -1,3 +1,6 @@
+### v9.1.1
+- Fix: Transform performance
+
 ### v9.1.0
 - New: References link was added to Footer and InteractionHandling
 - New: Sections that are marked server-side as only containing reference lists are hidden via CSS 
