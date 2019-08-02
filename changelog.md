@@ -1,3 +1,6 @@
+### v9.1.2
+- Fix: Prevent crashes when parsing style tags
+
 ### v9.1.1
 - Fix: Transform performance
 
