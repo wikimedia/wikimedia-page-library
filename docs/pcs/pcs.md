@@ -60,6 +60,9 @@ Setting parameter object fields:
 - scrollTop: number of pixel for highest position to scroll to. Use this to adjust for any decor overlaying the viewport.
 (The first four fields don't have any equivalent separate call since those don't make sense to change after the fact.)
 
+Callback parameter: 
+Function called after all settings are applied.
+
 Example:
 ```
 pagelib.c1.Page.setup({
@@ -78,7 +81,8 @@ pagelib.c1.Page.setup({
   textSizeAdjustmentPercentage: '100%',
   scrollTop: 64,
   loadImages: true
-})
+},
+callback) // optional callback function to be called after all settings are applied
 ```
 
 #### setTheme()
