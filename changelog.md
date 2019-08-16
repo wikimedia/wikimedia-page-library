@@ -1,3 +1,42 @@
+### v9.1.2
+- Fix: Prevent crashes when parsing style tags
+
+### v9.1.1
+- Fix: Transform performance
+
+### v9.1.0
+- New: References link was added to Footer and InteractionHandling
+- New: Sections that are marked server-side as only containing reference lists are hidden via CSS 
+
+### v9.0.0
+- Breaking: `PageMods` is now `Page`
+- Breaking: `setMulti()` in `Page` is now called `setup()`
+- Breaking: Most pcs functions removed the `document` parameter
+- Breaking: `Footer.add()` now takes a parameter object
+- Change: images are not loaded automatically anymore. Set `loadImages` to `true` in `Page.setup()` if you want images to be loaded.
+- Change: Read more links now start with `./` instead of `/wiki/`
+- Change: Edit buttons are not shown by default anymore.
+- New: Clients specify if and what edit buttons should be shown via `Page.setEditButtons(isEditable, isProtected)`.
+- New: `Page.getRevision()`. Useful to make the proper follow-up requests to the companion JSON endpoints, (metadata, references, ...)
+- Fix: Prevent placeholder to be wider than the viewport width on initial load
+- Fix: Check for requestAnimationFrame before use
+
+### v8.4.0
+- Change: don't pass natural size with imageClicked action
+- New: pass href with imageClicked action
+- New: pass title and text for linkClicked actions
+- New: added href to ReferenceCollection in collectNearbyReferences output
+
+### v8.3.0
+- Fix: republish v8.3.0 which didn't "take" correctly
+
+### v8.2.0
+- Change: rename areTablesCollapsed to areTablesInitiallyExpanded
+  - Clients should now negate this boolean value. The old flag doesn't do anything anymore.
+    (Not marking it breaking because before it wasn't working correctly yet.)
+- New: add interaction handling for pronunciation button
+- Fix: references click interaction handling serialization
+
 ### v8.1.0
 - New: Localized strings for add description and the CollapseTable transform can be passed in by the client
 - Fix: appearance of spans with specific background color

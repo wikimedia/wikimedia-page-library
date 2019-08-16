@@ -2,6 +2,7 @@ import CollapseTable from '../../transform/CollapseTable'
 import Footer from './Footer'
 import LazyLoadTransform from '../../transform/LazyLoadTransform'
 import ReferenceCollection from '../../transform/ReferenceCollection'
+import SectionUtilities from '../../transform/SectionUtilities'
 
 /**
  * Type of actions users can click which may need to be handled by the native side.
@@ -13,6 +14,7 @@ const Actions = {
   ReferenceClicked: 'reference_clicked',
   EditSection: 'edit_section',
   AddTitleDescription: 'add_title_description',
+  PronunciationClicked: 'pronunciation_clicked',
 
   /* Footer related actions: */
   FooterItemSelected: 'footer_item_selected',
@@ -101,29 +103,40 @@ const postMessage = interaction => {
 
 /**
  * Posts message for a link click.
+ * @param {!Element} target element
  * @param {!string} href url
  * @return {void}
  */
-const postMessageForLinkWithHref = href => {
+const postMessageForLink = (target, href) => {
   if (href[0] === '#') {
     CollapseTable.expandCollapsedTableIfItContainsElement(
       document.getElementById(href.substring(1)))
   }
-  postMessage(new Interaction(Actions.LinkClicked, { href }))
+  postMessage(new Interaction(Actions.LinkClicked, {
+    href,
+    text: target.innerText,
+    title: target.title
+  }))
 }
+
+/**
+ * Canonical file href
+ * @param {!string} href url for the image
+ * @return {!string} canonicalized file href
+ */
+const canonicalFileHref = href => href && href.replace(/^\.\/.+:/g, './File:')
 
 /**
  * Posts message for an image click.
  * @param {!Element} target an image element
+ * @param {!string} href url for the image
  * @return {void}
  */
-const postMessageForImageWithTarget = target => {
+const postMessageForImage = (target, href) => {
+  const canonicalHref = canonicalFileHref(href)
   postMessage(new Interaction(Actions.ImageClicked, {
+    href: canonicalHref,
     src: target.getAttribute('src'),
-    // Image should be fetched by time it is tapped,
-    // so naturalWidth and height should be available.
-    width: target.naturalWidth,
-    height: target.naturalHeight,
     'data-file-width': target.getAttribute('data-file-width'),
     'data-file-height': target.getAttribute('data-file-height')
   }))
@@ -132,14 +145,15 @@ const postMessageForImageWithTarget = target => {
 /**
  * Posts a message for a lazy load image placeholder click.
  * @param {!Element} innerPlaceholderSpan
+ * @param {!string} href url for the image
  * @return {void}
  */
-const postMessageForImagePlaceholderWithTarget = innerPlaceholderSpan => {
+const postMessageForImagePlaceholder = (innerPlaceholderSpan, href) => {
   const outerSpan = innerPlaceholderSpan.parentElement
+  const canonicalHref = canonicalFileHref(href)
   postMessage(new Interaction(Actions.ImageClicked, {
+    href: canonicalHref,
     src: outerSpan.getAttribute('data-src'),
-    width: outerSpan.getAttribute('data-width'),
-    height: outerSpan.getAttribute('data-height'),
     'data-file-width': outerSpan.getAttribute('data-data-file-width'),
     'data-file-height': outerSpan.getAttribute('data-data-file-height')
   }))
@@ -163,13 +177,13 @@ const postMessageForReferenceWithTarget = target => {
 const postMessageForClickedItem = item => {
   switch (item.type()) {
   case ItemType.link:
-    postMessageForLinkWithHref(item.href)
+    postMessageForLink(item.target, item.href)
     break
   case ItemType.image:
-    postMessageForImageWithTarget(item.target)
+    postMessageForImage(item.target, item.href)
     break
   case ItemType.imagePlaceholder:
-    postMessageForImagePlaceholderWithTarget(item.target)
+    postMessageForImagePlaceholder(item.target, item.href)
     break
   case ItemType.reference:
     postMessageForReferenceWithTarget(item.target)
@@ -206,6 +220,12 @@ const handleClickEvent = event => {
   // Handle add title description link.
   if (anchorForTarget.getAttribute('data-action') === 'add_title_description') {
     postMessage(new Interaction(Actions.AddTitleDescription))
+    return
+  }
+
+  // Handle audio pronunciation button.
+  if (anchorForTarget.getAttribute('data-action') === 'title_pronunciation') {
+    postMessage(new Interaction(Actions.PronunciationClicked))
     return
   }
 
@@ -256,6 +276,23 @@ const viewInBrowser = () => {
 }
 
 /**
+ * Gets information about the current text selection
+ * @param {?Window} optionalWindow
+ * @return {!map} selection info
+ */
+const getSelectionInfo = optionalWindow => {
+  const selection = (optionalWindow || window).getSelection()
+  const text = selection.toString()
+  const anchorNode = selection.anchorNode
+  const section = SectionUtilities.getSectionIDOfElement(anchorNode)
+  const isTitleDescription = anchorNode &&
+      anchorNode.parentElement &&
+      anchorNode.parentElement.id === 'pagelib_edit_section_title_description' ||
+      false
+  return { text, section, isTitleDescription }
+}
+
+/**
  * Sets the interaction handler function.
  * @param {~Function} myHandlerFunction a platform specific bridge function.
  * On iOS consider using something like:
@@ -286,5 +323,6 @@ const setInteractionHandler = myHandlerFunction => {
 
 export default {
   Actions,
+  getSelectionInfo,
   setInteractionHandler
 }

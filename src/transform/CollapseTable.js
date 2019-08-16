@@ -2,6 +2,7 @@ import './CollapseTable.css'
 import ElementUtilities from './ElementUtilities'
 import NodeUtilities from './NodeUtilities'
 import Polyfill from './Polyfill'
+import SectionUtilities from './SectionUtilities'
 
 const NODE_TYPE = NodeUtilities.NODE_TYPE
 
@@ -25,7 +26,7 @@ const CLASS = {
  * @return {!boolean}
  */
 const isHeaderEligible =
-  header => header.childNodes && Polyfill.querySelectorAll(header, 'a').length < 3
+  header => Polyfill.querySelectorAll(header, 'a').length < 3
 
 /**
  * Determine eligibility of extracted text.
@@ -114,17 +115,25 @@ const extractEligibleHeaderText = (document, header, pageTitle) => {
     fragmentHeader, '.geo, .coordinates, sup.reference, ol, ul, style, script'
   ).forEach(el => el.remove())
 
-  const childNodesArray = Array.prototype.slice.call(fragmentHeader.childNodes)
-  if (pageTitle) {
-    childNodesArray
-      .filter(NodeUtilities.isNodeTypeElementOrText)
-      .filter(node => isNodeTextContentSimilarToPageTitle(node, pageTitle))
-      .forEach(node => node.remove())
+  let cur = fragmentHeader.lastChild
+  while (cur) {
+    if (pageTitle
+      && NodeUtilities.isNodeTypeElementOrText(cur)
+      && isNodeTextContentSimilarToPageTitle(cur, pageTitle)) {
+      if (cur.previousSibling) {
+        cur = cur.previousSibling
+        cur.nextSibling.remove()
+      } else {
+        cur.remove()
+        cur = undefined
+      }
+    } else if (isNodeBreakElement(cur)) {
+      replaceNodeWithBreakingSpaceTextNode(document, cur)
+      cur = cur.previousSibling
+    } else {
+      cur = cur.previousSibling
+    }
   }
-
-  childNodesArray
-    .filter(isNodeBreakElement)
-    .forEach(node => replaceNodeWithBreakingSpaceTextNode(document, node))
 
   const headerText = fragmentHeader.textContent
   if (isHeaderTextEligible(headerText)) {
@@ -246,7 +255,16 @@ const toggleCollapseClickCallback = function(footerDivClickCallback) {
 const shouldTableBeCollapsed = table => {
   const classBlacklist = ['navbox', 'vertical-navbox', 'navbox-inner', 'metadata', 'mbox-small']
   const blacklistIntersects = classBlacklist.some(clazz => table.classList.contains(clazz))
-  return table.style.display !== 'none' && !blacklistIntersects
+  let isHidden
+  // Wrap in a try-catch block to avoid Domino crashing on a malformed style declaration.
+  // T229521
+  try {
+    isHidden = table.style.display === 'none'
+  } catch (e) {
+    // If Domino fails to parse styles, err on the safe side and don't transform
+    isHidden = true
+  }
+  return !isHidden && !blacklistIntersects
 }
 
 /**
@@ -315,23 +333,6 @@ const newCaptionFragment = (document, title, titleClass, headerText) => {
 }
 
 /**
- * @param {!Node} node - node to test
- * @return {boolean} true if this is a node that represents a MediaWiki section
- */
-const isMediaWikiSectionNode = node => {
-  // mobile-html output has `data-mw-section-id` attributes on section tags
-  if (node.tagName === 'SECTION' && node.attributes && node.attributes['data-mw-section-id']) {
-    return true
-  }
-  // The iOS app wraps MobileView sections with a div with the `content_block` class
-  // This should be removed after the iOS app switches to mobile-html
-  if (node.tagName === 'DIV' && node.classList && node.classList.contains('content_block')) {
-    return true
-  }
-  return false
-}
-
-/**
  * @param {!Node} nodeToReplace
  * @param {!Node} replacementNode
  * @return {void}
@@ -347,7 +348,7 @@ const replaceNodeInSection = (nodeToReplace, replacementNode) => {
   }
   let foundSectionTag = false
   while (sectionTag) {
-    if (isMediaWikiSectionNode(sectionTag)) {
+    if (SectionUtilities.isMediaWikiSectionElement(sectionTag)) {
       foundSectionTag = true
       break
     }

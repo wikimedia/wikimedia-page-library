@@ -2,6 +2,7 @@ import AdjustTextSize from '../../transform/AdjustTextSize'
 import BodySpacingTransform from '../../transform/BodySpacingTransform'
 import CollapseTable from '../../transform/CollapseTable'
 import DimImagesTransform from '../../transform/DimImagesTransform'
+import EditTransform from '../../transform/EditTransform'
 import L10N from './L10N'
 import LazyLoadTransformer from '../../transform/LazyLoadTransformer'
 import PlatformTransform from '../../transform/PlatformTransform'
@@ -18,10 +19,6 @@ import ThemeTransform from '../../transform/ThemeTransform'
  * @return {void}
  */
 const onPageLoad = (window, document) => {
-  const lazyLoader = new LazyLoadTransformer(window, 2)
-  lazyLoader.collectExistingPlaceholders(document.body)
-  lazyLoader.loadPlaceholders()
-
   CollapseTable.setupEventHandling(window, document, true, Scroller.scrollWithDecorOffset)
 }
 
@@ -33,19 +30,19 @@ const onPageLoad = (window, document) => {
 /**
  * Makes multiple page modifications based on client specific settings, which should be called
  * during initial page load.
- * @param {!Document} document
- * @param {!{}} settings client settings
- *   { platform, clientVersion, l10n, theme, dimImages, margins, areTablesCollapsed, scrollTop,
- *   textSizeAdjustmentPercentage }
- * @param {?PageMods~Function} onSuccess callback
+ * @param {?{}} optionalSettings client settings
+ *   { platform, clientVersion, l10n, theme, dimImages, margins, areTablesInitiallyExpanded,
+ *   scrollTop, textSizeAdjustmentPercentage }
+ * @param {?Page~Function} onSuccess callback
  * @return {void}
  */
-const setMulti = (document, settings, onSuccess) => {
+const setup = (optionalSettings, onSuccess) => {
+  const settings = optionalSettings || {}
   if (settings.platform !== undefined) {
     PlatformTransform.setPlatform(document, settings.platform)
   }
   if (settings.l10n !== undefined) {
-    L10N.localizeLabels(document, settings.l10n)
+    L10N.localizeLabels(settings.l10n)
   }
   if (settings.theme !== undefined) {
     ThemeTransform.setTheme(document, settings.theme)
@@ -56,7 +53,7 @@ const setMulti = (document, settings, onSuccess) => {
   if (settings.margins !== undefined) {
     BodySpacingTransform.setMargins(document.body, settings.margins)
   }
-  if (settings.areTablesCollapsed) {
+  if (settings.areTablesInitiallyExpanded) {
     CollapseTable.toggleCollapsedForAll(document.body)
   }
   if (settings.scrollTop !== undefined) {
@@ -68,20 +65,31 @@ const setMulti = (document, settings, onSuccess) => {
       settings.textSizeAdjustmentPercentage
     )
   }
+  if (settings.loadImages === undefined || settings.loadImages === true) {
+    const lazyLoader = new LazyLoadTransformer(window, 2)
+    lazyLoader.collectExistingPlaceholders(document.body)
+    lazyLoader.loadPlaceholders()
+  }
 
   if (onSuccess instanceof Function) {
-    onSuccess()
+    if (window && window.requestAnimationFrame) {
+      // request animation frame before callback to ensure theme is set
+      window.requestAnimationFrame(() => {
+        onSuccess()
+      })
+    } else {
+      onSuccess()
+    }
   }
 }
 
 /**
  * Sets the theme.
- * @param {!Document} document
  * @param {!string} theme one of the values in Themes
  * @param {?OnSuccess} onSuccess callback
  * @return {void}
  */
-const setTheme = (document, theme, onSuccess) => {
+const setTheme = (theme, onSuccess) => {
   ThemeTransform.setTheme(document, theme)
 
   if (onSuccess instanceof Function) {
@@ -91,12 +99,11 @@ const setTheme = (document, theme, onSuccess) => {
 
 /**
  * Toggles dimming of images.
- * @param {!Document} document
  * @param {!boolean} dimImages true if images should be dimmed, false otherwise
  * @param {?OnSuccess} onSuccess callback
  * @return {void}
  */
-const setDimImages = (document, dimImages, onSuccess) => {
+const setDimImages = (dimImages, onSuccess) => {
   DimImagesTransform.dimImages(document, dimImages)
 
   if (onSuccess instanceof Function) {
@@ -106,12 +113,11 @@ const setDimImages = (document, dimImages, onSuccess) => {
 
 /**
  * Sets the margins.
- * @param {!Document} document
  * @param {!{BodySpacingTransform.Spacing}} margins
  * @param {?OnSuccess} onSuccess callback
  * @return {void}
  */
-const setMargins = (document, margins, onSuccess) => {
+const setMargins = (margins, onSuccess) => {
   BodySpacingTransform.setMargins(document.body, margins)
 
   if (onSuccess instanceof Function) {
@@ -121,12 +127,11 @@ const setMargins = (document, margins, onSuccess) => {
 
 /**
  * Sets the top scroll position for collapsing of tables (when bottom close button is tapped).
- * @param {!Document} document
  * @param {!number} scrollTop height of decor covering the top portion of the Viewport in pixel
  * @param {?OnSuccess} onSuccess callback
  * @return {void}
  */
-const setScrollTop = (document, scrollTop, onSuccess) => {
+const setScrollTop = (scrollTop, onSuccess) => {
   Scroller.setScrollTop(scrollTop)
 
   if (onSuccess instanceof Function) {
@@ -136,17 +141,40 @@ const setScrollTop = (document, scrollTop, onSuccess) => {
 
 /**
  * Sets text size adjustment percentage of the body element
- * @param  {!Document} document
  * @param  {!string} textSize percentage for text-size-adjust in format of string, like '100%'
  * @param  {?OnSuccess} onSuccess onSuccess callback
  * @return {void}
  */
-const setTextSizeAdjustmentPercentage = (document, textSize, onSuccess) => {
+const setTextSizeAdjustmentPercentage = (textSize, onSuccess) => {
   AdjustTextSize.setPercentage(document.body, textSize)
 
   if (onSuccess instanceof Function) {
     onSuccess()
   }
+}
+
+/**
+ * Enables edit buttons to be shown (and which ones).
+ * @param {?boolean} isEditable true if edit buttons should be shown
+ * @param {?boolean} isProtected true if the protected edit buttons should be shown
+ * @param {?OnSuccess} onSuccess onSuccess callback
+ * @return {void}
+ */
+const setEditButtons = (isEditable, isProtected, onSuccess) => {
+  EditTransform.setEditButtons(document, isEditable, isProtected)
+
+  if (onSuccess instanceof Function) {
+    onSuccess()
+  }
+}
+
+/**
+ * Gets the revision of the current mobile-html page.
+ * @return {string}
+ */
+const getRevision = () => {
+  const about = document.documentElement.getAttribute('about')
+  return about.substring(about.lastIndexOf('/') + 1)
 }
 
 /**
@@ -160,12 +188,14 @@ document.addEventListener('DOMContentLoaded', () => onPageLoad(window, document)
 
 export default {
   onPageLoad,
-  setMulti,
+  setup,
   setTheme,
   setDimImages,
   setMargins,
   setScrollTop,
   setTextSizeAdjustmentPercentage,
+  setEditButtons,
+  getRevision,
   testing: {
     getScroller
   }

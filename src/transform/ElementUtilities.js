@@ -29,7 +29,16 @@ const findClosestAncestor = (el, selector) => {
  */
 const closestInlineStyle = (element, property, value) => {
   for (let el = element; el; el = el.parentElement) {
-    const thisValue = el.style[property]
+    let thisValue
+
+    // Wrap in a try-catch block to avoid Domino crashing on a malformed style declaration.
+    // T229521
+    try {
+      thisValue = el.style[property]
+    } catch (e) {
+      continue
+    }
+
     if (thisValue) {
       if (value === undefined) {
         return el

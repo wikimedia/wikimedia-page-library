@@ -63,9 +63,13 @@ const collectRefText = (document, source) => {
   frag.appendChild(fragDiv)
   // eslint-disable-next-line require-jsdoc
   const cloneNodeIntoFragmentDiv = node => fragDiv.appendChild(node.cloneNode(true))
-  Array.prototype.slice.call(refTextContainer.childNodes)
-    .filter(NodeUtilities.isNodeTypeElementOrText)
-    .forEach(cloneNodeIntoFragmentDiv)
+  let cur = refTextContainer.firstChild
+  while (cur) {
+    if (NodeUtilities.isNodeTypeElementOrText(cur)) {
+      cloneNodeIntoFragmentDiv(cur)
+    }
+    cur = cur.nextSibling
+  }
 
   const removalSelector = 'link, style, sup[id^=cite_ref], .mw-cite-backlink'
   Polyfill.querySelectorAll(fragDiv, removalSelector)
@@ -92,17 +96,19 @@ const closestReferenceClassElement = sourceNode => {
  */
 class ReferenceItem {
   /**
-   * ReferenceItem construtor.
+   * ReferenceItem constructor.
    * @param {!string} id
    * @param {!DOMRect} rect
    * @param {?string} text
    * @param {?string} html
+   * @param {?string} href
    */
-  constructor(id, rect, text, html) {
+  constructor(id, rect, text, html, href) {
     this.id = id
     this.rect = rect
     this.text = text
     this.html = html
+    this.href = href
   }
 }
 
@@ -122,6 +128,25 @@ class ReferenceLinkItem {
 }
 
 /**
+ * Get node's bounding rect as a plain object.
+ * @param {!Node} node
+ * @return {!Object<string, number>}
+ */
+const getBoundingClientRectAsPlainObject = node => {
+  const rect = node.getBoundingClientRect()
+  return {
+    top: rect.top,
+    right: rect.right,
+    bottom: rect.bottom,
+    left: rect.left,
+    width: rect.width,
+    height: rect.height,
+    x: rect.x,
+    y: rect.y
+  }
+}
+
+/**
  * Converts node to ReferenceItem.
  * @param {!Document} document
  * @param {!Node} node
@@ -129,9 +154,10 @@ class ReferenceLinkItem {
  */
 const referenceItemForNode = (document, node) => new ReferenceItem(
   closestReferenceClassElement(node).id,
-  node.getBoundingClientRect(),
+  getBoundingClientRectAsPlainObject(node),
   node.textContent,
-  collectRefText(document, node)
+  collectRefText(document, node),
+  node.querySelector('A').getAttribute('href')
 )
 
 /**

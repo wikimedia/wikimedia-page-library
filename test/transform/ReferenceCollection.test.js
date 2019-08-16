@@ -48,7 +48,7 @@ describe('ReferenceCollection', () => {
   describe('.collectNearbyReferences()', () => {
     it('collects expected references group and selected index', () => {
 
-      const MOCK_RECT = { top: 0, left: 1, width: 2, height: 3 }
+      const MOCK_RECT = { top: 0, left: 1, right: 4, bottom: 0, width: 2, height: 3, x: 0, y: 0 }
 
       // Domino doesn't implement 'getBoundingClientRect' so
       // backfill it for testing methods which call it.
@@ -59,19 +59,23 @@ describe('ReferenceCollection', () => {
 
       assert.strictEqual(nearbyReferences.selectedIndex, 1)
       assert.deepEqual(nearbyReferences.referencesGroup, [
-        { id: 'cite_ref-a',
+        { href: '#cite_note-a',
+          id: 'cite_ref-a',
           rect: MOCK_RECT,
           text: '[4]',
           html: '0 1 2' },
-        { id: 'cite_ref-b',
+        { href: '#cite_note-b',
+          id: 'cite_ref-b',
           rect: MOCK_RECT,
           text: '[6]',
           html: '3 4 5' },
-        { id: 'cite_ref-c',
+        { href: '#cite_note-c',
+          id: 'cite_ref-c',
           rect: MOCK_RECT,
           text: '[7]',
           html: '6 7 8' },
-        { id: 'cite_ref-d',
+        { href: '#cite_note-d',
+          id: 'cite_ref-d',
           rect: MOCK_RECT,
           text: '[8]',
           html: '9 10 11' }

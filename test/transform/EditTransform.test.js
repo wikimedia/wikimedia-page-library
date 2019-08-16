@@ -4,6 +4,36 @@ import pagelib from '../../build/wikimedia-page-library-transform'
 const editTransform = pagelib.EditTransform
 
 describe('EditTransform', () => {
+  describe('.setEditButtons()', () => {
+    const protection = editTransform.CLASS.PROTECTION
+    let document
+
+    beforeEach(() => {
+      document = fixtureIO.documentFromFixtureFile('EditTransform.html')
+    })
+
+    it('(document) = (document, false, false)', () => {
+      editTransform.setEditButtons(document)
+      assert.ok(document.documentElement.classList.contains(protection.FORBIDDEN))
+      assert.ok(!document.documentElement.classList.contains(protection.PROTECTED))
+    })
+    it('false, true', () => {
+      editTransform.setEditButtons(document, false, true)
+      assert.ok(document.documentElement.classList.contains(protection.FORBIDDEN))
+      assert.ok(document.documentElement.classList.contains(protection.PROTECTED))
+    })
+    it('true, false', () => {
+      editTransform.setEditButtons(document, true, false)
+      assert.ok(!document.documentElement.classList.contains(protection.FORBIDDEN))
+      assert.ok(!document.documentElement.classList.contains(protection.PROTECTED))
+    })
+    it('true, true', () => {
+      editTransform.setEditButtons(document, true, true)
+      assert.ok(!document.documentElement.classList.contains(protection.FORBIDDEN))
+      assert.ok(document.documentElement.classList.contains(protection.PROTECTED))
+    })
+  })
+
   describe('.newEditSectionHeader(0, 2)', () => {
     let document
     let element
@@ -17,20 +47,20 @@ describe('EditTransform', () => {
       assert.ok(element)
     })
     it('creates h2 element', () => {
-      assert.equal(element.childNodes.item(0).nodeName, 'H2')
+      assert.equal(element.firstChild.nodeName, 'H2')
     })
     it('has all required attributes', () => {
-      assert.ok(element.childNodes.item(0).hasAttribute('data-id'))
+      assert.ok(element.firstChild.hasAttribute('data-id'))
     })
     it('has child nodes', () => {
-      assert.ok(element.childNodes.item(0).hasChildNodes)
+      assert.ok(element.firstChild.firstChild)
     })
     it('has edit container and pencil', () => {
       assert.ok(element.innerHTML.includes('pagelib_edit_section_link'))
       assert.ok(element.innerHTML.includes('pagelib_edit_section_link_container'))
     })
     it('has desired title', () => {
-      const text = element.childNodes.item(0).textContent
+      const text = element.firstChild.textContent
       assert.ok(text.includes('Title'))
     })
   })
@@ -45,7 +75,7 @@ describe('EditTransform', () => {
     })
 
     it('creates h3 element', () => {
-      assert.equal(element.childNodes.item(0).nodeName, 'H3')
+      assert.equal(element.firstChild.nodeName, 'H3')
     })
   })
 
@@ -59,7 +89,7 @@ describe('EditTransform', () => {
     })
 
     it('creates h4 element', () => {
-      assert.equal(element.childNodes.item(0).nodeName, 'H4')
+      assert.equal(element.firstChild.nodeName, 'H4')
     })
   })
 
@@ -73,7 +103,7 @@ describe('EditTransform', () => {
     })
 
     it('creates h2 element', () => {
-      assert.equal(element.childNodes.item(0).nodeName, 'H2')
+      assert.equal(element.firstChild.nodeName, 'H2')
     })
     it('does not have edit container or pencil', () => {
       assert.ok(!element.innerHTML.includes('pagelib_edit_section_link'))

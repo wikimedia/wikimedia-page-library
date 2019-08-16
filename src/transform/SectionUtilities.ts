@@ -23,7 +23,66 @@ const getSectionOffsets = (body: HTMLBodyElement): object => {
     }
 }
 
+/**
+ * Get section of a given element
+ * @param  {!Element} element
+ * @return {!Element} section
+ */
+const getSectionOfElement = (element: Element): Element | null => {
+    let current: Element | null = element
+    while (current) {
+        if (isMediaWikiSectionElement(current)) {
+            return current
+        }
+        current = current.parentElement
+    }
+    return null
+}
+
+/**
+ * Get section id of a given element
+ * @param  {!Element} element
+ * @return {!Element} section
+ */
+const getSectionIDOfElement = (element: Element): string | null => {
+    let section = getSectionOfElement(element)
+    return section && (section.getAttribute('data-mw-section-id') || section.id.replace('content_block_', ''))
+}
+
+/**
+ * Get lead paragraph text
+ * @param  {!Document} document object.
+ * @return {!string} lead paragraph text
+ */
+const getLeadParagraphText = (document: Document): string => {
+    let firstParagaphInASection = <HTMLElement>document.querySelector('#content_block_0>p');
+    return firstParagaphInASection && firstParagaphInASection.innerText || '';
+}
+
+
+/**
+ * @param {!Element} element - element to test
+ * @return {boolean} true if this is a element that represents a MediaWiki section
+ */
+const isMediaWikiSectionElement = (element: Element): boolean => {
+    if (!element) {
+        return false
+    }
+    // mobile-html output has `data-mw-section-id` attributes on section tags
+    if (element.tagName === 'SECTION' && element.getAttribute('data-mw-section-id')) {
+        return true
+    }
+    // The iOS app wraps MobileView sections with a div with the `content_block` class
+    // This should be removed after the iOS app switches to mobile-html
+    if (element.tagName === 'DIV' && element.classList && element.classList.contains('content_block')) {
+        return true
+    }
+    return false
+}
 
 export default {
-    getSectionOffsets
+    getSectionIDOfElement,
+    getLeadParagraphText,
+    getSectionOffsets,
+    isMediaWikiSectionElement
 }
