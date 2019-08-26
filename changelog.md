@@ -1,3 +1,6 @@
+### v9.1.3
+ - Fix: Minify CSS
+ 
 ### v9.1.2
 - Fix: Prevent crashes when parsing style tags
 
