@@ -3,6 +3,8 @@ import * as pkg from './package.json'
 import * as webpack from 'webpack'
 import CleanPlugin from 'clean-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
+import TerserJSPlugin from 'terser-webpack-plugin'
 
 const PRODUCTION = process.env.NODE_ENV === 'production'
 
@@ -75,7 +77,9 @@ const config = {
     overlay: { warnings: true, errors: true },
     stats: STATS
   },
-
+  optimization: {
+    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+  },
   plugins: [
     new CleanPlugin('build', { verbose: false }),
     new webpack.DefinePlugin({
