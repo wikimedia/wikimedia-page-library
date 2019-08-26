@@ -1,12 +1,6 @@
 import './FooterReadMore.css'
 
 /**
- * @typedef {function} SaveButtonClickHandler
- * @param {!string} title
- * @return {void}
- */
-
-/**
  * @typedef {function} TitlesShownHandler
  * @param {!Array.<string>} titles
  * @return {void}
@@ -17,13 +11,10 @@ import './FooterReadMore.css'
  * @typedef {function} ShowReadMorePagesHandler
  * @param {!Array.<object>} pages
  * @param {!string} containerID
- * @param {!SaveButtonClickHandler} saveButtonClickHandler
  * @param {!TitlesShownHandler} titlesShownHandler
  * @param {!Document} document
  * @return {void}
  */
-
-const SAVE_BUTTON_ID_PREFIX = 'pagelib_footer_read_more_save_'
 
 /**
  * Removes parenthetical enclosures from string.
@@ -83,11 +74,10 @@ class ReadMorePage {
  * Makes document fragment for a read more page.
  * @param {!ReadMorePage} readMorePage
  * @param {!number} index
- * @param {!SaveButtonClickHandler} saveButtonClickHandler
  * @param {!Document} document
  * @return {!DocumentFragment}
  */
-const documentFragmentForReadMorePage = (readMorePage, index, saveButtonClickHandler, document) => {
+const documentFragmentForReadMorePage = (readMorePage, index, document) => {
   const outerAnchorContainer = document.createElement('a')
   outerAnchorContainer.id = index
   outerAnchorContainer.className = 'pagelib_footer_readmore_page'
@@ -136,16 +126,6 @@ const documentFragmentForReadMorePage = (readMorePage, index, saveButtonClickHan
     innerDivContainer.appendChild(descriptionEl)
   }
 
-  const saveButton = document.createElement('div')
-  saveButton.id = `${SAVE_BUTTON_ID_PREFIX}${encodeURI(readMorePage.title)}`
-  saveButton.className = 'pagelib_footer_readmore_page_save'
-  saveButton.addEventListener('click', event => {
-    event.stopPropagation()
-    event.preventDefault()
-    saveButtonClickHandler(readMorePage.title)
-  })
-  innerDivContainer.appendChild(saveButton)
-
   return document.createDocumentFragment().appendChild(outerAnchorContainer)
 }
 
@@ -153,7 +133,7 @@ const documentFragmentForReadMorePage = (readMorePage, index, saveButtonClickHan
 /**
  * @type {ShowReadMorePagesHandler}
  */
-const showReadMorePages = (pages, containerID, saveButtonClickHandler, titlesShownHandler,
+const showReadMorePages = (pages, containerID, titlesShownHandler,
   document) => {
   const shownTitles = []
   const container = document.getElementById(containerID)
@@ -163,7 +143,7 @@ const showReadMorePages = (pages, containerID, saveButtonClickHandler, titlesSho
     const pageModel = new ReadMorePage(title, page.titles.display, page.thumbnail,
       page.description, page.extract)
     const pageFragment =
-      documentFragmentForReadMorePage(pageModel, index, saveButtonClickHandler, document)
+      documentFragmentForReadMorePage(pageModel, index, document)
     container.appendChild(pageFragment)
   })
   titlesShownHandler(shownTitles)
@@ -197,13 +177,12 @@ const fetchErrorHandler = statusText => {
  * @param {!string} containerID
  * @param {?string} baseURL
  * @param {!ShowReadMorePagesHandler} showReadMorePagesHandler
- * @param {!SaveButtonClickHandler} saveButtonClickHandler
  * @param {!TitlesShownHandler} titlesShownHandler
  * @param {!Document} document
  * @return {void}
  */
 const fetchReadMore = (title, count, containerID, baseURL, showReadMorePagesHandler,
-  saveButtonClickHandler, titlesShownHandler, document) => {
+  titlesShownHandler, document) => {
   const xhr = new XMLHttpRequest() // eslint-disable-line no-undef
   xhr.open('GET', readMoreQueryURL(title, count, baseURL), true)
   xhr.onload = () => {
@@ -220,7 +199,6 @@ const fetchReadMore = (title, count, containerID, baseURL, showReadMorePagesHand
         showReadMorePagesHandler(
           results,
           containerID,
-          saveButtonClickHandler,
           titlesShownHandler,
           document
         )
@@ -238,50 +216,17 @@ const fetchReadMore = (title, count, containerID, baseURL, showReadMorePagesHand
 }
 
 /**
- * Updates save button bookmark icon for saved state.
- * @param {!HTMLDivElement} button
- * @param {!boolean} isSaved
- * @return {void}
- */
-const updateSaveButtonBookmarkIcon = (button, isSaved) => {
-  const unfilledClass = 'pagelib_footer_readmore_bookmark_unfilled'
-  const filledClass = 'pagelib_footer_readmore_bookmark_filled'
-  button.classList.remove(filledClass, unfilledClass)
-  button.classList.add(isSaved ? filledClass : unfilledClass)
-}
-
-/**
- * Updates save button text and bookmark icon for saved state.
- * Safe to call even for titles for which there is not currently a 'Read more' item.
- * @param {!string} title
- * @param {!string} text
- * @param {!boolean} isSaved
- * @param {!Document} document
- * @return {void}
-*/
-const updateSaveButtonForTitle = (title, text, isSaved, document) => {
-  const saveButton = document.getElementById(`${SAVE_BUTTON_ID_PREFIX}${encodeURI(title)}`)
-  if (!saveButton) {
-    return
-  }
-  saveButton.innerText = text
-  saveButton.title = text
-  updateSaveButtonBookmarkIcon(saveButton, isSaved)
-}
-
-/**
  * Adds 'Read more' for 'title' to 'containerID' element.
  * Leave 'baseURL' null if you don't need to deal with proxying.
  * @param {!string} title
  * @param {!number} count
  * @param {!string} containerID
  * @param {?string} baseURL
- * @param {!SaveButtonClickHandler} saveButtonClickHandler
  * @param {!TitlesShownHandler} titlesShownHandler
  * @param {!Document} document
  * @return {void}
  */
-const add = (title, count, containerID, baseURL, saveButtonClickHandler, titlesShownHandler,
+const add = (title, count, containerID, baseURL, titlesShownHandler,
   document) => {
   fetchReadMore(
     title,
@@ -289,7 +234,6 @@ const add = (title, count, containerID, baseURL, saveButtonClickHandler, titlesS
     containerID,
     baseURL,
     showReadMorePages,
-    saveButtonClickHandler,
     titlesShownHandler,
     document
   )
@@ -311,7 +255,6 @@ const setHeading = (headingString, headingID, document) => {
 export default {
   add,
   setHeading,
-  updateSaveButtonForTitle,
   test: {
     cleanExtract,
     safelyRemoveEnclosures

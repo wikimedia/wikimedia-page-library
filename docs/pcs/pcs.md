@@ -190,14 +190,6 @@ readMoreBaseURL:
 - production: `'https://en.wikipedia.org/api/rest_v1'`
 - local RB: `'http://localhost:7231/en.wikipedia.org/v1'`
 
-#### updateReadMoreSaveButtonForTitle()
-The client is expected to call this function for every "Read more" title received.
-
-Example:
-```
-pagelib.c1.Footer.updateReadMoreSaveButtonForTitle('Mire Mare', 'Saved for later', true)
-```
-
 ### InteractionHandling
 
 #### setInteractionHandler()

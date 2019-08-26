@@ -106,16 +106,6 @@ const add = params => {
     )
 
     /**
-     * @param {!string} title article title
-     * @return {void}
-     */
-    const saveButtonTapHandler = title => {
-      if (handlers) {
-        handlers.saveOtherPage(title)
-      }
-    }
-
-    /**
      * @param {!list} titles article titles
      * @return {void}
      */
@@ -130,7 +120,6 @@ const add = params => {
       readMoreItemCount,
       'pagelib_footer_container_readmore_pages',
       readMoreBaseURL,
-      saveButtonTapHandler,
       titlesShownHandler,
       document
     )
@@ -165,21 +154,8 @@ const add = params => {
   )
 }
 
-/**
- * Updates save button text and bookmark icon for saved state in 'Read more' items.
- * Safe to call even for titles for which there is not currently a 'Read more' item.
- * @param {!string} title read more entry title
- * @param {!string} text label indicating saved state
- * @param {!boolean} isSaved
- * @return {void}
- */
-const updateReadMoreSaveButtonForTitle = (title, text, isSaved) => {
-  FooterReadMore.updateSaveButtonForTitle(title, text, isSaved, document)
-}
-
 export default {
   MenuItemType: FooterMenu.MenuItemType,
   add,
-  updateReadMoreSaveButtonForTitle,
   _connectHandlers // to be used internally only
 }
