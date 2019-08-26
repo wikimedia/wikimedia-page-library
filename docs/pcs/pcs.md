@@ -18,10 +18,6 @@ The wikimedia-page-library-pcs output is an abstraction layer of the page librar
 ### What wikimedia-page-library-pcs is not for
 - not to be bundled with native app versions
 
-### What wikimedia-page-library-pcs delivers
-- **wikimedia-page-library-pcs.js** bundle of JavaScript functionality hosted server side but run on clients
-- **wikimedia-page-library-pcs.css** bundle of CSS required by the DOM transformations and potential overrides of the base CSS
-
 ### Versions
 There are two kinds of versions we are concerned about, client side and server side. Either side could be released and updated at different times than the other.
 - Client PCS version: version coupled to clients. Some clients, like native app versions that cannot be or simply have not been updated. It's important to not break older or future clients of this library. These will be prefixed with a `c`, e.g. `c1`.  The client-side version will be reflected in the folder/package structure of the exported JS modules.
@@ -60,6 +56,9 @@ Setting parameter object fields:
 - scrollTop: number of pixel for highest position to scroll to. Use this to adjust for any decor overlaying the viewport.
 (The first four fields don't have any equivalent separate call since those don't make sense to change after the fact.)
 
+Callback parameter: 
+Function called after all settings are applied.
+
 Example:
 ```
 pagelib.c1.Page.setup({
@@ -78,7 +77,8 @@ pagelib.c1.Page.setup({
   textSizeAdjustmentPercentage: '100%',
   scrollTop: 64,
   loadImages: true
-})
+},
+callback) // optional callback function to be called after all settings are applied
 ```
 
 #### setTheme()

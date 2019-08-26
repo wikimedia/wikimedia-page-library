@@ -19,7 +19,9 @@ Presently we are consolidating duplicate Android and iOS Wikipedia app implement
 [Mobile Content Service]: https://www.mediawiki.org/wiki/Wikimedia_Apps/Team/RESTBase_services_for_apps
 
 ### What wikimedia-page-library delivers
-- **wikimedia-page-library-transform.js** bundle of all transform JS
+- **wikimedia-page-library-pcs.js** bundle of JavaScript functionality hosted server side but run on clients (abstraction layer - new clients should use this)
+- **wikimedia-page-library-pcs.css** bundle of CSS required by the DOM transformations and potential overrides of the base CSS
+- **wikimedia-page-library-transform.js** bundle of all transform JS (implementation details - previously bundled with the native apps)
 - **wikimedia-page-library-transform.css** bundle of all CSS required by the bundled transform JS
 - **wikimedia-page-library-override.js** an unwanted [extraneous build product] that may safely be ignored
 - **wikimedia-page-library-override.css** optional CSS overrides for improved appearance that are independent of transforms
