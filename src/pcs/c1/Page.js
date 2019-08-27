@@ -9,6 +9,8 @@ import PlatformTransform from '../../transform/PlatformTransform'
 import Scroller from './Scroller'
 import ThemeTransform from '../../transform/ThemeTransform'
 
+/* eslint-disable no-console */
+
 /**
  * Executes common JS functionality the client should start, like hooking up events for
  * lazy loading and table collapsing/expanding.
@@ -19,6 +21,7 @@ import ThemeTransform from '../../transform/ThemeTransform'
  * @return {void}
  */
 const onPageLoad = (window, document) => {
+  console.log('>>>>>> onPageLoad')
   CollapseTable.setupEventHandling(window, document, true, Scroller.scrollWithDecorOffset)
 }
 
@@ -37,6 +40,7 @@ const onPageLoad = (window, document) => {
  * @return {void}
  */
 const setup = (optionalSettings, onSuccess) => {
+  console.log('>>>>>> setup start')
   const settings = optionalSettings || {}
   if (settings.platform !== undefined) {
     PlatformTransform.setPlatform(document, settings.platform)
@@ -71,17 +75,32 @@ const setup = (optionalSettings, onSuccess) => {
     lazyLoader.loadPlaceholders()
   }
 
+  console.log('>>>>>> setup almost end')
+
   if (onSuccess instanceof Function) {
     if (window && window.requestAnimationFrame) {
       // request animation frame before callback to ensure theme is set
       window.requestAnimationFrame(() => {
+        console.log('>>>>>> setup end a')
         onSuccess()
       })
     } else {
+      console.log('>>>>>> setup end b')
       onSuccess()
     }
   }
 }
+
+// const load = url => {
+//   fetch(url)
+//     .then(response => response.text())
+//     .then(html => {
+//       main.innerHTML = html.body
+//     })
+//     .catch(error => {
+//       console.warn(error)
+//     })
+// }
 
 /**
  * Sets the theme.

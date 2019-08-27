@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <meta http-equiv="Access-Control-Allow-Origin" content="http://localhost:6927">
+  <link rel="stylesheet" href="//localhost:6927/api/v1/data/css/mobile/base">
+  <link rel="stylesheet" href="//localhost:6927/api/v1/data/css/mobile/pagelib">
+  <link rel="stylesheet" href="//en.wikipedia.org/api/rest_v1/data/css/mobile/site">
+  <script src="//localhost:6927/api/v1/data/javascript/mobile/pagelib"></script>
+  <!--<script src="https://meta.wikimedia.org/api/rest_v1/data/javascript/mobile/pagelib"></script>-->
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, shrink-to-fit=no">
+  <title>PCS page load demo</title>
+</head>
+<body>
+
+<script>
+  /* eslint-disable */
+  if (pagelib) {
+    pagelib.c1.Page.setup({
+      platform: pagelib.c1.Platforms.ANDROID,
+      theme: pagelib.c1.Themes.DARK
+    })
+}
+
+  fetch('http://localhost:6927/en.wikipedia.org/v1/page/mobile-html/Dog' /* , options */)
+    .then(response => response.text())
+    .then(html => {
+      document.head.outerHTML = html.match(/<head[^>]*>[\s\S]*<\/head>/gi)
+      document.body.outerHTML = html.match(/<body[^>]*>[\s\S]*<\/body>/gi)
+      console.log(`>>>> #sections = ${document.body.querySelectorAll('section').length}`)
+      if (pagelib) {
+        pagelib.c1.Page.onPageLoad(window, document)
+      }
+    }).catch(error => {
+      console.warn(error)
+  })
+</script>
+</body>
+</html>
