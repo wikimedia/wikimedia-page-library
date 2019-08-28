@@ -10,19 +10,6 @@ import Scroller from './Scroller'
 import ThemeTransform from '../../transform/ThemeTransform'
 
 /**
- * Executes common JS functionality the client should start, like hooking up events for
- * lazy loading and table collapsing/expanding.
- * Client side complement of server-side DOM transformations.
- * Note: this will be called automatically when DOM is ready
- * @param {!Window} window
- * @param {!Document} document
- * @return {void}
- */
-const onPageLoad = (window, document) => {
-  CollapseTable.setupEventHandling(window, document, true, Scroller.scrollWithDecorOffset)
-}
-
-/**
  * @typedef {function} OnSuccess
  * @return {void}
  */
@@ -169,6 +156,21 @@ const setEditButtons = (isEditable, isProtected, onSuccess) => {
 }
 
 /**
+ * Sets up event handling for table collapsing/expanding.
+ * @param {!Window} window
+ * @param {!Document} document
+ * @param {?OnSuccess} onSuccess onSuccess callback
+ * @return {void}
+ */
+const setupTableEventHandling = (window, document, onSuccess) => {
+  CollapseTable.setupEventHandling(window, document, true, Scroller.scrollWithDecorOffset)
+
+  if (onSuccess instanceof Function) {
+    onSuccess()
+  }
+}
+
+/**
  * Gets the revision of the current mobile-html page.
  * @return {string}
  */
@@ -176,7 +178,6 @@ const getRevision = () => {
   const about = document.documentElement.getAttribute('about')
   return about.substring(about.lastIndexOf('/') + 1)
 }
-
 
 /**
  * Gets a remote document
@@ -187,7 +188,6 @@ const getRemoteDocument = url => fetch(url).then(response => response.text()).th
   const parser = new DOMParser()
   return parser.parseFromString(html, 'text/html')
 })
-
 
 /**
  * Loads another mobile-html page and replaces the content of this page.
@@ -222,13 +222,9 @@ const loadFirstSection = url => {
  */
 const getScroller = () => Scroller
 
-// automatically invoked when DOM is ready
-document.addEventListener('DOMContentLoaded', () => onPageLoad(window, document))
-
 export default {
   load,
   loadFirstSection,
-  onPageLoad,
   setup,
   setTheme,
   setDimImages,
@@ -236,6 +232,7 @@ export default {
   setScrollTop,
   setTextSizeAdjustmentPercentage,
   setEditButtons,
+  setupTableEventHandling,
   getRevision,
   testing: {
     getScroller
