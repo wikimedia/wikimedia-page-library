@@ -177,18 +177,42 @@ const getRevision = () => {
   return about.substring(about.lastIndexOf('/') + 1)
 }
 
+
 /**
- * Loads another mobile-html page.
+ * Gets a remote document
+ * @param {url} url to load
+ * @return {promise} promise of a document created with the DOMParser
+ */
+const getRemoteDocument = url => fetch(url).then(response => response.text()).then(html => {
+  const parser = new DOMParser()
+  return parser.parseFromString(html, 'text/html')
+})
+
+
+/**
+ * Loads another mobile-html page and replaces the content of this page.
  * @param {url} url to load
  * @return {promise}
  */
 const load = url => {
   document.body.innerHTML = ''
-  return fetch(url).then(response => response.text()).then(html => {
-    const parser = new DOMParser()
-    return parser.parseFromString(html, 'text/html')
-  }).then(loadedDocument => {
+  return getRemoteDocument(url).then(loadedDocument => {
     document.body = loadedDocument.body
+  })
+}
+
+/**
+ * Loads another mobile-html page and replaces the content with the first section.
+ * @param {url} url to load
+ * @return {promise}
+ */
+const loadFirstSection = url => {
+  document.body.innerHTML = ''
+  return getRemoteDocument(url).then(loadedDocument => {
+    const header = loadedDocument.querySelector('header')
+    document.body.appendChild(header)
+    const firstSection = loadedDocument.querySelector('section')
+    document.body.appendChild(firstSection)
   })
 }
 
@@ -203,6 +227,7 @@ document.addEventListener('DOMContentLoaded', () => onPageLoad(window, document)
 
 export default {
   load,
+  loadFirstSection,
   onPageLoad,
   setup,
   setTheme,
