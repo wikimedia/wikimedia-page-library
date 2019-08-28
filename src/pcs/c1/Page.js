@@ -190,6 +190,25 @@ const getRemoteDocument = url => fetch(url).then(response => response.text()).th
 })
 
 /**
+ * Copies head elements from source to target, expect CSS, JS, and base.
+ * @param {HTMLElement} target e.g. document.head
+ * @param {HTMLElement} source the source to copy head elements from
+ * @return {void}
+ */
+const mergeHead = (target, source) => {
+  for (let child = source.firstChild; child !== null; child = child.nextSibling) {
+    if ((child.tagName === 'LINK' && child.getAttribute('rel') === 'stylesheet')
+      || child.tagName === 'SCRIPT'
+      || child.tagName === 'BASE' ) {
+      continue
+    }
+    target.appendChild(child.cloneNode())
+  }
+  // title doesn't seem to work with out this one
+  target.querySelector('title').innerHTML = source.querySelector('title').innerHTML
+}
+
+/**
  * Loads another mobile-html page and replaces the content of this page.
  * @param {url} url to load
  * @return {promise}
@@ -197,6 +216,7 @@ const getRemoteDocument = url => fetch(url).then(response => response.text()).th
 const load = url => {
   document.body.innerHTML = ''
   return getRemoteDocument(url).then(loadedDocument => {
+    mergeHead(document.head, loadedDocument.head)
     document.body = loadedDocument.body
   })
 }
@@ -209,6 +229,7 @@ const load = url => {
 const loadFirstSection = url => {
   document.body.innerHTML = ''
   return getRemoteDocument(url).then(loadedDocument => {
+    mergeHead(document.head, loadedDocument.head)
     const header = loadedDocument.querySelector('header')
     document.body.appendChild(header)
     const firstSection = loadedDocument.querySelector('section')
