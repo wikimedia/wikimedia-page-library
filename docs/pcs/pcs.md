@@ -254,4 +254,49 @@ Should return something along the lines of:
 }
 ```
 
+## Shell page example
+When using a shell page we want to apply the user preferences (settings) before loading page 
+content. This is currently calling setup twice. If this approach seem useful we could have separate
+function calls that are more descriptive.
+
+Load page in browser http://localhost:6927/en.wikipedia.org/v1/page/mobile-html-shell?title=George_Washington
+```
+pagelib.c1.InteractionHandling.setInteractionHandler((interaction) => { console.log(interaction) })
+pagelib.c1.Page.setup({
+  platform: pagelib.c1.Platforms.ANDROID,
+  clientVersion: '2.0.0',
+  theme: pagelib.c1.Themes.DARK,
+  dimImages: true,
+  margins: { top: '320px', right: '32px', bottom: '32px', left: '32px' },
+  textSizeAdjustmentPercentage: '100%',
+  scrollTop: 64,
+  loadImages: false
+},
+() => pagelib.c1.Page.load('https://en.wikipedia.org/api/rest_v1/page/mobile-html/George_Washington')
+  .then(() => {
+    pagelib.c1.Page.setup({
+      platform: pagelib.c1.Platforms.ANDROID,
+      clientVersion: '2.0.0',
+      l10n: {
+        addTitleDescription: 'Titelbeschreibung bearbeiten',
+        tableInfobox: 'Schnelle Fakten',
+        tableOther: 'Weitere Informationen',
+        tableClose: 'Schließen'
+      },
+      theme: pagelib.c1.Themes.DARK,
+      dimImages: true,
+      margins: { top: '320px', right: '32px', bottom: '32px', left: '32px' },
+      areTablesInitiallyExpanded: true,
+      textSizeAdjustmentPercentage: '100%',
+      scrollTop: 64,
+      loadImages: true
+      }, () => {
+      pagelib.c1.Page.setupTableEventHandling(window, document);
+    })
+  })
+)
+```
+
+The same can be accomplished with adding a `title` query parameter like this: http://localhost:6927/en.wikipedia.org/v1/page/mobile-html-shell?title=George_Washington
+
 [Page Content Service]: https://www.mediawiki.org/wiki/Page_Content_Service
