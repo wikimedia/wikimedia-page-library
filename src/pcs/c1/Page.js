@@ -178,6 +178,21 @@ const getRevision = () => {
 }
 
 /**
+ * Loads another mobile-html page.
+ * @param {url} url to load
+ * @return {promise}
+ */
+const load = url => {
+  document.body.innerHTML = ''
+  fetch(url).then(response => response.text()).then(html => {
+    const parser = new DOMParser()
+    return parser.parseFromString(html, 'text/html')
+  }).then(loadedDocument => {
+    document.body = loadedDocument.body
+  })
+}
+
+/**
  * Gets the Scroller object. Just for testing!
  * @return {{setScrollTop, scrollWithDecorOffset}}
  */
@@ -187,6 +202,7 @@ const getScroller = () => Scroller
 document.addEventListener('DOMContentLoaded', () => onPageLoad(window, document))
 
 export default {
+  load,
   onPageLoad,
   setup,
   setTheme,
