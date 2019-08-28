@@ -184,7 +184,7 @@ const getRevision = () => {
  */
 const load = url => {
   document.body.innerHTML = ''
-  fetch(url).then(response => response.text()).then(html => {
+  return fetch(url).then(response => response.text()).then(html => {
     const parser = new DOMParser()
     return parser.parseFromString(html, 'text/html')
   }).then(loadedDocument => {
