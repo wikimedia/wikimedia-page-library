@@ -27,13 +27,18 @@ const _connectHandlers = newHandlers => {
  * @return {void}
  */
 const add = params => {
-  const { title: articleTitle, menuItems, l10n,
-    readMore: { itemCount: readMoreItemCount, baseURL: readMoreBaseURL } }
-    = params
+  const { title: articleTitle, menu: { items: menuItems, fragment: menuFragment }, l10n,
+    readMore: { itemCount: readMoreItemCount, baseURL: readMoreBaseURL,
+      fragment: readMoreFragment } } = params
+
+  const fragments = {
+    menu: menuFragment,
+    readmore: readMoreFragment
+  }
 
   // Add container
   if (FooterContainer.isContainerAttached(document) === false) {
-    document.body.appendChild(FooterContainer.containerFragment(document))
+    document.body.appendChild(FooterContainer.containerFragment(document, fragments))
   }
   // Add menu
   FooterMenu.setHeading(
