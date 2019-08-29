@@ -7,20 +7,14 @@
 
 .pagelib_theme_dark .pagelib_footer_readmore_page {
   background-color: #2e3136;
-  box-shadow: 0px 2px 2px rgba(34, 34, 34, 0.8);
 }
 
 .pagelib_theme_sepia .pagelib_footer_readmore_page {
-  background-color: #f0e6d6;
-  box-shadow: 0px 2px 4px rgba(203, 200, 193, 0.5);
+  background-color: #f8f1e3;
 }
 
 .pagelib_theme_black .pagelib_footer_readmore_page {
-  background-color: #222;
-  box-shadow: 0px 2px 2px rgba(34, 34, 34, 0.8);
-}
-
-.pagelib_footer_readmore_page_container {
+  background-color: #000;
 }
 
 .pagelib_footer_readmore_page_title {
@@ -94,44 +88,15 @@ body[dir='rtl'] .pagelib_footer_readmore_page_image
   margin-left: 0px;
 }
 
-
-
 #pagelib_footer_container_readmore_pages {
-  background: #ccc;
-  padding: 1px 0px;
+  border-top: 0.5px solid #c8ccd1;
+  border-bottom: 0.5px solid #c8ccd1;
+  margin: .5px -20px;
+  padding: .5px 20px;
 }
 
-.pagelib_footer_menu_item {
-  position: relative;
-}
-
-.pagelib_footer_menu_item:after {
-  content: "";
-  position: absolute;
-  bottom  : 0;
-  height  : 1px;
-  width: calc(100% - 60px);
-  border-bottom:1px solid #C8CCD1;
-}
-
-html[dir='ltr'] .pagelib_footer_menu_item:after,
-body[dir='ltr'] .pagelib_footer_menu_item:after {
-  left: 60px;
-}
-
-
-html[dir='rtl'] .pagelib_footer_menu_item:after,
-body[dir='rtl'] .pagelib_footer_menu_item:after {
-  right: 60px;
-}
-
-
-.pagelib_footer_menu_item:last-child:after
-{
-  display: none;
-}
-
-#pagelib_footer_container_menu_items {
-  border-top: 0.5px solid #C8CCD1;
-  border-bottom: 0.5px solid #C8CCD1;
+.pagelib_theme_dark #pagelib_footer_container_readmore_pages,
+.pagelib_theme_black #pagelib_footer_container_readmore_pages {
+  border-top: 1px solid #43464a;
+  border-bottom: 1px solid #43464a;
 }
