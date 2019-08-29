@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { c1 } from '../../../build/wikimedia-page-library-pcs'
+import { c1 } from '../../../build/wpl_pcs'
 import domino from 'domino'
 
 const L10N = c1.L10N

@@ -1,6 +1,6 @@
 import WindowTimer from '../utilities/WindowTimer'
 import assert from 'assert'
-import pagelib from '../../build/wikimedia-page-library-transform'
+import pagelib from '../../build/wpl_transform'
 
 describe('Throttle', function Test() {
   const Throttle = pagelib.test.Throttle

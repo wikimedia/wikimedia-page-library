@@ -1,8 +1,8 @@
 # PCS
 
-The wikimedia-page-library-pcs output is an abstraction layer of the page library transforms. It includes the transforms implementation JS and CSS. It's meant to be used together with the HTML from [Page Content Service] mobile-html responses.
+The wpl_pcs output is an abstraction layer of the page library transforms. It includes the transforms implementation JS and CSS. It's meant to be used together with the HTML from [Page Content Service] mobile-html responses.
 
-### What wikimedia-page-library-pcs is for
+### What wpl_pcs is for
 - is an adapter of client side to server side mobile-html functionality
 - providing an interface for manipulating the presentation of page content (theme, dim images, margins, ...)
 - providing an interface for setting up expected event handling on the client side to complement server side DOM transformations (lazy loading, table collapsing, ...)
@@ -15,7 +15,7 @@ The wikimedia-page-library-pcs output is an abstraction layer of the page librar
   - Lazy Loading: server side we replace <img> tags with <span> placeholder elements. Then on the client side (here) we need to replace the placeholders back to the original <img> tags when appropriate.
   - Collapse / expand tables
 
-### What wikimedia-page-library-pcs is not for
+### What wpl_pcs is not for
 - not to be bundled with native app versions
 
 ### Versions

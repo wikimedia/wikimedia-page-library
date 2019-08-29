@@ -18,7 +18,7 @@
   "homepage": "https://github.com/wikimedia/wikimedia-page-library",
   "repository": "github:wikimedia/wikimedia-page-library",
   "bugs": "https://github.com/wikimedia/wikimedia-page-library/issues",
-  "main": "build/wikimedia-page-library-transform.js",
+  "main": "build/wpl_transform.js",
   "scripts": {
     "lint": "eslint --cache --max-warnings 0 --ext .js --ext .json --ext .html --fix",
     "lint:all": "npm run -s lint .",
@@ -82,15 +82,15 @@
   },
   "bundlesize": [
     {
-      "path": "build/wikimedia-page-library-override.css",
+      "path": "build/wpl_override.css",
       "maxSize": "0.2KB"
     },
     {
-      "path": "build/wikimedia-page-library-transform.css",
+      "path": "build/wpl_transform.css",
       "maxSize": "27.5KB"
     },
     {
-      "path": "build/wikimedia-page-library-transform.js",
+      "path": "build/wpl_transform.js",
       "maxSize": "13.83KB"
     }
   ]

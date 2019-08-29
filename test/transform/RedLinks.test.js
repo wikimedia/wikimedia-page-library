@@ -1,6 +1,6 @@
 import assert from 'assert'
 import domino from 'domino'
-import pagelib from '../../build/wikimedia-page-library-transform'
+import pagelib from '../../build/wpl_transform'
 
 const configureRedLinkTemplate = pagelib.RedLinks.test.configureRedLinkTemplate
 const redLinkAnchorsInDocument = pagelib.RedLinks.test.redLinkAnchorsInDocument

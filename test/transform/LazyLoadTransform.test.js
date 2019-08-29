@@ -1,4 +1,4 @@
-import { LazyLoadTransform } from '../../build/wikimedia-page-library-transform'
+import { LazyLoadTransform } from '../../build/wpl_transform'
 import assert from 'assert'
 import domino from 'domino'
 

@@ -18,10 +18,10 @@ const STATS = {
 
 const config = {
   entry: {
-    'wikimedia-page-library-pcs': './src/pcs',
-    'wikimedia-page-library-pcs-post': './src/pcspost',
-    'wikimedia-page-library-transform': './src/transform',
-    'wikimedia-page-library-override': './src/override'
+    'wpl_pcs': './src/pcs',
+    'wpl_pcs_post': './src/pcspost',
+    'wpl_transform': './src/transform',
+    'wpl_override': './src/override'
   },
 
   resolve: { extensions: ['.js', '.ts'] },
@@ -29,7 +29,7 @@ const config = {
   output: {
     path: path.resolve('build'),
     filename: '[name].js',
-    library: 'pagelib',
+    library: '[name]',
     libraryTarget: 'umd',
     libraryExport: 'default',
 

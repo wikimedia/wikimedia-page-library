@@ -1,5 +1,5 @@
 import assert from 'assert'
-import pagelib from '../../build/wikimedia-page-library-transform'
+import pagelib from '../../build/wpl_transform'
 
 const Polyfill = pagelib.test.Polyfill
 

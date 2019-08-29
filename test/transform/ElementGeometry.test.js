@@ -1,6 +1,6 @@
 import assert from 'assert'
 import domino from 'domino'
-import pagelib from '../../build/wikimedia-page-library-transform'
+import pagelib from '../../build/wpl_transform'
 const ElementGeometry = pagelib.test.ElementGeometry
 
 describe('ElementGeometry', () => {

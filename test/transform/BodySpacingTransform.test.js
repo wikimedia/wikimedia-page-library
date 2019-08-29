@@ -1,4 +1,4 @@
-import { BodySpacingTransform } from '../../build/wikimedia-page-library-transform'
+import { BodySpacingTransform } from '../../build/wpl_transform'
 import assert from 'assert'
 import domino from 'domino'
 

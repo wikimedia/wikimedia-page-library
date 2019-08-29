@@ -1,4 +1,4 @@
-import { AdjustTextSize } from '../../build/wikimedia-page-library-transform'
+import { AdjustTextSize } from '../../build/wpl_transform'
 import assert from 'assert'
 import domino from 'domino'
 

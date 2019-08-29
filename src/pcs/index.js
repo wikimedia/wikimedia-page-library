@@ -7,3 +7,7 @@ import c1 from './c1'
 export default {
   c1
 }
+
+if (document && document.pcsActionHandler) {
+  document.pcsActionHandler({ action: 'preloaded' })
+}

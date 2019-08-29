@@ -1,4 +1,4 @@
-import { SectionUtilities } from '../../build/wikimedia-page-library-transform'
+import { SectionUtilities } from '../../build/wpl_transform'
 import assert from 'assert'
 import domino from 'domino'
 
