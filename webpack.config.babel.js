@@ -19,6 +19,7 @@ const STATS = {
 const config = {
   entry: {
     'wikimedia-page-library-pcs': './src/pcs',
+    'wikimedia-page-library-pcs-post': './src/pcspost',
     'wikimedia-page-library-transform': './src/transform',
     'wikimedia-page-library-override': './src/override'
   },
