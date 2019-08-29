@@ -1,4 +1,4 @@
-import Polyfill from './Polyfill'
+import Polyfill from '../transform/Polyfill'
 
 /**
  * Extracts array of page issues from element

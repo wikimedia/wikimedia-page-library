@@ -1,10 +1,7 @@
 import FooterContainer from './FooterContainer'
 import FooterLegal from './FooterLegal'
 import FooterReadMore from './FooterReadMore'
-import Throttle from './Throttle'
 
-const RESIZE_EVENT_TYPE = 'resize'
-const RESIZE_LISTENER_THROTTLE_PERIOD_MILLISECONDS = 100
 
 const ID_CONTAINER = 'pagelib_footer_container'
 const ID_LEGAL_CONTAINER = 'pagelib_footer_container_legal'
@@ -14,10 +11,6 @@ const ID_READ_MORE_HEADER = 'pagelib_footer_container_readmore_heading'
 
 /** */
 export default class {
-  /** */
-  constructor() {
-    this._resizeListener = undefined
-  }
 
   /**
    * @param {!Window} window
@@ -51,10 +44,6 @@ export default class {
         FooterContainer.updateBottomPaddingToAllowReadMoreToScrollToTop(window)
         titlesShownHandler(titles)
       }, window.document)
-
-    this._resizeListener = Throttle.wrap(window, RESIZE_LISTENER_THROTTLE_PERIOD_MILLISECONDS,
-      () => FooterContainer.updateBottomPaddingToAllowReadMoreToScrollToTop(window))
-    window.addEventListener(RESIZE_EVENT_TYPE, this._resizeListener)
   }
 
   /**
@@ -62,12 +51,6 @@ export default class {
    * @return {void}
    */
   remove(window) {
-    if (this._resizeListener) {
-      window.removeEventListener(RESIZE_EVENT_TYPE, this._resizeListener)
-      this._resizeListener.cancel()
-      this._resizeListener = undefined
-    }
-
     const footer = window.document.getElementById(ID_CONTAINER)
     if (footer) {
       // todo: support recycling.

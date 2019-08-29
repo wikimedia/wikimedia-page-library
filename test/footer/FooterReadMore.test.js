@@ -1,5 +1,5 @@
 import assert from 'assert'
-import pagelib from '../../build/wikimedia-page-library-transform'
+import pagelib from '../../build/wikimedia-page-library-footer'
 
 describe('FooterReadMore', () => {
   describe('safelyRemoveEnclosures()', () => {

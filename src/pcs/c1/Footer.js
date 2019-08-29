@@ -1,7 +1,7 @@
-import FooterContainer from '../../transform/FooterContainer'
-import FooterLegal from '../../transform/FooterLegal'
-import FooterMenu from '../../transform/FooterMenu'
-import FooterReadMore from '../../transform/FooterReadMore'
+import FooterContainer from '../../footer/FooterContainer'
+import FooterLegal from '../../footer/FooterLegal'
+import FooterMenu from '../../footer/FooterMenu'
+import FooterReadMore from '../../footer/FooterReadMore'
 
 let handlers
 

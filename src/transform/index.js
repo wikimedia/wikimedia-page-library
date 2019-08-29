@@ -11,18 +11,12 @@ import ThemeTransform from './ThemeTransform'
 import AdjustTextSize from './AdjustTextSize'
 import BodySpacingTransform from './BodySpacingTransform'
 import CollapseTable from './CollapseTable'
-import CollectionUtilities from './CollectionUtilities'
 import CompatibilityTransform from './CompatibilityTransform'
 import DimImagesTransform from './DimImagesTransform'
 import EditTransform from './EditTransform'
 import ElementGeometry from './ElementGeometry'
 import ElementUtilities from './ElementUtilities'
 import LeadIntroductionTransform from './LeadIntroductionTransform'
-import FooterContainer from './FooterContainer'
-import FooterLegal from './FooterLegal'
-import FooterMenu from './FooterMenu'
-import FooterReadMore from './FooterReadMore'
-import FooterTransformer from './FooterTransformer'
 import LazyLoadTransform from './LazyLoadTransform'
 import LazyLoadTransformer from './LazyLoadTransformer'
 import PlatformTransform from './PlatformTransform'
@@ -40,18 +34,12 @@ export default {
   BodySpacingTransform,
   // todo: rename CollapseTableTransform.
   CollapseTable,
-  CollectionUtilities,
   CompatibilityTransform,
   DimImagesTransform,
   EditTransform,
   // todo: rename Footer.ContainerTransform, Footer.LegalTransform, Footer.MenuTransform,
   //       Footer.ReadMoreTransform.
   LeadIntroductionTransform,
-  FooterContainer,
-  FooterLegal,
-  FooterMenu,
-  FooterReadMore,
-  FooterTransformer,
   LazyLoadTransform,
   LazyLoadTransformer,
   PlatformTransform,

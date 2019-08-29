@@ -20,7 +20,8 @@ const config = {
   entry: {
     'wikimedia-page-library-pcs': './src/pcs',
     'wikimedia-page-library-transform': './src/transform',
-    'wikimedia-page-library-override': './src/override'
+    'wikimedia-page-library-override': './src/override',
+    'wikimedia-page-library-footer': './src/footer'
   },
 
   resolve: { extensions: ['.js', '.ts'] },
