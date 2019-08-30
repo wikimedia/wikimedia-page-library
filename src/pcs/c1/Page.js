@@ -221,19 +221,53 @@ const load = url => {
   })
 }
 
+
+/**
+ * Requests animation frame if it's available
+ * @param {?OnSuccess} callback
+ * @return {void}
+ */
+const requestAnimationFrameIfAvailable = callback => {
+  if (window && window.requestAnimationFrame) {
+    window.requestAnimationFrame(callback)
+  } else {
+    callback()
+  }
+}
+
 /**
  * Loads another mobile-html page and replaces the content with the first section.
  * @param {url} url to load
- * @return {promise}
+ * @param {?long} delay in ms before attaching remaining sections
+ * @param {?OnSuccess} firstSectionCallback after first section is attached
+ * @param {?OnSuccess} callback after remaining sections are attached\
+ * @return {void}
  */
-const loadFirstSection = url => {
+const loadProgressively = (url, delay, firstSectionCallback, callback) => {
   document.body.innerHTML = ''
-  return getRemoteDocument(url).then(loadedDocument => {
+  getRemoteDocument(url).then(loadedDocument => {
     // mergeHead(document.head, loadedDocument.head)
     const header = loadedDocument.querySelector('header')
     document.body.appendChild(header)
-    const firstSection = loadedDocument.querySelector('section')
-    document.body.appendChild(firstSection)
+    const sections = loadedDocument.querySelectorAll('section')
+    if (sections.length > 0) {
+      document.body.appendChild(sections[0])
+    }
+    requestAnimationFrameIfAvailable(() => {
+      if (firstSectionCallback) {
+        firstSectionCallback()
+      }
+      setTimeout(() => {
+        for (let i = 1; i < sections.length; i++) {
+          document.body.appendChild(sections[i])
+        }
+        requestAnimationFrameIfAvailable(() => {
+          if (callback) {
+            callback()
+          }
+        })
+      }, delay || 100)
+    })
   })
 }
 
@@ -245,7 +279,7 @@ const getScroller = () => Scroller
 
 export default {
   load,
-  loadFirstSection,
+  loadProgressively,
   setup,
   setTheme,
   setDimImages,
