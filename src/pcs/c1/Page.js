@@ -214,7 +214,6 @@ const getRemoteDocument = url => fetch(url).then(response => response.text()).th
  * @return {promise}
  */
 const load = url => {
-  document.body.innerHTML = ''
   return getRemoteDocument(url).then(loadedDocument => {
     // mergeHead(document.head, loadedDocument.head)
     document.body = loadedDocument.body
@@ -244,7 +243,6 @@ const requestAnimationFrameIfAvailable = callback => {
  * @return {void}
  */
 const loadProgressively = (url, delay, firstSectionCallback, callback) => {
-  document.body.innerHTML = ''
   getRemoteDocument(url).then(loadedDocument => {
     // mergeHead(document.head, loadedDocument.head)
     const header = loadedDocument.querySelector('header')
