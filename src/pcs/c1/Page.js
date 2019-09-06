@@ -215,7 +215,13 @@ const getRemoteDocument = url => fetch(url).then(response => response.text()).th
  */
 const load = url => getRemoteDocument(url).then(loadedDocument => {
   // mergeHead(document.head, loadedDocument.head)
-  document.body = loadedDocument.body
+  document.body.innerHTML = ''
+  const header = loadedDocument.querySelector('header')
+  document.body.appendChild(header)
+  const sections = loadedDocument.querySelectorAll('section')
+  for (let i = 0; i < sections.length; i++) {
+    document.body.appendChild(sections[i])
+  }
 })
 
 
@@ -243,7 +249,8 @@ const requestAnimationFrameIfAvailable = callback => {
 const loadProgressively = (url, delay, firstSectionCallback, callback) => {
   getRemoteDocument(url).then(loadedDocument => {
     // mergeHead(document.head, loadedDocument.head)
-    const header = loadedDocument.querySelector('header')
+    document.body.innerHTML = ''
+    const header = loadedDocument.querySelectorAll('header')
     document.body.appendChild(header)
     const sections = loadedDocument.querySelectorAll('section')
     if (sections.length > 0) {
