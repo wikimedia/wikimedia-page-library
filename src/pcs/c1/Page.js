@@ -213,12 +213,10 @@ const getRemoteDocument = url => fetch(url).then(response => response.text()).th
  * @param {url} url to load
  * @return {promise}
  */
-const load = url => {
-  return getRemoteDocument(url).then(loadedDocument => {
-    // mergeHead(document.head, loadedDocument.head)
-    document.body = loadedDocument.body
-  })
-}
+const load = url => getRemoteDocument(url).then(loadedDocument => {
+  // mergeHead(document.head, loadedDocument.head)
+  document.body = loadedDocument.body
+})
 
 
 /**
