@@ -250,7 +250,7 @@ const loadProgressively = (url, delay, firstSectionCallback, callback) => {
   getRemoteDocument(url).then(loadedDocument => {
     // mergeHead(document.head, loadedDocument.head)
     document.body.innerHTML = ''
-    const header = loadedDocument.querySelectorAll('header')
+    const header = loadedDocument.querySelector('header')
     document.body.appendChild(header)
     const sections = loadedDocument.querySelectorAll('section')
     if (sections.length > 0) {
