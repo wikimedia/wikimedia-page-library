@@ -56,7 +56,7 @@ a.pagelib_footer_legal_license_link, a.pagelib_footer_browser_link {
 }
 
 hr.pagelib_footer_legal_divider {
-  height: .5px;
+  height: 1px;
   border: none;
   background-color: #eaecf0;
 }
