@@ -1,7 +1,3 @@
-.pagelib_footer_section {
-  padding-bottom: 1.5em;
-}
-
 .pagelib_footer_section a:hover {
   text-decoration: none;
 }
@@ -12,6 +8,9 @@ h2#pagelib_footer_container_menu_heading {
   font-size: 15pt;
   color: #72777d;
   font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Lato,Helvetica,Arial,sans-serif;
+  background-color: #f8f9fa;
+  margin: 0 calc(50% - 50vw);
+  padding: 1.5em calc(50vw - 50%) 0.5em calc(50vw - 50%);
 }
 
 .pagelib_theme_dark h2#pagelib_footer_container_readmore_heading,
@@ -21,6 +20,8 @@ h2#pagelib_footer_container_menu_heading {
   color: #f8f9fa;
 }
 
-#pagelib_footer_container_menu {
-  padding-top: 20px;
+section#pagelib_footer_container_legal {
+  background-color: #f8f9fa;
+  margin: 0 calc(50% - 50vw);
+  padding: .5em calc(50vw - 50%);
 }
