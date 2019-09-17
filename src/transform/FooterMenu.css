@@ -1,5 +1,5 @@
 .pagelib_footer_menu_item {
-  padding: 15px;
+  padding: 15px 0;
   background-size: 40px 40px;
   background-repeat: no-repeat;
   background-color: white;
@@ -20,12 +20,12 @@
 
 html[dir='ltr'] .pagelib_footer_menu_item,
 body[dir='ltr'] .pagelib_footer_menu_item {
-  background-position: left 20px center;
+  background-position: left 0 center;
 }
 
 html[dir='rtl'] .pagelib_footer_menu_item,
 body[dir='rtl'] .pagelib_footer_menu_item {
-  background-position: right 20px center;
+  background-position: right 0 center;
 }
 
 .pagelib_footer_menu_item_title {
@@ -73,7 +73,7 @@ body[dir='rtl'] .pagelib_footer_menu_item_subtitle {
   position: absolute;
   bottom: 0;
   height: 1px;
-  width: calc(100% - 80px);
+  width: calc(100% - 65px + 50vw - 50%);
   border-bottom: 1px solid #c8ccd1;
 }
 
@@ -88,13 +88,13 @@ body[dir='rtl'] .pagelib_footer_menu_item_subtitle {
 
 html[dir='ltr'] .pagelib_footer_menu_item:after,
 body[dir='ltr'] .pagelib_footer_menu_item:after {
-  left: 80px;
+  left: 65px;
 }
 
 
 html[dir='rtl'] .pagelib_footer_menu_item:after,
 body[dir='rtl'] .pagelib_footer_menu_item:after {
-  right: 80px;
+  right: 65px;
 }
 
 .pagelib_footer_menu_item:last-child:after
@@ -103,11 +103,12 @@ body[dir='rtl'] .pagelib_footer_menu_item:after {
 }
 
 #pagelib_footer_container_menu_items {
-  display: table;
   width: 100%;
   border-collapse: collapse;
   border-top: 0.5px solid #c8ccd1;
   border-bottom: 0.5px solid #c8ccd1;
+  margin: .5px calc(50% - 50vw);
+  padding: .5px calc(50vw - 50%);
 }
 
 .pagelib_theme_dark #pagelib_footer_container_menu_items,
@@ -122,7 +123,7 @@ body[dir='rtl'] .pagelib_footer_menu_item:after {
 }
 
 #pagelib_footer_container_menu_heading {
-  padding: .5em 20px;
+  padding: .5em;
 }
 
 .pagelib_footer_menu_icon_languages {
@@ -234,7 +235,7 @@ html[dir=rtl] .pagelib_footer_menu_icon_reference_list,
 /* icon_talk_page */
 body[dir=rtl] .pagelib_footer_menu_icon_talk_page, 
 html[dir=rtl] .pagelib_footer_menu_icon_talk_page {
-  background-position: right 25px center
+  background-position: right 5px center
 }
 
 /* icon_last_edited */
@@ -249,5 +250,5 @@ body[dir=ltr] .pagelib_footer_menu_icon_reference_list,
 /* icon_talk_page */
 body[dir=ltr] .pagelib_footer_menu_icon_talk_page, 
 html[dir=ltr] .pagelib_footer_menu_icon_talk_page {
-  background-position: left 25px center
+  background-position: left 5px center
 }

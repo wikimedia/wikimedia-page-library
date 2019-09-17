@@ -91,8 +91,8 @@ body[dir='rtl'] .pagelib_footer_readmore_page_image
 #pagelib_footer_container_readmore_pages {
   border-top: 0.5px solid #c8ccd1;
   border-bottom: 0.5px solid #c8ccd1;
-  margin: .5px -20px;
-  padding: .5px 20px;
+  margin: .5px calc(50% - 50vw);
+  padding: .5px calc(50vw - 50%);
 }
 
 .pagelib_theme_dark #pagelib_footer_container_readmore_pages,
