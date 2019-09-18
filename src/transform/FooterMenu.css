@@ -105,21 +105,8 @@ body[dir='rtl'] .pagelib_footer_menu_item:after {
 #pagelib_footer_container_menu_items {
   width: 100%;
   border-collapse: collapse;
-  border-top: 0.5px solid #c8ccd1;
-  border-bottom: 0.5px solid #c8ccd1;
   margin: 0 calc(50% - 50vw);
   padding: .5px calc(50vw - 50%);
-}
-
-.pagelib_theme_dark #pagelib_footer_container_menu_items,
-.pagelib_theme_black #pagelib_footer_container_menu_items {
-  border-top: 0.5px solid #43464a;
-  border-bottom: 0.5px solid #43464a;
-}
-
-.pagelib_theme_sepia #pagelib_footer_container_menu_items {
-  border-top: 0.5px solid #cbc8c1;
-  border-bottom: 0.5px solid #cbc8c1;
 }
 
 #pagelib_footer_container_menu_heading {

@@ -7,6 +7,8 @@ h2#pagelib_footer_container_menu_heading {
   text-transform: uppercase;
   font-size: 15pt;
   color: #72777d;
+  border-top: 0.5px solid #c8ccd1;
+  border-bottom: 0.5px solid #c8ccd1;
   font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Lato,Helvetica,Arial,sans-serif;
   background-color: #f8f9fa;
   margin: 0 calc(50% - 50vw);
@@ -16,6 +18,8 @@ h2#pagelib_footer_container_menu_heading {
 .pagelib_theme_sepia h2#pagelib_footer_container_readmore_heading,
 .pagelib_theme_sepia h2#pagelib_footer_container_menu_heading {
   background-color: #f0e6d6;
+  border-top: 0.5px solid #cbc8c1;
+  border-bottom: 0.5px solid #cbc8c1;
 }
 .pagelib_theme_dark h2#pagelib_footer_container_readmore_heading,
 .pagelib_theme_dark h2#pagelib_footer_container_menu_heading {
@@ -31,22 +35,28 @@ h2#pagelib_footer_container_menu_heading {
 .pagelib_theme_dark h2#pagelib_footer_container_menu_heading,
 .pagelib_theme_black h2#pagelib_footer_container_menu_heading {
   color: #f8f9fa;
+  border-top: 0.5px solid #43464a;
+  border-bottom: 0.5px solid #43464a;
 }
 
 section#pagelib_footer_container_legal {
   background-color: #f8f9fa;
+  border-top: 0.5px solid #c8ccd1;
   margin: 0 calc(50% - 50vw);
   padding: .5em calc(50vw - 50%);
 }
 
 .pagelib_theme_sepia section#pagelib_footer_container_legal {
+  border-top: 0.5px solid #cbc8c1;
   background-color: #f0e6d6;
 }
 
 .pagelib_theme_dark section#pagelib_footer_container_legal {
+  border-top: 0.5px solid #43464a;
   background-color: #27292d;
 }
 
 .pagelib_theme_black section#pagelib_footer_container_legal {
+  border-top: 0.5px solid #43464a;
   background-color: #222222;
 }
