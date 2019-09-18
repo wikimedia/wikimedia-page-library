@@ -35,23 +35,19 @@ There are two kinds of versions we are concerned about, client side and server s
 
 ## Interface
 
-### Body tag scripts: document object and global variables
-
-Two scripts are run within the body tag of the page - one at the start before any content is loaded and one at the end after all content has loaded. These scripts are in the `pcs/body` folder in this repository. The initial script checks for the client-provided page settings and action handler before the page fully loads.
-
-### Page
-
-#### onBodyStart() and onBodyEnd()
-These should not be called directly by the clients. They will be invoked automatically at the start and end of the `body` tag.
-
 Clients can set `document.pcsSetupSettings` to an object with the parameters for `pagelib.c1.Page.setup()`. The page will apply theme and margin changes from this settings object in `onBodyStart()` before first paint and the rest of the settings after the page fully loads in `onBodyEnd()`. By applying theme and margin changes immediately, the page will no longer need to be hidden during loading by the clients.
 
 Clients can also set `document.pcsActionHandler` to a function that takes a single parameter - an action object. The page call this function with `{action: 'setup'}` after initial setup completes and `{action: 'load_complete'}` when final setup is complete after all content has loaded. It will also make it the interaction handler for the page.
 
 Alternatively, clients can set a `pcsClient` variable that will populate the aforementioned document properties by reading a JSON string from `pcsClient.getSetupSettings()` and passing a JSON string to `pcsClient.onReceiveMessage()`. This is for compatability with `@JavascriptInterface` on Android.
 
+### Page
+
+#### onBodyStart() and onBodyEnd()
+These should not be called directly by the clients. They will be invoked automatically at the start and end of the `body` tag.
+
 #### setup()
-Combination of the following calls, changing multiple settings in one single call. The settings are kept in an object.
+Combination of the following calls, changing multiple settings in one single call. The settings are kept in an object. Calling this directly is not required if you set `document.pcsSetupSettings` or a `pcsClient` as defined above.
 
 Setting parameter object fields:
 - platform: possible values in pagelib.c1.Platforms: [IOS, ANDROID] 
@@ -200,6 +196,8 @@ readMoreBaseURL:
 - local RB: `'http://localhost:7231/en.wikipedia.org/v1'`
 
 ### InteractionHandling
+
+Calling this directly is not required if you set `document.pcsActionHandler` or a `pcsClient` as defined above.
 
 #### setInteractionHandler()
 Sets up callbacks for select events originating from the WebView.
