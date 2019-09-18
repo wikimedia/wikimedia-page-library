@@ -37,24 +37,13 @@
       const container = document.querySelector('div')
 
       // eslint-disable-next-line require-jsdoc, no-confusing-arrow
-      const saveLabel = saved => saved ? 'Saved' :  'Save for later'
       const configuration = {
         baseURL: '',
         title: 'Ice cream',
         readMore: {
           header: 'Read more',
           limit: 3,
-          saveClickHandler: title => {
-            const saved = false
-            pagelib.FooterReadMore.updateSaveButtonForTitle(title, saveLabel(!saved), !saved,
-              window.document)
-          },
           loadCallback: titleUrlSegments => {
-            titleUrlSegments.forEach(title => {
-              const saved = title === 'Kulfi'
-              pagelib.FooterReadMore.updateSaveButtonForTitle(title, saveLabel(saved), saved,
-                window.document)
-            })
           }
         },
         license: {
@@ -70,7 +59,7 @@
       transformer.add(window, container, configuration.baseURL, configuration.title,
         configuration.readMore.header, configuration.readMore.limit, configuration.license.template,
         configuration.license.substitution, configuration.license.substitutionClickCallback,
-        configuration.readMore.loadCallback, configuration.readMore.saveClickHandler)
+        configuration.readMore.loadCallback)
     </script>
   </body>
 

@@ -125,6 +125,12 @@ styles with only the things which need tweaking.
   border-style: solid !important;
 }
 
+.pagelib_theme_dark hr.pagelib_footer_legal_divider,
+.pagelib_theme_black hr.pagelib_footer_legal_divider,
+.pagelib_theme_sepia hr.pagelib_footer_legal_divider {
+  border-style: none !important;
+}
+
 /* caption color */
 /* en > Barack Obama > 793008506 */
 .pagelib_theme_default .content .thumbcaption,

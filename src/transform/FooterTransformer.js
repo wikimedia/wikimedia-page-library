@@ -32,13 +32,11 @@ export default class {
    * @param {!string} viewInBrowserString
    * @param {!FooterBrowserClickCallback} browserLinkClickHandler
    * @param {!TitlesShownHandler} titlesShownHandler
-   * @param {!SaveButtonClickHandler} saveButtonClickHandler
    * @return {void}
    */
   add(window, container, baseURL, title, readMoreHeader, readMoreLimit, license,
     licenseSubstitutionString, licenseLinkClickHandler, viewInBrowserString,
-    browserLinkClickHandler, titlesShownHandler,
-    saveButtonClickHandler) {
+    browserLinkClickHandler, titlesShownHandler) {
     this.remove(window)
     container.appendChild(FooterContainer.containerFragment(window.document))
 
@@ -46,11 +44,10 @@ export default class {
       licenseLinkClickHandler, viewInBrowserString, browserLinkClickHandler)
 
     FooterReadMore.setHeading(readMoreHeader, ID_READ_MORE_HEADER, window.document)
-    FooterReadMore.add(title, readMoreLimit, ID_READ_MORE_CONTAINER, baseURL,
-      saveButtonClickHandler, titles => {
-        FooterContainer.updateBottomPaddingToAllowReadMoreToScrollToTop(window)
-        titlesShownHandler(titles)
-      }, window.document)
+    FooterReadMore.add(title, readMoreLimit, ID_READ_MORE_CONTAINER, baseURL, titles => {
+      FooterContainer.updateBottomPaddingToAllowReadMoreToScrollToTop(window)
+      titlesShownHandler(titles)
+    }, window.document)
 
     this._resizeListener = Throttle.wrap(window, RESIZE_LISTENER_THROTTLE_PERIOD_MILLISECONDS,
       () => FooterContainer.updateBottomPaddingToAllowReadMoreToScrollToTop(window))
