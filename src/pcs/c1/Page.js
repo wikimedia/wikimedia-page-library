@@ -41,8 +41,12 @@ const setup = (optionalSettings, onSuccess) => {
   if (settings.margins !== undefined) {
     BodySpacingTransform.setMargins(document.body, settings.margins)
   }
-  if (settings.areTablesInitiallyExpanded) {
-    CollapseTable.toggleCollapsedForAll(document.body)
+  if (settings.setupTableEventHandling === undefined || settings.setupTableEventHandling) {
+    const isInitiallyCollapsed = settings.areTablesInitiallyExpanded !== true
+    CollapseTable.setupEventHandling(window,
+      document,
+      isInitiallyCollapsed,
+      Scroller.scrollWithDecorOffset)
   }
   if (settings.scrollTop !== undefined) {
     Scroller.setScrollTop(settings.scrollTop)
@@ -61,9 +65,11 @@ const setup = (optionalSettings, onSuccess) => {
 
   if (onSuccess instanceof Function) {
     if (window && window.requestAnimationFrame) {
-      // request animation frame before callback to ensure theme is set
+      // request animation frame and set timeout before callback to ensure paint occurs
       window.requestAnimationFrame(() => {
-        onSuccess()
+        setTimeout(() => {
+          onSuccess()
+        }, 1)
       })
     } else {
       onSuccess()
@@ -197,7 +203,8 @@ const onBodyStart = () => {
     const preSettings = {
       theme: document.pcsSetupSettings.theme,
       margins: document.pcsSetupSettings.margins,
-      loadImages: false
+      loadImages: false,
+      setupTableEventHandling: false
     }
     setup(preSettings, () => {
       InteractionHandling.initialSetupComplete()
@@ -217,17 +224,17 @@ const onBodyEnd = () => {
    * @return {void}
    */
   const finalSetupComplete = () => {
-    CollapseTable.setupEventHandling(window, document, true, Scroller.scrollWithDecorOffset)
     InteractionHandling.finalSetupComplete()
   }
   if (document && document.pcsSetupSettings) {
     const postSettings = document.pcsSetupSettings
     delete postSettings.theme
     delete postSettings.margins
+    postSettings.setupTableEventHandling = true
     setup(postSettings, finalSetupComplete)
     remainingContentTimeout = document.pcsSetupSettings.remainingTimeout || remainingContentTimeout
   } else {
-    setup({}, finalSetupComplete)
+    setup({ setupTableEventHandling: true }, finalSetupComplete)
   }
 
   setTimeout(() => {
