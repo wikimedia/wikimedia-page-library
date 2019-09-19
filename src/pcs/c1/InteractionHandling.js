@@ -100,7 +100,9 @@ class ClickedItem {
  * @return {void}
  */
 const postMessage = interaction => {
-  interactionHandler(interaction)
+  if (interactionHandler) {
+    interactionHandler(interaction)
+  }
 }
 
 /**
