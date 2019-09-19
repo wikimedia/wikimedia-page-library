@@ -1,6 +1,10 @@
+### v9.2
+ - Feature: added onBodyStart and onBodyEnd functions to read client-provided information and perform theme and margin changes before content loads and the rest of setup after content loads
+ - Breaking: Footer interface changed
+
 ### v9.1.3
  - Fix: Minify CSS
- 
+
 ### v9.1.2
 - Fix: Prevent crashes when parsing style tags
 
