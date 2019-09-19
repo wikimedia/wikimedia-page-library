@@ -3,24 +3,12 @@ import BodySpacingTransform from '../../transform/BodySpacingTransform'
 import CollapseTable from '../../transform/CollapseTable'
 import DimImagesTransform from '../../transform/DimImagesTransform'
 import EditTransform from '../../transform/EditTransform'
+import InteractionHandling from './InteractionHandling'
 import L10N from './L10N'
 import LazyLoadTransformer from '../../transform/LazyLoadTransformer'
 import PlatformTransform from '../../transform/PlatformTransform'
 import Scroller from './Scroller'
 import ThemeTransform from '../../transform/ThemeTransform'
-
-/**
- * Executes common JS functionality the client should start, like hooking up events for
- * lazy loading and table collapsing/expanding.
- * Client side complement of server-side DOM transformations.
- * Note: this will be called automatically when DOM is ready
- * @param {!Window} window
- * @param {!Document} document
- * @return {void}
- */
-const onPageLoad = (window, document) => {
-  CollapseTable.setupEventHandling(window, document, true, Scroller.scrollWithDecorOffset)
-}
 
 /**
  * @typedef {function} OnSuccess
@@ -53,8 +41,12 @@ const setup = (optionalSettings, onSuccess) => {
   if (settings.margins !== undefined) {
     BodySpacingTransform.setMargins(document.body, settings.margins)
   }
-  if (settings.areTablesInitiallyExpanded) {
-    CollapseTable.toggleCollapsedForAll(document.body)
+  if (settings.setupTableEventHandling === undefined || settings.setupTableEventHandling) {
+    const isInitiallyCollapsed = settings.areTablesInitiallyExpanded !== true
+    CollapseTable.setupEventHandling(window,
+      document,
+      isInitiallyCollapsed,
+      Scroller.scrollWithDecorOffset)
   }
   if (settings.scrollTop !== undefined) {
     Scroller.setScrollTop(settings.scrollTop)
@@ -73,9 +65,11 @@ const setup = (optionalSettings, onSuccess) => {
 
   if (onSuccess instanceof Function) {
     if (window && window.requestAnimationFrame) {
-      // request animation frame before callback to ensure theme is set
+      // request animation frame and set timeout before callback to ensure paint occurs
       window.requestAnimationFrame(() => {
-        onSuccess()
+        setTimeout(() => {
+          onSuccess()
+        }, 1)
       })
     } else {
       onSuccess()
@@ -183,11 +177,77 @@ const getRevision = () => {
  */
 const getScroller = () => Scroller
 
-// automatically invoked when DOM is ready
-document.addEventListener('DOMContentLoaded', () => onPageLoad(window, document))
+/**
+ * Executes pagelib functionality intended to run before any content has loaded
+ * @return {void}
+ */
+const onBodyStart = () => {
+  // eslint-disable-next-line no-undef
+  if (typeof pcsClient !== 'undefined' && pcsClient.getSetupSettings) {
+    // eslint-disable-next-line no-undef
+    const setupJSON = pcsClient.getSetupSettings()
+    document.pcsSetupSettings = JSON.parse(setupJSON)
+  }
+  // eslint-disable-next-line no-undef
+  if (typeof pcsClient !== 'undefined' && pcsClient.onReceiveMessage) {
+    document.pcsActionHandler = action => {
+      // eslint-disable-next-line no-undef
+      pcsClient.onReceiveMessage(JSON.stringify(action))
+    }
+  }
+  if (document && document.pcsActionHandler) {
+    InteractionHandling.setInteractionHandler(document.pcsActionHandler)
+  }
+
+  if (document && document.pcsSetupSettings) {
+    const preSettings = {
+      theme: document.pcsSetupSettings.theme,
+      margins: document.pcsSetupSettings.margins,
+      loadImages: false,
+      setupTableEventHandling: false
+    }
+    setup(preSettings, () => {
+      InteractionHandling.initialSetupComplete()
+    })
+  }
+}
+
+/**
+ * Executes pagelib functionality intended to run after all content has loaded
+ * @return {void}
+ */
+const onBodyEnd = () => {
+  let remainingContentTimeout = 100
+
+  /**
+   * Executed when final setup is complete
+   * @return {void}
+   */
+  const finalSetupComplete = () => {
+    InteractionHandling.finalSetupComplete()
+  }
+  if (document && document.pcsSetupSettings) {
+    const postSettings = document.pcsSetupSettings
+    delete postSettings.theme
+    delete postSettings.margins
+    postSettings.setupTableEventHandling = true
+    setup(postSettings, finalSetupComplete)
+    remainingContentTimeout = document.pcsSetupSettings.remainingTimeout || remainingContentTimeout
+  } else {
+    setup({ setupTableEventHandling: true }, finalSetupComplete)
+  }
+
+  setTimeout(() => {
+    const sections = document.querySelectorAll('section')
+    for (let i = 1; i < sections.length; i++) {
+      sections[i].style.display = ''
+    }
+  }, remainingContentTimeout)
+}
 
 export default {
-  onPageLoad,
+  onBodyStart,
+  onBodyEnd,
   setup,
   setTheme,
   setDimImages,
