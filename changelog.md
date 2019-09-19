@@ -1,3 +1,6 @@
+### v9.2.1
+ - Fix: error caused by undefined interaction handler on standard web page load
+
 ### v9.2
  - Feature: added onBodyStart and onBodyEnd functions to read client-provided information and perform theme and margin changes before content loads and the rest of setup after content loads
  - Breaking: Footer interface changed
