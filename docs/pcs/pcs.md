@@ -35,14 +35,19 @@ There are two kinds of versions we are concerned about, client side and server s
 
 ## Interface
 
+Clients can set `document.pcsSetupSettings` to an object with the parameters for `pagelib.c1.Page.setup()`. The page will apply theme and margin changes from this settings object in `onBodyStart()` before first paint and the rest of the settings after the page fully loads in `onBodyEnd()`. By applying theme and margin changes immediately, the page will no longer need to be hidden during loading by the clients.
+
+Clients can also set `document.pcsActionHandler` to a function that takes a single parameter - an action object. The page call this function with `{action: 'setup'}` after initial setup completes and `{action: 'load_complete'}` when final setup is complete after all content has loaded. It will also make it the interaction handler for the page.
+
+Alternatively, clients can set a `pcsClient` variable that will populate the aforementioned document properties by reading a JSON string from `pcsClient.getSetupSettings()` and passing a JSON string to `pcsClient.onReceiveMessage()`. This is for compatability with `@JavascriptInterface` on Android.
+
 ### Page
 
-#### onPageLoad()
-No need to call this one from the client side. This will be invoked automatically when the DOM is 
-ready. All other functions are meant to be called by the client.
+#### onBodyStart() and onBodyEnd()
+These should not be called directly by the clients. They will be invoked automatically at the start and end of the `body` tag.
 
 #### setup()
-Combination of the following calls, changing multiple settings in one single call. The settings are kept in an object.
+Combination of the following calls, changing multiple settings in one single call. The settings are kept in an object. Calling this directly is not required if you set `document.pcsSetupSettings` or a `pcsClient` as defined above.
 
 Setting parameter object fields:
 - platform: possible values in pagelib.c1.Platforms: [IOS, ANDROID] 
@@ -190,15 +195,9 @@ readMoreBaseURL:
 - production: `'https://en.wikipedia.org/api/rest_v1'`
 - local RB: `'http://localhost:7231/en.wikipedia.org/v1'`
 
-#### updateReadMoreSaveButtonForTitle()
-The client is expected to call this function for every "Read more" title received.
-
-Example:
-```
-pagelib.c1.Footer.updateReadMoreSaveButtonForTitle('Mire Mare', 'Saved for later', true)
-```
-
 ### InteractionHandling
+
+Calling this directly is not required if you set `document.pcsActionHandler` or a `pcsClient` as defined above.
 
 #### setInteractionHandler()
 Sets up callbacks for select events originating from the WebView.
@@ -255,3 +254,4 @@ Should return something along the lines of:
 ```
 
 [Page Content Service]: https://www.mediawiki.org/wiki/Page_Content_Service
+

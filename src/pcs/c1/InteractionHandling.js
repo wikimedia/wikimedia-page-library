@@ -9,6 +9,8 @@ import SectionUtilities from '../../transform/SectionUtilities'
  * @type {!Object}
  */
 const Actions = {
+  InitialSetup: 'setup',
+  FinalSetup: 'final_setup',
   LinkClicked: 'link_clicked',
   ImageClicked: 'image_clicked',
   ReferenceClicked: 'reference_clicked',
@@ -98,7 +100,9 @@ class ClickedItem {
  * @return {void}
  */
 const postMessage = interaction => {
-  interactionHandler(interaction)
+  if (interactionHandler) {
+    interactionHandler(interaction)
+  }
 }
 
 /**
@@ -276,6 +280,20 @@ const viewInBrowser = () => {
 }
 
 /**
+ * @return {void}
+ */
+const initialSetupComplete = () => {
+  postMessage(new Interaction(Actions.InitialSetup))
+}
+
+/**
+ * @return {void}
+ */
+const finalSetupComplete = () => {
+  postMessage(new Interaction(Actions.FinalSetup))
+}
+
+/**
  * Gets information about the current text selection
  * @param {?Window} optionalWindow
  * @return {!map} selection info
@@ -324,5 +342,7 @@ const setInteractionHandler = myHandlerFunction => {
 export default {
   Actions,
   getSelectionInfo,
-  setInteractionHandler
+  setInteractionHandler,
+  initialSetupComplete,
+  finalSetupComplete,
 }

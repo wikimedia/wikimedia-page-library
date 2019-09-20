@@ -10,15 +10,6 @@ const Themes = c1.Themes
 describe('pcs.c1.Page', () => {
   const emptyHTML = '<html lang="en"><head><title>Foo</title></head><body><p></p></body></html>'
 
-  describe('.onPageLoad()', () => {
-    it('any', () => {
-      window = domino.createWindow(emptyHTML)
-      document = window.document
-
-      Page.onPageLoad(window, document)
-    })
-  })
-
   describe('.setup()', () => {
     it('all', () => {
       let onSuccessCallbackCalled = false
