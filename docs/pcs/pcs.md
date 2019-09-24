@@ -168,7 +168,9 @@ pagelib.c1.Footer.add({
   platform: pagelib.c1.Platforms.IOS,
   clientVersion: '6.2.1',
   title: 'Knight Lore',
-  menuItems: [pagelib.c1.Footer.MenuItemType.languages, pagelib.c1.Footer.MenuItemType.lastEdited, pagelib.c1.Footer.MenuItemType.pageIssues, pagelib.c1.Footer.MenuItemType.disambiguation, pagelib.c1.Footer.MenuItemType.talkPage, pagelib.c1.Footer.MenuItemType.referenceList],
+  menu: {
+    items: [pagelib.c1.Footer.MenuItemType.languages, pagelib.c1.Footer.MenuItemType.lastEdited, pagelib.c1.Footer.MenuItemType.pageIssues, pagelib.c1.Footer.MenuItemType.disambiguation, pagelib.c1.Footer.MenuItemType.talkPage, pagelib.c1.Footer.MenuItemType.referenceList]
+  },
   l10n: { 
     'readMoreHeading': 'Read more',
     'menuDisambiguationTitle': 'Similar pages',
