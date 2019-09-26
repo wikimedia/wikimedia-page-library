@@ -1,7 +1,7 @@
 /* eslint-disable require-jsdoc */
 
 const platformSelectionHandler = (iframeWindow, iframeDocument, selectedValue) => {
-  const html = iframeDocument.querySelector('html')
+  const html = iframeDocument.firstElementChild
   /* eslint-disable multiline-ternary */
   const platformClass = iframeWindow.pagelib.c1
     ? iframeWindow.pagelib.c1.Platforms

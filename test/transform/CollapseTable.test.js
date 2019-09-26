@@ -651,7 +651,7 @@ describe('CollapseTable', () => {
     it('when no tables exist, nothing is done', () => {
       const window = domino.createWindow('<html></html>')
       collapseTables(window, window.document, 'pageTitle')
-      assert.ok(window.document.querySelector('html'))
+      assert.ok(window.document.firstElementChild)
     })
 
     describe('when one table exists', () => {

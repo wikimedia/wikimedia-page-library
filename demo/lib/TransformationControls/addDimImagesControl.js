@@ -3,7 +3,7 @@
 // PCS abstraction layer doesn't have all the transforms available
 // copying areImagesDimmed instead
 const CLASS = 'pagelib_dim_images'
-const areImagesDimmed = document => document.querySelector('html').classList.contains(CLASS)
+const areImagesDimmed = document => document.firstElementChild.classList.contains(CLASS)
 
 const dimImages = (iframeWindow, iframeDocument) => {
   if (iframeWindow.pagelib.c1) {

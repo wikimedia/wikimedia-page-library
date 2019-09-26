@@ -7,7 +7,7 @@ describe('DimImagesTransform', () => {
     it('true', () => {
       const document = domino.createDocument('')
       pagelib.DimImagesTransform.dimImages(document, true)
-      const classes = document.querySelector('html').classList
+      const classes = document.firstElementChild.classList
       assert.ok(classes.contains(pagelib.DimImagesTransform.CLASS))
       assert.strictEqual(classes.length, 1)
     })
@@ -15,7 +15,7 @@ describe('DimImagesTransform', () => {
     it('false', () => {
       const document = domino.createDocument('')
       pagelib.DimImagesTransform.dimImages(document, false)
-      const classes = document.querySelector('html').classList
+      const classes = document.firstElementChild.classList
       assert.strictEqual(classes.length, 0)
     })
   })
@@ -25,7 +25,7 @@ describe('DimImagesTransform', () => {
       const window = domino.createWindow()
       const document = window.document
       pagelib.DimImagesTransform.dim(window, true)
-      const classes = document.querySelector('html').classList
+      const classes = document.firstElementChild.classList
       assert.ok(classes.contains(pagelib.DimImagesTransform.CLASS))
       assert.strictEqual(classes.length, 1)
     })
@@ -34,7 +34,7 @@ describe('DimImagesTransform', () => {
       const window = domino.createWindow()
       const document = window.document
       pagelib.DimImagesTransform.dim(window, false)
-      const classes = document.querySelector('html').classList
+      const classes = document.firstElementChild.classList
       assert.strictEqual(classes.length, 0)
     })
   })

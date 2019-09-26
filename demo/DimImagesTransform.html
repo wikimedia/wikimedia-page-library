@@ -23,7 +23,7 @@
     <script src=DemoImages.js></script>
     <script>
       /* global DemoImageData */
-      const body = document.querySelector('body')
+      const body = document.body
       for (const data of DemoImageData.slice(0, 9)) {
         const image = data.newImage(document)
         body.appendChild(image)

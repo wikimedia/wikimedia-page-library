@@ -23,7 +23,7 @@ const THEME = {
  * @return {void}
  */
 const setTheme = (document, theme) => {
-  const html = document.querySelector('html')
+  const html = document.firstElementChild
 
   // Set the new theme.
   html.classList.add(theme)

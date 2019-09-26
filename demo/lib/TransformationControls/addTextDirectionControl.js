@@ -1,7 +1,7 @@
 /* eslint-disable require-jsdoc */
 
 const selectionHandler = (iframeWindow, iframeDocument, selectedValue) => {
-  iframeDocument.querySelector('html').setAttribute('dir', selectedValue)
+  iframeDocument.firstElementChild.setAttribute('dir', selectedValue)
 }
 
 const div = document.createElement('div')

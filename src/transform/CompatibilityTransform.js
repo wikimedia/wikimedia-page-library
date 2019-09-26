@@ -28,7 +28,7 @@ const isFilterSupported = document =>
  * @return {void}
  */
 const enableSupport = document => {
-  const html = document.querySelector('html')
+  const html = document.firstElementChild
   if (!isFilterSupported(document)) { html.classList.add(COMPATIBILITY.FILTER) }
 }
 
