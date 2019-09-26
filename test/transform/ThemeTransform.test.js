@@ -8,7 +8,7 @@ describe('ThemeTransform', () => {
       const document = domino.createDocument()
       const light = pagelib.ThemeTransform.THEME.DEFAULT
       pagelib.ThemeTransform.setTheme(document, light)
-      assert.ok(document.firstElementChild.classList.contains(light))
+      assert.ok(document.documentElement.classList.contains(light))
     })
 
     it('replace', () => {
@@ -20,8 +20,8 @@ describe('ThemeTransform', () => {
       const dark = pagelib.ThemeTransform.THEME.DARK
       pagelib.ThemeTransform.setTheme(document, pagelib.ThemeTransform.THEME.DARK)
 
-      assert.ok(!document.firstElementChild.classList.contains(light))
-      assert.ok(document.firstElementChild.classList.contains(dark))
+      assert.ok(!document.documentElement.classList.contains(light))
+      assert.ok(document.documentElement.classList.contains(dark))
     })
   })
 
