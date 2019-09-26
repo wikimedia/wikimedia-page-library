@@ -7,7 +7,7 @@ describe('PlatformTransform', () => {
     it('android', () => {
       const document = domino.createDocument('')
       pagelib.PlatformTransform.setPlatform(document, pagelib.PlatformTransform.CLASS.ANDROID)
-      const classes = document.firstElementChild.classList
+      const classes = document.documentElement.classList
       assert.ok(classes.contains(pagelib.PlatformTransform.CLASS.ANDROID))
       assert.strictEqual(classes.length, 1)
     })
@@ -20,7 +20,7 @@ describe('PlatformTransform', () => {
 
       pagelib.PlatformTransform.classify(window)
 
-      return window.document.firstElementChild.classList
+      return window.document.documentElement.classList
     }
 
     it('unknown', () => {

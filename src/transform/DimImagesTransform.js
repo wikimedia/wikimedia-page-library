@@ -7,7 +7,7 @@ const CLASS = 'pagelib_dim_images'
  * @return {void}
  */
 const dimImages = (document, enable) => {
-  document.firstElementChild.classList[enable ? 'add' : 'remove'](CLASS)
+  document.documentElement.classList[enable ? 'add' : 'remove'](CLASS)
 }
 
 /**
@@ -22,7 +22,7 @@ const dim = (window, enable) => dimImages(window.document, enable)
  * @param {!Document} document
  * @return {boolean}
  */
-const areImagesDimmed = document => document.firstElementChild.classList.contains(CLASS)
+const areImagesDimmed = document => document.documentElement.classList.contains(CLASS)
 
 /**
  * @deprecated Use areImagesDimmed instead, which only requires a Document

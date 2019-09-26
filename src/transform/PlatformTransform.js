@@ -19,7 +19,7 @@ const isIOs = window => /ipad|iphone|ipod/i.test(window.navigator.userAgent)
  * @return {void}
  */
 const setPlatform = (document, platform) => {
-  document.firstElementChild.classList.add(platform)
+  document.documentElement.classList.add(platform)
 }
 
 /**
@@ -27,7 +27,7 @@ const setPlatform = (document, platform) => {
  * @return {void}
  */
 const classify = window => {
-  const html = window.document.firstElementChild
+  const html = window.document.documentElement
   if (isAndroid(window)) { html.classList.add(CLASS.ANDROID) }
   if (isIOs(window)) { html.classList.add(CLASS.IOS) }
 }
