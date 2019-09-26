@@ -109,7 +109,7 @@ const addHTMLToDocument = (html, articleRef) => {
   iframeDocument.write(html)
   iframeDocument.close()
 
-  const htmlElement = iframeDocument.querySelector('html')
+  const htmlElement = iframeDocument.firstElementChild
   htmlElement.setAttribute('dir', articleRef.isRTL() ? 'rtl' : 'ltr')
 
   // Relay iframe keypress to the parent window.
