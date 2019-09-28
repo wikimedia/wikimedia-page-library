@@ -1,3 +1,6 @@
+### v9.2.2
+ - Fix: performance enhancements
+
 ### v9.2.1
  - Fix: error caused by undefined interaction handler on standard web page load
 
