@@ -172,6 +172,39 @@ const getRevision = () => {
 }
 
 /**
+ * Get structured table of contents data
+ * @return {!Array}
+ */
+const getTableOfContents = () => {
+  const sections = document.querySelectorAll('section')
+  const result = []
+  const levelCounts = new Array(10).fill(0)
+  let lastLevel = 0;
+
+  [].forEach.call(sections, section => {
+    const id = parseInt(section.getAttribute('data-mw-section-id'), 10)
+    if (id < 1) {
+      return
+    }
+    const headerEl = section.firstChild
+    const level = parseInt(headerEl.tagName.charAt(1), 10) - 1
+    if (level < lastLevel) {
+      levelCounts.fill(0, level)
+    }
+    lastLevel = level
+    levelCounts[level - 1]++
+    result.push({
+      level,
+      section: id,
+      number: levelCounts.slice(0, level).map(n => n.toString()).join('.'),
+      anchor: headerEl.getAttribute('id'),
+      html: headerEl.innerHTML.trim()
+    })
+  })
+  return result
+}
+
+/**
  * Gets the Scroller object. Just for testing!
  * @return {{setScrollTop, scrollWithDecorOffset}}
  */
@@ -256,6 +289,7 @@ export default {
   setTextSizeAdjustmentPercentage,
   setEditButtons,
   getRevision,
+  getTableOfContents,
   testing: {
     getScroller
   }

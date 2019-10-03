@@ -182,4 +182,30 @@ describe('pcs.c1.Page', () => {
       assert.strictEqual(Page.getRevision(), '907165344')
     })
   })
+
+  describe('.getTableOfContents()', () => {
+    it('all', () => {
+      window = domino.createWindow(`
+        <section data-mw-section-id="0">Foo</section>
+        <section data-mw-section-id="1" id="Foo"><h2>Foo</h2></section>
+        <section data-mw-section-id="2" id="Foo"><h3>Foo</h3></section>
+        <section data-mw-section-id="-1" id="Foo"><h5>Foo</h5></section>
+        <section data-mw-section-id="3" id="Foo"><h4>Foo</h4></section>
+        <section data-mw-section-id="4" id="Foo"><h3>Foo</h3></section>
+        <section data-mw-section-id="-2" id="Foo"><h5>Foo</h5></section>
+        <section data-mw-section-id="5" id="Foo"><h4>Foo</h4></section>
+        <section data-mw-section-id="6" id="Foo"><h3>Foo</h3></section>
+        <section data-mw-section-id="7" id="Foo"><h2>Foo</h2></section>
+      `)
+      document = window.document
+
+      const result = Page.getTableOfContents()
+      const expectedNumbers = ['1', '1.1', '1.1.1', '1.2', '1.2.1', '1.3', '2']
+      assert.strictEqual(result.length, 7, 'result should have 7 entries (3 excluded)')
+      assert.strictEqual(result.length, expectedNumbers.length)
+      for (let i = 0; i < expectedNumbers.length; i++) {
+        assert.strictEqual(result[i].number, expectedNumbers[i])
+      }
+    })
+  })
 })
