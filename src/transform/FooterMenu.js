@@ -83,12 +83,7 @@ class MenuItem {
     case MenuItemType.pageIssues:
       return CollectionUtilities.collectPageIssuesText
     case MenuItemType.disambiguation:
-      // Adapt 'collectDisambiguationTitles' method signature to conform to PayloadExtractor type.
-      return document => {
-        CollectionUtilities.collectDisambiguationTitles(
-          document.querySelector('section[data-mw-section-id="0"]')
-        )
-      }
+      return CollectionUtilities.collectDisambiguationTitles
     default:
       return undefined
     }
