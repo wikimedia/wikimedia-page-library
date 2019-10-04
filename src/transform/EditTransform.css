@@ -129,16 +129,16 @@ a.pagelib_edit_section_link {
 
 /* Wikidata description styling */
 #pagelib_edit_section_title_description {
-    font-size: 14px;
-    line-height: 22px;
+    font-size: 0.875em;
+    line-height: 1.375em;
     color: #777D84;
-    margin-top: 3px;
-    margin-bottom: 5px;
+    margin-top: 0.136em;
+    margin-bottom: 0.227em;
     padding-bottom: 0px;
 }
 
 #pagelib_edit_section_add_title_description {
-    font-size: 14px;
+    font-size: 0.875em;
     font-style: italic;
     display: inline;
 }
