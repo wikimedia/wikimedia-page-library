@@ -205,10 +205,10 @@ describe('pcs.c1.Page', () => {
       assert.strictEqual(result.length, expectedNumbers.length)
       result.forEach((tocSection, idx) => {
         assert.ok(tocSection.level, 'level should be present')
-        assert.ok(tocSection.section,'section should be present')
+        assert.ok(tocSection.id,'id should be present')
         assert.strictEqual(tocSection.number, expectedNumbers[idx], 'should have correct number')
         assert.ok(tocSection.anchor, 'anchor should be present')
-        assert.ok(tocSection.html, 'html should be present')
+        assert.ok(tocSection.title, 'title should be present')
       })
     })
   })

@@ -84,10 +84,9 @@ class MenuItem {
   payloadExtractor() {
     switch (this.itemType) {
     case MenuItemType.pageIssues:
-      return CollectionUtilities.collectPageIssuesText
+      return CollectionUtilities.collectPageIssues
     case MenuItemType.disambiguation:
-      // Adapt 'collectDisambiguationTitles' method signature to conform to PayloadExtractor type.
-      return (_, element) => CollectionUtilities.collectDisambiguationTitles(element)
+      return CollectionUtilities.collectHatnotes
     default:
       return undefined
     }
@@ -163,7 +162,7 @@ const maybeAddItem = (title, subtitle, itemType, containerID, clickHandler, docu
   // Items are not added if they have a payload extractor which fails to extract anything.
   const extractor = item.payloadExtractor()
   if (extractor) {
-    item.payload = extractor(document, document.querySelector('section[data-mw-section-id="0"]'))
+    item.payload = extractor(document)
     if (item.payload.length === 0) {
       return
     }

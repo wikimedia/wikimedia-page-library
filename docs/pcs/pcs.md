@@ -140,25 +140,25 @@ Returns an array of objects that correspond to sections in the article. An examp
 [
   {
     "level": 1,
-    "section": 1,
+    "id": 1,
     "number": "1",
     "anchor": "Terminology",
-    "html": "Terminology"
+    "title": "Terminology"
   },
   {
     "level": 1,
-    "section": 2,
+    "id": 2,
     "number": "2",
     "anchor": "Taxonomy",
-    "html": "Taxonomy"
+    "title": "Taxonomy"
   },
   ...
   {
     "level": 2,
-    "section": 5,
+    "id": 5,
     "number": "4.1",
     "anchor": "Anatomy",
-    "html": "Anatomy"
+    "title": "Anatomy"
   },
   ...
   {
@@ -166,7 +166,7 @@ Returns an array of objects that correspond to sections in the article. An examp
     "section": 45,
     "number": "14",
     "anchor": "External_links",
-    "html": "External links"
+    "title": "External links"
   }
 ]
 ```

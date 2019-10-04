@@ -183,10 +183,13 @@ const getTableOfContents = () => {
 
   [].forEach.call(sections, section => {
     const id = parseInt(section.getAttribute('data-mw-section-id'), 10)
-    if (id < 1) {
+    if (!id || isNaN(id) || id < 1) {
       return
     }
     const headerEl = section.querySelector('h1,h2,h3,h4,h5,h6')
+    if (!headerEl) {
+      return
+    }
     const level = parseInt(headerEl.tagName.charAt(1), 10) - 1
     if (level < lastLevel) {
       levelCounts.fill(0, level)
@@ -195,10 +198,10 @@ const getTableOfContents = () => {
     levelCounts[level - 1]++
     result.push({
       level,
-      section: id,
+      id,
       number: levelCounts.slice(0, level).map(n => n.toString()).join('.'),
       anchor: headerEl.getAttribute('id'),
-      html: headerEl.innerHTML.trim()
+      title: headerEl.innerHTML.trim()
     })
   })
   return result
