@@ -198,10 +198,10 @@ const getTableOfContents = () => {
     levelCounts[level - 1]++
     result.push({
       level,
-      section: id,
+      id,
       number: levelCounts.slice(0, level).map(n => n.toString()).join('.'),
       anchor: headerEl.getAttribute('id'),
-      html: headerEl.innerHTML.trim()
+      title: headerEl.innerHTML.trim()
     })
   })
   return result
