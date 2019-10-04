@@ -2,3 +2,13 @@
 section.pagelib_hide_section {
     display: none;
 }
+
+/* Hide page issues */
+.ambox {
+    display: none;
+}
+
+/* Hide hatnotes */
+.hatnote {
+    display: none;
+}
