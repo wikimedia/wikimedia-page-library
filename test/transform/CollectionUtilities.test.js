@@ -14,8 +14,7 @@ describe('CollectionUtilities', () => {
 
   describe('.collectPageIssuesText()', () => {
     it('find text issues', () => {
-      const element = document.querySelector('div#content_block_0')
-      assert.deepEqual(CollectionUtilities.collectPageIssuesText(document, element), [
+      assert.deepEqual(CollectionUtilities.collectPageIssuesText(document), [
         'This article includes a list of references, but its sources remain unclear because it has insufficient inline citations.  (January 2016)', // eslint-disable-line max-len
         'This article may be confusing or unclear to readers.  (October 2016)',
         'This article may be too long to read and navigate comfortably.  (October 2016)'
@@ -25,20 +24,14 @@ describe('CollectionUtilities', () => {
       document = domino.createDocument(
         '<div id=content_block_0>No disambiguation titles here!</div>'
       )
-      const element = document.querySelector('div#content_block_0')
-      assert.deepEqual(CollectionUtilities.collectPageIssuesText(document, element), [])
-    })
-    it('empty array returned when no titles found because element does not exist', () => {
-      const element = document.querySelector('div#content_block_1')
-      assert.deepEqual(CollectionUtilities.collectPageIssuesText(document, element), [])
+      assert.deepEqual(CollectionUtilities.collectPageIssuesText(document), [])
     })
   })
   describe('.collectPageIssuesHTML()', () => {
     it('find html issues', () => {
-      const element = document.querySelector('div#content_block_0')
-      assert.deepEqual(CollectionUtilities.collectPageIssuesHTML(document, element), [
-        'This article includes a <a href="/wiki/Wikipedia:Citing_sources" title="Wikipedia:Citing sources">list of references</a>, but <b>its sources remain unclear</b> because it has <b>insufficient <a href="/wiki/Wikipedia:Citing_sources#Inline_citations" title="Wikipedia:Citing sources">inline citations</a></b>.  <small><i>(January 2016)</i></small> ', // eslint-disable-line max-len
-        'This article <b>may be <a href="/wiki/Wikipedia:Vagueness" title="Wikipedia:Vagueness">confusing or unclear</a> to readers</b>.  <small><i>(October 2016)</i></small> ', // eslint-disable-line max-len
+      assert.deepEqual(CollectionUtilities.collectPageIssuesHTML(document), [
+        'This article includes a <a href="/wiki/Wikipedia:Citing_sources" title="Wikipedia:Citing sources">list of references</a>, but <b>its sources remain unclear</b> because it has <b>insufficient <a href="/wiki/Wikipedia:Citing_sources#Inline_citations" title="Wikipedia:Citing sources">inline citations</a></b>.  <small><i>(January 2016)</i></small>', // eslint-disable-line max-len
+        'This article <b>may be <a href="/wiki/Wikipedia:Vagueness" title="Wikipedia:Vagueness">confusing or unclear</a> to readers</b>.  <small><i>(October 2016)</i></small>', // eslint-disable-line max-len
         'This article <b>may be <a href="/wiki/Wikipedia:Article_size" title="Wikipedia:Article size">too long</a> to read and navigate comfortably</b>.  <small><i>(October 2016)</i></small>' // eslint-disable-line max-len
       ])
     })
@@ -46,12 +39,7 @@ describe('CollectionUtilities', () => {
       document = domino.createDocument(
         '<div id=content_block_0>No disambiguation titles here!</div>'
       )
-      const element = document.querySelector('div#content_block_0')
-      assert.deepEqual(CollectionUtilities.collectPageIssuesHTML(document, element), [])
-    })
-    it('empty array returned when no titles found because element does not exist', () => {
-      const element = document.querySelector('div#content_block_1')
-      assert.deepEqual(CollectionUtilities.collectPageIssuesHTML(document, element), [])
+      assert.deepEqual(CollectionUtilities.collectPageIssuesHTML(document), [])
     })
   })
   describe('.collectDisambiguationTitles()', () => {

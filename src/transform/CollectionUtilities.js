@@ -3,42 +3,33 @@ import Polyfill from './Polyfill'
 /**
  * Extracts array of page issues from element
  * @param {!Document} document
- * @param {?Element} element
  * @return {!Array.<string>} Return empty array if nothing is extracted
  */
-const collectPageIssues = (document, element) => {
-  if (!element) {
+const collectPageIssues = document => {
+  if (!document) {
     return []
   }
-  const tables =
-    Polyfill.querySelectorAll(element, 'table.ambox:not(.ambox-multiple_issues):not(.ambox-notice)')
-  // Get the tables into a fragment so we can remove some elements without triggering a layout
-  const fragment = document.createDocumentFragment()
-  const cloneTableIntoFragment =
-    table => fragment.appendChild(table.cloneNode(true)) // eslint-disable-line require-jsdoc
-  tables.forEach(cloneTableIntoFragment)
-  // Remove some elements we don't want when "textContent" or "innerHTML" are used
-  Polyfill.querySelectorAll(fragment, '.hide-when-compact, .collapsed').forEach(el => el.remove())
-  return Polyfill.querySelectorAll(fragment, 'td[class*=mbox-text] > *[class*=mbox-text]')
+  return Polyfill.querySelectorAll(document, '.mbox-text-span').map(el => {
+    Polyfill.querySelectorAll(el, '.hide-when-compact, .collapsed').forEach(el => el.remove())
+    return el
+  })
 }
 
 /**
  * Extracts array of page issues HTML from element
  * @param {!Document} document
- * @param {?Element} element
  * @return {!Array.<string>} Return empty array if nothing is extracted
  */
-const collectPageIssuesHTML = (document, element) =>
-  collectPageIssues(document, element).map(el => el.innerHTML)
+const collectPageIssuesHTML = document =>
+  collectPageIssues(document).map(el => el.innerHTML.trim())
 
 /**
  * Extracts array of page issues text from element
  * @param {!Document} document
- * @param {?Element} element
  * @return {!Array.<string>} Return empty array if nothing is extracted
  */
-const collectPageIssuesText = (document, element) =>
-  collectPageIssues(document, element).map(el => el.textContent.trim())
+const collectPageIssuesText = document =>
+  collectPageIssues(document).map(el => el.textContent.trim())
 
 /**
  * Extracts array of disambiguation titles from an element
@@ -62,7 +53,7 @@ const collectDisambiguationHTML = element => {
   if (!element) {
     return []
   }
-  return Polyfill.querySelectorAll(element, 'div.hatnote').map(el => el.innerHTML)
+  return Polyfill.querySelectorAll(element, 'div.hatnote').map(el => el.innerHTML.trim())
 }
 
 export default {
