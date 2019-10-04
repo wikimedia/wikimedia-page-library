@@ -127,6 +127,49 @@ pagelib.c1.Page.getRevision()
 ```
 returns '907165344'
 
+#### getTableOfContents()
+Gets the table of contents of the current page.
+
+Example:
+```
+pagelib.c1.Page.getTableOfContents()
+```
+returns:
+```
+[
+  {
+    "level": 1,
+    "section": 1,
+    "number": "1",
+    "anchor": "Terminology",
+    "html": "Terminology"
+  },
+  {
+    "level": 1,
+    "section": 2,
+    "number": "2",
+    "anchor": "Taxonomy",
+    "html": "Taxonomy"
+  },
+  ...
+  {
+    "level": 2,
+    "section": 5,
+    "number": "4.1",
+    "anchor": "Anatomy",
+    "html": "Anatomy"
+  },
+  ...
+  {
+    "level": 1,
+    "section": 45,
+    "number": "14",
+    "anchor": "External_links",
+    "html": "External links"
+  }
+]
+```
+
 #### setTextSizeAdjustmentPercentage(percentageString)
 Sets the text-adjust-size property percentage allowing native clients to adjust the font-size. This CSS property is not supported in all browsers, you can check which browsers support it in the following link, https://caniuse.com/#feat=text-size-adjust
 
