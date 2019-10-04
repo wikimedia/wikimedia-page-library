@@ -84,9 +84,9 @@ class MenuItem {
   payloadExtractor() {
     switch (this.itemType) {
     case MenuItemType.pageIssues:
-      return CollectionUtilities.collectPageIssuesJSON
+      return CollectionUtilities.collectPageIssues
     case MenuItemType.disambiguation:
-      return CollectionUtilities.collectDisambiguationJSON
+      return CollectionUtilities.collectHatnotes
     default:
       return undefined
     }

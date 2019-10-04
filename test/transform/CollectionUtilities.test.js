@@ -12,121 +12,34 @@ describe('CollectionUtilities', () => {
     document = fixtureIO.documentFromFixtureFile('CollectionUtilities.html')
   })
 
-  describe('.collectPageIssuesText()', () => {
-    it('find text issues', () => {
-      assert.deepEqual(CollectionUtilities.collectPageIssuesText(document), [
-        'This article includes a list of references, but its sources remain unclear because it has insufficient inline citations.  (January 2016)', // eslint-disable-line max-len
-        'This article may be confusing or unclear to readers.  (October 2016)',
-        'This article may be too long to read and navigate comfortably.  (October 2016)'
-      ])
+  describe('.collectPageIssues()', () => {
+    it('finds issues', () => {
+      const issues = CollectionUtilities.collectPageIssues(document)
+      assert.equal(issues[0].section.anchor, 'MOS_capacitors_and_band_diagrams')
+      // eslint-disable-next-line max-len
+      assert.equal(issues[2].html, 'This section <b>is written like a <a href="./Wikipedia:What_Wikipedia_is_not#Wikipedia_is_not_a_publisher_of_original_thought" title="Wikipedia:What Wikipedia is not">personal reflection, personal essay, or argumentative essay</a></b> that states a Wikipedia editor\'s personal feelings or presents an original argument about a topic.  <small class="date-container"><i>(<span class="date">September 2016</span>)</i></small>')
+      assert.equal(issues[3].section.id, 50)
     })
     it('empty array returned when no titles exists', () => {
       document = domino.createDocument(
         '<div id=content_block_0>No disambiguation titles here!</div>'
       )
-      assert.deepEqual(CollectionUtilities.collectPageIssuesText(document), [])
+      assert.deepEqual(CollectionUtilities.collectPageIssues(document), [])
     })
   })
-  describe('.collectPageIssuesHTML()', () => {
-    it('find html issues', () => {
-      assert.deepEqual(CollectionUtilities.collectPageIssuesHTML(document), [
-        'This article includes a <a href="/wiki/Wikipedia:Citing_sources" title="Wikipedia:Citing sources">list of references</a>, but <b>its sources remain unclear</b> because it has <b>insufficient <a href="/wiki/Wikipedia:Citing_sources#Inline_citations" title="Wikipedia:Citing sources">inline citations</a></b>.  <small><i>(January 2016)</i></small>', // eslint-disable-line max-len
-        'This article <b>may be <a href="/wiki/Wikipedia:Vagueness" title="Wikipedia:Vagueness">confusing or unclear</a> to readers</b>.  <small><i>(October 2016)</i></small>', // eslint-disable-line max-len
-        'This article <b>may be <a href="/wiki/Wikipedia:Article_size" title="Wikipedia:Article size">too long</a> to read and navigate comfortably</b>.  <small><i>(October 2016)</i></small>' // eslint-disable-line max-len
-      ])
+  describe('.collectHatnotes()', () => {
+    it('finds hatnotes', () => {
+      const hatnotes = CollectionUtilities.collectHatnotes(document)
+      assert.equal(hatnotes[0].section.anchor, undefined)
+      // eslint-disable-next-line max-len
+      assert.equal(hatnotes[1].html, 'See also: <a href="./Field_effect_(semiconductor)" title="Field effect (semiconductor)">Field effect (semiconductor)</a>')
+      assert.equal(hatnotes[2].links[0], '/wiki/Depletion_region')
     })
     it('empty array returned when no titles exists', () => {
       document = domino.createDocument(
         '<div id=content_block_0>No disambiguation titles here!</div>'
       )
-      assert.deepEqual(CollectionUtilities.collectPageIssuesHTML(document), [])
-    })
-  })
-  describe('.collectDisambiguationTitles()', () => {
-    it('find disambiguation titles', () => {
-      const element = document.querySelector('div#content_block_0')
-      assert.deepEqual(CollectionUtilities.collectDisambiguationTitles(element), [
-        '/wiki/Westerners_(Korean_political_faction)',
-        '/wiki/Occident_(disambiguation)',
-        '/wiki/Western_Hemisphere',
-        '/wiki/Western_bloc',
-        '/wiki/Western_culture',
-        '/wiki/Westernization'
-      ])
-    })
-    it('empty array returned when no titles exists', () => {
-      document = domino.createDocument(
-        '<div id=content_block_0>No disambiguation titles here!</div>'
-      )
-      const element = document.querySelector('div#content_block_0')
-      assert.deepEqual(CollectionUtilities.collectDisambiguationTitles(element), [])
-    })
-    it('empty array returned when no titles found because element does not exist', () => {
-      const element = document.querySelector('div#content_block_1')
-      assert.deepEqual(CollectionUtilities.collectDisambiguationTitles(element), [])
-    })
-    it('redlink titles ignored', () => {
-      document = domino.createDocument(`
-        <div id=content_block_0>
-          <div role="note" class="hatnote navigation-not-searchable">
-            This article includes a <a href="/wiki/SampleRedlink" redlink=1>sample redlink</a> and
-            one <a href="/wiki/NonRedlink">non-redlink</a>.
-          </div>
-        </div>
-      `)
-      const element = document.querySelector('div#content_block_0')
-      assert.deepEqual(CollectionUtilities.collectDisambiguationTitles(element), [
-        '/wiki/NonRedlink'
-      ])
-    })
-    it('empty href titles ignored', () => {
-      document = domino.createDocument(`
-        <div id=content_block_0>
-          <div role="note" class="hatnote navigation-not-searchable">
-            This article includes a <a href="">sample empty href</a> and
-            one <a href="/wiki/NonEmptyHref">non-empty href</a>.
-          </div>
-        </div>
-      `)
-      const element = document.querySelector('div#content_block_0')
-      assert.deepEqual(CollectionUtilities.collectDisambiguationTitles(element), [
-        '/wiki/NonEmptyHref'
-      ])
-    })
-    it('missing href titles ignored', () => {
-      document = domino.createDocument(`
-        <div id=content_block_0>
-          <div role="note" class="hatnote navigation-not-searchable">
-            This article includes a <a>sample missing href</a> and
-            one <a href="/wiki/NonMissingHref">non-missing href</a>.
-          </div>
-        </div>
-      `)
-      const element = document.querySelector('div#content_block_0')
-      assert.deepEqual(CollectionUtilities.collectDisambiguationTitles(element), [
-        '/wiki/NonMissingHref'
-      ])
-    })
-  })
-  describe('.collectDisambiguationHTML()', () => {
-    it('find disambiguation titles', () => {
-      const element = document.querySelector('div#content_block_0')
-      assert.deepEqual(CollectionUtilities.collectDisambiguationHTML(element), [
-        '"Westerners" and "Occident" redirect here. For historical politics in Korea, see <a href="/wiki/Westerners_(Korean_political_faction)" title="Westerners (Korean political faction)">Westerners (Korean political faction)</a>. For other uses, see <a href="/wiki/Occident_(disambiguation)" class="mw-disambig" title="Occident (disambiguation)">Occident (disambiguation)</a>.', // eslint-disable-line max-len
-        'Not to be confused with <a href="/wiki/Western_Hemisphere" title="Western Hemisphere">Western Hemisphere</a> or <a href="/wiki/Western_bloc" class="mw-redirect" title="Western bloc">Western bloc</a>.', // eslint-disable-line max-len
-        'See also: <a href="/wiki/Western_culture" title="Western culture">Western culture</a> and <a href="/wiki/Westernization" title="Westernization">Westernization</a>' // eslint-disable-line max-len
-      ])
-    })
-    it('empty array returned when no titles exists', () => {
-      document = domino.createDocument(
-        '<div id=content_block_0>No disambiguation titles here!</div>'
-      )
-      const element = document.querySelector('div#content_block_0')
-      assert.deepEqual(CollectionUtilities.collectDisambiguationHTML(element), [])
-    })
-    it('empty array returned when no titles found because element does not exist', () => {
-      const element = document.querySelector('div#content_block_1')
-      assert.deepEqual(CollectionUtilities.collectDisambiguationHTML(element), [])
+      assert.deepEqual(CollectionUtilities.collectHatnotes(document), [])
     })
   })
 })

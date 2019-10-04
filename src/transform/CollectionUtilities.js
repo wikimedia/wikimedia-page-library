@@ -5,7 +5,7 @@ import Polyfill from './Polyfill'
  * @param {!Document} document
  * @return {!Array.<string>} Return empty array if nothing is extracted
  */
-const collectPageIssues = document => {
+const collectPageIssueElements = document => {
   if (!document) {
     return []
   }
@@ -35,60 +35,17 @@ const sectionJSON = element => {
  * @param {!Document} document
  * @return {!Array.<Object>} Return empty array if nothing is extracted
  */
-const collectPageIssuesJSON = document =>
-  collectPageIssues(document).map(el => ({
-    html: el.innerHTML.trim(),
-    section: sectionJSON(el)
-  })
-  )
+const collectPageIssues = document => collectPageIssueElements(document).map(el => ({
+  html: el.innerHTML.trim(),
+  section: sectionJSON(el)
+}))
 
 /**
- * Extracts array of page issues HTML from element
- * @param {!Document} document
- * @return {!Array.<string>} Return empty array if nothing is extracted
- */
-const collectPageIssuesHTML = document =>
-  collectPageIssues(document).map(el => el.element.innerHTML.trim())
-
-/**
- * Extracts array of page issues text from element
- * @param {!Document} document
- * @return {!Array.<string>} Return empty array if nothing is extracted
- */
-const collectPageIssuesText = document =>
-  collectPageIssues(document).map(el => el.element.textContent.trim())
-
-/**
- * Extracts array of disambiguation titles from an element
- * @param {?Element} element
- * @return {!Array.<string>} Return empty array if nothing is extracted
- */
-const collectDisambiguationTitles = element => {
-  if (!element) {
-    return []
-  }
-  return Polyfill.querySelectorAll(element, 'div.hatnote a[href]:not([href=""]):not([redlink="1"])')
-    .map(el => el.href)
-}
-
-/**
- * Extracts array of disambiguation items html from an element
- * @param {?Element} element
- * @return {!Array.<string>} Return empty array if nothing is extracted
- */
-const collectDisambiguationHTML = element => {
-  if (!element) {
-    return []
-  }
-  return Polyfill.querySelectorAll(element, 'div.hatnote').map(el => el.innerHTML.trim())
-}
-
-/**
- * Extracts array of disambiguation items from an element
+ * Extracts array of hatnotes from an element
  * @param {?Element} element
  * @return {!Array.<Object>} Return empty array if nothing is extracted
  */
-const collectDisambiguationJSON = element => {
+const collectHatnotes = element => {
   if (!element) {
     return []
   }
@@ -105,13 +62,9 @@ const collectDisambiguationJSON = element => {
 }
 
 export default {
-  collectDisambiguationHTML,
-  collectDisambiguationJSON,
-  collectDisambiguationTitles,
-  collectPageIssuesHTML,
-  collectPageIssuesJSON,
-  collectPageIssuesText,
+  collectHatnotes,
+  collectPageIssues,
   test: {
-    collectPageIssues
+    collectPageIssueElements
   }
 }
