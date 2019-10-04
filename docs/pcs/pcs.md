@@ -135,7 +135,7 @@ Example:
 pagelib.c1.Page.getTableOfContents()
 ```
 
-Returns an object with a JSON representation of:
+Returns an array of objects that correspond to sections in the article. An example JSON representation (with some sections removed for brevity) would be:
 ```
 [
   {
