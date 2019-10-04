@@ -1,3 +1,7 @@
+### v9.2.3
+ - Feature: pagelib.c1.Page.getTableOfContents()
+ - Fix: title description text size not adjusting on user text preference change
+
 ### v9.2.2
  - Fix: performance enhancements
 
