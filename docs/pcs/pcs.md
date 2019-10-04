@@ -134,7 +134,8 @@ Example:
 ```
 pagelib.c1.Page.getTableOfContents()
 ```
-returns:
+
+Returns an object with a JSON representation of:
 ```
 [
   {
