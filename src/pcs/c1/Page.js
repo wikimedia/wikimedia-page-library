@@ -186,7 +186,7 @@ const getTableOfContents = () => {
     if (id < 1) {
       return
     }
-    const headerEl = section.firstChild
+    const headerEl = section.querySelector('h1,h2,h3,h4,h5,h6')
     const level = parseInt(headerEl.tagName.charAt(1), 10) - 1
     if (level < lastLevel) {
       levelCounts.fill(0, level)
