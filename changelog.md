@@ -1,3 +1,7 @@
+### v9.3.0
+ - Breaking: Include section information in payload for page issues and similar pages footer items
+ - Breaking: Update pagelib.c1.Page.getTableOfContents() response for consistency with page issues and similar pages response
+
 ### v9.2.3
  - Feature: pagelib.c1.Page.getTableOfContents()
  - Fix: title description text size not adjusting on user text preference change
