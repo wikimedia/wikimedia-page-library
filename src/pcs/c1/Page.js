@@ -208,6 +208,24 @@ const getTableOfContents = () => {
 }
 
 /**
+ * Get protection information for the page
+ * @return {!map}
+ */
+const getProtection = () => {
+  const metaTags = document.head.querySelectorAll('meta')
+  const protection = {}
+  const protectionPrefix = 'mw:pageProtection:'
+  const protectionPrefixLength = protectionPrefix.length
+  metaTags.forEach(metaTag => {
+    const property = metaTag.getAttribute('property')
+    if (property && property.startsWith(protectionPrefix)) {
+      protection[property.substring(protectionPrefixLength)] = metaTag.getAttribute('content')
+    }
+  })
+  return protection
+}
+
+/**
  * Gets the Scroller object. Just for testing!
  * @return {{setScrollTop, scrollWithDecorOffset}}
  */
@@ -291,6 +309,7 @@ export default {
   setScrollTop,
   setTextSizeAdjustmentPercentage,
   setEditButtons,
+  getProtection,
   getRevision,
   getTableOfContents,
   testing: {
