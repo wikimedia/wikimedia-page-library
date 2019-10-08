@@ -118,6 +118,19 @@ Example:
 pagelib.c1.Page.setScrollTop(64)
 ```
 
+#### getProtection()
+Gets the edit protections of the current page.
+
+Example:
+```
+pagelib.c1.Page.getProtection()
+```
+
+Returns a map with protection status:
+```
+{edit: "autoconfirmed", move: "sysop"}
+```
+
 #### getRevision()
 Gets the revision of the current page as a string.
 
