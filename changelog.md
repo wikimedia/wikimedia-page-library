@@ -1,3 +1,6 @@
+### v9.3.1
+ - Feature: pagelib.c1.Page.getProtection()
+
 ### v9.3.0
  - Breaking: Include section information in payload for page issues and similar pages footer items
  - Breaking: Update pagelib.c1.Page.getTableOfContents() response for consistency with page issues and similar pages response
