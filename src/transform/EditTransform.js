@@ -46,7 +46,7 @@ const setEditButtons = (document, isEditable = false, isProtected = false) => {
  * @param {!number} index The zero-based index of the section.
  * @return {!HTMLAnchorElement}
  */
-const newEditSectionLink = (document, index, href) => {
+const newEditSectionLink = (document, index, href = '') => {
   const link = document.createElement('a')
   link.href = href
   link.setAttribute(DATA_ATTRIBUTE.SECTION_INDEX, index)
