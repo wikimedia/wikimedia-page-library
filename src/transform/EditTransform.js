@@ -44,6 +44,7 @@ const setEditButtons = (document, isEditable = false, isProtected = false) => {
 /**
  * @param {!Document} document
  * @param {!number} index The zero-based index of the section.
+ * @param {!string} href The href for the link
  * @return {!HTMLAnchorElement}
  */
 const newEditSectionLink = (document, index, href = '') => {
@@ -58,25 +59,25 @@ const newEditSectionLink = (document, index, href = '') => {
 /**
  * @param {!Document} document
  * @param {!number} index The zero-based index of the section.
+ * @param {!HTMLElement} link The link element
  * @return {!HTMLSpanElement}
  */
 const newEditSectionButton = (document, index, link) => {
   const container = document.createElement('span')
   container.classList.add(CLASS.LINK_CONTAINER)
 
-  if (!link) {
-    link = newEditSectionLink(document, index)
+  let actualLink = link
+  if (!actualLink) {
+    actualLink = newEditSectionLink(document, index)
   }
-  container.appendChild(link)
+  container.appendChild(actualLink)
 
   return container
 }
 
-
 /**
  * @param {!Document} document
  * @param {!number} index The zero-based index of the section.
- * @param {!HTMLElement} header The header element.
  * @return {!HTMLDivElement}
  */
 const newEditSectionWrapper = (document, index) => {
@@ -88,6 +89,7 @@ const newEditSectionWrapper = (document, index) => {
 /**
  * @param {!HTMLDivElement} wrapper
  * @param {!HTMLElement} header The header element.
+ * @return {void}
  */
 const appendEditSectionHeader = (wrapper, header) => {
   header.className = CLASS.TITLE
