@@ -179,5 +179,6 @@ export default {
   isLazyLoadable,
   queryLazyLoadableImages,
   convertImagesToPlaceholders,
+  convertImageToPlaceholder,
   loadPlaceholder
 }
