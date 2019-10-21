@@ -51,14 +51,15 @@ const footballTemplateImageFilenameRegex =
  * @param  {!HTMLImageElement} image
  * @return {!boolean}
  */
-const imagePresumesWhiteBackground = image =>
-  // if (footballTemplateImageFilenameRegex.test(image.src)) {
-  //   return false
-  // }
-  // if (image.classList.contains('mwe-math-fallback-image-inline')) {
-  //   return false
-  // }
-  false// !ElementUtilities.closestInlineStyle(image, 'background')
+const imagePresumesWhiteBackground = image => {
+  if (footballTemplateImageFilenameRegex.test(image.src)) {
+    return false
+  }
+  if (image.classList.contains('mwe-math-fallback-image-inline')) {
+    return false
+  }
+  return !ElementUtilities.closestInlineStyle(image, 'background')
+}
 
 
 /**
