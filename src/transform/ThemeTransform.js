@@ -6,7 +6,7 @@ import Polyfill from './Polyfill'
 // difficult to describe as CSS selectors.
 const CONSTRAINT = {
   IMAGE_PRESUMES_WHITE_BACKGROUND: 'pagelib_theme_image_presumes_white_background',
-  DIV_DO_NOT_APPLY_BASELINE: 'pagelib_theme_div_do_not_apply_baseline'
+  DIV_DO_NOT_APPLY_BASELINE: 'notheme'
 }
 
 // Theme to CSS classes.
