@@ -102,7 +102,7 @@ class MenuItem {
 const documentFragmentForMenuItem = (menuItem, document) => {
   const item = document.createElement('div')
   item.className = 'pagelib_footer_menu_item'
-
+  item.role = 'menuitem'
   const containerAnchor = document.createElement('a')
   containerAnchor.addEventListener('click', () => {
     menuItem.clickHandler(menuItem.payload)
