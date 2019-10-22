@@ -176,7 +176,9 @@ const loadPlaceholder = (document: Document, placeholder: HTMLSpanElement): HTML
 export default {
   CLASSES,
   PLACEHOLDER_CLASS,
+  isLazyLoadable,
   queryLazyLoadableImages,
   convertImagesToPlaceholders,
+  convertImageToPlaceholder,
   loadPlaceholder
 }

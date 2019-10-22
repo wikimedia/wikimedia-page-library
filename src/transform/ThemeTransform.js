@@ -61,6 +61,7 @@ const imagePresumesWhiteBackground = image => {
   return !ElementUtilities.closestInlineStyle(image, 'background')
 }
 
+
 /**
  * Annotate elements with CSS classes that can be used by CSS rules. The classes themselves are not
  * theme-dependent so classification only need only occur once after the content is loaded, not

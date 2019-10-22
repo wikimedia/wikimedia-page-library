@@ -364,6 +364,57 @@ const replaceNodeInSection = (nodeToReplace, replacementNode) => {
 }
 
 /**
+ * @param {!DOMElement} table
+ * @param {!Document} document
+ * @param {?string} pageTitle use title for this not `display title` (which can contain tags)
+ * @param {?string} infoboxTitle
+ * @param {?string} otherTitle
+ * @param {?string} footerTitle
+ * @return {void}
+ */
+const prepareTable = (table, document, pageTitle, infoboxTitle, otherTitle, footerTitle) => {
+  if (ElementUtilities.findClosestAncestor(table, `.${CLASS.CONTAINER}`)
+    || !shouldTableBeCollapsed(table)) {
+    return
+  }
+
+  const headerTextArray = getTableHeaderTextArray(document, table, pageTitle)
+  if (!headerTextArray.length && !isInfobox(table)) {
+    return
+  }
+  const captionFragment =
+    newCaptionFragment(
+      document,
+      isInfobox(table) ? infoboxTitle : otherTitle,
+      isInfobox(table) ? CLASS.TABLE_INFOBOX : CLASS.TABLE_OTHER,
+      headerTextArray)
+
+  // create the container div that will contain both the original table
+  // and the collapsed version.
+  const containerDiv = document.createElement('div')
+  containerDiv.className = CLASS.CONTAINER
+  replaceNodeInSection(table, containerDiv)
+
+  // remove top and bottom margin from the table, so that it's flush with
+  // our expand/collapse buttons
+  table.style.marginTop = '0px'
+  table.style.marginBottom = '0px'
+
+  const collapsedHeaderDiv = newCollapsedHeaderDiv(document, captionFragment)
+  collapsedHeaderDiv.style.display = 'block'
+
+  const collapsedFooterDiv = newCollapsedFooterDiv(document, footerTitle)
+  collapsedFooterDiv.style.display = 'none'
+
+  // add our stuff to the container
+  containerDiv.appendChild(collapsedHeaderDiv)
+  containerDiv.appendChild(table)
+  containerDiv.appendChild(collapsedFooterDiv)
+
+  // set initial visibility
+  table.style.display = 'none'
+}
+/**
  * @param {!Document} document
  * @param {?string} pageTitle use title for this not `display title` (which can contain tags)
  * @param {?string} infoboxTitle
@@ -375,47 +426,7 @@ const prepareTables = (document, pageTitle, infoboxTitle, otherTitle, footerTitl
   const tables = document.querySelectorAll('table, .infobox_v3')
   for (let i = 0; i < tables.length; ++i) {
     const table = tables[i]
-
-    if (ElementUtilities.findClosestAncestor(table, `.${CLASS.CONTAINER}`)
-      || !shouldTableBeCollapsed(table)) {
-      continue
-    }
-
-    const headerTextArray = getTableHeaderTextArray(document, table, pageTitle)
-    if (!headerTextArray.length && !isInfobox(table)) {
-      continue
-    }
-    const captionFragment =
-      newCaptionFragment(
-        document,
-        isInfobox(table) ? infoboxTitle : otherTitle,
-        isInfobox(table) ? CLASS.TABLE_INFOBOX : CLASS.TABLE_OTHER,
-        headerTextArray)
-
-    // create the container div that will contain both the original table
-    // and the collapsed version.
-    const containerDiv = document.createElement('div')
-    containerDiv.className = CLASS.CONTAINER
-    replaceNodeInSection(table, containerDiv)
-
-    // remove top and bottom margin from the table, so that it's flush with
-    // our expand/collapse buttons
-    table.style.marginTop = '0px'
-    table.style.marginBottom = '0px'
-
-    const collapsedHeaderDiv = newCollapsedHeaderDiv(document, captionFragment)
-    collapsedHeaderDiv.style.display = 'block'
-
-    const collapsedFooterDiv = newCollapsedFooterDiv(document, footerTitle)
-    collapsedFooterDiv.style.display = 'none'
-
-    // add our stuff to the container
-    containerDiv.appendChild(collapsedHeaderDiv)
-    containerDiv.appendChild(table)
-    containerDiv.appendChild(collapsedFooterDiv)
-
-    // set initial visibility
-    table.style.display = 'none'
+    prepareTable(table, document, pageTitle, infoboxTitle, otherTitle, footerTitle)
   }
 }
 
@@ -537,6 +548,7 @@ export default {
   collapseTables,
   adjustTables,
   prepareTables,
+  prepareTable,
   setupEventHandling,
   expandCollapsedTableIfItContainsElement,
   test: {

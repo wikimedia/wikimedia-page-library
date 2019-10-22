@@ -44,11 +44,12 @@ const setEditButtons = (document, isEditable = false, isProtected = false) => {
 /**
  * @param {!Document} document
  * @param {!number} index The zero-based index of the section.
+ * @param {!string} href The href for the link
  * @return {!HTMLAnchorElement}
  */
-const newEditSectionLink = (document, index) => {
+const newEditSectionLink = (document, index, href = '') => {
   const link = document.createElement('a')
-  link.href = ''
+  link.href = href
   link.setAttribute(DATA_ATTRIBUTE.SECTION_INDEX, index)
   link.setAttribute(DATA_ATTRIBUTE.ACTION, ACTION_EDIT_SECTION)
   link.classList.add(CLASS.LINK)
@@ -58,16 +59,41 @@ const newEditSectionLink = (document, index) => {
 /**
  * @param {!Document} document
  * @param {!number} index The zero-based index of the section.
+ * @param {!HTMLElement} link The link element
  * @return {!HTMLSpanElement}
  */
-const newEditSectionButton = (document, index) => {
+const newEditSectionButton = (document, index, link) => {
   const container = document.createElement('span')
   container.classList.add(CLASS.LINK_CONTAINER)
 
-  const link = newEditSectionLink(document, index)
-  container.appendChild(link)
+  let actualLink = link
+  if (!actualLink) {
+    actualLink = newEditSectionLink(document, index)
+  }
+  container.appendChild(actualLink)
 
   return container
+}
+
+/**
+ * @param {!Document} document
+ * @param {!number} index The zero-based index of the section.
+ * @return {!HTMLDivElement}
+ */
+const newEditSectionWrapper = (document, index) => {
+  const element = document.createElement('div')
+  element.className = CLASS.SECTION_HEADER
+  return element
+}
+
+/**
+ * @param {!HTMLDivElement} wrapper
+ * @param {!HTMLElement} header The header element.
+ * @return {void}
+ */
+const appendEditSectionHeader = (wrapper, header) => {
+  header.className = CLASS.TITLE
+  wrapper.appendChild(header)
 }
 
 /**
@@ -80,14 +106,12 @@ const newEditSectionButton = (document, index) => {
  * @return {!HTMLElement}
  */
 const newEditSectionHeader = (document, index, level, titleHTML, showEditPencil = true) => {
-  const element = document.createElement('div')
-  element.className = CLASS.SECTION_HEADER
 
+  const element = newEditSectionWrapper(document, index)
   const title = document.createElement(`h${level}`)
   title.innerHTML = titleHTML || ''
-  title.className = CLASS.TITLE
   title.setAttribute(DATA_ATTRIBUTE.SECTION_INDEX, index)
-  element.appendChild(title)
+  appendEditSectionHeader(element, title)
 
   if (showEditPencil) {
     const button = newEditSectionButton(document, index)
@@ -171,10 +195,13 @@ const newEditLeadSectionHeader = (document, pageDisplayTitle, titleDescription,
 }
 
 export default {
+  appendEditSectionHeader,
   CLASS,
   ADD_TITLE_DESCRIPTION: IDS.ADD_TITLE_DESCRIPTION,
   setEditButtons,
   newEditSectionButton,
   newEditSectionHeader,
-  newEditLeadSectionHeader
+  newEditSectionWrapper,
+  newEditLeadSectionHeader,
+  newEditSectionLink
 }
