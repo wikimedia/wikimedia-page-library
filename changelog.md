@@ -1,4 +1,7 @@
-### v9.3.1
+### v9.3.2
+ - Fix: Set accessibility role for footer items
+
+ ### v9.3.1
  - Feature: pagelib.c1.Page.getProtection()
 
 ### v9.3.0
