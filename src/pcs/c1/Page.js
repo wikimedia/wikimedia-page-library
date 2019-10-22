@@ -236,12 +236,17 @@ const getScroller = () => Scroller
  * @return {void}
  */
 const onBodyStart = () => {
+  if (!document) {
+    return
+  }
+
   // eslint-disable-next-line no-undef
   if (typeof pcsClient !== 'undefined' && pcsClient.getSetupSettings) {
     // eslint-disable-next-line no-undef
     const setupJSON = pcsClient.getSetupSettings()
     document.pcsSetupSettings = JSON.parse(setupJSON)
   }
+
   // eslint-disable-next-line no-undef
   if (typeof pcsClient !== 'undefined' && pcsClient.onReceiveMessage) {
     document.pcsActionHandler = action => {
@@ -249,21 +254,58 @@ const onBodyStart = () => {
       pcsClient.onReceiveMessage(JSON.stringify(action))
     }
   }
-  if (document && document.pcsActionHandler) {
+
+  if (document.pcsActionHandler) {
     InteractionHandling.setInteractionHandler(document.pcsActionHandler)
   }
-
-  if (document && document.pcsSetupSettings) {
+  // eslint-disable-next-line require-jsdoc
+  const initialSetupCompletion = () => {
+    InteractionHandling.initialSetupComplete()
+  }
+  if (document.pcsSetupSettings) {
     const preSettings = {
       theme: document.pcsSetupSettings.theme,
       margins: document.pcsSetupSettings.margins,
       loadImages: false,
       setupTableEventHandling: false
     }
-    setup(preSettings, () => {
-      InteractionHandling.initialSetupComplete()
-    })
+    setup(preSettings, initialSetupCompletion)
+    return
   }
+
+  const defaultInitialSettings = {
+    loadImages: false,
+    setupTableEventHandling: false
+  }
+  const href = document.location && document.location.href
+  if (!href) {
+    return
+  }
+
+  const match = href.match(/[?&]t=([dbs])(?:&|$)/)
+  if (match.length < 2) {
+    return
+  }
+
+  const theme = match[1]
+  switch (theme) {
+  case 'd':
+    // eslint-disable-next-line no-undef
+    defaultInitialSettings.theme = pagelib.c1.Themes.DARK
+    break
+  case 'b':
+    // eslint-disable-next-line no-undef
+    defaultInitialSettings.theme = pagelib.c1.Themes.BLACK
+    break
+  case 's':
+    // eslint-disable-next-line no-undef
+    defaultInitialSettings.theme = pagelib.c1.Themes.SEPIA
+    break
+  default:
+    break
+  }
+
+  setup(defaultInitialSettings, initialSetupCompletion)
 }
 
 /**
@@ -271,6 +313,9 @@ const onBodyStart = () => {
  * @return {void}
  */
 const onBodyEnd = () => {
+  if (!document) {
+    return
+  }
   let remainingContentTimeout = 100
 
   /**
@@ -280,7 +325,7 @@ const onBodyEnd = () => {
   const finalSetupComplete = () => {
     InteractionHandling.finalSetupComplete()
   }
-  if (document && document.pcsSetupSettings) {
+  if (document.pcsSetupSettings) {
     const postSettings = document.pcsSetupSettings
     delete postSettings.theme
     delete postSettings.margins
