@@ -19,16 +19,18 @@ styles with only the things which need tweaking.
   background: #000;
 }
 
-/* baseline anchor */
-.pagelib_theme_dark a, .pagelib_theme_black a {
-  color: #69f;
-}
-.pagelib_theme_sepia a {
-  color: #36c;
-}
-
+.notheme,
 .pagelib_theme_div_do_not_apply_baseline {
   color: #000;
+}
+
+/* baseline anchor */
+.pagelib_theme_dark a:not(.notheme), 
+.pagelib_theme_black a:not(.notheme) {
+  color: #69f;
+}
+.pagelib_theme_sepia a:not(.notheme) {
+  color: #36c;
 }
 
 /* external anchor */
@@ -39,62 +41,62 @@ styles with only the things which need tweaking.
 }
 
 /* baseline table */
-.pagelib_theme_dark .content table,
-.pagelib_theme_dark .content td:not(.pagelib_theme_div_do_not_apply_baseline),
-.pagelib_theme_dark .content tr,
-.pagelib_theme_dark .content th {
+.pagelib_theme_dark .content table:not(.notheme),
+.pagelib_theme_dark .content td:not(.notheme, .pagelib_theme_div_do_not_apply_baseline),
+.pagelib_theme_dark .content tr:not(.notheme),
+.pagelib_theme_dark .content th:not(.notheme) {
   background: #27292d !important;
   color: #f8f9fa !important;
 }
-.pagelib_theme_sepia .content table,
-.pagelib_theme_sepia .content td:not(.pagelib_theme_div_do_not_apply_baseline),
-.pagelib_theme_sepia .content tr,
-.pagelib_theme_sepia .content th {
+.pagelib_theme_sepia .content table:not(.notheme),
+.pagelib_theme_sepia .content td:not(.notheme, .pagelib_theme_div_do_not_apply_baseline),
+.pagelib_theme_sepia .content tr:not(.notheme),
+.pagelib_theme_sepia .content th:not(.notheme) {
   background: #f0e6d6 !important;
   color: #222 !important;
 }
-.pagelib_theme_black .content table,
-.pagelib_theme_black .content td:not(.pagelib_theme_div_do_not_apply_baseline),
-.pagelib_theme_black .content tr,
-.pagelib_theme_black .content th {
+.pagelib_theme_black .content table:not(.notheme),
+.pagelib_theme_black .content td:not(.notheme, .pagelib_theme_div_do_not_apply_baseline),
+.pagelib_theme_black .content tr:not(.notheme),
+.pagelib_theme_black .content th:not(.notheme) {
   background: #222 !important;
   color: #f8f9fa !important;
 }
 
 /* baseline div, span, ul, li */
-.pagelib_theme_dark .content div:not(.pagelib_theme_div_do_not_apply_baseline),
-.pagelib_theme_dark .content span:not(.pagelib_theme_div_do_not_apply_baseline),
-.pagelib_theme_dark .content ul,
-.pagelib_theme_dark .content ol,
-.pagelib_theme_dark .content li {
+.pagelib_theme_dark .content div:not(.notheme, .pagelib_theme_div_do_not_apply_baseline),
+.pagelib_theme_dark .content span:not(.notheme, .pagelib_theme_div_do_not_apply_baseline),
+.pagelib_theme_dark .content ul:not(.notheme),
+.pagelib_theme_dark .content ol:not(.notheme),
+.pagelib_theme_dark .content li:not(.notheme) {
   background-color: inherit !important;
   color: #f8f9fa !important;
 }
-.pagelib_theme_sepia .content div:not(.pagelib_theme_div_do_not_apply_baseline),
-.pagelib_theme_sepia .content span:not(.pagelib_theme_div_do_not_apply_baseline),
-.pagelib_theme_sepia .content ul,
-.pagelib_theme_sepia .content ol,
-.pagelib_theme_sepia .content li {
+.pagelib_theme_sepia .content div:not(.notheme, .pagelib_theme_div_do_not_apply_baseline),
+.pagelib_theme_sepia .content span:not(.notheme, .pagelib_theme_div_do_not_apply_baseline),
+.pagelib_theme_sepia .content ul:not(.notheme),
+.pagelib_theme_sepia .content ol:not(.notheme),
+.pagelib_theme_sepia .content li:not(.notheme) {
   background-color: inherit !important;
   color: #222 !important;
 }
-.pagelib_theme_black .content div:not(.pagelib_theme_div_do_not_apply_baseline),
-.pagelib_theme_black .content span:not(.pagelib_theme_div_do_not_apply_baseline),
-.pagelib_theme_black .content ul,
-.pagelib_theme_black .content ol,
-.pagelib_theme_black .content li {
+.pagelib_theme_black .content div:not(.notheme, .pagelib_theme_div_do_not_apply_baseline),
+.pagelib_theme_black .content span:not(.notheme, .pagelib_theme_div_do_not_apply_baseline),
+.pagelib_theme_black .content ul:not(.notheme),
+.pagelib_theme_black .content ol:not(.notheme),
+.pagelib_theme_black .content li:not(.notheme) {
   background-color: inherit !important;
   color: #f8f9fa !important;
 }
 
 /* baseline border color */
-.pagelib_theme_dark .content :not(.pagelib_theme_div_do_not_apply_baseline) {
+.pagelib_theme_dark .content :not(.notheme, .pagelib_theme_div_do_not_apply_baseline) {
   border-color: #43464a !important;
 }
-.pagelib_theme_sepia .content :not(.pagelib_theme_div_do_not_apply_baseline) {
+.pagelib_theme_sepia .content :not(.notheme, .pagelib_theme_div_do_not_apply_baseline) {
   border-color: #cbc8c1 !important;
 }
-.pagelib_theme_black .content :not(.pagelib_theme_div_do_not_apply_baseline) {
+.pagelib_theme_black .content :not(.notheme, .pagelib_theme_div_do_not_apply_baseline) {
   border-color: #43464a !important;
 }
 
