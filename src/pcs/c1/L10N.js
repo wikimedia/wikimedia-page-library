@@ -1,5 +1,6 @@
 import CollapseTable from '../../transform/CollapseTable'
 import EditTransform from '../../transform/EditTransform'
+import Polyfill from '../../transform/Polyfill'
 
 const selectors = {
   addTitleDescription: `#${EditTransform.ADD_TITLE_DESCRIPTION}`,
@@ -18,7 +19,7 @@ const selectors = {
 const localizeLabels = localizedStrings => {
   for (const [key, selector] of Object.entries(selectors)) {
     if (localizedStrings[key]) {
-      const elements = Array.from(document.querySelectorAll(selector))
+      const elements = Polyfill.querySelectorAll(document, selector)
       for (const element of elements) {
         element.innerHTML = localizedStrings[key]
       }
