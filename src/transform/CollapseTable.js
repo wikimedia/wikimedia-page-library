@@ -367,26 +367,20 @@ const replaceNodeInSection = (nodeToReplace, replacementNode) => {
  * @param {!DOMElement} table
  * @param {!Document} document
  * @param {?string} pageTitle use title for this not `display title` (which can contain tags)
- * @param {?string} infoboxTitle
- * @param {?string} otherTitle
+ * @param {?string} tableTitle title for the table
+ * @param {?string} tableClass css class
+ * @param {!Array<string>} headerTextArray array of header text strings
  * @param {?string} footerTitle
  * @return {void}
  */
-const prepareTable = (table, document, pageTitle, infoboxTitle, otherTitle, footerTitle) => {
-  if (ElementUtilities.findClosestAncestor(table, `.${CLASS.CONTAINER}`)
-    || !shouldTableBeCollapsed(table)) {
-    return
-  }
+const prepareTable = (table, document, pageTitle, tableTitle,
+  tableClass, headerTextArray, footerTitle) => {
 
-  const headerTextArray = getTableHeaderTextArray(document, table, pageTitle)
-  if (!headerTextArray.length && !isInfobox(table)) {
-    return
-  }
   const captionFragment =
     newCaptionFragment(
       document,
-      isInfobox(table) ? infoboxTitle : otherTitle,
-      isInfobox(table) ? CLASS.TABLE_INFOBOX : CLASS.TABLE_OTHER,
+      tableTitle,
+      tableClass,
       headerTextArray)
 
   // create the container div that will contain both the original table
@@ -426,7 +420,18 @@ const prepareTables = (document, pageTitle, infoboxTitle, otherTitle, footerTitl
   const tables = document.querySelectorAll('table, .infobox_v3')
   for (let i = 0; i < tables.length; ++i) {
     const table = tables[i]
-    prepareTable(table, document, pageTitle, infoboxTitle, otherTitle, footerTitle)
+    if (ElementUtilities.findClosestAncestor(table, `.${CLASS.CONTAINER}`)
+      || !shouldTableBeCollapsed(table)) {
+      continue
+    }
+    const isBox = isInfobox(table)
+    const headerTextArray = getTableHeaderTextArray(document, table, pageTitle)
+    if (!headerTextArray.length && !isBox) {
+      continue
+    }
+    const title = isBox ? infoboxTitle : otherTitle
+    const cls = isBox ? CLASS.TABLE_INFOBOX : CLASS.TABLE_OTHER
+    prepareTable(table, document, pageTitle, title, cls, headerTextArray, footerTitle)
   }
 }
 
@@ -546,6 +551,7 @@ export default {
   toggleCollapsedForAll,
   toggleCollapseClickCallback,
   collapseTables,
+  getTableHeaderTextArray,
   adjustTables,
   prepareTables,
   prepareTable,
@@ -555,7 +561,6 @@ export default {
     elementScopeComparator,
     extractEligibleHeaderText,
     firstWordFromString,
-    getTableHeaderTextArray,
     shouldTableBeCollapsed,
     isHeaderEligible,
     isHeaderTextEligible,
