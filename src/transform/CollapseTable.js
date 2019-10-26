@@ -570,6 +570,7 @@ export default {
     newCaptionFragment,
     isNodeTextContentSimilarToPageTitle,
     stringWithNormalizedWhitespace,
-    replaceNodeWithBreakingSpaceTextNode
+    replaceNodeWithBreakingSpaceTextNode,
+    getTableHeaderTextArray
   }
 }
