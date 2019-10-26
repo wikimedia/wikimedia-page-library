@@ -1,6 +1,7 @@
 import CollapseTable from './CollapseTable'
 import ElementUtilities from './ElementUtilities'
 import LazyLoadTransform from './LazyLoadTransform'
+import Polyfill from './Polyfill'
 import Throttle from './Throttle'
 
 const EVENT_TYPES = ['scroll', 'resize', CollapseTable.SECTION_TOGGLED_EVENT_TYPE]
@@ -49,7 +50,7 @@ export default class {
    */
   collectExistingPlaceholders(element) {
     const placeholders
-      = Array.from(element.querySelectorAll(`.${LazyLoadTransform.PLACEHOLDER_CLASS}`))
+      = Polyfill.querySelectorAll(element, `.${LazyLoadTransform.PLACEHOLDER_CLASS}`)
     this._placeholders = this._placeholders.concat(placeholders)
     this._register()
   }

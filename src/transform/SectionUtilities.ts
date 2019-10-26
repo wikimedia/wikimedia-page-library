@@ -1,10 +1,11 @@
+const Polyfill = require('./Polyfill').default
 /**
  * get Section Offsets object to handle quick scrolling in the table of contents
  * @param  {!HTMLBodyElement} body HTML body element DOM object.
  * @return {!object} section offsets object
  */
 const getSectionOffsets = (body: HTMLBodyElement): object => {
-    const sections = Array.from(body.querySelectorAll('section'))
+    const sections = Polyfill.querySelectorAll(body, 'section')
     return {
         sections: sections.reduce((results: Array<object>, section: HTMLElement) => {
             const id = section.getAttribute('data-mw-section-id');
