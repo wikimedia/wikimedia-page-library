@@ -1,3 +1,8 @@
+### v9.4.0
+ - Breaking: Improve the performance of prep for collapse table transform. This required a change to input parameters.
+ - Breaking: Remove template-specific theme styles to work towards [a more sustainable solution](https://phabricator.wikimedia.org/T236137)
+ - Fix: [Infoboxes on frwiki](https://phabricator.wikimedia.org/T236613)
+
 ### v9.3.2
  - Fix: Set accessibility role for footer items
  - Feature: Expose single-element functions for expensive transforms
