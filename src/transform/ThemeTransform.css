@@ -103,27 +103,27 @@ styles with only the things which need tweaking.
 /* quotebox and blockquote */
 /* en > Audioslave > 793042679 */
 /* es > Arte > 100819823 */
-.pagelib_theme_dark .content blockquote,
-.pagelib_theme_dark .content div.quotebox {
+.pagelib_theme_dark .content blockquote:not(.notheme),
+.pagelib_theme_dark .content div.quotebox :not(.notheme){
   background: #27292d !important;
 }
-.pagelib_theme_sepia .content blockquote,
-.pagelib_theme_sepia .content div.quotebox {
+.pagelib_theme_sepia .content blockquote:not(.notheme),
+.pagelib_theme_sepia .content div.quotebox :not(.notheme){
   background: #f0e6d6 !important;
 }
-.pagelib_theme_black .content blockquote,
-.pagelib_theme_black .content div.quotebox {
+.pagelib_theme_black .content blockquote:not(.notheme),
+.pagelib_theme_black .content div.quotebox :not(.notheme){
   background: #000 !important;
 }
 
 /* horizontal rule */
 /* en > Audioslave > 793042679 */
 /* en > Chris Cornell > 793305307 */
-.pagelib_theme_dark .content hr,
-.pagelib_theme_black .content hr {
+.pagelib_theme_dark .content hr:not(.notheme),
+.pagelib_theme_black .content hr:not(.notheme) {
   border-style: solid !important;
 }
-.pagelib_theme_sepia .content hr {
+.pagelib_theme_sepia .content hr:not(.notheme) {
   border-style: solid !important;
 }
 
@@ -133,34 +133,28 @@ styles with only the things which need tweaking.
   border-style: none !important;
 }
 
-/* caption color */
-/* en > Barack Obama > 793008506 */
-.pagelib_theme_default .content .thumbcaption,
-.pagelib_theme_default .content figcaption {
+/* figcaption color */
+.pagelib_theme_default .content figcaption:not(.notheme) {
   color: #72777d !important;
 }
-.pagelib_theme_dark .content .thumbcaption,
-.pagelib_theme_dark .content figcaption {
+.pagelib_theme_dark .content figcaption:not(.notheme) {
   color: #c8ccd1 !important;
 }
-.pagelib_theme_sepia .content .thumbcaption,
-.pagelib_theme_sepia .content figcaption {
+.pagelib_theme_sepia .content figcaption:not(.notheme) {
   color: #646059 !important;
 }
-.pagelib_theme_black .content .thumbcaption,
-.pagelib_theme_black .content figcaption {
+.pagelib_theme_black .content figcaption:not(.notheme) {
   color: #c8ccd1 !important;
 }
 
 /* caption background */
-/* fr > Team_Bentley > 138755788 */
-.pagelib_theme_dark .content caption {
+.pagelib_theme_dark .content caption:not(.notheme) {
   background: #43464a !important;
 }
-.pagelib_theme_sepia .content caption {
+.pagelib_theme_sepia .content caption:not(.notheme) {
   background: #cbc8c1 !important;
 }
-.pagelib_theme_black .content caption {
+.pagelib_theme_black .content caption:not(.notheme) {
   background: #2e3136 !important;
 }
 
@@ -171,16 +165,10 @@ styles with only the things which need tweaking.
   background: #ccc;
   padding: 2px;
 }
+
 /* en > Quadratic equation > 793685454 */
 .pagelib_theme_dark .content img.mwe-math-fallback-image-inline,
 .pagelib_theme_black .content img.mwe-math-fallback-image-inline {
   -webkit-filter: invert(100%);
   filter: invert(100%);
-}
-/* en > Barack Obama > 793008506 */
-/* en > Quadratic equation > 793685454 */
-.pagelib_theme_sepia .content img.pagelib_theme_image_presumes_white_background,
-.pagelib_theme_dark .content img.pagelib_theme_image_presumes_white_background,
-.pagelib_theme_black .content img.pagelib_theme_image_presumes_white_background {
-  background: #fff;
 }
