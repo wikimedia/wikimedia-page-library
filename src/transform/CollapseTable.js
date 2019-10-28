@@ -394,6 +394,10 @@ const prepareTable = (table, document, pageTitle, tableTitle,
   table.style.marginTop = '0px'
   table.style.marginBottom = '0px'
 
+  // ensure the table doesn't float
+  table.style.float = 'none'
+  table.style['max-width'] = 'none'
+
   const collapsedHeaderDiv = newCollapsedHeaderDiv(document, captionFragment)
   collapsedHeaderDiv.style.display = 'block'
 
