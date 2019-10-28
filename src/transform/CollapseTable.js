@@ -17,7 +17,8 @@ const CLASS = {
   COLLAPSE_TEXT: 'pagelib_collapse_table_collapse_text',
   EXPANDED: 'pagelib_collapse_table_expanded',
   TABLE_INFOBOX: 'pagelib_table_infobox',
-  TABLE_OTHER: 'pagelib_table_other'
+  TABLE_OTHER: 'pagelib_table_other',
+  TABLE: 'pagelib_collapse_table'
 }
 
 /**
@@ -389,14 +390,8 @@ const prepareTable = (table, document, pageTitle, tableTitle,
   containerDiv.className = CLASS.CONTAINER
   replaceNodeInSection(table, containerDiv)
 
-  // remove top and bottom margin from the table, so that it's flush with
-  // our expand/collapse buttons
-  table.style.marginTop = '0px'
-  table.style.marginBottom = '0px'
-
   // ensure the table doesn't float
-  table.style.float = 'none !important'
-  table.style['max-width'] = 'none !important'
+  table.classList.add(CLASS.TABLE)
 
   const collapsedHeaderDiv = newCollapsedHeaderDiv(document, captionFragment)
   collapsedHeaderDiv.style.display = 'block'
