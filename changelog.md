@@ -1,3 +1,9 @@
+### v9.4.2
+ - More complete fix for [Infoboxes on frwiki](https://phabricator.wikimedia.org/T236613)
+
+### v9.4.1
+ - Break: [Infoboxes on frwiki](https://phabricator.wikimedia.org/T236613)
+
 ### v9.4.0
  - Breaking: Improve the performance of prep for collapse table transform. This required a change to input parameters.
  - Breaking: Remove template-specific theme styles to work towards [a more sustainable solution](https://phabricator.wikimedia.org/T236137)
