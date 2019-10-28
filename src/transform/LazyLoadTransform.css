@@ -87,6 +87,7 @@
 .pagelib_lazy_load_image_loaded {
   -webkit-animation: pagelib_lazy_load_image_fade_in .3s ease-in;
   animation: pagelib_lazy_load_image_fade_in .3s ease-in;
+  background-color: #fff;
 }
 
 /* Many images, such as the Barack Obama infobox image, expect middle alignment.
