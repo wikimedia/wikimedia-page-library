@@ -1,4 +1,5 @@
-# wikimedia-page-library
+# DEPRECATED: wikimedia-page-library
+This source code now exists in the mediawiki-services-mobileapps repo: https://github.com/wikimedia/mediawiki-services-mobileapps/tree/master/pagelib.
 A library for common JavaScript transforms and CSS used by both the Android and iOS Wikipedia apps. Please report issues on [Phabricator].
 
 ## Background
